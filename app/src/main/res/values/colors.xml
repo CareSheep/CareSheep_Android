@@ -7,4 +7,19 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <!-- primary color -->
+    <color name="green_100">#D1E0A7</color>
+    <color name="pea_green">#CCCD42</color>
+    <color name="green">#ABC270</color>
+    <color name="olive">#8C9F5F</color>
+
+    <color name="orange">#FEC868</color>
+    <color name="apricot">#FDA868</color>
+    <color name="brown">#BC8053</color>
+
+    <!-- grayscale -->
+
+
 </resources>
