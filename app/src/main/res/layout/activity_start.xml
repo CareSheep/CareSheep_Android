@@ -4,6 +4,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".StartActivity">
+
+    <View
+        android:id="@+id/v_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/rectangle_green_to_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_top" />
+
+    <LinearLayout
+        android:id="@+id/ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/ll_middle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="0.2">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/img_logo" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_look_around"
+            style="@style/Text.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/btn_start_look_around"
+            android:drawablePadding="2dp"
+            android:gravity="center"
+            android:paddingVertical="6dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="14dp"
+            android:text="@string/start_look_around"
+            android:textColor="@color/olive"
+            app:drawableRightCompat="@drawable/ic_arrow_right" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_middle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/ll_bottom"
+        app:layout_constraintTop_toBottomOf="@+id/ll_top"
+        app:layout_constraintVertical_weight="0.4">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_app_intro"
+            style="@style/Text.Title2"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="@string/start_app_intro"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_app_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_mobile_application" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_middle"
+        app:layout_constraintVertical_weight="0.2">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_google_sign_in"
+            style="@style/Text.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/btn_white_radius_15"
+            android:drawableStart="@drawable/ic_google_logo"
+            android:gravity="center"
+            android:paddingStart="30dp"
+            android:paddingEnd="76dp"
+            android:stateListAnimator="@null"
+            android:text="@string/start_sign_in_with_google"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
