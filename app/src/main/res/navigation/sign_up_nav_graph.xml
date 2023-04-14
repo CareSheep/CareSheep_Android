@@ -34,6 +34,6 @@
 
     <fragment
         android:id="@+id/fragment_user_gender"
-        android:name="com.swu.caresheep.ui.start.UserGenderFragment"/>
+        android:name="com.swu.caresheep.ui.start.UserGenderFragment" />
 
 </navigation>

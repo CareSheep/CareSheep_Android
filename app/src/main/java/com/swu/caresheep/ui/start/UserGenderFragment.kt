@@ -21,9 +21,7 @@ class UserGenderFragment : Fragment() {
 
         binding.btnComplete.isEnabled = true
         binding.btnComplete.setOnClickListener {
-            val navGraph = findNavController().graph
-            navGraph.setStartDestination(R.id.activity_start)
-            findNavController().setGraph(R.navigation.main_nav_graph)
+            // 전달 값에 따라 환자 또는 보호자 홈 화면으로 이동
         }
 
         return binding.root
