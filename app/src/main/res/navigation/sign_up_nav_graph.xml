@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_user_type"
-        android:name="com.swu.caresheep.UserTypeFragment">
+        android:name="com.swu.caresheep.ui.start.UserTypeFragment">
 
         <action
             android:id="@+id/action_fragment_user_type_to_fragment_user_name"
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/fragment_user_name"
-        android:name="com.swu.caresheep.UserNameFragment">
+        android:name="com.swu.caresheep.ui.start.UserNameFragment">
 
         <action
             android:id="@+id/action_fragment_user_name_to_fragment_user_gender"
@@ -34,6 +34,6 @@
 
     <fragment
         android:id="@+id/fragment_user_gender"
-        android:name="com.swu.caresheep.UserGenderFragment"/>
+        android:name="com.swu.caresheep.ui.start.UserGenderFragment"/>
 
 </navigation>

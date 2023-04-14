@@ -23,5 +23,6 @@
     <string name="sign_up_user_gender_sub_title">앱에서 다뤄질 정보입니다.</string>
     <string name="sign_up_user_gender_male">남성</string>
     <string name="sign_up_user_gender_female">여성</string>
+    <string name="sign_up_complete">완료</string>
 
 </resources>
