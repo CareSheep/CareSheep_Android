@@ -20,6 +20,9 @@
     <color name="brown">#BC8053</color>
 
     <!-- grayscale -->
+    <color name="gray_400">#DEDEDE</color>
+    <color name="gray_600">#8F8F8F</color>
+    <color name="gray_700">#818181</color>
 
 
 </resources>
