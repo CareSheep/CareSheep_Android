@@ -117,6 +117,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/btn_sign_up"
+        android:enabled="false"
         android:gravity="center"
         android:stateListAnimator="@null"
         android:text="@string/sign_up_next"

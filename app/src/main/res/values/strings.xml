@@ -16,5 +16,8 @@
     <string name="sign_up_user_type_title">서비스 이용 유형을 \n선택하세요</string>
     <string name="sign_up_user_type_sub_title">유형에 맞는 서비스를 제공합니다!</string>
     <string name="sign_up_next">다음</string>
+    <string name="sign_up_user_name_title">이름을 \n입력해주세요</string>
+    <string name="sign_up_user_name_sub_title">앱에서 불러질 이름입니다.</string>
+    <string name="sign_up_user_name">이름</string>
 
 </resources>

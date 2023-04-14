@@ -8,6 +8,20 @@
         android:id="@+id/fragment_user_type"
         android:name="com.swu.caresheep.UserTypeFragment">
 
+        <action
+            android:id="@+id/action_fragment_user_type_to_fragment_user_name"
+            app:destination="@id/fragment_user_name"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_user_name"
+        android:name="com.swu.caresheep.UserNameFragment">
+
     </fragment>
 
 </navigation>
