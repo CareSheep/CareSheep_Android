@@ -19,5 +19,9 @@
     <string name="sign_up_user_name_title">이름을 \n입력해주세요</string>
     <string name="sign_up_user_name_sub_title">앱에서 불러질 이름입니다.</string>
     <string name="sign_up_user_name">이름</string>
+    <string name="sign_up_user_gender_title">성별을 \n입력해주세요</string>
+    <string name="sign_up_user_gender_sub_title">앱에서 다뤄질 정보입니다.</string>
+    <string name="sign_up_user_gender_male">남성</string>
+    <string name="sign_up_user_gender_female">여성</string>
 
 </resources>
