@@ -7,47 +7,66 @@
     android:background="@color/white"
     tools:context=".StartActivity">
 
-    <View
-        android:id="@+id/v_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/rectangle_green_to_white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_top" />
-
     <LinearLayout
         android:id="@+id/ll_top"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/ll_middle"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="0.2">
+        app:layout_constraintVertical_weight="0.23">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/img_logo" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="24dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_look_around"
-            style="@style/Text.Body2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/btn_start_look_around"
-            android:drawablePadding="2dp"
-            android:gravity="center"
-            android:paddingVertical="6dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="14dp"
-            android:text="@string/start_look_around"
-            android:textColor="@color/olive"
-            app:drawableRightCompat="@drawable/ic_arrow_right" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/img_logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text.Title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/app_name_kr"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+                app:layout_constraintStart_toEndOf="@+id/iv_logo"
+                app:layout_constraintTop_toTopOf="@+id/iv_logo" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_app_intro"
+                style="@style/Text.Title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:fontFamily="@font/line_seed_kr_bold"
+                android:letterSpacing="-0.01"
+                android:lineSpacingExtra="8sp"
+                android:text="@string/start_app_intro"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/v_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_start_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ll_middle" />
 
     <LinearLayout
         android:id="@+id/ll_middle"
@@ -58,16 +77,6 @@
         app:layout_constraintBottom_toTopOf="@+id/ll_bottom"
         app:layout_constraintTop_toBottomOf="@+id/ll_top"
         app:layout_constraintVertical_weight="0.4">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_app_intro"
-            style="@style/Text.Title2"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="@string/start_app_intro"
-            android:textColor="@color/black" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_app_pic"

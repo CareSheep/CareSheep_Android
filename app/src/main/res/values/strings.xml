@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CareSheep</string>
+    <string name="app_name_kr">케어쉽</string>
 
     <!-- Start -->
     <string name="start_look_around">둘러보기</string>
