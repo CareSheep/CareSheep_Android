@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">CareSheep</string>
+    <string name="app_name_kr">케어쉽</string>
+
+    <!-- Common -->
+    <string name="elder">어르신</string>
+    <string name="guardian">보호자</string>
+
+    <!-- Start -->
+    <string name="start_look_around">둘러보기</string>
+    <string name="start_app_intro">당신과 가족을 위한 \n맞춤형 일상 케어</string>
+    <string name="start_sign_in_with_google">구글로 시작하기</string>
+
+    <!-- Sign Up -->
+    <string name="sign_up_my_info">내 정보 입력</string>
+    <string name="sign_up_user_type_title">서비스 이용 유형을 \n선택하세요</string>
+    <string name="sign_up_user_type_sub_title">유형에 맞는 서비스를 제공합니다!</string>
+    <string name="sign_up_next">다음</string>
+    <string name="sign_up_user_name_title">이름을 \n입력해주세요</string>
+    <string name="sign_up_user_name_sub_title">앱에서 불러질 이름입니다.</string>
+    <string name="sign_up_user_name">이름</string>
+    <string name="sign_up_user_gender_title">성별을 \n입력해주세요</string>
+    <string name="sign_up_user_gender_sub_title">앱에서 다뤄질 정보입니다.</string>
+    <string name="sign_up_user_gender_male">남성</string>
+    <string name="sign_up_user_gender_female">여성</string>
+    <string name="sign_up_complete">완료</string>
+
 </resources>
