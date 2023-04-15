@@ -12,6 +12,9 @@
         android:theme="@style/Theme.CareSheep"
         tools:targetApi="31">
         <activity
+            android:name=".ui.guardian.GuardianActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.start.SignUpActivity"
             android:exported="false" />
         <activity
@@ -47,7 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".recyclerview.RecycleMainActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />
