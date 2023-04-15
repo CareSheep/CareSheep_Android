@@ -25,6 +25,30 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".elder.ElderMedicineDoneActivity"
+            android:exported="false" />
+        <activity
+            android:name=".elder.ElderMedicineReActivity"
+            android:exported="false" />
+        <activity
+            android:name=".elder.ElderMedicineFirstActivity"
+            android:exported="false" />
+        <activity
+            android:name=".elder.ElderVoiceSubActivity"
+            android:exported="false" />
+        <activity
+            android:name=".elder.ElderVoiceMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GuardianVoiceRecordDetailFragment"
+            android:exported="false" />
+        <activity
+            android:name=".GuardianVoiceRecordListFragment"
+            android:exported="false" />
+        <activity
+            android:name=".recyclerview.RecycleMainActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true" />
     </application>
