@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".elder.ElderMedicineReActivity"
+    android:orientation="vertical">
+
+    <!-- 설명 텍스트 -->
+
+    <TextView
+        android:id="@+id/medicine_reAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="재알림"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/medicine_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="##님\n@@색 약 먹을\n시간입니다."
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 약 색깔 이미지-->
+    <ImageView
+        android:id="@+id/medicine_color"
+        android:layout_width="385dp"
+        android:layout_height="259dp"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/medicine_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:text="약을 복용하셨습니까?"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <!-- 약 복용 유무-->
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_marginTop="30dp">
+
+
+        <!-- 유무 체크 : 먹음-->
+        <RadioButton
+            android:id="@+id/medicine_done"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="먹었습니다."
+            android:textSize="25sp"
+            android:layout_weight="1"/>
+
+        <!-- 유무 체크 : 안 먹음 -->
+        <RadioButton
+            android:id="@+id/medicine_no"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="먹지 않았습니다."
+            android:textSize="25sp" />
+    </RadioGroup>
+</LinearLayout>
