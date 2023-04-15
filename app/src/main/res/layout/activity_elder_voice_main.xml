@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".elder.ElderVoiceMainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/voice_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="48dp"
+        android:text="할 말이 있으십니까?"
+        android:textSize="32dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/voice_yes"
+        android:layout_width="301dp"
+        android:layout_height="247dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/solid_positive_button"
+        android:text="네"
+        android:textSize="60dp" />
+
+    <android.widget.Button
+        android:id="@+id/voice_nno"
+        android:layout_width="301dp"
+        android:layout_height="247dp"
+        android:layout_marginTop="48dp"
+        android:layout_gravity="center"
+        android:background="@drawable/solid_negative_button"
+        android:text="아니요"
+        android:textSize="60dp"/>
+
+
+</LinearLayout>
