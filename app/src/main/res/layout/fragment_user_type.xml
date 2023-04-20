@@ -13,18 +13,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
         android:layout_marginTop="20dp"
-        android:lineSpacingExtra="6sp"
+        android:lineSpacingExtra="4sp"
         android:text="@string/sign_up_user_type_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_user_type_sub_title"
-        style="@style/Text.Body1"
+        style="@style/Text.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:lineSpacingExtra="6sp"
         android:text="@string/sign_up_user_type_sub_title"
         android:textColor="@color/gray_600"
@@ -46,31 +46,24 @@
             android:layout_marginEnd="10dp"
             android:layout_weight="1">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btn_elder_type"
                 style="@style/Text.Title2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_sign_up_user_info"
+                android:background="@drawable/rectangle_white_border_gray600_radius_20"
                 android:drawableTop="@drawable/ic_elderly_100"
                 android:drawablePadding="40dp"
+                android:gravity="center"
                 android:paddingTop="40dp"
                 android:paddingBottom="40dp"
                 android:text="@string/elder"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btn_check_elder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:src="@drawable/selector_check_mark_btn"
-                app:layout_constraintEnd_toEndOf="@+id/btn_elder_type"
-                app:layout_constraintStart_toStartOf="@+id/btn_elder_type"
-                app:layout_constraintTop_toBottomOf="@+id/btn_elder_type" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -85,26 +78,18 @@
                 style="@style/Text.Title2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_sign_up_user_info"
+                android:background="@drawable/rectangle_white_border_gray600_radius_20"
                 android:drawableTop="@drawable/ic_guardian_100"
                 android:drawablePadding="40dp"
+                android:gravity="center"
                 android:paddingTop="40dp"
                 android:paddingBottom="40dp"
                 android:text="@string/guardian"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btn_check_guardian"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:src="@drawable/selector_check_mark_btn"
-                app:layout_constraintEnd_toEndOf="@+id/btn_guardian_type"
-                app:layout_constraintStart_toStartOf="@+id/btn_guardian_type"
-                app:layout_constraintTop_toBottomOf="@+id/btn_guardian_type" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -122,7 +107,7 @@
         android:gravity="center"
         android:stateListAnimator="@null"
         android:text="@string/sign_up_next"
-        android:textColor="@color/gray_700"
+        android:textColor="@drawable/selector_next_btn_text_color"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
