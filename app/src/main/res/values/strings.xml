@@ -23,6 +23,9 @@
     <string name="sign_up_user_gender_sub_title">앱에서 다뤄질 정보입니다.</string>
     <string name="sign_up_user_gender_male">남성</string>
     <string name="sign_up_user_gender_female">여성</string>
+    <string name="sign_up_user_age_title">나이를 \n입력해주세요</string>
+    <string name="sign_up_user_age_sub_title">앱에서 다뤄질 정보입니다.</string>
+    <string name="sign_up_user_age">나이</string>
     <string name="sign_up_complete">완료</string>
 
     <!-- Guardian -->
@@ -34,8 +37,6 @@
     <string name="guardian_voice_mailbox">음성 사서함</string>
     <string name="guardian_analysis_result_caption">어르신 리포트 확인하러 가기</string>
     <string name="guardian_my_page_routine_info">어르신 루틴 정보</string>
-    <string name="guardian_my_page_connecnt_elder">어르신 연결하기</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="guardian_my_page_connect_elder">어르신 연결하기</string>
 
 </resources>

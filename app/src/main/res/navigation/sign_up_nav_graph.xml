@@ -34,6 +34,20 @@
 
     <fragment
         android:id="@+id/fragment_user_gender"
-        android:name="com.swu.caresheep.ui.start.UserGenderFragment" />
+        android:name="com.swu.caresheep.ui.start.UserGenderFragment">
+
+        <action
+            android:id="@+id/action_fragment_user_gender_to_fragment_user_age"
+            app:destination="@id/fragment_user_age"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_user_age"
+        android:name="com.swu.caresheep.ui.start.UserAgeFragment" />
 
 </navigation>
