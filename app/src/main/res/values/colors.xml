@@ -19,11 +19,12 @@
     <color name="apricot">#FDA868</color>
     <color name="brown">#BC8053</color>
 
-    <!-- grayscale -->
+    <!-- gray scale -->
+    <color name="gray_200">#F7F7F7</color>
+    <color name="gray_300">#F1F1F1</color>
     <color name="gray_400">#DEDEDE</color>
     <color name="gray_500">#C2C2C2</color>
     <color name="gray_600">#8F8F8F</color>
     <color name="gray_700">#818181</color>
-
 
 </resources>
