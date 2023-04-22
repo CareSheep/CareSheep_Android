@@ -14,7 +14,14 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right">
+
+            <argument
+                android:name="user_type"
+                android:defaultValue='""'
+                app:argType="string" />
+
+        </action>
 
     </fragment>
 
@@ -28,7 +35,17 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right">
+
+            <argument
+                android:name="user_type"
+                app:argType="string" />
+
+            <argument
+                android:name="user_name"
+                app:argType="string" />
+
+        </action>
 
     </fragment>
 
@@ -42,7 +59,21 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right">
+
+            <argument
+                android:name="user_type"
+                app:argType="string" />
+
+            <argument
+                android:name="user_name"
+                app:argType="string" />
+
+            <argument
+                android:name="user_gender"
+                app:argType="string" />
+
+        </action>
 
     </fragment>
 

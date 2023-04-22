@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">CareSheep</string>
-    <string name="app_name_kr">케어쉽</string>
+    <string name="app_name">케어쉽</string>
 
     <!-- Common -->
     <string name="elder">어르신</string>
@@ -38,5 +37,6 @@
     <string name="guardian_analysis_result_caption">어르신 리포트 확인하러 가기</string>
     <string name="guardian_my_page_routine_info">어르신 루틴 정보</string>
     <string name="guardian_my_page_connect_elder">어르신 연결하기</string>
+    <string name="hello_blank_fragment">fragment</string>
 
 </resources>
