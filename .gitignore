@@ -179,4 +179,11 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
+# STT API
+stt.json
+
+# cloud storage API
+credentials.json
+
+
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio,kotlin,windows
