@@ -11,8 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.database.FirebaseDatabase
 import com.swu.caresheep.GuardianHelperClass
+import com.swu.caresheep.R
 import com.swu.caresheep.UserHelperClass
 import com.swu.caresheep.databinding.FragmentUserAgeBinding
+import com.swu.caresheep.ui.dialog.BaseDialog
+import com.swu.caresheep.ui.elder.ElderActivity
 import com.swu.caresheep.ui.guardian.GuardianActivity
 
 class UserAgeFragment : Fragment() {
@@ -22,7 +25,7 @@ class UserAgeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentUserAgeBinding.inflate(inflater, container, false)
 
         binding.etUserAge.addTextChangedListener(object : TextWatcher {
@@ -53,16 +56,22 @@ class UserAgeFragment : Fragment() {
             saveData()
 
             // 회원가입 완료 다이얼로그 표시
+            val completeDialog = BaseDialog(activity as SignUpActivity)
+            completeDialog.show(getString(R.string.sign_up_complete_message))
 
-
-            // 전달 값에 따라 어르신 또는 보호자 홈 화면으로 이동
-            if (userType == "elder") {
-//                val intent = Intent(this.context, ???::class.java)
-//                startActivity(intent)
-            } else {
-                val intent = Intent(this.context, GuardianActivity::class.java)
-                startActivity(intent)
+            completeDialog.btnClickListener {
+                // 전달된 사융자 유형에 따라 어르신 또는 보호자 화면으로 이동
+                if (userType == "elder") {
+                    val intent = Intent(this.context, ElderActivity::class.java)
+                    startActivity(intent)
+                    this.activity?.finish()
+                } else {
+                    val intent = Intent(this.context, GuardianActivity::class.java)
+                    startActivity(intent)
+                    this.activity?.finish()
+                }
             }
+
         }
 
         return binding.root
@@ -96,7 +105,7 @@ class UserAgeFragment : Fragment() {
                     // 저장 성공 시
                     Log.e("회원가입 - 어르신", "회원정보 DB에 저장 성공")
                 }
-                .addOnFailureListener { e ->
+                .addOnFailureListener {
                     // 저장 실패 시
                     Log.e("회원가입 - 어르신", "회원정보 DB에 저장 실패")
                 }
@@ -112,7 +121,7 @@ class UserAgeFragment : Fragment() {
                     // 저장 성공 시
                     Log.e("회원가입 - 보호자", "회원정보 DB에 저장 성공")
                 }
-                .addOnFailureListener { e ->
+                .addOnFailureListener {
                     // 저장 실패 시
                     Log.e("회원가입 - 보호자", "회원정보 DB에 저장 실패")
                 }
