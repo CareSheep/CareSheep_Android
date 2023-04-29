@@ -15,7 +15,7 @@ import com.swu.caresheep.R
 import com.swu.caresheep.UserHelperClass
 import com.swu.caresheep.databinding.FragmentUserAgeBinding
 import com.swu.caresheep.ui.dialog.BaseDialog
-import com.swu.caresheep.ui.elder.ElderActivity
+import com.swu.caresheep.ui.elder.main.ElderActivity
 import com.swu.caresheep.ui.guardian.GuardianActivity
 
 class UserAgeFragment : Fragment() {

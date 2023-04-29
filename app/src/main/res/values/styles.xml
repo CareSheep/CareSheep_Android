@@ -14,18 +14,24 @@
     </style>
 
     <style name="Text.Title1" parent="android:TextAppearance">
-        <item name="android:textStyle">bold</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:textSize">28sp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
 
     <style name="Text.Title2" parent="android:TextAppearance">
         <item name="android:textStyle">normal</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
+
+    <style name="Text.Title3" parent="android:TextAppearance">
+        <item name="android:textStyle">normal</item>
         <item name="android:textSize">24sp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
 
-    <style name="Text.Title3" parent="android:TextAppearance">
+    <style name="Text.Title4" parent="android:TextAppearance">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>

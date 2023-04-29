@@ -17,6 +17,7 @@
     <color name="olive">#8C9F5F</color>
 
     <color name="orange">#FEC868</color>
+    <color name="apricot_100">#FEC193</color>
     <color name="apricot">#FDA868</color>
     <color name="brown">#BC8053</color>
 
@@ -27,5 +28,6 @@
     <color name="gray_500">#C2C2C2</color>
     <color name="gray_600">#8F8F8F</color>
     <color name="gray_700">#818181</color>
+    <color name="gray_900">#3C3C3C</color>
 
 </resources>
