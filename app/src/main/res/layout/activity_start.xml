@@ -43,7 +43,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_app_intro"
-                style="@style/Text.Title2"
+                style="@style/Text.Title3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"

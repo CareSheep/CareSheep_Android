@@ -51,7 +51,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_analysis_result"
-                style="@style/Text.Title2"
+                style="@style/Text.Title3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -74,7 +74,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_today_schedule"
-                style="@style/Text.Title2"
+                style="@style/Text.Title3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -95,7 +95,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_voice_mailbox"
-                style="@style/Text.Title2"
+                style="@style/Text.Title3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"

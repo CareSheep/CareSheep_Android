@@ -58,7 +58,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btn_elder_type"
-                style="@style/Text.Title2"
+                style="@style/Text.Title3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle_white_border_gray600_radius_20"
@@ -84,7 +84,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_guardian_type"
-                style="@style/Text.Title2"
+                style="@style/Text.Title3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle_white_border_gray600_radius_20"

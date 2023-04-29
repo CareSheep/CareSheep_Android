@@ -4,6 +4,8 @@
     <!-- Common -->
     <string name="elder">어르신</string>
     <string name="guardian">보호자</string>
+    <string name="voice_record">음성 메시지 전송</string>
+    <string name="pedometer">만보기 측정</string>
 
     <string name="dialog_check">확인</string>
 
@@ -42,5 +44,6 @@
     <string name="guardian_my_page_routine_info">어르신 루틴 정보</string>
     <string name="guardian_my_page_connect_elder">어르신 연결하기</string>
     <string name="hello_blank_fragment">fragment</string>
+    <string name="today_schedule">오늘의 일정</string>
 
 </resources>
