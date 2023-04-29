@@ -90,7 +90,6 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
 
     // Google Cloud API
-
     implementation 'com.google.cloud:google-cloud-speech:2.4.0'
     implementation 'com.google.cloud:google-cloud-storage:2.4.0'
 
