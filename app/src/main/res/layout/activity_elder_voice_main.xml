@@ -27,7 +27,7 @@
         android:textSize="60dp" />
 
     <android.widget.Button
-        android:id="@+id/voice_nno"
+        android:id="@+id/voice_no"
         android:layout_width="301dp"
         android:layout_height="247dp"
         android:layout_marginTop="48dp"

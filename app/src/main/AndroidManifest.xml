@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- 권한 추가 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -19,14 +24,15 @@
             android:exported="false" />
         <activity
             android:name=".ui.start.StartActivity"
-            android:exported="true"
-            android:theme="@style/Theme.CareSheep.Splash">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".ui.start.StartActivity" -->
+        <!-- android:exported="true" -->
+        <!-- android:theme="@style/Theme.CareSheep.Splash"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity
             android:name=".elder.ElderMedicineDoneActivity"
             android:exported="false" />
@@ -40,8 +46,18 @@
             android:name=".elder.ElderVoiceSubActivity"
             android:exported="false" />
         <activity
+            android:name=".recyclerview.RecycleMainScheduleActivity"
+            android:exported="false">
+        </activity>
+        <activity
             android:name=".elder.ElderVoiceMainActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".GuardianVoiceRecordDetailFragment"
             android:exported="false" />
@@ -49,7 +65,7 @@
             android:name=".GuardianVoiceRecordListFragment"
             android:exported="false" />
         <activity
-            android:name=".recyclerview.RecycleMainActivity"
+            android:name=".recyclerview.RecycleMainRecordActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
