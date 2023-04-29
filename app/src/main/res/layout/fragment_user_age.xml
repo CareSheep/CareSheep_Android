@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.start.UserNameFragment">
 
+    <ProgressBar
+        android:id="@+id/pb_sign_up"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/gray_400"
+        android:progress="100"
+        android:progressTint="@color/green"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_user_age_title"
         style="@style/Text.Title1"

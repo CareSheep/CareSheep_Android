@@ -49,4 +49,18 @@
         <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
 
+
+    <!-- Dialog -->
+    <style name="Text.Dialog.Title" parent="android:TextAppearance">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+    </style>
+
+    <style name="Text.Dialog.Btn" parent="android:TextAppearance">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
+
 </resources>

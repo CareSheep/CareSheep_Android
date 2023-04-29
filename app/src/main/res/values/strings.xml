@@ -5,6 +5,9 @@
     <string name="elder">어르신</string>
     <string name="guardian">보호자</string>
 
+    <string name="dialog_check">확인</string>
+
+
     <!-- Start -->
     <string name="start_look_around">둘러보기</string>
     <string name="start_app_intro">당신과 가족을 위한 \n맞춤형 일상 케어</string>
@@ -26,10 +29,11 @@
     <string name="sign_up_user_age_sub_title">앱에서 다뤄질 정보입니다.</string>
     <string name="sign_up_user_age">나이</string>
     <string name="sign_up_complete">완료</string>
+    <string name="sign_up_complete_message">회원가입이 완료되었습니다!</string>
 
     <!-- Guardian -->
     <string name="guardian_home">홈</string>
-    <string name="guardian_calendar">캘린더</string>
+    <string name="guardian_calendar">공유 캘린더</string>
     <string name="guardian_my_page">마이페이지</string>
     <string name="guardian_analysis_result">분석 결과</string>
     <string name="guardian_today_schedule">오늘의 일정</string>

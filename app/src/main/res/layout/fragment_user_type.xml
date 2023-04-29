@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.start.UserTypeFragment">
 
+    <ProgressBar
+        android:id="@+id/pb_sign_up"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/gray_400"
+        android:progress="25"
+        android:progressTint="@color/green"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_user_type_title"
         style="@style/Text.Title1"
@@ -52,7 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle_white_border_gray600_radius_20"
-                android:drawableTop="@drawable/ic_elderly_100"
+                android:drawableTop="@drawable/ic_elder_100"
                 android:drawablePadding="40dp"
                 android:gravity="center"
                 android:paddingTop="40dp"
