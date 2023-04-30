@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginStart="20dp"
-            android:text="@string/app_name_kr"
+            android:text="@string/app_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -108,6 +108,73 @@
             </ScrollView>
 
 
+            android:paddingBottom="50dp"
+            android:paddingHorizontal="20dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_analysis_result"
+                style="@style/Text.Title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="@string/guardian_analysis_result"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_analysis_result"
+                style="@style/Text.Body1"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rectangle_gray400_radius_20"
+                android:text="@string/guardian_analysis_result_caption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_analysis_result" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_today_schedule"
+                style="@style/Text.Title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/guardian_today_schedule"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_analysis_result" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_today_schedule"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rectangle_gray400_radius_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_today_schedule" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_voice_mailbox"
+                style="@style/Text.Title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/guardian_voice_mailbox"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_today_schedule" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_voice_mailbox"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rectangle_gray400_radius_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_voice_mailbox" />
 
         </RelativeLayout>
 
