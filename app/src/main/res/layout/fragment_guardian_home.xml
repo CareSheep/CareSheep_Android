@@ -36,86 +36,103 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="50dp"
         app:layout_constraintTop_toBottomOf="@+id/tb_top">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_analysis_result"
+            style="@style/Text.Title2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="50dp"
-            android:paddingHorizontal="20dp">
+            android:layout_marginTop="14dp"
+            android:text="@string/guardian_analysis_result"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_analysis_result"
-                style="@style/Text.Title2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="@string/guardian_analysis_result"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_analysis_result"
+            style="@style/Text.Body1"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rectangle_gray_400_radius_20"
+            android:text="@string/guardian_analysis_result_caption"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_analysis_result" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_analysis_result"
-                style="@style/Text.Body1"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/rectangle_gray_400_radius_20"
-                android:text="@string/guardian_analysis_result_caption"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_analysis_result" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_today_schedule"
-                style="@style/Text.Title2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/guardian_today_schedule"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_analysis_result" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_today_schedule"
+            style="@style/Text.Title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/guardian_today_schedule"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_analysis_result" />
+
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@id/btn_analysis_result"
+            app:layout_constraintTop_toBottomOf="@+id/tv_today_schedule"
+            tools:layout_editor_absoluteX="20dp">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_today_schedule"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/rectangle_gray_400_radius_20"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_today_schedule" />
+                app:layout_constraintStart_toStartOf="parent"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_voice_mailbox"
-                style="@style/Text.Title2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/guardian_voice_mailbox"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_today_schedule" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_voice_mailbox"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/rectangle_gray_400_radius_20"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_voice_mailbox" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
 
-    </ScrollView>
+
+
+        </RelativeLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_voice_mailbox"
+            style="@style/Text.Title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/guardian_voice_mailbox"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_voice_mailbox"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rectangle_gray_400_radius_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_voice_mailbox" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

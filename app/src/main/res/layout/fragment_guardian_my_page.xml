@@ -79,7 +79,7 @@
                 android:layout_width="95dp"
                 android:layout_height="95dp"
                 android:layout_marginEnd="20dp"
-                android:src="@color/gray_500"
+                android:src="@drawable/img_logo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_user_name" />
 
@@ -104,7 +104,7 @@
                 android:background="@color/gray_500"
                 app:layout_constraintTop_toBottomOf="@+id/tv_elder" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <android.widget.Button
                 android:id="@+id/btn_elder_routine_info"
                 style="@style/Text.Body1"
                 android:layout_width="0dp"
@@ -116,7 +116,9 @@
                 android:text="@string/guardian_my_page_routine_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/v_first" />
+                app:layout_constraintTop_toBottomOf="@+id/v_first"
+                android:drawableRight="@drawable/ic_arrow_right"
+                android:drawableLeft="@drawable/baseline_info_24"/>
 
             <View
                 android:id="@+id/v_middle"
@@ -125,7 +127,7 @@
                 android:background="@color/gray_500"
                 app:layout_constraintTop_toBottomOf="@+id/btn_elder_routine_info" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <android.widget.Button
                 android:id="@+id/btn_connect_elder"
                 style="@style/Text.Body1"
                 android:layout_width="0dp"
@@ -137,7 +139,9 @@
                 android:text="@string/guardian_my_page_connecnt_elder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/v_middle" />
+                app:layout_constraintTop_toBottomOf="@+id/v_middle"
+                android:drawableRight="@drawable/ic_arrow_right"
+                android:drawableLeft="@drawable/baseline_elderly_24"/>
 
             <View
                 android:layout_width="match_parent"
