@@ -110,15 +110,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:drawableLeft="@drawable/baseline_info_24"
+                android:drawableRight="@drawable/ic_arrow_right"
+                android:drawablePadding="10dp"
                 android:gravity="start|center_vertical"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="16dp"
                 android:text="@string/guardian_my_page_routine_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/v_first"
-                android:drawableRight="@drawable/ic_arrow_right"
-                android:drawableLeft="@drawable/baseline_info_24"/>
+                app:layout_constraintTop_toBottomOf="@+id/v_first" />
 
             <View
                 android:id="@+id/v_middle"
@@ -133,15 +134,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:drawableLeft="@drawable/baseline_elderly_24"
+                android:drawableRight="@drawable/ic_arrow_right"
+                android:drawablePadding="10dp"
                 android:gravity="start|center_vertical"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="16dp"
                 android:text="@string/guardian_my_page_connect_elder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/v_middle"
-                android:drawableRight="@drawable/ic_arrow_right"
-                android:drawableLeft="@drawable/baseline_elderly_24"/>
+                app:layout_constraintTop_toBottomOf="@+id/v_middle" />
 
             <View
                 android:layout_width="match_parent"

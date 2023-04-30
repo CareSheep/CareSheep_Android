@@ -1,4 +1,4 @@
-package com.swu.caresheep.ui.elder
+package com.swu.caresheep.ui.elder.connect
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

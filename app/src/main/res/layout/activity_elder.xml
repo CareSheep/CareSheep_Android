@@ -100,7 +100,7 @@
                     android:paddingHorizontal="24dp"
                     android:paddingTop="22dp"
                     android:paddingBottom="20dp"
-                    android:text="@string/today_schedule"
+                    android:text="@string/elder_today_schedule"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
