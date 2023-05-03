@@ -45,21 +45,21 @@
             android:name=".elder.ElderMedicineFirstActivity"
             android:exported="false" />
         <activity
-            android:name=".elder.ElderVoiceSubActivity"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".elder.ElderVoiceMainActivity"-->
-<!--            android:exported="false" />-->
-
-        <activity
             android:name=".elder.ElderVoiceMainActivity"
-            android:exported="true">
+            android:exported="false" />
+        <activity
+            android:name=".elder.ElderVoiceSubActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--        <activity-->
+<!--            android:name=".elder.ElderVoiceMainActivity"-->
+<!--            android:exported="false" />-->
+
 
         <activity
             android:name=".GuardianVoiceRecordDetailFragment"
