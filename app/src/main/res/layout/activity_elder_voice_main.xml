@@ -17,7 +17,7 @@
         android:textSize="32dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/record_button"
+        android:id="@+id/voice_yes"
         android:layout_width="301dp"
         android:layout_height="247dp"
         android:layout_gravity="center"
