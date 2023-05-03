@@ -103,7 +103,8 @@ class SplashActivity : AppCompatActivity() {
                         // 쿼리 실행 중 오류 발생 시 처리할 내용
                     }
                 })
-
+        } else {
+            loadSplashScreen()
         }
     }
 }
