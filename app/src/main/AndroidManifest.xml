@@ -2,10 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 권한 추가-->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +19,15 @@
         android:theme="@style/Theme.CareSheep"
         tools:targetApi="31">
         <activity
+            android:name=".ui.elder.main.ElderActivity"
+            android:exported="true" />
+        <activity
+            android:name=".elder.ElderWalkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.GuardianElderReportActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.guardian.GuardianActivity"
             android:exported="true" />
         <activity
@@ -24,17 +35,14 @@
             android:exported="false" />
         <activity
             android:name=".ui.start.StartActivity"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".ui.start.StartActivity"-->
-<!--            android:exported="true"-->
-<!--            android:theme="@style/Theme.CareSheep.Splash">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            android:exported="true"
+            android:theme="@style/Theme.CareSheep.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".elder.ElderMedicineDoneActivity"
             android:exported="false" />
@@ -49,18 +57,13 @@
             android:exported="false" />
         <activity
             android:name=".elder.ElderVoiceSubActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-<!--        <activity-->
-<!--            android:name=".elder.ElderVoiceMainActivity"-->
-<!--            android:exported="false" />-->
-
-
+            android:exported="false" />
+        <activity
+            android:name=".recyclerview.RecycleMainScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".elder.ElderVoiceMainActivity"
+            android:exported="true" />
         <activity
             android:name=".GuardianVoiceRecordDetailFragment"
             android:exported="false" />
@@ -68,7 +71,7 @@
             android:name=".GuardianVoiceRecordListFragment"
             android:exported="false" />
         <activity
-            android:name=".recyclerview.RecycleMainActivity"
+            android:name=".recyclerview.RecycleMainRecordActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

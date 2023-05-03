@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="20dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="20dp">
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="2023/4/3 ~ 2023/4/9"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="374dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lin1"
+        android:layout_marginTop="59dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="35dp"
+            android:text="4/5\n2023"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@+id/lin1" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <android.widget.Button
+                android:id="@+id/schedule_item1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/rect_positive_button"
+                android:text="병원가기"
+                android:textSize="30sp"
+                app:layout_constraintLeft_toRightOf="@id/date" />
+
+            <android.widget.Button
+                android:id="@+id/schedule_date_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rect_positive_button"
+                android:text="오전 8: 00 ~ 오전 9 : 00"
+                android:textSize="20sp" />
+
+
+            <android.widget.Button
+                android:id="@+id/schedule2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/rect_negative_button"
+                android:text="약 복용"
+                android:textSize="30sp" />
+
+            <android.widget.Button
+                android:id="@+id/record_date2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rect_negative_button"
+                android:text="오후 1: 00 ~ 오후 2 : 00"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
