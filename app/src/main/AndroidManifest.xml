@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -17,7 +16,16 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.CareSheep"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.start.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.elder.main.ElderActivity"
             android:exported="true" />
@@ -35,14 +43,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.start.StartActivity"
-            android:exported="true"
-            android:theme="@style/Theme.CareSheep.Splash">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".elder.ElderMedicineDoneActivity"
             android:exported="false" />
@@ -54,16 +55,24 @@
             android:exported="false" />
         <activity
             android:name=".elder.ElderVoiceMainActivity"
-            android:exported="false" />
+            android:exported="true">
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
         <activity
             android:name=".elder.ElderVoiceSubActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".recyclerview.RecycleMainScheduleActivity"
             android:exported="false" />
-        <activity
-            android:name=".elder.ElderVoiceMainActivity"
-            android:exported="true" />
         <activity
             android:name=".GuardianVoiceRecordDetailFragment"
             android:exported="false" />

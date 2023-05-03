@@ -1,6 +1,6 @@
 package com.swu.caresheep
 
-class GuardianHelperClass {
+class Guardian {
 
     var guardian_id: Int? = null
     var user_id: Int? = null

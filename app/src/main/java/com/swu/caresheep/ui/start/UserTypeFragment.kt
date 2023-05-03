@@ -102,6 +102,8 @@ class UserTypeFragment : Fragment() {
             )
         }
 
+
+
         return binding.root
     }
 

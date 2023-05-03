@@ -59,6 +59,7 @@
         android:layout_marginTop="4dp"
         android:background="@drawable/et_sign_up"
         android:hint="예) 75"
+        android:inputType="number"
         android:lines="1"
         android:paddingHorizontal="18dp"
         android:paddingVertical="16dp"

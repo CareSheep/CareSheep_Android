@@ -5,21 +5,21 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.swu.caresheep.databinding.DialogBaseBinding
+import com.swu.caresheep.databinding.DialogQuitBinding
 
-class BaseDialog(private val context: AppCompatActivity) {
+class QuitDialog(private val context: AppCompatActivity) {
 
-    private lateinit var binding: DialogBaseBinding
+    private lateinit var binding: DialogQuitBinding
     private val dialog = Dialog(context)
-    private lateinit var listener : CheckBtnClickedListener
+    private lateinit var listener : QuitBtnClickedListener
 
-    fun show(text: String) {
-        binding = DialogBaseBinding.inflate(context.layoutInflater)
+    fun show(title: String, caption: String) {
+        binding = DialogQuitBinding.inflate(context.layoutInflater)
         dialog.setContentView(binding.root)
 
-        // 배경 색 투명
+        //배경 색 날리기
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        // 창 크기
+        //창 크기
         dialog.window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
@@ -28,26 +28,30 @@ class BaseDialog(private val context: AppCompatActivity) {
         dialog.setCanceledOnTouchOutside(false)
         dialog.setCancelable(false)
 
-        binding.tvContent.text = text
+        binding.tvQuitTitle.text = title
+        binding.tvQuitCaption.text = caption
 
         dialog.show()
 
+        binding.btnContinue.setOnClickListener {
+            dialog.dismiss()
+        }
 
-        binding.btnCheck.setOnClickListener {
+        binding.btnQuit.setOnClickListener {
             listener.onClicked(true)
             dialog.dismiss()
         }
     }
 
     fun btnClickListener(listener: (Boolean) -> Unit) {
-        this.listener = object: CheckBtnClickedListener {
+        this.listener = object: QuitBtnClickedListener {
             override fun onClicked(content: Boolean) {
                 listener(content)
             }
         }
     }
 
-    interface CheckBtnClickedListener {
+    interface QuitBtnClickedListener {
         fun onClicked(content: Boolean)
     }
 }

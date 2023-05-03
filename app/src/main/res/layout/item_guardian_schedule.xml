@@ -3,18 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="20dp"
-    android:layout_marginVertical="8dp"
-    android:background="@drawable/rectangle_white_border_gray500_radius_20"
-    android:paddingVertical="17dp">
+    android:layout_marginVertical="12dp">
+
+    <ImageView
+        android:id="@+id/iv_bar"
+        android:layout_width="6dp"
+        android:layout_height="0dp"
+        android:src="@drawable/rectangle_green_radius_20"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_schedule_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_schedule_title" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_schedule_title"
         style="@style/Text.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:paddingTop="4dp"
         android:text="병원 가기"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_bar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -22,17 +30,11 @@
         style="@style/Text.Body3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:paddingBottom="4dp"
         android:text="오전 8:00 - 오전 9:00"
         android:textColor="@color/gray_700"
-        app:layout_constraintStart_toStartOf="@+id/tv_schedule_title"
+        app:layout_constraintStart_toEndOf="@+id/iv_bar"
         app:layout_constraintTop_toBottomOf="@+id/tv_schedule_title" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow_right"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_schedule_time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_schedule_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

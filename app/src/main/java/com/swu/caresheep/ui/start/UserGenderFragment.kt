@@ -18,7 +18,6 @@ class UserGenderFragment : Fragment() {
     private var isMaleClicked: Boolean = false
     private var isFemaleClicked: Boolean = false
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
