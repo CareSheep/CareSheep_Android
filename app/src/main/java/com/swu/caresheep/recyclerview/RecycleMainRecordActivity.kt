@@ -4,39 +4,36 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.swu.caresheep.R
+import kotlinx.android.synthetic.main.activity_recycle_main_schedule.*
 import kotlinx.android.synthetic.main.activity_recycle_record_main.*
 
 class RecycleMainRecordActivity : AppCompatActivity() {
-    // 띄울 데이터들 모음(배열)
-    var modelList = ArrayList<RecycleRecordModel>()
 
-    // 리사이클러뷰에 연결할 어뎁터
-    private lateinit var recyclerRecordAdapter: RecyclerRecordAdapter
+    lateinit var recordAdapter: RecordAdapter
+    val datas = mutableListOf<RecordData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recycle_record_main)
 
-
-        // test용
-        for (i in 1..10) {
-            var recycleRecordModel =
-                RecycleRecordModel(number = "$i", context = "$i 번째 내용입니다.", record_date = "2023/04/14")
-            this.modelList.add(recycleRecordModel)
-        }
-
-        // 어뎁터 인스턴스 생성
-        recyclerRecordAdapter = RecyclerRecordAdapter()
-        recyclerRecordAdapter.submitList(this.modelList)
-        // 리사이클러뷰 설정
-        my_recycler_view.apply {
-            //리사이클러뷰 방향 등 설정
-            layoutManager =
-                LinearLayoutManager(this@RecycleMainRecordActivity, LinearLayoutManager.VERTICAL, false)
-            // 어뎁터 장착
-            adapter = recyclerRecordAdapter
-
-        }
-
+        initRecycler()
     }
+    private fun initRecycler() {
+        recordAdapter = RecordAdapter(this)
+        rv_recorder.adapter = recordAdapter
+
+
+        datas.apply {
+            add(RecordData(recording_date = "4/5/2023", voice_id = 1, content = "오전8:00~오전9:00"))
+            add(RecordData(recording_date = "4/6/2023", voice_id = 2, content = "오전10:00~오전11:00"))
+            add(RecordData(recording_date = "4/7/2023", voice_id = 3, content = "오후3:00~오후5:00"))
+
+
+            recordAdapter.datas = datas
+            recordAdapter.notifyDataSetChanged()
+
+        }
+    }
+
+
 }
