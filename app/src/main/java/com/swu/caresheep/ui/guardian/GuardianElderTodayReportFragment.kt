@@ -5,28 +5,30 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
+import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.breakfast_check
+import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.dinner_check
+import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.lunch_check
+import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.view.today_date
+import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.walk_check
+import java.time.LocalDate
+import java.time.LocalDateTime
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [GuardianElderTodayReportFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GuardianElderTodayReportFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var dbRef: DatabaseReference
+    val todayDate: LocalDate = LocalDate.now()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
         }
     }
 
@@ -34,27 +36,97 @@ class GuardianElderTodayReportFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_guardian_elder_today_report, container, false)
+
+        getTodayBreakfastData()
+        getTodayLunchData()
+        getTodayDinnerData()
+        getTodayWalkData()
+
+        val view : View = inflater!!.inflate(R.layout.fragment_guardian_elder_today_report, container, false)
+
+        view.today_date.setText("$todayDate")
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GuardianElderTodayReportFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GuardianElderTodayReportFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun getTodayBreakfastData() {
+
+        dbRef = FirebaseDatabase.getInstance().getReference("Breakfast").child("test")
+
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    val breakfast_value = snapshot.child("done").getValue().toString()
+                    if(breakfast_value == "1"){
+                        println("this is Breakfast result: $breakfast_value")
+                        breakfast_check.setImageResource(R.drawable.baseline_check_circle_24)
+                    }
+
                 }
             }
+            override fun onCancelled(error: DatabaseError) {
+                println("Failed to read value.")
+            }
+        })
     }
+
+    private fun getTodayLunchData() {
+        dbRef = FirebaseDatabase.getInstance().getReference("Lunch").child("test")
+
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    val lunch_value = snapshot.child("done").getValue().toString()
+
+                    if(lunch_value == "1"){
+                        println("this is Lunch result: $lunch_value")
+                        lunch_check.setImageResource(R.drawable.baseline_check_circle_24)
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                println("Failed to read value.")
+            }
+        })
+    }
+
+    private fun getTodayDinnerData() {
+        dbRef = FirebaseDatabase.getInstance().getReference("Dinner").child("test")
+
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    val dinner_value = snapshot.child("done").getValue().toString()
+                    if(dinner_value == "1"){
+                        println("this is Lunch result: $dinner_value")
+                        dinner_check.setImageResource(R.drawable.baseline_check_circle_24)
+                    }
+
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                println("Failed to read value.")
+            }
+        })
+    }
+
+    private fun getTodayWalkData() {
+        dbRef = FirebaseDatabase.getInstance().getReference("Walk").child("test")
+
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    val walk_value = snapshot.child("done").getValue().toString()
+                    if(walk_value == "1"){
+                        println("this is Lunch result: $walk_value")
+                        walk_check.setImageResource(R.drawable.baseline_check_circle_24)
+                    }
+
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                println("Failed to read value.")
+            }
+        })
+    }
+
 }

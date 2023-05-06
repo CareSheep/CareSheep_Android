@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/contents_back_btn"
+            android:id="@+id/go_to_report"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@android:color/transparent"
@@ -37,14 +37,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
     </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+        android:id="@+id/contents_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:layout_weight="0"
+        app:tabTextColor="#8C9F5F"
+        app:tabIndicatorColor="#8C9F5F"
         app:tabGravity="fill"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -53,15 +54,25 @@
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"/>
+
+
+    <TextView
+        android:id="@+id/tvLoadingData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading Data....."
+        android:textSize="28sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </LinearLayout>
