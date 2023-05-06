@@ -13,13 +13,18 @@
         app:layout_constraintBottom_toTopOf="@id/bnv_guardian"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/bnv_shadow"
+        app:layout_constraintBottom_toTopOf="@+id/bnv_guardian" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnv_guardian"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:paddingBottom="9dp"
-        app:elevation="16dp"
+        app:itemBackground="@color/white"
         app:itemIconTint="@drawable/selector_bnv_color"
         app:itemPaddingBottom="2dp"
         app:itemPaddingTop="9dp"

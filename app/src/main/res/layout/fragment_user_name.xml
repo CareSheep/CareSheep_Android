@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.start.UserNameFragment">
 
+    <ProgressBar
+        android:id="@+id/pb_sign_up"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/gray_400"
+        android:progress="50"
+        android:progressTint="@color/green"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_user_name_title"
         style="@style/Text.Title1"
@@ -13,19 +23,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
         android:layout_marginTop="20dp"
-        android:lineSpacingExtra="6sp"
+        android:lineSpacingExtra="4sp"
         android:text="@string/sign_up_user_name_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_user_name_sub_title"
-        style="@style/Text.Body1"
+        style="@style/Text.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
-        android:layout_marginTop="12dp"
-        android:lineSpacingExtra="6sp"
+        android:layout_marginTop="10dp"
         android:text="@string/sign_up_user_name_sub_title"
         android:textColor="@color/gray_600"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +44,7 @@
         android:id="@+id/tv_user_name_et_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="35dp"
         android:text="@string/sign_up_user_name"
         app:layout_constraintStart_toStartOf="@+id/et_user_name"
@@ -50,8 +59,9 @@
         android:layout_marginTop="4dp"
         android:background="@drawable/et_sign_up"
         android:hint="예) 홍길동"
-        android:paddingVertical="16dp"
+        android:lines="1"
         android:paddingHorizontal="18dp"
+        android:paddingVertical="16dp"
         android:textColorHint="@color/gray_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +79,7 @@
         android:gravity="center"
         android:stateListAnimator="@null"
         android:text="@string/sign_up_next"
-        android:textColor="@color/gray_700"
+        android:textColor="@drawable/selector_next_btn_text_color"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

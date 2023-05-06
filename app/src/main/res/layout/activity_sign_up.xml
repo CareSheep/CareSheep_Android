@@ -20,11 +20,20 @@
             android:src="@drawable/ic_back" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            style="@style/Text.Title3"
+            style="@style/Text.Title4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/sign_up_my_info" />
+
+<!--        <androidx.appcompat.widget.AppCompatTextView-->
+<!--            android:id="@+id/tv_progress"-->
+<!--            style="@style/Text.Body2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            android:text="1/4" />-->
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -34,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
+        android:layout_marginTop="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_top"

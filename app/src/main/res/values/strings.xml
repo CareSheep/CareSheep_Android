@@ -1,10 +1,14 @@
 <resources>
-    <string name="app_name">CareSheep</string>
-    <string name="app_name_kr">케어쉽</string>
+    <string name="app_name">케어쉽</string>
 
     <!-- Common -->
     <string name="elder">어르신</string>
     <string name="guardian">보호자</string>
+    <string name="voice_record">음성 메시지 전송</string>
+    <string name="pedometer">만보기 측정</string>
+
+    <string name="dialog_check">확인</string>
+
 
     <!-- Start -->
     <string name="start_look_around">둘러보기</string>
@@ -17,25 +21,45 @@
     <string name="sign_up_user_type_sub_title">유형에 맞는 서비스를 제공합니다!</string>
     <string name="sign_up_next">다음</string>
     <string name="sign_up_user_name_title">이름을 \n입력해주세요</string>
-    <string name="sign_up_user_name_sub_title">앱에서 불러질 이름입니다.</string>
+    <string name="sign_up_user_name_sub_title">프로필에 등록될 이름입니다.</string>
     <string name="sign_up_user_name">이름</string>
     <string name="sign_up_user_gender_title">성별을 \n입력해주세요</string>
     <string name="sign_up_user_gender_sub_title">앱에서 다뤄질 정보입니다.</string>
     <string name="sign_up_user_gender_male">남성</string>
     <string name="sign_up_user_gender_female">여성</string>
+    <string name="sign_up_user_age_title">나이를 \n입력해주세요</string>
+    <string name="sign_up_user_age_sub_title">앱에서 다뤄질 정보입니다.</string>
+    <string name="sign_up_user_age">나이</string>
     <string name="sign_up_complete">완료</string>
+    <string name="sign_up_complete_message">회원가입이 완료되었습니다!</string>
+    <string name="sign_up_quit_title">회원가입을 그만두시겠습니까?</string>
+    <string name="sign_up_quit_caption">그만두시면 처음부터 회원가입을 해야 합니다</string>
+    <string name="sign_up_continue">계속하기</string>
+    <string name="sign_up_drop">나가기</string>
 
     <!-- Guardian -->
     <string name="guardian_home">홈</string>
-    <string name="guardian_calendar">캘린더</string>
+    <string name="guardian_calendar">공유 캘린더</string>
     <string name="guardian_my_page">마이페이지</string>
     <string name="guardian_analysis_result">분석 결과</string>
     <string name="guardian_today_schedule">오늘의 일정</string>
     <string name="guardian_voice_mailbox">음성 사서함</string>
     <string name="guardian_analysis_result_caption">어르신 리포트 확인하러 가기</string>
     <string name="guardian_my_page_routine_info">어르신 루틴 정보</string>
-    <string name="guardian_my_page_connecnt_elder">어르신 연결하기</string>
+    <string name="guardian_my_page_connect_elder">어르신 연결하기</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Elder -->
+    <string name="elder_today_schedule">오늘의 일정</string>
+
+    <!-- Elder - Connect -->
+    <string name="elder_connect">보호자 연결</string>
+    <string name="elder_connect_user_code">사용자 코드</string>
+    <string name="elder_connect_user_code_message">보호자와 연결하기 위해 \n아래의 코드를 보호자에게 알려주세요.</string>
+    <string name="elder_connect_connected_guardian">연결된 보호자</string>
+    <string name="elder_connect_not_exist_guardian">연결된 보호자가 없습니다.</string>
+    <string name="elder_connect_send_code">보호자에게 코드 전송하기</string>
 
 </resources>
