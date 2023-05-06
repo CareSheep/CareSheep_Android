@@ -47,15 +47,6 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         mRecognizer.setRecognitionListener(listener)
         mRecognizer.startListening(intent)
 
-        // 녹음 버튼 클릭 시, 음성인식 기능 종료
-        record_button.setOnClickListener {
-            speechRecognizer?.stopListening()
-            Toast.makeText(applicationContext, "녹음이 종료되었습니다", Toast.LENGTH_SHORT).show()
-
-            // 녹음이 종료되면 홈으로 이동
-            val intent = Intent(this, ElderActivity::class.java)
-            startActivity(intent)
-        }
 
         // Storage 권한 요청
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -112,7 +103,11 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     }
                     file.writeText(it[i])
                 }
+                // 녹음이 종료되면 홈으로 이동
+                val intent = Intent(applicationContext, ElderActivity::class.java)
+                startActivity(intent)
             }
+
         }
         override fun onPartialResults(partialResults: Bundle?) {}
 
