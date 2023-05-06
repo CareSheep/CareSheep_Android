@@ -17,9 +17,22 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_elder_walk.stopButton
+import java.time.LocalDate
 
 
 class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
+
+    private lateinit var btnSaveData: Button
+    val todayDate: LocalDate = LocalDate.now()
+
+    private lateinit var dbRef: DatabaseReference
 
     var sensorManager: SensorManager? = null
     var stepCountSensor: Sensor? = null
@@ -34,7 +47,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_elder_walk)
 
-        val stepCountView = findViewById<TextView>(R.id.stepCountView)
+        stepCountView = findViewById<TextView>(R.id.stepCountView)
         //val resetButton = findViewById<Button>(R.id.resetButton)
 
 
@@ -48,7 +61,6 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
         }
 
         // 걸음 센서 연결
-        // * 옵션
         // - TYPE_STEP_DETECTOR:  리턴 값이 무조건 1, 앱이 종료되면 다시 0부터 시작
         // - TYPE_STEP_COUNTER : 앱 종료와 관계없이 계속 기존의 값을 가지고 있다가 1씩 증가한 값을 리턴
         //
@@ -65,6 +77,9 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
 //            currentSteps = 0
 //            stepCountView.setText(currentSteps.toString())
 //        })
+        stopButton.setOnClickListener {
+            saveWalkData()
+        }
     }
 
     public override fun onStart() {
@@ -97,4 +112,17 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+
+    private fun saveWalkData() {
+
+        val walkResult = hashMapOf(
+            "done" to 1,
+            "goal_walk" to 1500,
+            "start_time" to todayDate,
+            "walk" to currentSteps,
+            "user_id" to 1
+        )
+        dbRef.child("Walk").child("walk").setValue(walkResult)
+
+    }
 }
