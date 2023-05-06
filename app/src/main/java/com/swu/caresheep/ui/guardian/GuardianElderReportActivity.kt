@@ -22,8 +22,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityGuardianElderReportBinding
-import com.swu.caresheep.recyclerview.LunchAdapter
-import com.swu.caresheep.recyclerview.LunchModel
 
 class GuardianElderReportActivity : AppCompatActivity() {
 
