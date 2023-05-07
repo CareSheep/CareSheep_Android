@@ -9,11 +9,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
+import com.swu.caresheep.Voice
 import kotlinx.android.synthetic.main.activity_recycle_record_main.*
 
 class RecycleMainRecordActivity : AppCompatActivity() {
 
     lateinit var recordAdapter: RecordAdapter
+
+
     //val datas = mutableListOf<RecordData>() // 테스트용 임시 데이터
     private val database = FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Voice")  //Firebase DB의 Voice 테이블에 접근
 
@@ -47,9 +50,11 @@ class RecycleMainRecordActivity : AppCompatActivity() {
             // 가져온 데이터를 RecordData 객체로 변환해서 recordList에 추가
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // 리사이클러뷰에 표시할 데이터 리스트를 저장
-                val recordList = mutableListOf<RecordData>()
+                //val recordList = mutableListOf<RecordData>()
+                val recordList = mutableListOf<Voice>()
                 for (snapshot in dataSnapshot.children) {
-                    val record = snapshot.getValue(RecordData::class.java)
+                    //val record = snapshot.getValue(RecordData::class.java)
+                    val record = snapshot.getValue(Voice::class.java)
                     record?.let { recordList.add(it) }
                 }
                 recordAdapter.datas = recordList
