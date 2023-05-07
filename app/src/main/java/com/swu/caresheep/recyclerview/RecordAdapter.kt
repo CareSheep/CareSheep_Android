@@ -1,6 +1,7 @@
 package com.swu.caresheep.recyclerview
 
 import android.content.Context
+import android.content.Intent
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
+import com.swu.caresheep.ui.guardian.GuardianVoiceDetailActivity
 
 class RecordAdapter(private val context: Context) :
 RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
@@ -54,6 +56,23 @@ RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
             record_context.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
 
             record_date.text = item.recording_date
+
+            // 클릭이벤트 ; 세부 내용 화면으로 전환
+            itemView.setOnClickListener {
+                Intent(context, GuardianVoiceDetailActivity::class.java).apply {
+                    // Voice 필드의 데이터 자체를 전달
+                    putExtra("check", item.check)
+                    putExtra("content", item.content)
+                    putExtra("danger", item.danger)
+                    putExtra("recording_date", item.recording_date)
+                    putExtra("in_need", item.in_need)
+                    putExtra("user_id", item.user_id)
+                    putExtra("voice_id", item.voice_id)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }.run { context.startActivity(this) }
+            }
+
         }
     }
+
 }
