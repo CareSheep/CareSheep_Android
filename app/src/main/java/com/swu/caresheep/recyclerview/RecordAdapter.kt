@@ -10,7 +10,9 @@ import com.swu.caresheep.R
 
 class RecordAdapter(private val context: Context) :
 RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
+
     var datas = mutableListOf<RecordData>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.layout_recycler_record_item,parent,false)
         return ViewHolder(view)
