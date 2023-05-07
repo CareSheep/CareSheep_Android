@@ -57,4 +57,3 @@ RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
         }
     }
 }
-
