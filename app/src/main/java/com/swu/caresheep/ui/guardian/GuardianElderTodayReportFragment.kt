@@ -55,12 +55,13 @@ class GuardianElderTodayReportFragment : Fragment() {
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
-                    val breakfast_value = snapshot.child("done").getValue().toString()
-                    if(breakfast_value == "1"){
-                        println("this is Breakfast result: $breakfast_value")
-                        breakfast_check.setImageResource(R.drawable.baseline_check_circle_24)
+                    if(snapshot.child("date").getValue().toString() == "$todayDate"){
+                        val breakfast_value = snapshot.child("done").getValue().toString()
+                        if(breakfast_value == "1"){
+                            println("this is Breakfast result: $breakfast_value")
+                            breakfast_check.setImageResource(R.drawable.baseline_check_circle_24)
+                        }
                     }
-
                 }
             }
             override fun onCancelled(error: DatabaseError) {
@@ -75,11 +76,13 @@ class GuardianElderTodayReportFragment : Fragment() {
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
-                    val lunch_value = snapshot.child("done").getValue().toString()
+                    if(snapshot.child("date").getValue().toString() == "$todayDate"){
+                        val lunch_value = snapshot.child("done").getValue().toString()
 
-                    if(lunch_value == "1"){
-                        println("this is Lunch result: $lunch_value")
-                        lunch_check.setImageResource(R.drawable.baseline_check_circle_24)
+                        if(lunch_value == "1"){
+                            println("this is Lunch result: $lunch_value")
+                            lunch_check.setImageResource(R.drawable.baseline_check_circle_24)
+                        }
                     }
                 }
             }
@@ -95,12 +98,13 @@ class GuardianElderTodayReportFragment : Fragment() {
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
-                    val dinner_value = snapshot.child("done").getValue().toString()
-                    if(dinner_value == "1"){
-                        println("this is Lunch result: $dinner_value")
-                        dinner_check.setImageResource(R.drawable.baseline_check_circle_24)
+                    if(snapshot.child("date").getValue().toString() == "$todayDate"){
+                        val dinner_value = snapshot.child("done").getValue().toString()
+                        if(dinner_value == "1"){
+                            println("this is Lunch result: $dinner_value")
+                            dinner_check.setImageResource(R.drawable.baseline_check_circle_24)
+                        }
                     }
-
                 }
             }
             override fun onCancelled(error: DatabaseError) {
@@ -115,10 +119,12 @@ class GuardianElderTodayReportFragment : Fragment() {
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
-                    val walk_value = snapshot.child("done").getValue().toString()
-                    if(walk_value == "1"){
-                        println("this is Lunch result: $walk_value")
-                        walk_check.setImageResource(R.drawable.baseline_check_circle_24)
+                    if(snapshot.child("start_time").getValue().toString() == "$todayDate"){
+                        val walk_value = snapshot.child("done").getValue().toString()
+                        if(walk_value == "1"){
+                            println("this is Lunch result: $walk_value")
+                            walk_check.setImageResource(R.drawable.baseline_check_circle_24)
+                        }
                     }
 
                 }
