@@ -10,11 +10,6 @@ plugins {
 android {
     namespace 'com.swu.caresheep'
     compileSdk 33
-    // 중복 리소스 파일 제외
-    packagingOptions {
-        exclude 'META-INF/INDEX.LIST'
-        exclude 'META-INF/DEPENDENCIES'
-    }
 
     androidExtensions {
         experimental = true
@@ -45,6 +40,11 @@ android {
     buildFeatures {
         dataBinding true
         viewBinding true
+        compose true
+    }
+    // Compose
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.1"
     }
 }
 
@@ -67,15 +67,13 @@ dependencies {
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:31.3.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-database-ktx'
-    implementation 'com.google.android.gms:play-services-auth:20.5.0'
-
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
 
     // Retrofit2
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-//    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-//    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -88,20 +86,15 @@ dependencies {
     // CardView
     implementation "androidx.cardview:cardview:1.0.0"
 
-    // Google Cloud API
-    implementation 'com.google.cloud:google-cloud-speech:2.4.0'
-    implementation 'com.google.cloud:google-cloud-storage:2.4.0'
-
-//    // google-auth-library
-//    implementation 'com.google.auth:google-auth-library-oauth2-http:0.24.1'
-
-    // builder
-    implementation "androidx.media:media:1.4.3"
-
-
-    implementation 'io.grpc:grpc-okhttp:1.38.0'
-
-
-    // 백그라운드 스레드에서 업로드
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    // Compose
+    implementation 'androidx.activity:activity-compose:1.5.1'
+    implementation platform('androidx.compose:compose-bom:2022.10.00')
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3'
+    androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
 }
