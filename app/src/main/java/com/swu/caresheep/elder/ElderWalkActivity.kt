@@ -76,7 +76,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
     var goalSteps = 0
 
     // 결과
-    var result = 0
+    var result1 = 0
 
     val walk = hashMapOf(
         "done" to "Los Angeles",
@@ -139,7 +139,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
         stopButton.setOnClickListener(View.OnClickListener{
             stopTimer()
             if(goalSteps < currentSteps){
-                result = 1
+                result1 = 1
             }
 
         })
