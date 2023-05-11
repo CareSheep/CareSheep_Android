@@ -1,33 +1,22 @@
 package com.swu.caresheep.ui.guardian
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.swu.caresheep.R
+import android.widget.TimePicker;
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_guardian_set_breakfast_time.timePicker3
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [GuardianSetBreakfastTimeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GuardianSetBreakfastTimeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
+    private lateinit var picker: TimePicker
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -36,25 +25,32 @@ class GuardianSetBreakfastTimeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_guardian_set_breakfast_time, container, false)
+
+        var mDBReference = FirebaseDatabase.getInstance().reference
+
+        // 버튼 누르면 해당 타임피커의 시간은 사용자 루틴 테이블에 들어감
+        picker = timePicker3
+        picker.is24HourView = true
+
+        val hour: Int
+        val minute: Int
+        val am_pm: String
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            hour = picker.hour
+            minute = picker.minute
+        } else {
+            hour = picker.currentHour
+            minute = picker.currentMinute
+        }
+
+        if (hour > 12) {
+            am_pm = "PM"
+            hour -= 12
+        } else {
+            am_pm = "AM"
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GuardianSetBreakfastTimeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GuardianSetBreakfastTimeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }
