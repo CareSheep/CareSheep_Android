@@ -50,7 +50,7 @@ android {
     }
     // Compose
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.1"
+        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
     }
 }
 dependencies {

@@ -76,7 +76,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
     var goalSteps = 0
 
     // 결과
-    var result = 0;
+    var result = 0
 
     val walk = hashMapOf(
         "done" to "Los Angeles",
