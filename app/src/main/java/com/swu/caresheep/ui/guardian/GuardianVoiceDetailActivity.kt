@@ -26,6 +26,12 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
         record_time.text = recording_date
         record_content.text = content
 
+        if(danger == 1) { // 위험 상황일 경우
+            record_content.setBackgroundResource(R.color.red) // 버튼 배경 색상을 빨간색으로
+        } else { // 위험 상황이 아닐 경우
+            record_content.setBackgroundResource(R.color.green_200) // 버튼 배경 색상을 연두색으로
+        }
+
     }
 
 
