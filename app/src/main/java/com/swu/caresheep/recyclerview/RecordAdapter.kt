@@ -38,7 +38,6 @@ RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
         //fun bind(item: RecordData) {
         fun bind(item: Voice) {
             list_number.text = item.voice_id.toString()
-            //record_context.text = item.content
             // item.content.length > 10이면 substring 메서드를 사용하여 10글자까지만 자르고 '...'을 붙임
             if (item.content.length > 10) {
                 // "${item.content.substring(0, 10)}..."
@@ -56,6 +55,13 @@ RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
             record_context.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
 
             record_date.text = item.recording_date
+
+            // 위험 상황 여부에 따른 버튼 색상 변경
+            if(item.danger == 1) { // 위험 상황일 경우
+                list_number.setBackgroundResource(R.color.red) // 버튼 배경 색상을 빨간색으로
+            } else { // 위험 상황이 아닐 경우
+                list_number.setBackgroundResource(R.color.green_200) // 버튼 배경 색상을 연두색으로
+            }
 
             // 클릭이벤트 ; 세부 내용 화면으로 전환
             itemView.setOnClickListener {
