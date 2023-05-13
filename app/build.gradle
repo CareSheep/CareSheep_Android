@@ -28,8 +28,6 @@ android {
 
         buildConfigField "String", "API_KEY", properties['API_KEY']
         buildConfigField "String", "DB_URL", properties['DB_URL']
-
-
     }
 
     buildTypes {

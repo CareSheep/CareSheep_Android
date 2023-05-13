@@ -1,4 +1,4 @@
-package com.swu.caresheep.ui.guardian
+package com.swu.caresheep.ui.guardian.mypage
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

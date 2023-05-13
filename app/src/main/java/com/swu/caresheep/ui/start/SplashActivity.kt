@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivitySplashBinding
 import com.swu.caresheep.ui.elder.main.ElderActivity
@@ -48,7 +49,7 @@ class SplashActivity : AppCompatActivity() {
             val gmail = account.email.toString()
 
             // User 테이블에서 이메일 주소를 키 값으로 가지는 노드가 존재하는지 확인
-            Firebase.database("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app")
+            Firebase.database(DB_URL)
                 .getReference("Users")
                 .orderByChild("gmail")
                 .equalTo(gmail)
@@ -66,7 +67,7 @@ class SplashActivity : AppCompatActivity() {
                             // 해당 이메일 주소를 가진 데이터가 User 테이블에 존재하지 않는 경우
 
                             // Guardian 테이블에서 이메일 주소를 키 값으로 가지는 노드가 존재하는지 확인
-                            Firebase.database("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app")
+                            Firebase.database(DB_URL)
                                 .getReference("Guardian")
                                 .orderByChild("gmail")
                                 .equalTo(gmail)
