@@ -24,6 +24,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.guardian.mypage.GuardianConnectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.mypage.GuardianEditRoutineActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.guardian.GuardianVoiceDetailActivity"
             android:exported="false" />
         <activity
@@ -31,6 +37,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -85,11 +92,13 @@
         <activity
             android:name=".recyclerview.RecycleMainRecordActivity"
             android:exported="true">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".MainActivity"

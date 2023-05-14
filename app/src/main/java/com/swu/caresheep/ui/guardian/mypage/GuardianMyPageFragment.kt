@@ -1,5 +1,6 @@
 package com.swu.caresheep.ui.guardian.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -26,6 +27,12 @@ class GuardianMyPageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentGuardianMyPageBinding.inflate(inflater, container, false)
+
+        // 어르신 연결하기 버튼 클릭 시
+        binding.btnConnectElder.setOnClickListener {
+            val intent = Intent(requireContext(), GuardianConnectActivity::class.java)
+            startActivity(intent)
+        }
 
 
         return binding.root
