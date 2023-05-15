@@ -13,16 +13,14 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.swu.caresheep.Gpt3Api
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
 import com.swu.caresheep.ui.elder.main.ElderActivity
-import kotlinx.android.synthetic.main.activity_elder_voice_sub.*
 import kotlinx.android.synthetic.main.activity_elder_voice_sub.voice_question
-import java.io.File
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.*
+
 
 class ElderVoiceSubActivity : AppCompatActivity() {
 
@@ -99,63 +97,70 @@ class ElderVoiceSubActivity : AppCompatActivity() {
             val matches: ArrayList<String>? =
                 results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
 
-//            matches?.let {
-//                for (i in it.indices) {
-//                    voice_question.text = it[i]
-//
-//                    // 파일로 저장하는 코드 추가
-//                    val fileName = "final_voice_recording_${System.currentTimeMillis()}.txt" //현재 시간을 밀리초 단위로 반환(중복없게)
-//                    val filePath = "${externalCacheDir?.absolutePath}/$fileName" // 저장 경로 /sdcard/android/com.swu.carsheep/cache/final_voice_recording_녹음시간.txt
-//                    val file = File(filePath)
-//                    if (!file.exists()) {
-//                        file.createNewFile()
-//                    }
-//                    file.writeText(it[i])
-//                }
-//                // 녹음이 종료되면 홈으로 이동
-//                val intent = Intent(applicationContext, ElderActivity::class.java)
-//                startActivity(intent)
-//            }
-            // val record_time: LocalDateTime = LocalDateTime.now() // 현재 날짜와 시간
-
-            // 파일 이름 변수를 현재 날짜가 들어가도록 초기화. 그 이유는 중복된 이름으로 기존에 있던 파일이 덮어 쓰여지는 것을 방지하고자 함.
+            // 파일 이름 변수를 현재 날짜가 들어가도록 초기화. (이유: 중복된 이름으로 기존에 있던 파일이 덮어 쓰여지는 것을 방지하고자)
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
-            matches?.let {
-                // Firebase Realtime Database에 쓰기
-                for (i in it.indices) {
-                    voice_question.text = it[i] // 화면에 말하고 있는 문장 표시되도록
-                    // Voice data class
-                    val voice = Voice(
-                        content = it[i],    // 음성을 텍스트로
-                        recording_date = timeStamp,
-                        // 우선 다 0으로(test)
-                        danger = 0,
-                        check = 0,
-                        in_need = 0,
-                        user_id = 1,
-                        voice_id = 1
-                    )
+            // 위험 값 (default 0)
+            var danger = 0
 
-                    database = FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Voice")  //Voice 테이블에 접근
-                    //database.push().setValue(voice)// 데이터가 계속 쌓이도록(임의 키 값으로 자동 생성)
-                    database.child(timeStamp).setValue(voice)// 데이터가 계속 쌓이도록(timeStamp가 참조 꼬리로 쌓이도록)
-                        //업로드 성공했는지 확인해보려고
-                        .addOnSuccessListener {
-                            Log.d("Firebase", "데이터 업로드 성공")
-                        }
-                        .addOnFailureListener { exception ->
-                            Log.e("Firebase", "데이터 업로드 실패: ${exception.message}", exception)
-                        }
+            // 변환된 텍스트를 담을 리스트 선언
+            val detectedWords = mutableListOf<String>()
+
+            matches?.let {
+                for (i in it.indices) {
+                    // 단어를 리스트에 추가
+                    detectedWords.add(it[i])
+                    // 어르신 화면에 말하고 있는 문장 표시되도록
+                    voice_question.text = it[i]
                 }
+            }
+
+            // 리스트에 있는 단어들을 하나의 문자열로 합치기(옵션을 줘서 공백이 적절하게 추가된 문자열이 생성)
+            val content = detectedWords.joinToString(separator = " ", prefix = "", postfix = "")
+
+            // 모델에 content를 입력하고 위험여부를 판단한 후 danger 값을 설정 (위험상황 감지 모델 생성)
+            val model = "text-davinci-002"
+            val prompt = ("다음 텍스트가 노인의 위험상황인지 판단하세요:\n$content\n위험상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:")
+            Gpt3Api.requestGpt3Api(prompt, model) { response -> // 요청
+                // response에는 API 응답 결과가 반환됨
+                if (response?.toString()?.toInt() == 1) {
+                    danger = 1
+                } else {
+                    danger = 0
+                }
+
+                // Voice의 각 필드에 넣기
+                val voice = Voice(
+                    content = content,
+                    recording_date = timeStamp,
+                    danger = danger,
+                    // 우선 디폴트 값으로
+                    check = 0,
+                    in_need = 0,
+                    user_id = 1,
+                    voice_id = 1
+                )
+
+                database = FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Voice") //Voice 테이블에 접근
+                database.child(timeStamp).setValue(voice)   // 데이터가 계속 쌓이도록(timeStamp가 참조 꼬리로 쌓이도록)
+                    //업로드 성공했는지 확인해보려고
+                    .addOnSuccessListener {
+                        Log.d("Firebase", "데이터 업로드 성공")
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.e("Firebase", "데이터 업로드 실패: ${exception.message}", exception)
+                    }
+
                 // 녹음이 종료 & 홈으로 이동
                 speechRecognizer?.stopListening()
                 val intent = Intent(applicationContext, ElderActivity::class.java)
                 startActivity(intent)
-
             }
 
+
         }
+
+
         override fun onPartialResults(partialResults: Bundle?) {}
 
         override fun onEvent(eventType: Int, params: Bundle?) {}

@@ -38,7 +38,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
             android:paddingBottom="50dp">
 
             <CalendarView
@@ -53,6 +52,7 @@
                 style="@style/Text.Title4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:fontFamily="@font/pretendard_semi_bold"
                 android:text="1일 (수)"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +62,7 @@
                 android:id="@+id/v_line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="14dp"
                 android:background="@color/green"
                 app:layout_constraintTop_toBottomOf="@+id/tv_today_date" />
@@ -70,6 +71,7 @@
                 android:id="@+id/rv_today_schedule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="6dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/v_line"
@@ -80,6 +82,7 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_schedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"

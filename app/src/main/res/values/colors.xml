@@ -30,4 +30,8 @@
     <color name="gray_700">#818181</color>
     <color name="gray_900">#3C3C3C</color>
 
+    <!-- red color-->
+    <color name="red">#FF1A1A</color>
+
+
 </resources>

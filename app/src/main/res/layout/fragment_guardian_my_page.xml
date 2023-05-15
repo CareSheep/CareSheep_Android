@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.guardian.GuardianMyPageFragment">
+    tools:context=".ui.guardian.mypage.GuardianMyPageFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_top"
@@ -16,7 +16,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_app_name"
-            style="@style/Text.Title1"
+            style="@style/Text.Title3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -40,82 +40,117 @@
             android:layout_height="wrap_content"
             android:paddingBottom="50dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_user_name"
-                style="@style/Text.Title3"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_top"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="14dp"
-                android:text="김소융님"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@drawable/rectangle_green_top_radius_20"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_user_gmail"
-                style="@style/Text.Body2"
-                android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_user_name"
+                    style="@style/Text.Title4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:text="김소융님"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_user_gmail"
+                    style="@style/Text.Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="swu2023@gmail.com"
+                    android:textColor="@color/gray_200"
+                    app:layout_constraintStart_toStartOf="@+id/tv_user_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginVertical="18dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/img_logo_white_background"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_middle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="swu2023@gmail.com"
-                android:textColor="@color/gray_700"
-                app:layout_constraintStart_toStartOf="@+id/tv_user_name"
-                app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/rectangle_green_transp_88_bottom_radius_20"
+                app:layout_constraintTop_toBottomOf="@+id/cl_top">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_elder_connected_info"
-                style="@style/Text.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/rectangle_gray400_radius_20"
-                android:paddingHorizontal="16dp"
-                android:text="어르신 연결 안 됨"
-                app:layout_constraintStart_toStartOf="@+id/tv_user_gmail"
-                app:layout_constraintTop_toBottomOf="@+id/tv_user_gmail" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_elder_connected_info"
+                    style="@style/Text.Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:drawableStart="@drawable/ic_connect_info"
+                    android:drawablePadding="6dp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="19dp"
+                    android:text="어르신 연결 안 됨"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="95dp"
-                android:layout_height="95dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/img_logo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_user_name" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/v_gray"
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:layout_marginTop="36dp"
+                android:background="@color/gray_200"
+                app:layout_constraintTop_toBottomOf="@+id/cl_middle" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_elder"
-                style="@style/Text.Title3"
+                style="@style/Text.Title4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/pretendard_bold"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="16dp"
+                android:paddingVertical="18dp"
                 android:text="@string/elder"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_elder_connected_info" />
+                app:layout_constraintTop_toBottomOf="@+id/v_gray" />
 
             <View
                 android:id="@+id/v_first"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_500"
+                android:background="@color/gray_400"
                 app:layout_constraintTop_toBottomOf="@+id/tv_elder" />
 
             <android.widget.Button
                 android:id="@+id/btn_elder_routine_info"
-                style="@style/Text.Body1"
+                style="@style/Text.Body2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:drawableLeft="@drawable/baseline_info_24"
-                android:drawableRight="@drawable/ic_arrow_right"
-                android:drawablePadding="10dp"
+                android:drawableStart="@drawable/ic_circle_info"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:drawablePadding="12dp"
                 android:gravity="start|center_vertical"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="16dp"
+                android:paddingVertical="13dp"
                 android:text="@string/guardian_my_page_routine_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -125,21 +160,21 @@
                 android:id="@+id/v_middle"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_500"
+                android:background="@color/gray_400"
                 app:layout_constraintTop_toBottomOf="@+id/btn_elder_routine_info" />
 
             <android.widget.Button
                 android:id="@+id/btn_connect_elder"
-                style="@style/Text.Body1"
+                style="@style/Text.Body2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:drawableLeft="@drawable/baseline_elderly_24"
-                android:drawableRight="@drawable/ic_arrow_right"
-                android:drawablePadding="10dp"
+                android:drawableStart="@drawable/ic_circle_connect"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:drawablePadding="12dp"
                 android:gravity="start|center_vertical"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="16dp"
+                android:paddingVertical="13dp"
                 android:text="@string/guardian_my_page_connect_elder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -148,7 +183,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_500"
+                android:background="@color/gray_400"
                 app:layout_constraintTop_toBottomOf="@+id/btn_connect_elder" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
