@@ -7,7 +7,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.swu.caresheep.R
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_name.medicine_next2_button
-import kotlinx.android.synthetic.main.fragment_guardian_set_medicine_name.editText
+import kotlinx.android.synthetic.main.activity_guardian_set_medicine_name.editText
 
 class GuardianSetMedicineNameActivity : AppCompatActivity() {
 
