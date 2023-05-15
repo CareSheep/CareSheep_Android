@@ -27,7 +27,7 @@
             android:name=".ui.guardian.mypage.GuardianConnectActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.mypage.GuardianEditRoutineActivity"
+            android:name=".ui.guardian.mypage.GuardianElderRoutineActivity"
             android:exported="false" />
         <activity
             android:name=".ui.guardian.GuardianVoiceDetailActivity"

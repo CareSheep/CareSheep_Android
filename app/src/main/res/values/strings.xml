@@ -11,7 +11,6 @@
 
     <string name="dialog_check">확인</string>
 
-
     <!-- Start -->
     <string name="start_look_around">둘러보기</string>
     <string name="start_app_intro">당신과 가족을 위한 \n맞춤형 일상 케어</string>
@@ -56,6 +55,22 @@
     <string name="guardian_mypage_connect_way_info_title">연결 방법</string>
     <string name="guardian_mypage_connect_way_info_detail">1. 어르신 앱 실행\n2. 어르신 앱 메인 화면 우측 상단 연결 버튼 클릭\n3. 버튼 클릭 시 나타나는 사용자 코드 입력</string>
 
+    <!-- Guardian - MyPage - 어르신 루틴 설정 -->
+    <string name="walk">걷기</string>
+    <string name="edit">수정하기</string>
+    <string name="walk_goal">목표 걸음 수:</string>
+    <string name="meal">식사</string>
+    <string name="morning">아침</string>
+    <string name="lunch">점심</string>
+    <string name="dinner">저녁</string>
+    <string name="take_medicine">복약</string>
+    <string name="red_medicine">빨강</string>
+    <string name="yellow_medicine">노랑</string>
+    <string name="green_medicine">초록</string>
+    <string name="blue_medicine">파랑</string>
+    <string name="purple_medicine">보라</string>
+    <string name="brown_medicine">갈색</string>
+    <string name="black_medicine">검정</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

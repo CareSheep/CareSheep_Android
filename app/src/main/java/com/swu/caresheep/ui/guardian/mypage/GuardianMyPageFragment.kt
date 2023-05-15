@@ -28,6 +28,12 @@ class GuardianMyPageFragment : Fragment() {
     ): View {
         binding = FragmentGuardianMyPageBinding.inflate(inflater, container, false)
 
+        // 어르신 루틴 정보 버튼 클릭 시
+        binding.btnElderRoutineInfo.setOnClickListener {
+            val intent = Intent(requireContext(), GuardianElderRoutineActivity::class.java)
+            startActivity(intent)
+        }
+
         // 어르신 연결하기 버튼 클릭 시
         binding.btnConnectElder.setOnClickListener {
             val intent = Intent(requireContext(), GuardianConnectActivity::class.java)
