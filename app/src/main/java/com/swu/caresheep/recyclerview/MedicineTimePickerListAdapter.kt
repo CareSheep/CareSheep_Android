@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.caresheep.MedicineTime
 import com.swu.caresheep.R
-import com.swu.caresheep.ui.guardian.GuardianSetMedicineTimeFragment
 
 abstract class MedicineTimePickerListAdapter(private val context: Context)
     : RecyclerView.Adapter<MedicineTimePickerListAdapter.ViewHolder>(){
