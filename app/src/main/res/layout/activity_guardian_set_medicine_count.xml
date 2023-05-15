@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".ui.guardian.GuardianSetMedicineCountActivity">
 
     <TextView
         android:id="@+id/textView4"
@@ -47,35 +47,40 @@
         android:layout_height="150dp"
         android:layout_marginBottom="64dp"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/button">
+        app:layout_constraintBottom_toTopOf="@+id/medicine_next4_button">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/minus_button"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
             android:background="@drawable/rectangle_white_border_olive_radius_30"
             android:text="-"
+            android:textColor="#ABC270"
             android:textSize="45dp" />
 
         <TextView
+            android:id="@+id/count_text"
             android:layout_width="120dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="3"
+            android:text="0"
             android:textSize="40dp" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/plus_button"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
             android:background="@drawable/rectangle_white_border_olive_radius_30"
+            android:textColor="#ABC270"
             android:text="+"
             android:textSize="30dp" />
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/medicine_next4_button"
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -87,6 +92,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

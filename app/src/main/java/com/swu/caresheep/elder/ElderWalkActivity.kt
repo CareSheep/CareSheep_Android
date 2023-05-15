@@ -23,31 +23,6 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_elder_walk.stopButton
 import kotlinx.android.synthetic.main.activity_elder_walk.walktimeTV
 import kotlin.math.roundToInt
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -76,7 +51,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
     var goalSteps = 0
 
     // 결과
-    var result = 0
+    var result1 = 0
 
     val walk = hashMapOf(
         "done" to "Los Angeles",
@@ -90,16 +65,6 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_elder_walk)
-
-        // 프로그래스바
-        findViewById<ComposeView>(R.id.composeView).setContent {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ){
-                CircularProgressBar(percentage = 0.8f, number = 100)
-            }
-        }
 
         val stepCountView = findViewById<TextView>(R.id.stepCountView)
         //val resetButton = findViewById<Button>(R.id.resetButton)
@@ -139,7 +104,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
         stopButton.setOnClickListener(View.OnClickListener{
             stopTimer()
             if(goalSteps < currentSteps){
-                result = 1
+                result1 = 1
             }
 
         })
@@ -232,54 +197,4 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun makeTimeString(hour: Int, min: Int, sec: Int): String = String.format("%02d:%02d:%02d", hour, min, sec)
-
-    // 프로그래스바
-    @Composable
-    fun CircularProgressBar(
-        percentage:Float,
-        number:Int,
-        fontSize: TextUnit = 28.sp,
-        radius: Dp = 100.dp,
-        color : Color = Color.Green,
-        animDuration: Int = 1000,
-        animDelay : Int = 0
-    ){
-        var animationPlayed by remember{
-            mutableStateOf(false)
-        }
-
-        val Of = 0.0f
-        val curPercentage = animateFloatAsState(
-            targetValue = if(animationPlayed) percentage else Of,
-            animationSpec = tween(
-                durationMillis = animDuration,
-                delayMillis = animDelay
-            )
-        )
-
-        LaunchedEffect(key1 = true){
-            animationPlayed = true
-        }
-
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.size(radius * 2f)
-        ){
-            Canvas(modifier = Modifier.size(radius*2f)){
-                drawArc(
-                    color = color,
-                    -90f,
-                    360 * curPercentage.value,
-                    useCenter = false,
-                    style = Stroke(cap = StrokeCap.Round, width = 25f)
-                )
-            }
-            Text(
-                text = (curPercentage.value*number).toInt().toString(),
-                color = Color.Black,
-                fontSize = fontSize,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
 }

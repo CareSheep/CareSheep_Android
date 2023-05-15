@@ -23,13 +23,38 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.guardian.GuardianStartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.GuardianSetMedicineCountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.GuardianSetMedicineSingledoseActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.guardian.GuardianSetMedicineNameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.GuardianSetMedicineColorActivity"
+            android:exported="true">
+
+
+        </activity>
+        <activity
+            android:name=".ui.guardian.GuardianSetBreakfastTimeActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.guardian.GuardianVoiceDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.start.SplashActivity"
             android:exported="true">
+
              <intent-filter>
              <action android:name="android.intent.action.MAIN" />
+
+
              <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
         </activity>
@@ -84,11 +109,13 @@
         <activity
             android:name=".recyclerview.RecycleMainRecordActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".MainActivity"
