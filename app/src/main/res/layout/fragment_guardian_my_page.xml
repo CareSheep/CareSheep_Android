@@ -62,6 +62,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:src="@drawable/ic_edit"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_user_name"
+                    app:layout_constraintStart_toEndOf="@+id/tv_user_name"
+                    app:layout_constraintTop_toTopOf="@+id/tv_user_name" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_user_gmail"
                     style="@style/Text.Body2"

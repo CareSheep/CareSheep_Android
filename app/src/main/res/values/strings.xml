@@ -8,6 +8,8 @@
     <string name="pedometer">만보기 측정</string>
     <string name="user_code">사용자 코드</string>
     <string name="connect">연결하기</string>
+    <string name="cancel">취소</string>
+    <string name="quit">나가기</string>
 
     <string name="dialog_check">확인</string>
 
@@ -50,10 +52,12 @@
     <!-- Guardian - MyPage -->
     <string name="guardian_my_page_routine_info">어르신 루틴 정보</string>
     <string name="guardian_my_page_connect_elder">어르신 연결하기</string>
-    <string name="guardian_mypage_connect_title">사용자 코드를 \n입력하세요</string>
-    <string name="guardian_mypage_connect_sub_title">어르신과의 연동을 위해 필요합니다.</string>
-    <string name="guardian_mypage_connect_way_info_title">연결 방법</string>
-    <string name="guardian_mypage_connect_way_info_detail">1. 어르신 앱 실행\n2. 어르신 앱 메인 화면 우측 상단 연결 버튼 클릭\n3. 버튼 클릭 시 나타나는 사용자 코드 입력</string>
+    <string name="guardian_my_page_connect_title">사용자 코드를 \n입력하세요</string>
+    <string name="guardian_my_page_connect_sub_title">어르신과의 연동을 위해 필요합니다.</string>
+    <string name="guardian_my_page_connect_way_info_title">연결 방법</string>
+    <string name="guardian_my_page_connect_way_info_detail">1. 어르신 앱 실행\n2. 어르신 앱 메인 화면 우측 상단 연결 버튼 클릭\n3. 버튼 클릭 시 나타나는 사용자 코드 입력</string>
+    <string name="guardian_my_page_connect_elder_caption">아래 버튼을 통해 연결 또는 취소를 진행하세요</string>
+    <string name="guardian_my_page_connect_not_exist_message">해당 사용자 코드를 가진 \n어르신이 없습니다</string>
 
     <!-- Guardian - MyPage - 어르신 루틴 설정 -->
     <string name="walk">걷기</string>
@@ -71,6 +75,7 @@
     <string name="purple_medicine">보라</string>
     <string name="brown_medicine">갈색</string>
     <string name="black_medicine">검정</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
