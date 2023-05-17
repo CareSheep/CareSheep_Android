@@ -33,6 +33,11 @@ class GuardianConnectActivity : AppCompatActivity() {
 
         overridePendingTransition(R.anim.slide_in_right, R.anim.none)
 
+        // 뒤로 가기
+        binding.ivBack.setOnClickListener {
+            this.onBackPressed()
+        }
+
         binding.etUserCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 binding.btnConnect.isEnabled = false
@@ -79,6 +84,10 @@ class GuardianConnectActivity : AppCompatActivity() {
                         connectElder(code)
                         this.onBackPressed()
                         Toast.makeText(this, "어르신 연결에 성공했습니다.", Toast.LENGTH_SHORT).show()
+
+                        // 만약 연결된 어르신의 루틴이 설정되어 있지 않다면(null이라면), 루틴 설정으로 이동
+
+
                     }
 
                     verticalDialog.bottomBtnClickListener {

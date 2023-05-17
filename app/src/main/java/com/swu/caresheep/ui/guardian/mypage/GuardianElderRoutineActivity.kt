@@ -15,6 +15,12 @@ class GuardianElderRoutineActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         overridePendingTransition(R.anim.slide_in_right, R.anim.none)
+
+        // 뒤로 가기
+        binding.ivBack.setOnClickListener {
+            this.onBackPressed()
+        }
+
     }
 
     override fun onBackPressed() {
