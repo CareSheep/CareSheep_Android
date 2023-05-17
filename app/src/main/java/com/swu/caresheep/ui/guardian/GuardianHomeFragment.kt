@@ -28,6 +28,19 @@ class GuardianHomeFragment : Fragment() {
             binding.layoutSwipeRefresh.isEnabled = (binding.layoutScroll.scrollY == 0)
         }
 
+        // TDL
+        // 오늘의 일정 없으면 텍스트, 이미지 visible
+
+        // 오늘의 일정 있으면 RV visible
+
+        binding.clAnalysisResult.setOnClickListener {
+            // 리포트 확인 화면으로 이동
+        }
+
+        binding.clVoiceMailbox.setOnClickListener {
+            // 음성 사서함 목록 화면으로 이동
+        }
+
         return binding.root
     }
 
