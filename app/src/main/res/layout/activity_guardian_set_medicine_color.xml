@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ElderWalk">
+    tools:context=".ui.guardian.GuardianSetMedicineColorActivity">
 
     <TextView
         android:id="@+id/textView2"
@@ -40,7 +39,7 @@
         android:layout_marginBottom="64dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/appCompatButton3"
+        app:layout_constraintBottom_toTopOf="@+id/medicine_next1_button"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <LinearLayout
@@ -53,23 +52,33 @@
                 android:id="@+id/redMedicine"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/solid_button" />
+                android:backgroundTint="#FF0000"
+                android:paddingRight="16dp"
+                android:background="@drawable/medicine_round_image" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/yellowMedicine"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/solid_button" />
+                android:backgroundTint="#FFE81A"
+                android:paddingRight="16dp"
+                android:background="@drawable/medicine_round_image" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/greenMedicine"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/solid_button" />
+                android:backgroundTint="#3AE80E"
+                android:paddingRight="16dp"
+                android:background="@drawable/medicine_round_image" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/blueMedicine"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/solid_button" />
+                android:backgroundTint="#0037FC"
+                android:paddingRight="16dp"
+                android:background="@drawable/medicine_round_image" />
         </LinearLayout>
 
         <LinearLayout
@@ -80,25 +89,34 @@
             android:paddingTop="16dp">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/purpleMedicine"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/solid_button" />
+                android:backgroundTint="#7F2DE7"
+                android:paddingRight="16dp"
+                android:background="@drawable/medicine_round_image" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/brownMedicine"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/solid_button" />
+                android:backgroundTint="#C0621E"
+                android:paddingRight="16dp"
+                android:background="@drawable/medicine_round_image" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/blackMedicine"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/solid_button" />
+                android:backgroundTint="#1D1D1D"
+                android:paddingRight="16dp"
+                android:background="@drawable/medicine_round_image" />
         </LinearLayout>
 
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/appCompatButton3"
+        android:id="@+id/medicine_next1_button"
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -110,6 +128,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
