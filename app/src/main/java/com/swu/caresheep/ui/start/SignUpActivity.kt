@@ -1,6 +1,5 @@
 package com.swu.caresheep.ui.start
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -9,9 +8,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivitySignUpBinding
-import com.swu.caresheep.ui.dialog.QuitDialog
-import com.swu.caresheep.ui.elder.main.ElderActivity
-import com.swu.caresheep.ui.guardian.GuardianActivity
+import com.swu.caresheep.ui.dialog.VerticalDialog
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -27,14 +24,23 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.ivBack.setOnClickListener {
             // 그만두기 다이얼로그 표시
-            val quitDialog = QuitDialog(this)
-            quitDialog.show(getString(R.string.sign_up_quit_title), getString(R.string.sign_up_quit_caption))
+            val verticalDialog = VerticalDialog(this)
+            verticalDialog.show(
+                getString(R.string.sign_up_quit_title),
+                getString(R.string.sign_up_quit_caption),
+                getString(R.string.sign_up_continue),
+                getString(R.string.quit)
+            )
 
-            quitDialog.btnClickListener {
+            verticalDialog.topBtnClickListener {
                 // 구글 로그아웃
                 logout()
                 this.onBackPressed()
             }
+
+            verticalDialog.bottomBtnClickListener {
+            }
+
         }
     }
 

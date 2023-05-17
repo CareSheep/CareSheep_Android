@@ -28,6 +28,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.guardian.mypage.GuardianConnectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.mypage.GuardianElderRoutineActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.guardian.GuardianSetWalkStepActivity"
             android:exported="false" />
         <activity
@@ -58,10 +64,11 @@
         <activity
             android:name=".ui.start.SplashActivity"
             android:exported="true">
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.elder.main.ElderActivity"
@@ -90,8 +97,7 @@
         <activity
             android:name=".elder.ElderMedicineFirstActivity"
             android:exported="true"
-            android:enabled="true"
-            />
+            android:enabled="true" />
 
         <receiver
             android:name=".elder.AlarmReceiver"
@@ -125,21 +131,15 @@
             android:exported="false" />
         <activity
             android:name=".recyclerview.RecycleMainRecordActivity"
-            android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true" >
-                <intent-filter>
-                    <action android:name="android.intent.action.MAIN" />
+<!--                 <intent-filter> -->
+<!--                     <action android:name="android.intent.action.MAIN" /> -->
 
-                    <category android:name="android.intent.category.LAUNCHER" />
-                </intent-filter>
+<!--                     <category android:name="android.intent.category.LAUNCHER" /> -->
+<!--                 </intent-filter> -->
         </activity>
 
     </application>

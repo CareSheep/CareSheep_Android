@@ -7,7 +7,7 @@
     android:paddingBottom="26dp">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_quit_title"
+        android:id="@+id/tv_vertical_title"
         style="@style/Text.Dialog.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_quit_caption"
+        android:id="@+id/tv_vertical_caption"
         style="@style/Text.Body3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         android:textColor="@color/gray_700"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_quit_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_vertical_title" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_continue"
@@ -44,7 +44,7 @@
         android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_quit_caption" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_vertical_caption" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_quit"

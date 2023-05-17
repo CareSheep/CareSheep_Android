@@ -70,7 +70,7 @@ class StartActivity : AppCompatActivity() {
 
     private fun handleSignInResult(account: GoogleSignInAccount) {
         try {
-            // 이미 회원일 겨우
+            // 이미 회원일 경우
             // gmail 가지고 와서 DB에서 어르신인지, 보호자인지 확인
             val gmail = account.email.toString()
 

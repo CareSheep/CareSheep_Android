@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.Guardian
 import com.swu.caresheep.R
 import com.swu.caresheep.User
@@ -95,7 +96,7 @@ class UserAgeFragment : Fragment() {
         // 저장 경로 설정
         val pathNode = if (userType == "elder") "Users" else "Guardian"
         val rootNode =
-            FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            FirebaseDatabase.getInstance(BuildConfig.DB_URL)
         val reference = rootNode.getReference(pathNode)
 
         // 사용자 유형에 따라 저장할 객체 달라짐
