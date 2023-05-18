@@ -56,6 +56,17 @@
     <string name="guardian_home_voice_mailbox_sub_title">새로운 메시지를 확인하세요</string>
     <string name="guardian_home_today_schedule_not_exist_message">아직 등록된 일정이 없습니다.</string>
 
+    <string name="sunday"><font color="#abc270">S</font></string>
+    <array name="weekdays_custom">
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+        <item>@string/sunday</item>
+    </array>
+
     <!-- Guardian - MyPage -->
     <string name="guardian_my_page_routine_info">어르신 루틴 정보</string>
     <string name="guardian_my_page_connect_elder">어르신 연결하기</string>

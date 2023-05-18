@@ -45,11 +45,11 @@ class GuardianCalendarFragment : Fragment() {
 
     // Google Calendar API에 접근하기 위해 사용되는 구글 캘린더 API 서비스 객체
     private var mService: com.google.api.services.calendar.Calendar? = null
+    var mCredential: GoogleAccountCredential? = null
 
     // Google Calendar API 호출 관련 메커니즘 및 AsyncTask을 재사용하기 위해 사용
     private var mID = 0
 
-    var mCredential: GoogleAccountCredential? = null
 
     companion object {
         const val REQUEST_ACCOUNT_PICKER = 1000
@@ -57,8 +57,8 @@ class GuardianCalendarFragment : Fragment() {
         const val REQUEST_GOOGLE_PLAY_SERVICES = 1002
         const val REQUEST_PERMISSION_GET_ACCOUNTS = 1003
 
-        private const val PREF_ACCOUNT_NAME = "accountName"
-        private val SCOPES = arrayOf(CalendarScopes.CALENDAR)
+        const val PREF_ACCOUNT_NAME = "accountName"
+        val SCOPES = arrayOf(CalendarScopes.CALENDAR)
     }
 
     override fun onCreateView(
@@ -115,7 +115,6 @@ class GuardianCalendarFragment : Fragment() {
         binding.fabAddSchedule.setOnClickListener {
 
         }
-
 
 
         // TDL
@@ -395,11 +394,10 @@ class GuardianCalendarFragment : Fragment() {
     ) :
         AsyncTask<Void?, Void?, List<GuardianSchedule>?>() {
         private var mLastError: Exception? = null
-        var eventStrings: MutableList<String?> = ArrayList()
 
         // 일정 데이터 리스트 선언
         var scheduleData = ArrayList<GuardianSchedule>()
-        val scheduleRVAdapter = GuardianScheduleRVAdapter(scheduleData)
+        var scheduleRVAdapter = GuardianScheduleRVAdapter(scheduleData)
 
         init {
             val transport: HttpTransport = AndroidHttp.newCompatibleTransport()
@@ -414,10 +412,10 @@ class GuardianCalendarFragment : Fragment() {
         }
 
         override fun onPreExecute() {
-            // mStatusText.setText("");
-//            mProgress.show()
+            binding.rvTodaySchedule.adapter = scheduleRVAdapter
+
+            binding.pbScheduleLoading.show()
 //            mStatusText.setText("데이터 가져오는 중...")
-//            mResultText.setText("")
         }
 
         /**
@@ -450,16 +448,6 @@ class GuardianCalendarFragment : Fragment() {
          */
         @Throws(IOException::class)
         private fun getEvent(selectedDate: java.util.Calendar?): List<GuardianSchedule>? {
-            // 오늘 날짜로부터 시작과 끝 시간을 계산
-//            val now = java.util.Calendar.getInstance()
-//            now.set(java.util.Calendar.HOUR_OF_DAY, 0)
-//            now.set(java.util.Calendar.MINUTE, 0)
-//            now.set(java.util.Calendar.SECOND, 0)
-//
-//            val nowEnd = java.util.Calendar.getInstance()
-//            nowEnd.set(java.util.Calendar.HOUR_OF_DAY, 23)
-//            nowEnd.set(java.util.Calendar.MINUTE, 59)
-//            nowEnd.set(java.util.Calendar.SECOND, 59)
 
             Log.e("[GetEvent 입장]selectedDate: ", selectedDate.toString())
 
@@ -499,32 +487,59 @@ class GuardianCalendarFragment : Fragment() {
             // CalendarView에 일정 표시
             val calendar = java.util.Calendar.getInstance()
             items.forEach { event ->
-                val eventTitle = event.summary
+                var eventTitle = event.summary
+                if (eventTitle.isNullOrEmpty()) {
+                    eventTitle = "(제목 없음)"
+                }
                 val eventLocation = event.location
                 val start = event.start.dateTime
                 val end = event.end.dateTime
+
+                var startTime = ""
+                var endTime = ""
                 if (start != null) {
-                    val date = Date(start.value)
-                    calendar.time = date
-                    val year = calendar.get(java.util.Calendar.YEAR)
+                    // 일정 시작 시간 계산
+                    val startDate = Date(start.value)
+
+                    // 한국 시간대로 설정
+                    val koreaTimeZone = TimeZone.getTimeZone("Asia/Seoul")
+                    calendar.timeZone = koreaTimeZone
+
+                    calendar.time = startDate
                     val month = calendar.get(java.util.Calendar.MONTH)
                     val day = calendar.get(java.util.Calendar.DAY_OF_MONTH)
-//                    binding.cvShared.dateTextAppearance = date.time.toInt()
-//                    binding.cvShared.setDate(date.time, true, true)
+
+                    val startHour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
+                    val startMinute = calendar.get(java.util.Calendar.MINUTE)
+                    val startAMPM = calendar.get(java.util.Calendar.AM_PM)
+
+                    val strStartMinute = if (startMinute / 10 == 0) "0$startMinute" else startMinute
+                    val strStartAMPM = if (startAMPM == 1) "오전"
+                    else "오후"
+                    val startHour12 =
+                        if (startHour == 0) 12 else if (startHour > 12) startHour - 12 else startHour
+
+                    startTime = "$strStartAMPM ${startHour12}:${strStartMinute}"
+
+                    // 일정 종료 시간 계산
+                    val endDate = Date(end.value)
+                    calendar.time = endDate
+                    val endHour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
+                    val endMinute = calendar.get(java.util.Calendar.MINUTE)
+                    val endAMPM = calendar.get(java.util.Calendar.AM_PM)
+
+                    val strEndMinute = if (endMinute / 10 == 0) "0$endMinute" else endMinute
+                    val strEndAMPM = if (endAMPM == 1) "오전"
+                    else "오후"
+                    val endHour12 =
+                        if (endHour == 0) 12 else if (endHour > 12) endHour - 12 else endHour
+
+                    endTime = "$strEndAMPM ${endHour12}:${strEndMinute}"
                 }
-                scheduleData.add(GuardianSchedule(start.toString(), end.toString(), eventTitle))
-                eventStrings.add(
-                    java.lang.String.format(
-                        "%s \n (%s)",
-                        event.summary,
-                        start
-                    )
-                )
+                scheduleData.add(GuardianSchedule(startTime, endTime, eventTitle))
             }
 
-            Log.e("calendar", scheduleData.size.toString() + "개의 데이터를 ㅋ.")
-
-            Log.e("calendar", eventStrings.size.toString() + "개의 데이터를 가져왔습니다.")
+            Log.e("calendar", scheduleData.size.toString() + "개의 데이터를 가져왔습니다.")
 
             return scheduleData
         }
@@ -536,13 +551,12 @@ class GuardianCalendarFragment : Fragment() {
         private fun createCalendar(selectedDate: java.util.Calendar?): List<GuardianSchedule>? {
             val ids: String? = getCalendarID("공유 캘린더")
             if (ids != null) {
-                Log.e("빵야", "빵야")
+                Log.e("공유 캘린더", "이미 캘린더가 생성되어 있습니다.")
                 return getEvent(selectedDate)
-//                return "이미 캘린더가 생성되어 있습니다."
             }
 
             // 새로운 캘린더 생성
-            val calendar: Calendar = Calendar()
+            val calendar = Calendar()
 
             // 캘린더의 제목 설정
             calendar.summary = "공유 캘린더"
@@ -589,21 +603,20 @@ class GuardianCalendarFragment : Fragment() {
         }
 
         override fun onPostExecute(result: List<GuardianSchedule>?) {
-            // RecyclerView 어댑터와 데이터 리스트를 갱신
             super.onPostExecute(result)
-//            Log.e("작동하나",result.toString())
 
             result?.let {
                 // RecyclerView 어댑터와 데이터 리스트 연결
-                val scheduleRVAdapter = GuardianScheduleRVAdapter(it as ArrayList<GuardianSchedule>)
+                scheduleRVAdapter = GuardianScheduleRVAdapter(it as ArrayList<GuardianSchedule>)
                 binding.rvTodaySchedule.adapter = scheduleRVAdapter
             }
-//            mProgress.hide()
+            binding.pbScheduleLoading.hide()
 //            if (mID == 3) mResultText.setText(TextUtils.join("\n\n", eventStrings))
         }
 
         override fun onCancelled() {
-//            mProgress.hide()
+            binding.pbScheduleLoading.hide()
+
             if (mLastError != null) {
                 when (mLastError) {
                     is GooglePlayServicesAvailabilityIOException -> {

@@ -1,13 +1,14 @@
-package com.swu.caresheep.ui.guardian.calendar
+package com.swu.caresheep.ui.guardian.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.swu.caresheep.databinding.ItemGuardianScheduleBinding
+import com.swu.caresheep.databinding.ItemGuardianTodayScheduleBinding
 import com.swu.caresheep.ui.elder.main.ElderMainSchedule
+import com.swu.caresheep.ui.guardian.calendar.GuardianSchedule
 
-class GuardianScheduleRVAdapter(private var scheduleList: ArrayList<GuardianSchedule>) :
-    RecyclerView.Adapter<GuardianScheduleRVAdapter.ViewHolder>() {
+class GuardianTodayScheduleRVAdapter(private var todayScheduleList: ArrayList<GuardianSchedule>) :
+    RecyclerView.Adapter<GuardianTodayScheduleRVAdapter.ViewHolder>() {
 
     interface MyItemClickListener {
         fun onItemClick(schedule: ElderMainSchedule)
@@ -21,9 +22,9 @@ class GuardianScheduleRVAdapter(private var scheduleList: ArrayList<GuardianSche
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
-    ): GuardianScheduleRVAdapter.ViewHolder {
-        val binding: ItemGuardianScheduleBinding =
-            ItemGuardianScheduleBinding.inflate(
+    ): GuardianTodayScheduleRVAdapter.ViewHolder {
+        val binding: ItemGuardianTodayScheduleBinding =
+            ItemGuardianTodayScheduleBinding.inflate(
                 LayoutInflater.from(viewGroup.context),
                 viewGroup,
                 false
@@ -33,11 +34,11 @@ class GuardianScheduleRVAdapter(private var scheduleList: ArrayList<GuardianSche
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(scheduleList[position])
+        holder.bind(todayScheduleList[position])
     }
 
     override fun getItemCount(): Int {
-        return scheduleList.size
+        return todayScheduleList.size
     }
 
 //    fun setData(items: ArrayList<GuardianSchedule>) {
@@ -46,14 +47,14 @@ class GuardianScheduleRVAdapter(private var scheduleList: ArrayList<GuardianSche
 //    }
 
     fun setData(list: ArrayList<GuardianSchedule>) {
-        this.scheduleList.clear()
+        this.todayScheduleList.clear()
         list.addAll(list)
     }
 
-    inner class ViewHolder(val binding: ItemGuardianScheduleBinding) :
+    inner class ViewHolder(val binding: ItemGuardianTodayScheduleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: GuardianSchedule) {
-            binding.tvScheduleTime.text = "${item.startTime} - ${item.endTime}"
+            "${item.startTime} - ${item.endTime}".also { binding.tvScheduleTime.text = it }
             binding.tvScheduleTitle.text = item.title
         }
     }

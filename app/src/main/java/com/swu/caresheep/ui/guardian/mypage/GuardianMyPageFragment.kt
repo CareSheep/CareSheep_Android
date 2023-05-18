@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.database.DataSnapshot
@@ -47,6 +48,12 @@ class GuardianMyPageFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         getGuardianInfo()
+
+        AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in).also { hyperspaceJumpAnimation ->
+            binding.tvUserName.startAnimation(hyperspaceJumpAnimation)
+            binding.tvUserGmail.startAnimation(hyperspaceJumpAnimation)
+            binding.btnElderConnectedInfo.startAnimation(hyperspaceJumpAnimation)
+        }
     }
 
     /**

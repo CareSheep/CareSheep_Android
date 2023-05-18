@@ -39,13 +39,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="50dp">
+            android:paddingBottom="40dp">
 
             <CalendarView
                 android:id="@+id/cv_shared"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:selectedWeekBackgroundColor="@color/green"
+                android:theme="@style/CalendarViewCustom"
+                android:weekDayTextAppearance="@style/CalendarViewWeekCustomText"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -58,6 +59,17 @@
                 android:text="1일 (수)"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_shared" />
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/pb_schedule_loading"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:indeterminateTint="@color/green"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_today_date" />
 
             <View
                 android:id="@+id/v_line"
@@ -74,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="6dp"
+                android:layoutAnimation="@anim/item_layout_animation"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/v_line"
                 tools:listitem="@layout/item_guardian_schedule" />
