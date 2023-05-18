@@ -24,7 +24,7 @@
         android:layout_marginTop="80dp"
         android:layout_gravity="center"
         android:background="@drawable/solid_button"
-        android:text="멈춤"
+        android:text="녹음중"
         android:textSize="60dp"/>
 
 </LinearLayout>

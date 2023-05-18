@@ -48,8 +48,8 @@ class GuardianSetMedicineTimeFragment : Fragment() {
         //시간 설정
         alarmCalendar = Calendar.getInstance()
         // 테스트 할 때 맞춰주세요
-        alarmCalendar.set(Calendar.HOUR_OF_DAY, 1)
-        alarmCalendar.set(Calendar.MINUTE, 24)
+        alarmCalendar.set(Calendar.HOUR_OF_DAY, 2)
+        alarmCalendar.set(Calendar.MINUTE, 26)
         alarmCalendar.set(Calendar.SECOND, 0)
 
 

@@ -3,17 +3,28 @@ package com.swu.caresheep.elder
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.PowerManager
 
 class AlarmReceiver : BroadcastReceiver() {
+    private lateinit var pm: PowerManager
+    private lateinit var wl: PowerManager.WakeLock
+
     companion object {
         const val ACTION_RESTART_SERVICE = "Restart"
     }
 
+
     override fun onReceive(context: Context, intent: Intent) {
+
         if (intent.action == ACTION_RESTART_SERVICE) {
+            pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+            wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "MyApp:AlarmTest")
+            wl.acquire(60 * 1000L /*1 minute*/)
+
             val inte = Intent(context, AlarmService::class.java)
             context.startService(inte)
         }
+        wl.release()
 
          //basic notification channel
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
