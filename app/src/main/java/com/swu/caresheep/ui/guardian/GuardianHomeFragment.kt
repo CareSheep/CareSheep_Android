@@ -5,17 +5,43 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.swu.caresheep.R
+import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
 
 class GuardianHomeFragment : Fragment() {
+
+    private lateinit var binding: FragmentGuardianHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentGuardianHomeBinding.inflate(inflater, container, false)
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_guardian_home, container, false)
+        // 당겨서 새로고침 기능 세팅
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+//            refreshData()
+        }
+
+        // 스크롤 업 대신에 리프레쉬 이벤트가 트리거 되는걸 방지하기 위해서
+        // scrollView의 scroll y축이 0, 즉 최상단에 위치했을 때만 refreshLayout을 활성화
+        binding.layoutScroll.viewTreeObserver.addOnScrollChangedListener {
+            binding.layoutSwipeRefresh.isEnabled = (binding.layoutScroll.scrollY == 0)
+        }
+
+        // TDL
+        // 오늘의 일정 없으면 텍스트, 이미지 visible
+
+        // 오늘의 일정 있으면 RV visible
+
+        binding.clAnalysisResult.setOnClickListener {
+            // 리포트 확인 화면으로 이동
+        }
+
+        binding.clVoiceMailbox.setOnClickListener {
+            // 음성 사서함 목록 화면으로 이동
+        }
+
+        return binding.root
     }
 
 }
