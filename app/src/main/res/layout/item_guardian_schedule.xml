@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="12dp">
+    android:layout_marginVertical="10dp">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_bar"
         android:layout_width="6dp"
         android:layout_height="0dp"
@@ -17,11 +17,14 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_schedule_title"
         style="@style/Text.Body2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:paddingTop="4dp"
         android:text="병원 가기"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_bar"
         app:layout_constraintTop_toTopOf="parent" />
 

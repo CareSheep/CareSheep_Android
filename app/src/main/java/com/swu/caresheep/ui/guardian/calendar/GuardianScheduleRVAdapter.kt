@@ -50,7 +50,7 @@ class GuardianScheduleRVAdapter(private var scheduleList: ArrayList<GuardianSche
         list.addAll(list)
     }
 
-inner class ViewHolder(val binding: ItemGuardianScheduleBinding) :
+    inner class ViewHolder(val binding: ItemGuardianScheduleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: GuardianSchedule) {
             binding.tvScheduleTime.text = "${item.startTime} - ${item.endTime}"

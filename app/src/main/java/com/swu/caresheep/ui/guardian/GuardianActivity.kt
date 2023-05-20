@@ -5,9 +5,12 @@ import android.os.Bundle
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityGuardianBinding
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment
+import com.swu.caresheep.ui.guardian.home.GuardianHomeFragment
 import com.swu.caresheep.ui.guardian.mypage.GuardianMyPageFragment
+import pub.devrel.easypermissions.EasyPermissions
 
-class GuardianActivity : AppCompatActivity() {
+
+class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
     private lateinit var binding: ActivityGuardianBinding
 
@@ -46,5 +49,17 @@ class GuardianActivity : AppCompatActivity() {
             }
             false
         }
+    }
+
+    /**
+     * EasyPermissions 라이브러리를 사용하여 요청한 권한을 사용자가 승인한 경우 호출된다
+     */
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+    }
+
+    /**
+     * EasyPermissions 라이브러리를 사용하여 요청한 권한을 사용자가 거부한 경우 호출된다
+     */
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
     }
 }

@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.guardian.mypage.GuardianElderRoutineActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_top"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text.Title4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/guardian_my_page_routine_info" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tb_top">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp">
+
+            <!-- 걷기 -->
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_walk"
+                style="@style/Text.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="@string/walk"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_edit_walk"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="22dp"
+                android:background="@drawable/rectangle_green_transp_20_radius_20"
+                android:fontFamily="@font/pretendard_bold"
+                android:minHeight="0dp"
+                android:paddingVertical="4dp"
+                android:text="@string/edit"
+                android:textColor="@color/olive"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_walk"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_walk" />
+
+            <View
+                android:id="@+id/v_first_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/gray_400"
+                app:layout_constraintTop_toBottomOf="@+id/btn_edit_walk" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_walk_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:src="@drawable/ic_circle_walk_goal"
+                app:layout_constraintStart_toStartOf="@+id/tv_walk"
+                app:layout_constraintTop_toBottomOf="@+id/v_first_line" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_walk_goal_title"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/walk_goal"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_walk_goal"
+                app:layout_constraintStart_toEndOf="@+id/iv_walk_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_walk_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_walk_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="20,000보"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_walk_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_walk_goal_title"
+                app:layout_constraintTop_toTopOf="@+id/iv_walk_goal" />
+
+            <View
+                android:id="@+id/v_first"
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/gray_200"
+                app:layout_constraintTop_toBottomOf="@+id/tv_walk_goal" />
+
+            <!-- 식사 -->
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_meal"
+                style="@style/Text.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="@string/meal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_first" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_edit_eat"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="22dp"
+                android:background="@drawable/rectangle_green_transp_20_radius_20"
+                android:fontFamily="@font/pretendard_bold"
+                android:minHeight="0dp"
+                android:paddingVertical="4dp"
+                android:text="@string/edit"
+                android:textColor="@color/olive"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_meal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_meal" />
+
+            <View
+                android:id="@+id/v_second_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/gray_400"
+                app:layout_constraintTop_toBottomOf="@+id/btn_edit_eat" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_breakfast_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:src="@drawable/ic_circle_morning"
+                app:layout_constraintStart_toStartOf="@+id/tv_meal"
+                app:layout_constraintTop_toBottomOf="@+id/v_second_line" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_breakfast_title"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/morning"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_breakfast_goal"
+                app:layout_constraintStart_toEndOf="@+id/iv_breakfast_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_breakfast_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_breakfast_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="오전 8시"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_breakfast_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_breakfast_title"
+                app:layout_constraintTop_toTopOf="@+id/iv_breakfast_goal" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_lunch_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_circle_day"
+                app:layout_constraintStart_toStartOf="@+id/tv_meal"
+                app:layout_constraintTop_toBottomOf="@+id/iv_breakfast_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_lunch_title"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/lunch"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_lunch_goal"
+                app:layout_constraintStart_toEndOf="@+id/iv_lunch_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_lunch_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_lunch_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="오후 1시"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_lunch_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_lunch_title"
+                app:layout_constraintTop_toTopOf="@+id/iv_lunch_goal" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_dinner_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_circle_night"
+                app:layout_constraintStart_toStartOf="@+id/tv_meal"
+                app:layout_constraintTop_toBottomOf="@+id/iv_lunch_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_dinner_title"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/dinner"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_dinner_goal"
+                app:layout_constraintStart_toEndOf="@+id/iv_dinner_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_dinner_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_dinner_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="오후 6시"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_dinner_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_dinner_title"
+                app:layout_constraintTop_toTopOf="@+id/iv_dinner_goal" />
+
+            <View
+                android:id="@+id/v_middle"
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:layout_marginTop="22dp"
+                android:background="@color/gray_200"
+                app:layout_constraintTop_toBottomOf="@+id/iv_dinner_goal" />
+
+            <!-- 복약 -->
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_medicine"
+                style="@style/Text.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="@string/take_medicine"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_middle" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_edit_medicine"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="22dp"
+                android:background="@drawable/rectangle_green_transp_20_radius_20"
+                android:fontFamily="@font/pretendard_bold"
+                android:minHeight="0dp"
+                android:paddingVertical="4dp"
+                android:text="@string/edit"
+                android:textColor="@color/olive"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_medicine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_medicine" />
+
+            <View
+                android:id="@+id/v_last_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/gray_400"
+                app:layout_constraintTop_toBottomOf="@+id/btn_edit_medicine" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_red_medicine_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:src="@drawable/ic_circle_red_medicine"
+                app:layout_constraintStart_toStartOf="@+id/tv_meal"
+                app:layout_constraintTop_toBottomOf="@+id/v_last_line" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_red_medicine_title"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/red_medicine"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_red_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/iv_red_medicine_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_red_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_red_medicine_time_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="오후 6시"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_red_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_red_medicine_title"
+                app:layout_constraintTop_toTopOf="@+id/iv_red_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_red_medicine_count_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="2회"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_red_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_red_medicine_time_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_red_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_yellow_medicine_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_circle_yellow_medicine"
+                app:layout_constraintStart_toStartOf="@+id/tv_meal"
+                app:layout_constraintTop_toBottomOf="@+id/iv_red_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_yellow_medicine_title"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/yellow_medicine"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_yellow_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/iv_yellow_medicine_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_yellow_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_yellow_medicine_time_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="오후 6시"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_yellow_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_yellow_medicine_title"
+                app:layout_constraintTop_toTopOf="@+id/iv_yellow_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_yellow_medicine_count_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="2회"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_yellow_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_yellow_medicine_time_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_yellow_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_green_medicine_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_circle_green_medicine"
+                app:layout_constraintStart_toStartOf="@+id/tv_meal"
+                app:layout_constraintTop_toBottomOf="@+id/iv_yellow_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_green_medicine_title"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/green_medicine"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_green_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/iv_green_medicine_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_green_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_green_medicine_time_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="오후 6시"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_green_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_green_medicine_title"
+                app:layout_constraintTop_toTopOf="@+id/iv_green_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_green_medicine_count_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="2회"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_green_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_green_medicine_time_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_green_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_blue_medicine_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_circle_blue_medicine"
+                app:layout_constraintStart_toStartOf="@+id/tv_meal"
+                app:layout_constraintTop_toBottomOf="@+id/iv_green_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_blue_medicine_title"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/blue_medicine"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_blue_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/iv_blue_medicine_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_blue_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_blue_medicine_time_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="오후 6시"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_blue_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_blue_medicine_title"
+                app:layout_constraintTop_toTopOf="@+id/iv_blue_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_blue_medicine_count_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="2회"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_blue_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_blue_medicine_time_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_blue_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_purple_medicine_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_circle_purple_medicine"
+                app:layout_constraintStart_toStartOf="@+id/tv_meal"
+                app:layout_constraintTop_toBottomOf="@+id/iv_blue_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_purple_medicine_title"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/purple_medicine"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_purple_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/iv_purple_medicine_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_purple_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_purple_medicine_time_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="오후 6시"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_purple_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_purple_medicine_title"
+                app:layout_constraintTop_toTopOf="@+id/iv_purple_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_purple_medicine_count_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="2회"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_purple_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_purple_medicine_time_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_purple_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_brown_medicine_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_circle_brown_medicine"
+                app:layout_constraintStart_toStartOf="@+id/tv_meal"
+                app:layout_constraintTop_toBottomOf="@+id/iv_purple_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_brown_medicine_title"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/brown_medicine"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_brown_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/iv_brown_medicine_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_brown_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_brown_medicine_time_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="오후 6시"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_brown_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_brown_medicine_title"
+                app:layout_constraintTop_toTopOf="@+id/iv_brown_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_brown_medicine_count_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="2회"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_brown_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_brown_medicine_time_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_brown_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_black_medicine_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_circle_black_medicine"
+                app:layout_constraintStart_toStartOf="@+id/tv_meal"
+                app:layout_constraintTop_toBottomOf="@+id/iv_brown_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_black_medicine_title"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/black_medicine"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_black_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/iv_black_medicine_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_black_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_black_medicine_time_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="오후 6시"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_black_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_black_medicine_title"
+                app:layout_constraintTop_toTopOf="@+id/iv_black_medicine_goal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_black_medicine_count_goal"
+                style="@style/Text.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="2회"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_black_medicine_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_black_medicine_time_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_black_medicine_goal" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
