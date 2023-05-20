@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.guardian.GuardianHomeFragment">
+    tools:context=".ui.guardian.home.GuardianHomeFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_top"
@@ -190,8 +190,9 @@
                         android:id="@+id/rv_today_schedule"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingVertical="12dp"
                         android:layoutAnimation="@anim/item_layout_animation"
+                        android:overScrollMode="never"
+                        android:paddingVertical="12dp"
                         android:visibility="invisible"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintTop_toTopOf="parent"
