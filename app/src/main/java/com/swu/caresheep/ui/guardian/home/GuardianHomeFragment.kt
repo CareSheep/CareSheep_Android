@@ -1,4 +1,4 @@
-package com.swu.caresheep.ui.guardian
+package com.swu.caresheep.ui.guardian.home
 
 import android.Manifest
 import android.accounts.AccountManager
@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.api.client.extensions.android.http.AndroidHttp
@@ -27,12 +28,14 @@ import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.client.util.DateTime
 import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.calendar.model.*
+import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
 import com.swu.caresheep.recyclerview.RecycleMainRecordActivity
+import com.swu.caresheep.ui.guardian.GuardianActivity
+import com.swu.caresheep.ui.guardian.GuardianElderReportActivity
 import com.swu.caresheep.ui.guardian.calendar.*
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.PREF_ACCOUNT_NAME
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
-import com.swu.caresheep.ui.guardian.home.GuardianTodayScheduleRVAdapter
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
@@ -447,20 +450,35 @@ class GuardianHomeFragment : Fragment() {
             super.onPostExecute(result)
 
             result?.let {
-                // RecyclerView 어댑터와 데이터 리스트 연결
-                val todayScheduleRVAdapter =
-                    GuardianTodayScheduleRVAdapter(it as ArrayList<GuardianSchedule>)
-                binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
+                if (result.isNotEmpty()) {
+                    // RecyclerView 어댑터와 데이터 리스트 연결
+                    val todayScheduleRVAdapter =
+                        GuardianTodayScheduleRVAdapter(it as ArrayList<GuardianSchedule>)
+                    binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
 
-                // 오늘의 일정 있으므로 RV 보이게 설정
-                binding.tvTodayScheduleNotExist.visibility = View.INVISIBLE
-                binding.ivTodayScheduleNotExist.visibility = View.INVISIBLE
-                binding.rvTodaySchedule.visibility = View.VISIBLE
+                    // 오늘의 일정 있으므로 RV 보이게 설정
+                    binding.tvTodayScheduleNotExist.visibility = View.INVISIBLE
+                    binding.ivTodayScheduleNotExist.visibility = View.INVISIBLE
+                    binding.rvTodaySchedule.visibility = View.VISIBLE
+                } else {
+                    // 오늘의 일정 없으므로 RV 안 보이게 설정
+                    binding.tvTodayScheduleNotExist.visibility = View.VISIBLE
+                    binding.ivTodayScheduleNotExist.visibility = View.VISIBLE
+                    binding.rvTodaySchedule.visibility = View.INVISIBLE
 
+
+                    val context = activity?.applicationContext
+                    val resources = context?.resources
+                    val animation = resources?.let { AnimationUtils.loadAnimation(context, R.anim.fade_in) }
+
+                    animation?.also { hyperspaceJumpAnimation ->
+                        binding.tvTodayScheduleNotExist.startAnimation(hyperspaceJumpAnimation)
+                        binding.ivTodayScheduleNotExist.startAnimation(hyperspaceJumpAnimation)
+                    }
+                }
             }
 
             binding.pbScheduleLoading.hide()
-//            if (mID == 3) mResultText.setText(TextUtils.join("\n\n", eventStrings))
         }
 
         override fun onCancelled() {

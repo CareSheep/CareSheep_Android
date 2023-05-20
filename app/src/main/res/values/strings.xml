@@ -10,6 +10,13 @@
     <string name="connect">연결하기</string>
     <string name="cancel">취소</string>
     <string name="quit">나가기</string>
+    <string name="schedule">일정</string>
+    <string name="schedule_title">제목</string>
+    <string name="schedule_time">시간</string>
+    <string name="schedule_all_day">종일</string>
+    <string name="start">시작</string>
+    <string name="end">종료</string>
+    <string name="save">저장</string>
 
     <string name="dialog_check">확인</string>
 

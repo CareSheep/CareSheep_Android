@@ -32,6 +32,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:overScrollMode="ifContentScrolls"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_top">
@@ -67,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
                 android:indeterminateTint="@color/green"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_today_date" />
@@ -87,6 +89,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="6dp"
                 android:layoutAnimation="@anim/item_layout_animation"
+                android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/v_line"
                 tools:listitem="@layout/item_guardian_schedule" />
@@ -101,6 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="16dp"
+        android:outlineProvider="none"
         android:scaleType="center"
         android:src="@drawable/ic_plus_20"
         app:backgroundTint="@color/green"

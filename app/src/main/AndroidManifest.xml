@@ -28,6 +28,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.guardian.calendar.GuardianAddScheduleActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.guardian.mypage.GuardianConnectActivity"
             android:exported="false" />
         <activity
@@ -57,7 +60,6 @@
         <activity
             android:name=".ui.guardian.GuardianSetBreakfastTimeActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.guardian.GuardianVoiceDetailActivity"
             android:exported="false" />
@@ -135,13 +137,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
-
     </application>
 
 </manifest>
