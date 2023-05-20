@@ -12,7 +12,7 @@ class GuardianStartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_guardian_start)
 
         startSettingButton.setOnClickListener {
-            startActivity(Intent(this, GuardianSetMedicineColorActivity::class.java))
+            startActivity(Intent(this, GuardianSetWalkTimeActivity::class.java))
         }
     }
 }

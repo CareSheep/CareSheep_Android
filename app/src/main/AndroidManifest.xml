@@ -28,6 +28,21 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".elder.ElderWalkDoneActivity"
+            android:exported="false" />
+        <activity
+            android:name=".elder.ElderWalkMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.GuardianStartSetMedicineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.GuardianSetDinnerTimeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.GuardianSetLunchTimeActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.guardian.calendar.GuardianAddScheduleActivity"
             android:exported="false" />
         <activity
@@ -59,16 +74,20 @@
             android:exported="true" />
         <activity
             android:name=".ui.guardian.GuardianSetBreakfastTimeActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.guardian.GuardianVoiceDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.start.SplashActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -77,7 +96,13 @@
             android:exported="true" />
         <activity
             android:name=".elder.ElderWalkActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.guardian.GuardianElderReportActivity"
             android:exported="true" />
@@ -113,6 +138,7 @@
 
         <activity
             android:name=".elder.ElderVoiceMainActivity"
+            android:exported="true">
             android:exported="true" >
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->

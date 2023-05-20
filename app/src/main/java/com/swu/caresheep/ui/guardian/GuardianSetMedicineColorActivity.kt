@@ -58,7 +58,7 @@ class GuardianSetMedicineColorActivity : AppCompatActivity() {
             )
 
             dbRef1 = FirebaseDatabase.getInstance().getReference("TakingMedicine")
-            dbRef1.push().setValue("2")
+            dbRef1.setValue("2")
 
             dbRef2 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("2")
             dbRef2.setValue(data)

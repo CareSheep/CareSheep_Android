@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.swu.caresheep.databinding.ActivityElderBinding
 import com.swu.caresheep.elder.ElderVoiceMainActivity
-import com.swu.caresheep.elder.ElderWalkActivity
+import com.swu.caresheep.elder.ElderWalkMainActivity
 
 class ElderActivity : AppCompatActivity() {
 
@@ -52,7 +52,7 @@ class ElderActivity : AppCompatActivity() {
 
         // 만보기 측정 버튼
         binding.btnWalk.setOnClickListener {
-            val intent = Intent(this, ElderWalkActivity::class.java)
+            val intent = Intent(this, ElderWalkMainActivity::class.java)
             startActivity(intent)
         }
     }
