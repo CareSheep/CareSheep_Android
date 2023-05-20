@@ -22,12 +22,7 @@ class GuardianSetMedicineNameActivity : AppCompatActivity() {
 
         medicine_next2_button.setOnClickListener {
             val data = hashMapOf(
-                //"color" to color,
-                //"count" to 0,
                 "medicine_name" to medicine_name,
-                //"single_dose" to 0,
-                //"time" to "",
-                //"user_id" to 1,
             )
 
             dbRef = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("2")

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TimePicker
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -14,11 +15,9 @@ import java.util.Objects
 
 class GuardianSetBreakfastTimeActivity : AppCompatActivity() {
 
-    private lateinit var dbRef1: DatabaseReference
-    private lateinit var dbRef2: DatabaseReference
+    private lateinit var dbRef: DatabaseReference
 
     private lateinit var picker: TimePicker
-    private lateinit var childUpdates : HashMap<String, Objects>
 
     var timehour: Int = 0
     var timeminute: Int = 0
@@ -34,24 +33,19 @@ class GuardianSetBreakfastTimeActivity : AppCompatActivity() {
             //timepicker에서 시간 가져오는 함수
             pushTime()
 
-            // 데이터베이스에 데이터 삽입
-            val data = hashMapOf(
-                "breakfast" to "",
-                "dinner" to "",
-                "id" to "",
-                "lunch" to "",
-                "walk" to ""
-            )
+            dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("test")
 
-            dbRef1 = FirebaseDatabase.getInstance().getReference("UsersRoutine")
-            dbRef1.push().setValue("2")
+            val updatedData = HashMap<String, Any>()
+            updatedData["breakfast"] = result
 
-            dbRef2 = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("2")
-            dbRef2.setValue(data)
+            dbRef.updateChildren(updatedData).addOnSuccessListener(){
+                println("Data updated successfully")
+            }.addOnFailureListener {
+                println("Error updating data: $it")
+            }
 
             // 다음 액티비티 이동
-            startActivity(Intent(this, GuardianSetMedicineNameActivity::class.java))
-
+            startActivity(Intent(this, GuardianSetLunchTimeActivity::class.java))
 
         }
     }
@@ -59,8 +53,6 @@ class GuardianSetBreakfastTimeActivity : AppCompatActivity() {
     private fun pushTime() {
         picker = timePicker3
         // picker.is24HourView = true
-
-
 
         if (Build.VERSION.SDK_INT >= 23) {
             timehour = picker.hour
@@ -78,10 +70,8 @@ class GuardianSetBreakfastTimeActivity : AppCompatActivity() {
         }
 
         result = "$timehour:$timeminute"
-
-//        childUpdates.put("/User_info/" + ID, userValue)
-//        dbRef.updateChildren(childUpdates)
-//        dbRef.push().setValue()
+        // print(result)
+        Log.d("T",result)
 
     }
 }

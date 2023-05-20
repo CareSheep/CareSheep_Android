@@ -15,7 +15,6 @@ import android.hardware.SensorEvent
 import android.hardware.SensorManager
 import android.os.Build
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -28,18 +27,19 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.ui.elder.main.ElderActivity
 import kotlinx.android.synthetic.main.activity_elder_walk.goal_walk
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.lunch_check
-
 
 class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
 
     private lateinit var dbRef: DatabaseReference
 
-    var sensorManager: SensorManager? = null
+    lateinit var sensorManager: SensorManager
     var stepCountSensor: Sensor? = null
-    var stepCountView: TextView? = null
+    lateinit var stepCountView: TextView
     //var resetButton: Button? = null
+
     private lateinit var serviceIntent: Intent
     private var timerStarted = false
     private var time = 0.0
@@ -49,6 +49,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
 
     // 목표 걸음 수
     var goalSteps = 0
+    var goalWalk_value1 = 0
 
     // 결과
     var result1 = 0
@@ -66,8 +67,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_elder_walk)
 
-        val stepCountView = findViewById<TextView>(R.id.stepCountView)
-        //val resetButton = findViewById<Button>(R.id.resetButton)
+        stepCountView = findViewById(R.id.stepCountView)
 
         serviceIntent = Intent(applicationContext, ElderWalkTimerService::class.java)
         registerReceiver(updateTime, IntentFilter(ElderWalkTimerService.TIMER_UPDATED))
@@ -77,7 +77,6 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
 
         // 스탑와치 시작
         startTimer()
-
 
         // 활동 퍼미션 체크
         if (ContextCompat.checkSelfPermission(
@@ -103,9 +102,14 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
 
         stopButton.setOnClickListener(View.OnClickListener{
             stopTimer()
+            pushTodayWalkData()
             if(goalSteps < currentSteps){
                 result1 = 1
             }
+
+            // 홈 화면으로 이동
+            val intent = Intent(this, ElderActivity::class.java)
+            startActivity(intent)
 
         })
 
@@ -117,13 +121,13 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun getTodayWalkData() {
-        dbRef = FirebaseDatabase.getInstance().getReference("Walk").child("test")
+        dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("test")
 
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
-                    val goalWalk_value = snapshot.child("goal_walk").getValue().toString()
-                    goal_walk.setText("$goalWalk_value")
+                    goalWalk_value1 = snapshot.child("walk_step").getValue().toString() as Int
+                    goal_walk.setText("$goalWalk_value1")
                 }
             }
             override fun onCancelled(error: DatabaseError) {
@@ -132,16 +136,38 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
         })
     }
 
+    private fun pushTodayWalkData() {
+
+        val data = hashMapOf(
+            "done" to result1,
+            "goal_walk" to goalWalk_value1,
+            "start_time" to "",
+            "walk" to currentSteps,
+            "user_id" to 1,
+        )
+        dbRef = FirebaseDatabase.getInstance().getReference("Walk").child("test")
+
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    val goalWalk_value2:Int = snapshot.child("goal_walk").getValue() as Int
+                    if(goalWalk_value2 <= currentSteps){
+                        result1 = 1
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                println("Failed to read value.")
+            }
+        })
+        dbRef.setValue(data)
+    }
+
     public override fun onStart() {
         super.onStart()
-        if (stepCountSensor != null) {
-            // 센서 속도 설정
-            // * 옵션
-            // - SENSOR_DELAY_NORMAL: 20,000 초 딜레이
-            // - SENSOR_DELAY_UI: 6,000 초 딜레이
-            // - SENSOR_DELAY_GAME: 20,000 초 딜레이
-            // - SENSOR_DELAY_FASTEST: 딜레이 없음
-            //
+        stepCountSensor?.let {
+            // Set sensor speed
+            sensorManager
             sensorManager!!.registerListener(
                 this,
                 stepCountSensor,

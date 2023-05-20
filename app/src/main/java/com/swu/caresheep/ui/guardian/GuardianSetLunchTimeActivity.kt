@@ -9,13 +9,12 @@ import android.widget.TimePicker
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.swu.caresheep.R
-import kotlinx.android.synthetic.main.activity_guardian_set_walk_time.setWalkTimeButton
-import kotlinx.android.synthetic.main.activity_guardian_set_walk_time.timePicker
+import kotlinx.android.synthetic.main.activity_guardian_set_lunch_time.lunchTimePicker
+import kotlinx.android.synthetic.main.activity_guardian_set_lunch_time.setLunchTimeButton
 
-class GuardianSetWalkTimeActivity : AppCompatActivity() {
+class GuardianSetLunchTimeActivity : AppCompatActivity() {
 
-    private lateinit var dbRef1: DatabaseReference
-    private lateinit var dbRef2: DatabaseReference
+    private lateinit var dbRef: DatabaseReference
 
     private lateinit var picker: TimePicker
 
@@ -24,36 +23,33 @@ class GuardianSetWalkTimeActivity : AppCompatActivity() {
     var am_pm: String = "am"
 
     var result:String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_guardian_set_walk_time)
+        setContentView(R.layout.activity_guardian_set_lunch_time)
 
-        setWalkTimeButton.setOnClickListener {
+        setLunchTimeButton.setOnClickListener {
+            //timepicker에서 시간 가져오는 함수
             pushTime()
 
-            // 데이터베이스에 데이터 삽입
-            val data = hashMapOf(
-                "breakfast" to "",
-                "dinner" to "",
-                "id" to 1,
-                "lunch" to "",
-                "walk_time" to result,
-                "walk_step" to 0
-            )
+            dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("test")
 
-            dbRef1 = FirebaseDatabase.getInstance().getReference("UsersRoutine")
-            dbRef1.setValue("test") // 추후 user_id로 전환
+            val updatedData = HashMap<String, Any>()
+            updatedData["lunch"] = result
 
-            dbRef2 = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("test")
-            dbRef2.setValue(data)
+            dbRef.updateChildren(updatedData).addOnSuccessListener(){
+                println("Data updated successfully")
+            }.addOnFailureListener {
+                println("Error updating data: $it")
+            }
 
             // 다음 액티비티 이동
-            startActivity(Intent(this, GuardianSetWalkStepActivity::class.java))
+            startActivity(Intent(this, GuardianSetDinnerTimeActivity::class.java))
         }
     }
 
     private fun pushTime() {
-        picker = timePicker
+        picker = lunchTimePicker
         // picker.is24HourView = true
 
         if (Build.VERSION.SDK_INT >= 23) {
@@ -77,3 +73,4 @@ class GuardianSetWalkTimeActivity : AppCompatActivity() {
 
     }
 }
+
