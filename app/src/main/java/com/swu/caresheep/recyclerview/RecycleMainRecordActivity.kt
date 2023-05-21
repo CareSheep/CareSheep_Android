@@ -39,9 +39,10 @@ class RecycleMainRecordActivity : AppCompatActivity() {
                 // 리사이클러뷰에 표시할 데이터 리스트를 저장
                 val recordList = mutableListOf<Voice>()
 
-                for (snapshot in dataSnapshot.children) {
+                for (snapshot in dataSnapshot.children.reversed()) { // db 저장된 역순(최신 것이 상위)
                     val record = snapshot.getValue(Voice::class.java)
                     record?.let {
+
                         recordList.add(it)
                     }
                 }
