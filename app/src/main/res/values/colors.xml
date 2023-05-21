@@ -33,6 +33,7 @@
 
     <!-- red color-->
     <color name="red">#FF1A1A</color>
+    <color name="blue">#68B5FD</color>
 
 
 </resources>
