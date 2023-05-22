@@ -1,15 +1,10 @@
 package com.swu.caresheep
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.swu.caresheep.elder.ElderVoiceSubActivity
-import com.swu.caresheep.ui.guardian.GuardianSetMedicineTimeFragment
-import com.swu.caresheep.ui.start.SignUpActivity
-import kotlinx.android.synthetic.main.activity_elder_voice_main.*
+import com.swu.caresheep.ui.guardian.medicine.GuardianSetMedicineTimeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 

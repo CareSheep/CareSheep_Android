@@ -1,4 +1,4 @@
-package com.swu.caresheep.ui.guardian
+package com.swu.caresheep.ui.guardian.meal
 
 import android.content.Intent
 import android.os.Build
@@ -9,11 +9,10 @@ import android.widget.TimePicker
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.swu.caresheep.R
-import kotlinx.android.synthetic.main.activity_guardian_set_breakfast_time.setBreakfastTimeButton
-import kotlinx.android.synthetic.main.activity_guardian_set_breakfast_time.timePicker3
-import java.util.Objects
+import kotlinx.android.synthetic.main.activity_guardian_set_lunch_time.lunchTimePicker
+import kotlinx.android.synthetic.main.activity_guardian_set_lunch_time.setLunchTimeButton
 
-class GuardianSetBreakfastTimeActivity : AppCompatActivity() {
+class GuardianSetLunchTimeActivity : AppCompatActivity() {
 
     private lateinit var dbRef: DatabaseReference
 
@@ -27,16 +26,16 @@ class GuardianSetBreakfastTimeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_guardian_set_breakfast_time)
+        setContentView(R.layout.activity_guardian_set_lunch_time)
 
-        setBreakfastTimeButton.setOnClickListener {
+        setLunchTimeButton.setOnClickListener {
             //timepicker에서 시간 가져오는 함수
             pushTime()
 
             dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("test")
 
             val updatedData = HashMap<String, Any>()
-            updatedData["breakfast"] = result
+            updatedData["lunch"] = result
 
             dbRef.updateChildren(updatedData).addOnSuccessListener(){
                 println("Data updated successfully")
@@ -45,13 +44,12 @@ class GuardianSetBreakfastTimeActivity : AppCompatActivity() {
             }
 
             // 다음 액티비티 이동
-            startActivity(Intent(this, GuardianSetLunchTimeActivity::class.java))
-
+            startActivity(Intent(this, GuardianSetDinnerTimeActivity::class.java))
         }
     }
 
     private fun pushTime() {
-        picker = timePicker3
+        picker = lunchTimePicker
         // picker.is24HourView = true
 
         if (Build.VERSION.SDK_INT >= 23) {
@@ -75,3 +73,4 @@ class GuardianSetBreakfastTimeActivity : AppCompatActivity() {
 
     }
 }
+

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.swu.caresheep.R
+import com.swu.caresheep.ui.guardian.medicine.GuardianSetMedicineColorActivity
 import kotlinx.android.synthetic.main.activity_guardian_start_set_medicine.start_set_medicine_button
 import kotlinx.android.synthetic.main.activity_guardian_start_set_medicine.stop_set_medicine_button
 
