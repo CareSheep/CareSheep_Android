@@ -1,4 +1,4 @@
-package com.swu.caresheep.ui.guardian
+package com.swu.caresheep.ui.guardian.medicine
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

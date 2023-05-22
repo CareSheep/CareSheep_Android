@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.dinne
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.lunch_check
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.view.today_date
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.walk_check
+import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.walk_step_today
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -125,6 +126,9 @@ class GuardianElderTodayReportFragment : Fragment() {
                             println("this is Lunch result: $walk_value")
                             walk_check.setImageResource(R.drawable.baseline_check_circle_24)
                         }
+                        val walk_step = snapshot.child("walk").getValue().toString()
+                        walk_step_today.setText("$walk_step")
+
                     }
 
                 }
