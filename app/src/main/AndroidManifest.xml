@@ -99,9 +99,8 @@
             android:name=".ui.start.SplashActivity"
             android:exported="true">
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
              <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
@@ -149,7 +148,6 @@
         <activity
             android:name=".elder.ElderVoiceMainActivity"
             android:exported="true">
-
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
