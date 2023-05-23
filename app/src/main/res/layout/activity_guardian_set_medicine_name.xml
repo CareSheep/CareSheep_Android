@@ -49,9 +49,10 @@
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/medicine_next2_button">
 
-        <EditText
-            android:hint="약 종류"
-            android:id="@+id/editText"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:hint="약 이름"
+            style="@style/Text.Body1"
+            android:id="@+id/et_medicine_name"
             android:layout_width="240dp"
             android:layout_height="80dp"/>
 

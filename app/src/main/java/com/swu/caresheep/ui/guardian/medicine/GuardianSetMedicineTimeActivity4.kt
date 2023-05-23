@@ -44,8 +44,8 @@ class GuardianSetMedicineTimeActivity4 : AppCompatActivity() {
             Log.d("T", "$countMedicine")
             pushTime()
 
-            dbRef7 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("2")
-            dbRef8 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("2")
+            dbRef7 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("$medicine_id")
+            dbRef8 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("$medicine_id")
 
             val updatedData = HashMap<String, Any>()
             updatedData["time"] = "$result1,$result2,$result3,$result4"
