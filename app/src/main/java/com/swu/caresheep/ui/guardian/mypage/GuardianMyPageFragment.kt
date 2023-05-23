@@ -56,6 +56,18 @@ class GuardianMyPageFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        getGuardianInfo()
+
+        AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in).also { hyperspaceJumpAnimation ->
+            binding.tvUserName.startAnimation(hyperspaceJumpAnimation)
+            binding.tvUserGmail.startAnimation(hyperspaceJumpAnimation)
+            binding.btnElderConnectedInfo.startAnimation(hyperspaceJumpAnimation)
+        }
+    }
+
     /**
      * 사용자 (Guardian) 정보 표시
      */
@@ -87,7 +99,7 @@ class GuardianMyPageFragment : Fragment() {
                                 val code = data.child("code").getValue(String::class.java)
 
                                 if (code == null) {
-                                    binding.tvElder.text = "어르신 연결 안 됨"
+                                    binding.btnElderConnectedInfo.text = "어르신 연결 안 됨"
                                     binding.ivConnectInfo.setImageResource(R.drawable.ic_connect_info)
                                 } else {
                                     Firebase.database(BuildConfig.DB_URL)

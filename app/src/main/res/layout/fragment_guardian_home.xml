@@ -196,7 +196,6 @@
                         android:visibility="invisible"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:itemCount="3"
                         tools:listitem="@layout/item_guardian_today_schedule" />
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -224,7 +223,6 @@
                         app:layout_constraintBottom_toBottomOf="@+id/iv_today_schedule_not_exist"
                         app:layout_constraintStart_toEndOf="@+id/iv_today_schedule_not_exist"
                         app:layout_constraintTop_toTopOf="@+id/iv_today_schedule_not_exist" />
-
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

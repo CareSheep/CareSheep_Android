@@ -31,7 +31,6 @@ import com.google.api.services.calendar.model.*
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
 import com.swu.caresheep.recyclerview.RecycleMainRecordActivity
-import com.swu.caresheep.ui.guardian.GuardianActivity
 import com.swu.caresheep.ui.guardian.GuardianElderReportActivity
 import com.swu.caresheep.ui.guardian.calendar.*
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.PREF_ACCOUNT_NAME
@@ -121,7 +120,6 @@ class GuardianHomeFragment : Fragment() {
         } else {
             // Google Calendar API 호출
             MakeRequestTask(
-                requireActivity() as GuardianActivity,
                 mCredential,
                 selectedDate
             ).execute()
@@ -251,7 +249,7 @@ class GuardianHomeFragment : Fragment() {
         grantResults: IntArray // 퍼미션 처리 결과. PERMISSION_GRANTED 또는 PERMISSION_DENIED
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, requireContext())
     }
 
     /**
@@ -300,7 +298,6 @@ class GuardianHomeFragment : Fragment() {
      * 비동기적으로 Google Calendar API 호출
      */
     private inner class MakeRequestTask(
-        private val mActivity: GuardianActivity,
         credential: GoogleAccountCredential?,
         private var selectedDate: java.util.Calendar?
     ) :
@@ -325,6 +322,9 @@ class GuardianHomeFragment : Fragment() {
 
         override fun onPreExecute() {
             binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
+
+            binding.tvTodayScheduleNotExist.visibility = View.INVISIBLE
+            binding.ivTodayScheduleNotExist.visibility = View.INVISIBLE
 
             binding.pbScheduleLoading.show()
         }
