@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".elder.ElderGetAlarmTimeActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity4"
             android:exported="false" />
         <activity
@@ -76,7 +79,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.guardian.GuardianStartActivity"
-            android:exported="false" />
+            android:exported="true">
+        </activity>
+
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineCountActivity"
             android:exported="false" />
@@ -98,12 +103,11 @@
         <activity
             android:name=".ui.start.SplashActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.elder.main.ElderActivity"
@@ -113,8 +117,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.guardian.GuardianElderReportActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".ui.guardian.GuardianActivity"
             android:exported="true" />
@@ -148,6 +151,7 @@
         <activity
             android:name=".elder.ElderVoiceMainActivity"
             android:exported="true">
+
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
