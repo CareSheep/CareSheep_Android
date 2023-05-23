@@ -9,7 +9,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
-import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.breakfast_check
+import com.swu.caresheep.User
+import com.swu.caresheep.ui.start.UserAgeFragment
 
 class ElderGetAlarmTimeActivity : AppCompatActivity() {
 
@@ -34,11 +35,34 @@ class ElderGetAlarmTimeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_elder_get_alarm_time)
 
+        getUserid()
+
 //        getMedicineColor()
 //        getMedicineTime()
 //        getBreakfastTime()
 //        getLunchTime()
 //        getDinnerTime()
+    }
+
+
+    private fun getUserid(){
+        var gotid : Int = 0
+        gotid= UserAgeFragment().id
+        Log.d("user_id확인","$gotid")
+//        dbRef1 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("2")
+//
+//        dbRef1.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                if (snapshot.exists()){
+//                    medicine_color = snapshot.child("color").getValue().toString()
+//                    Log.d("medicine_color","$medicine_color")
+//                }
+//            }
+//            override fun onCancelled(error: DatabaseError) {
+//                println("Failed to read value.")
+//            }
+//        })
+
     }
 
 
