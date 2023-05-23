@@ -1,5 +1,6 @@
 package com.swu.caresheep.ui.guardian.medicine
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.database.DatabaseReference
@@ -47,6 +48,9 @@ class GuardianSetMedicineCountActivity : AppCompatActivity() {
             }.addOnFailureListener {
                 print( "Error updating user data: $it")
             }
+
+            // 다음 액티비티 이동
+            startActivity(Intent(this, GuardianSetMedicineTimeActivity::class.java))
         }
     }
 }
