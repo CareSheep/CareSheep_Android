@@ -153,6 +153,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     // 우선 디폴트 값으로
                     check = 0,
                     user_id = 1,
+
                     voice_id = 1
                 )
 
