@@ -95,7 +95,6 @@ class GuardianSetMedicineTimeActivity4 : AppCompatActivity() {
                 for (childSnapshot in dataSnapshot.children) {
                     val medicineData = childSnapshot.getValue(MedicineTime::class.java)
 
-
                     // time 필드 String으로 변환
                     val timeString = medicineData!!.time
 
