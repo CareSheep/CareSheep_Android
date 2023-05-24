@@ -49,11 +49,12 @@ class GuardianMyPageFragment : Fragment() {
         super.onStart()
         getGuardianInfo()
 
-        AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in).also { hyperspaceJumpAnimation ->
-            binding.tvUserName.startAnimation(hyperspaceJumpAnimation)
-            binding.tvUserGmail.startAnimation(hyperspaceJumpAnimation)
-            binding.btnElderConnectedInfo.startAnimation(hyperspaceJumpAnimation)
-        }
+        AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+            .also { hyperspaceJumpAnimation ->
+                binding.tvUserName.startAnimation(hyperspaceJumpAnimation)
+                binding.tvUserGmail.startAnimation(hyperspaceJumpAnimation)
+                binding.btnElderConnectedInfo.startAnimation(hyperspaceJumpAnimation)
+            }
     }
 
     override fun onResume() {
@@ -61,11 +62,12 @@ class GuardianMyPageFragment : Fragment() {
 
         getGuardianInfo()
 
-        AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in).also { hyperspaceJumpAnimation ->
-            binding.tvUserName.startAnimation(hyperspaceJumpAnimation)
-            binding.tvUserGmail.startAnimation(hyperspaceJumpAnimation)
-            binding.btnElderConnectedInfo.startAnimation(hyperspaceJumpAnimation)
-        }
+        AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+            .also { hyperspaceJumpAnimation ->
+                binding.tvUserName.startAnimation(hyperspaceJumpAnimation)
+                binding.tvUserGmail.startAnimation(hyperspaceJumpAnimation)
+                binding.btnElderConnectedInfo.startAnimation(hyperspaceJumpAnimation)
+            }
     }
 
     /**

@@ -7,7 +7,7 @@ class Guardian {
     var guardian_name: String? = null
     var age: Int? = null
     var gender: String? = null
-    var code: Int? = null
+    var code: String? = null
     var gmail: String? = null
 
     constructor(
@@ -16,7 +16,7 @@ class Guardian {
         guardian_name: String?,
         age: Int?,
         gender: String?,
-        code: Int?,
+        code: String?,
         gmail: String?
     ) {
         this.guardian_id = guardian_id

@@ -2,20 +2,20 @@ package com.swu.caresheep
 
 class User {
 
-    var id: Int
-    var gender: String
-    var username: String
-    var age: Int
-    var code: String
-    var gmail: String
+    var id: Int? = null
+    var gender: String? = null
+    var username: String? = null
+    var age: Int? = null
+    var code: String? = null
+    var gmail: String? = null
 
     constructor(
-        id: Int,
-        gender: String,
-        username: String,
-        age: Int,
-        code: String,
-        gmail: String
+        id: Int?,
+        gender: String?,
+        username: String?,
+        age: Int?,
+        code: String?,
+        gmail: String?
     ) {
         this.id = id
         this.gender = gender
@@ -24,4 +24,6 @@ class User {
         this.code = code
         this.gmail = gmail
     }
+
+    constructor()
 }
