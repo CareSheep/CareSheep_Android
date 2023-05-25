@@ -30,13 +30,13 @@ import com.google.api.client.util.DateTime
 import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.calendar.model.*
 import com.swu.caresheep.R
-import com.swu.caresheep.User
 import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
 import com.swu.caresheep.recyclerview.RecycleMainRecordActivity
 import com.swu.caresheep.ui.guardian.GuardianElderReportActivity
 import com.swu.caresheep.ui.guardian.calendar.*
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.PREF_ACCOUNT_NAME
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
+import com.swu.caresheep.utils.GoogleLoginClient
 import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
@@ -51,9 +51,9 @@ class GuardianHomeFragment : Fragment() {
     private var mService: com.google.api.services.calendar.Calendar? = null
     var mCredential: GoogleAccountCredential? = null
 
+    private var googleLoginClient: GoogleLoginClient = GoogleLoginClient()
     private var task: MakeRequestTask = MakeRequestTask(mCredential, null)
     private var elderGmail: String? = null
-    private var elderInfo: User? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,7 +73,6 @@ class GuardianHomeFragment : Fragment() {
             binding.layoutSwipeRefresh.isEnabled = (binding.layoutScroll.scrollY == 0)
         }
 
-
         binding.clAnalysisResult.setOnClickListener {
             // 리포트 확인 화면으로 이동
             val intent = Intent(requireContext(), GuardianElderReportActivity::class.java)
@@ -81,12 +80,11 @@ class GuardianHomeFragment : Fragment() {
         }
 
         binding.clVoiceMailbox.setOnClickListener {
-            // 음성 사서함 목록 화면으로 ㅈ이동
+            // 음성 사서함 목록 화면으로 이동
             val intent = Intent(requireContext(), RecycleMainRecordActivity::class.java)
             startActivity(intent)
         }
 
-        // 오늘의 일정 불러오기
         updateTodaySchedule()
 
         return binding.root
@@ -95,6 +93,32 @@ class GuardianHomeFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         task.job?.cancel()
+    }
+
+    override fun onStart() {
+        super.onStart()
+//        if (elderGmail == null) {
+//            lifecycleScope.launch {
+//                val elderInfo =
+//                    withContext(Dispatchers.IO) { googleLoginClient.getElderInfo(requireContext()) }
+//                elderGmail = elderInfo.gmail
+//
+//                if (elderGmail == null) {
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "사용자 코드를 입력하여 어르신과 연결하세요.",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                    startActivity(Intent(requireContext(), GuardianConnectActivity::class.java))
+//                } else {
+//                    // 오늘의 일정 불러오기
+//                    updateTodaySchedule()
+//                }
+//            }
+//        } else {
+//            updateTodaySchedule()
+//
+//        }
     }
 
     private fun updateTodaySchedule() {

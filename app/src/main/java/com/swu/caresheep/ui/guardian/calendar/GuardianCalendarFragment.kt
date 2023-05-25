@@ -34,8 +34,8 @@ import com.google.api.services.calendar.model.*
 import com.google.api.services.calendar.model.Calendar
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianCalendarBinding
+import com.swu.caresheep.utils.GoogleLoginClient
 import kotlinx.coroutines.*
-import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -52,7 +52,7 @@ class GuardianCalendarFragment : Fragment() {
 
     // Google Calendar API 호출 관련 메커니즘 및 AsyncTask을 재사용하기 위해 사용
     private var mID = 0
-
+    private var googleLoginClient: GoogleLoginClient = GoogleLoginClient()
 
     companion object {
         const val REQUEST_ACCOUNT_PICKER = 1000
@@ -180,19 +180,33 @@ class GuardianCalendarFragment : Fragment() {
             val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(requireContext())
             mCredential!!.selectedAccount = lastSignedInAccount!!.account
 
-            MakeRequestTask(
-                mCredential,
-                selectedDate
-            ).execute()
+            lifecycleScope.launch {
+                val elderInfo =
+                    withContext(Dispatchers.IO) { googleLoginClient.getElderInfo(requireActivity()) }
+                val elderGmail = elderInfo.gmail
+
+                MakeRequestTask(
+                    mCredential,
+                    selectedDate,
+                    elderGmail
+                    ).execute()
+            }
 //            Toast.makeText(requireContext(), "계정을 선택해야 합니다.", Toast.LENGTH_SHORT).show()
         } else if (!isDeviceOnline()) {
             Toast.makeText(requireContext(), "인터넷을 사용할 수 없습니다.", Toast.LENGTH_SHORT).show()
         } else {
             // Google Calendar API 호출
-            MakeRequestTask(
-                mCredential,
-                selectedDate
-            ).execute()
+            lifecycleScope.launch {
+                val elderInfo =
+                    withContext(Dispatchers.IO) { googleLoginClient.getElderInfo(requireActivity()) }
+                val elderGmail = elderInfo.gmail
+
+                MakeRequestTask(
+                    mCredential,
+                    selectedDate,
+                    elderGmail
+                ).execute()
+            }
         }
     }
 
@@ -343,7 +357,8 @@ class GuardianCalendarFragment : Fragment() {
      */
     private inner class MakeRequestTask(
         credential: GoogleAccountCredential?,
-        private var selectedDate: java.util.Calendar?
+        private var selectedDate: java.util.Calendar?,
+        private var elderEmail: String?
     ) {
         private var mLastError: Exception? = null
 
@@ -369,7 +384,7 @@ class GuardianCalendarFragment : Fragment() {
             try {
                 val result = when (mID) {
                     1 -> withContext(Dispatchers.IO) {
-                        createCalendar(selectedDate)
+                        createCalendar(selectedDate, elderEmail)
                     }
                     2 -> withContext(Dispatchers.IO) {
                         addEvent()
@@ -424,7 +439,7 @@ class GuardianCalendarFragment : Fragment() {
 
             val calendarID: String? = getCalendarID("공유 캘린더")
             if (calendarID == null) {
-                createCalendar(selectedDate)
+                createCalendar(selectedDate, elderEmail)
                 return null
             }
 
@@ -499,7 +514,7 @@ class GuardianCalendarFragment : Fragment() {
          * 선택되어 있는 Google 계정에 새 캘린더를 추가
          */
         @Throws(IOException::class)
-        private fun createCalendar(selectedDate: java.util.Calendar?): List<GuardianSchedule>? {
+        private fun createCalendar(selectedDate: java.util.Calendar?, elderEmail: String?): List<GuardianSchedule>? {
             val ids: String? = getCalendarID("공유 캘린더")
             if (ids != null) {
                 Log.e("공유 캘린더", "이미 캘린더가 생성되어 있습니다.")
@@ -522,7 +537,7 @@ class GuardianCalendarFragment : Fragment() {
             val calendarId: String = createdCalendar.id
 
             // 캘린더를 공유할 사용자 이메일 주소 지정
-            val userEmail = "cje172@naver.com" // 추후 연결된 어르신 계정으로 수정
+            val userEmail = elderEmail  // 연결된 어르신 계정
 
             // 공유할 사용자에 대한 권한 설정
             val rule = AclRule().apply {
