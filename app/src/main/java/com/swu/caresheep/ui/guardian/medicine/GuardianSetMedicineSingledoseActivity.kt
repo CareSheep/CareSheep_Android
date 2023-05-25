@@ -1,4 +1,4 @@
-package com.swu.caresheep.ui.guardian
+package com.swu.caresheep.ui.guardian.medicine
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -36,7 +36,7 @@ class GuardianSetMedicineSingledoseActivity : AppCompatActivity() {
                 "single_dose" to single_dose_counter,
             )
 
-            dbRef = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("2")
+            dbRef = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("$medicine_id")
             dbRef.updateChildren(data as Map<String, Any>).addOnSuccessListener {
                 print("User data updated successfully")
             }.addOnFailureListener {

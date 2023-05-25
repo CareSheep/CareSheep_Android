@@ -1,14 +1,515 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.guardian.GuardianElderWeekReportFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="#F1F1F1"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="180dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/rectangle_white_radius_15"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="주간"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView6"
+                    app:layout_constraintStart_toStartOf="@+id/imageView6"
+                    app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="380dp"
+            android:layout_height="132dp"
+            android:layout_gravity="center"
+            android:paddingBottom="16dp">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="380dp"
+                android:layout_height="116dp"
+                android:layout_gravity="center"
+                android:src="@drawable/rectangle_white_radius_15"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/breakfast_image"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:scaleType="center"
+                android:src="@drawable/breakfast_round_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.567" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:text="아침 식사"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView1"
+                app:layout_constraintStart_toEndOf="@+id/breakfast_image"
+                app:layout_constraintTop_toTopOf="@+id/imageView1" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView1"
+                app:layout_constraintEnd_toEndOf="@+id/imageView1"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/breakfast_check1"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/breakfast_check2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/breakfast_check3"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/breakfast_check4"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/breakfast_check5"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/breakfast_check6"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/breakfast_check7"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+
+            </LinearLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="380dp"
+            android:layout_height="132dp"
+            android:layout_gravity="center"
+            android:paddingBottom="16dp">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="380dp"
+                android:layout_height="116dp"
+                android:layout_gravity="center"
+                android:src="@drawable/rectangle_white_radius_15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/lunch_image"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:scaleType="center"
+                android:src="@drawable/lunch_round_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.567" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:text="점심 식사"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintStart_toEndOf="@+id/lunch_image"
+                app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintEnd_toEndOf="@+id/imageView2"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/lunch_check1"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/lunch_check2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/lunch_check3"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/lunch_check4"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/lunch_check5"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/lunch_check6"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/lunch_check7"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="380dp"
+            android:layout_height="132dp"
+            android:layout_gravity="center"
+            android:paddingBottom="16dp">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="380dp"
+                android:layout_height="116dp"
+                android:layout_gravity="center"
+                android:src="@drawable/rectangle_white_radius_15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/dinner_image"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:scaleType="center"
+                android:src="@drawable/dinner_round_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.567" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:text="저녁 식사"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                app:layout_constraintStart_toEndOf="@+id/dinner_image"
+                app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                app:layout_constraintEnd_toEndOf="@+id/imageView3"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/dinner_check1"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/dinner_check2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/dinner_check3"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/dinner_check4"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/dinner_check5"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/dinner_check6"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/dinner_check7"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="380dp"
+            android:layout_height="132dp"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="380dp"
+                android:layout_height="116dp"
+                android:layout_gravity="center"
+                android:src="@drawable/rectangle_white_radius_15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/walk_image"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:scaleType="center"
+                android:src="@drawable/walk_round_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="32dp"
+                android:text="걷기"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/walk_image"
+                app:layout_constraintTop_toTopOf="@+id/imageView4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#68B5FD"
+                android:layout_marginStart="8dp"
+                android:text=""
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/textView9"
+                app:layout_constraintTop_toTopOf="@+id/imageView4" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                app:layout_constraintEnd_toEndOf="@+id/imageView4"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/walk_check1"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/walk_check2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/walk_check3"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/walk_check4"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/walk_check5"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/walk_check6"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+                <ImageView
+                    android:id="@+id/walk_check7"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="center"
+                    android:src="@drawable/outline_circle_24" />
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/LoadingData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading Data....."
+            android:textSize="28sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

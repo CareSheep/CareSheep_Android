@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.guardian.GuardianSetMedicineColorActivity">
+    tools:context=".ui.guardian.medicine.GuardianSetMedicineColorActivity">
 
     <TextView
         android:id="@+id/textView2"
@@ -26,7 +26,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:gravity="left"
-        android:text="환자께 색상으로 약을 구분할 수 있게\n정해주세요!"
+        android:text="색상으로 약을 구분할 수 있게 약 봉투 \n 혹은 약 상자에 색상으로 표시해주세요."
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -46,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:padding="8dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
@@ -55,6 +56,9 @@
                 android:backgroundTint="#FF0000"
                 android:paddingRight="16dp"
                 android:background="@drawable/medicine_round_image" />
+            <View
+                android:layout_width="16dp"
+                android:layout_height="0dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/yellowMedicine"
@@ -63,6 +67,9 @@
                 android:backgroundTint="#FFE81A"
                 android:paddingRight="16dp"
                 android:background="@drawable/medicine_round_image" />
+            <View
+                android:layout_width="16dp"
+                android:layout_height="0dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/greenMedicine"
@@ -71,6 +78,9 @@
                 android:backgroundTint="#3AE80E"
                 android:paddingRight="16dp"
                 android:background="@drawable/medicine_round_image" />
+            <View
+                android:layout_width="16dp"
+                android:layout_height="0dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/blueMedicine"
@@ -95,6 +105,9 @@
                 android:backgroundTint="#7F2DE7"
                 android:paddingRight="16dp"
                 android:background="@drawable/medicine_round_image" />
+            <View
+                android:layout_width="16dp"
+                android:layout_height="0dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/brownMedicine"
@@ -103,6 +116,9 @@
                 android:backgroundTint="#C0621E"
                 android:paddingRight="16dp"
                 android:background="@drawable/medicine_round_image" />
+            <View
+                android:layout_width="16dp"
+                android:layout_height="0dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/blackMedicine"

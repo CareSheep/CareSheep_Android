@@ -100,8 +100,10 @@ class ElderVoiceSubActivity : AppCompatActivity() {
             // 파일 이름 변수를 현재 날짜가 들어가도록 초기화. (이유: 중복된 이름으로 기존에 있던 파일이 덮어 쓰여지는 것을 방지하고자)
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
-            // 위험 값 (default 0)
-            var danger = 0
+            // 상황 분석에 필요한 변수  (default 0)
+            var danger = "0" // 위험
+            var in_need = "0" // 물건
+
 
             // 변환된 텍스트를 담을 리스트 선언
             val detectedWords = mutableListOf<String>()
@@ -118,15 +120,26 @@ class ElderVoiceSubActivity : AppCompatActivity() {
             // 리스트에 있는 단어들을 하나의 문자열로 합치기(옵션을 줘서 공백이 적절하게 추가된 문자열이 생성)
             val content = detectedWords.joinToString(separator = " ", prefix = "", postfix = "")
 
-            // 모델에 content를 입력하고 위험여부를 판단한 후 danger 값을 설정 (위험상황 감지 모델 생성)
+
+            // 모델에 content를 입력하고 위험 및 생필품 부족 여부를 판단한 후 값을 설정
             val model = "text-davinci-002"
-            val prompt = ("다음 텍스트가 노인의 위험상황인지 판단하세요:\n$content\n위험상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:")
+            val prompt = """
+                    다음 텍스트가 노인의 위험상황 및 물건 부족 상황인지 판단하세요:
+                    $content
+                    위험상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:
+                    물건 부족 상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:
+                    """.trimIndent()
             Gpt3Api.requestGpt3Api(prompt, model) { response -> // 요청
                 // response에는 API 응답 결과가 반환됨
-                if (response?.toString()?.toInt() == 1) {
-                    danger = 1
-                } else {
-                    danger = 0
+                val labels = response?.toString()?.split('\n')  // \n 기준으로 분할해서 labels 리스트에 저장 (null 처리하려고 ?.)
+                val dangerLabel = labels?.get(0).toString() // 위험 상황이면 1
+                val shortageLabel = labels?.get(1).toString() // 물건 부족 상황이면 1
+
+                if(dangerLabel == "1") {
+                    danger = "1"
+                }
+                if(shortageLabel == "1") {
+                    in_need = "1"
                 }
 
                 // Voice의 각 필드에 넣기
@@ -134,10 +147,13 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     content = content,
                     recording_date = timeStamp,
                     danger = danger,
+
+                    in_need = in_need,
+
                     // 우선 디폴트 값으로
                     check = 0,
-                    in_need = 0,
                     user_id = 1,
+
                     voice_id = 1
                 )
 

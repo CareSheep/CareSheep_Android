@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.guardian.GuardianSetLunchTimeActivity">
+    tools:context=".ui.guardian.meal.GuardianSetLunchTimeActivity">
 
     <TextView
         android:id="@+id/textView12"

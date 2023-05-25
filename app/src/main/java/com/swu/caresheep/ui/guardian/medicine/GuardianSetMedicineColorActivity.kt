@@ -1,10 +1,14 @@
-package com.swu.caresheep.ui.guardian
+package com.swu.caresheep.ui.guardian.medicine
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_color.blackMedicine
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_color.blueMedicine
@@ -14,6 +18,8 @@ import kotlinx.android.synthetic.main.activity_guardian_set_medicine_color.purpl
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_color.redMedicine
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_color.yellowMedicine
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_color.medicine_next1_button
+
+var medicine_id : Int = 0
 
 class GuardianSetMedicineColorActivity : AppCompatActivity() {
 
@@ -58,10 +64,27 @@ class GuardianSetMedicineColorActivity : AppCompatActivity() {
             )
 
             dbRef1 = FirebaseDatabase.getInstance().getReference("TakingMedicine")
-            dbRef1.setValue("2")
+            dbRef1.addListenerForSingleValueEvent(object: ValueEventListener{
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val childCount = dataSnapshot.childrenCount
+                    val id = (childCount + 1).toInt()
+                    medicine_id = id // 약 고유번호 정해주기 -> 다음 액티비티에서 사용
 
-            dbRef2 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("2")
-            dbRef2.setValue(data)
+                    dbRef1.child(id.toString()).setValue(data)
+                        .addOnSuccessListener {
+                            Log.e("복약내용 색상", "DB에 저장 성공")
+                        }.addOnFailureListener {
+                            Log.e("복약내용 색상", "DB에 저장 tlfvo")
+                        }
+                    }
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("복약내용- 색상", "Database error: $error")
+                }
+            })
+//            dbRef1.setValue("2")
+//
+//            dbRef2 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("2")
+//            dbRef2.setValue(data)
 
             // 다음 액티비티 이동
             startActivity(Intent(this, GuardianSetMedicineNameActivity::class.java))

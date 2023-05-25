@@ -4,68 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.guardian.medicine.GuardianSetMedicineNameActivity">
+    tools:context=".ui.guardian.medicine.GuardianSetMedicineTimeActivity">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="약의 이름을 알려주세요"
+        android:text="첫번째 복용 시간을 알려주세요"
         android:textSize="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textView7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:gravity="left"
-        android:text="해당 약은 무슨 약인가요?"
+        android:text="몇시에 알람이 울리면 되는지\n알려주세요! "
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <ImageView
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_gravity="center"
         android:src="@drawable/medicine"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/firstMedcinetimePicker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
+    <TimePicker
+        android:id="@+id/firstMedcinetimePicker"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginBottom="64dp"
-        android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/medicine_next2_button">
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:hint="약 이름"
-            style="@style/Text.Body1"
-            android:id="@+id/et_medicine_name"
-            android:layout_width="240dp"
-            android:layout_height="80dp"/>
-
-    </LinearLayout>
+        android:layout_height="200dp"
+        android:layout_marginBottom="16dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintBottom_toTopOf="@+id/firstMedcineButton" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/medicine_next2_button"
+        android:id="@+id/firstMedcineButton"
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rectangle_green_radius_30"
-        android:text="다음"
+        android:text="완료"
         android:textColor="@color/white"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"

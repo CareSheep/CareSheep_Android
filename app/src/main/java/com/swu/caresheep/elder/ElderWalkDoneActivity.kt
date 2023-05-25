@@ -24,6 +24,6 @@ class ElderWalkDoneActivity : AppCompatActivity() {
             // 이동한 다음 사용안함으로 finish 처리
             finish()
 
-        }, 500) // 시간 0.5초 이후 실행
+        }, 1500) // 시간 1.5초 이후 실행
     }
 }

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".elder.ElderMedicineFirstActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".elder.ElderMedicineFirstActivity">
 
     <!-- 설명 텍스트 -->
 
@@ -23,12 +23,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 약 색깔 이미지-->
-    <ImageView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/medicine_color"
-        android:layout_width="385dp"
-        android:layout_height="259dp"
-        android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        android:layout_width="301dp"
+        android:layout_height="247dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="48dp"
+        android:text="색들어갈예정" />
 
     <TextView
         android:id="@+id/medicine_question"
@@ -45,13 +46,12 @@
         android:id="@+id/medicine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        android:orientation="vertical"
         android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:layout_marginTop="30dp"
-        >
+        tools:ignore="MissingConstraints">
 
 
         <!-- 유무 체크 : 먹음-->
@@ -59,9 +59,9 @@
             android:id="@+id/medicine_done"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:text="먹었습니다."
-            android:textSize="25sp"
-            android:layout_weight="1"/>
+            android:textSize="25sp" />
 
         <!-- 유무 체크 : 안 먹음 -->
         <RadioButton

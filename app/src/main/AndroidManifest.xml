@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -28,6 +27,27 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".elder.ElderGetAlarmTimeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity4"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity3"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".MedicineTimeDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".recyclerview.MedicineTimePickActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity"
+            android:exported="false" />
+        <activity
             android:name=".elder.ElderWalkDoneActivity"
             android:exported="false" />
         <activity
@@ -37,10 +57,10 @@
             android:name=".ui.guardian.GuardianStartSetMedicineActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.GuardianSetDinnerTimeActivity"
+            android:name=".ui.guardian.meal.GuardianSetDinnerTimeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.GuardianSetLunchTimeActivity"
+            android:name=".ui.guardian.meal.GuardianSetLunchTimeActivity"
             android:exported="true" />
         <activity
             android:name=".ui.guardian.calendar.GuardianAddScheduleActivity"
@@ -59,21 +79,24 @@
             android:exported="false" />
         <activity
             android:name=".ui.guardian.GuardianStartActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".ui.guardian.medicine.GuardianSetMedicineCountActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.GuardianSetMedicineCountActivity"
+            android:name=".ui.guardian.medicine.GuardianSetMedicineSingledoseActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.GuardianSetMedicineSingledoseActivity"
+            android:name=".ui.guardian.medicine.GuardianSetMedicineNameActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.GuardianSetMedicineNameActivity"
-            android:exported="false" />
+            android:name=".ui.guardian.medicine.GuardianSetMedicineColorActivity"
+            android:exported="true">
+        </activity>
         <activity
-            android:name=".ui.guardian.GuardianSetMedicineColorActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.guardian.GuardianSetBreakfastTimeActivity"
+            android:name=".ui.guardian.meal.GuardianSetBreakfastTimeActivity"
             android:exported="true" />
         <activity
             android:name=".ui.guardian.GuardianVoiceDetailActivity"
@@ -81,7 +104,6 @@
         <activity
             android:name=".ui.start.SplashActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -93,12 +115,10 @@
             android:exported="true" />
         <activity
             android:name=".elder.ElderWalkActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".ui.guardian.GuardianElderReportActivity"
-            android:exported="true" />
+            android:exported="true"></activity>
         <activity
             android:name=".ui.guardian.GuardianActivity"
             android:exported="true" />
@@ -132,6 +152,7 @@
         <activity
             android:name=".elder.ElderVoiceMainActivity"
             android:exported="true">
+
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
@@ -155,11 +176,13 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
     </application>
 

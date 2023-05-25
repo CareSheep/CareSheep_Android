@@ -1,5 +1,6 @@
-package com.swu.caresheep.ui.guardian
+package com.swu.caresheep.ui.guardian.medicine
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.database.DatabaseReference
@@ -41,12 +42,15 @@ class GuardianSetMedicineCountActivity : AppCompatActivity() {
                 //"user_id" to 1,
             )
 
-            dbRef = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("2")
+            dbRef = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("$medicine_id")
             dbRef.updateChildren(data as Map<String, Any>).addOnSuccessListener {
                 print("User data updated successfully")
             }.addOnFailureListener {
                 print( "Error updating user data: $it")
             }
+
+            // 다음 액티비티 이동
+            startActivity(Intent(this, GuardianSetMedicineTimeActivity::class.java))
         }
     }
 }
