@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
 import com.swu.caresheep.User
 import com.swu.caresheep.ui.start.UserAgeFragment
+import kotlinx.android.synthetic.main.activity_elder_get_alarm_time.userid
 
 class ElderGetAlarmTimeActivity : AppCompatActivity() {
 
@@ -48,6 +49,7 @@ class ElderGetAlarmTimeActivity : AppCompatActivity() {
     private fun getUserid(){
         var gotid : Int = 0
         gotid= UserAgeFragment().id
+        userid.setText(gotid)
         Log.d("user_id확인","$gotid")
 //        dbRef1 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("2")
 //

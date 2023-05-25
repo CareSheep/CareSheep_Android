@@ -112,13 +112,13 @@
         </activity>
         <activity
             android:name=".ui.elder.main.ElderActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".elder.ElderWalkActivity"
             android:exported="true" />
         <activity
             android:name=".ui.guardian.GuardianElderReportActivity"
-            android:exported="true"></activity>
+            android:exported="false" />
         <activity
             android:name=".ui.guardian.GuardianActivity"
             android:exported="true" />
