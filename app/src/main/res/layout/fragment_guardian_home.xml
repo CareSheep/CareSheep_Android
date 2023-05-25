@@ -186,19 +186,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_today_schedule"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layoutAnimation="@anim/item_layout_animation"
-                        android:overScrollMode="never"
-                        android:paddingVertical="12dp"
-                        android:visibility="invisible"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:itemCount="3"
-                        tools:listitem="@layout/item_guardian_today_schedule" />
-
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_today_schedule_not_exist"
                         android:layout_width="wrap_content"
@@ -225,6 +212,17 @@
                         app:layout_constraintStart_toEndOf="@+id/iv_today_schedule_not_exist"
                         app:layout_constraintTop_toTopOf="@+id/iv_today_schedule_not_exist" />
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_today_schedule"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layoutAnimation="@anim/item_layout_animation"
+                        android:overScrollMode="never"
+                        android:paddingVertical="12dp"
+                        android:visibility="invisible"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:listitem="@layout/item_guardian_today_schedule" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
