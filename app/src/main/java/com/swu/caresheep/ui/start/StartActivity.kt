@@ -83,6 +83,10 @@ class StartActivity : AppCompatActivity() {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             // 해당 이메일 주소를 가진 데이터가 User 테이블에 존재하는 경우
+                            for (data in snapshot.children) {
+                                user_id = data.child("id").getValue(Int::class.java)!!
+                            }
+
                             Handler().postDelayed({
                                 val intent = Intent(applicationContext, ElderActivity::class.java)
                                 startActivity(intent)
@@ -101,6 +105,13 @@ class StartActivity : AppCompatActivity() {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         if (snapshot.exists()) {
                                             // 해당 이메일 주소를 가진 데이터가 Guardian 테이블에 존재하는 경우
+                                            for (data in snapshot.children) {
+                                                val userId =
+                                                    data.child("user_id").getValue(Int::class.java)
+                                                if (userId != null)
+                                                    user_id = userId
+                                            }
+
                                             Handler().postDelayed({
                                                 val intent = Intent(
                                                     applicationContext,

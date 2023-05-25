@@ -15,16 +15,16 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
-import com.swu.caresheep.User
 import com.swu.caresheep.databinding.ActivityGuardianConnectBinding
 import com.swu.caresheep.ui.dialog.BaseDialog
 import com.swu.caresheep.ui.dialog.VerticalDialog
-
+import com.swu.caresheep.ui.start.user_id
 
 class GuardianConnectActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGuardianConnectBinding
     private var code: String = ""
+    private var userId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +81,7 @@ class GuardianConnectActivity : AppCompatActivity() {
 
                     verticalDialog.topBtnClickListener {
                         // 어르신 연결하기
-                        connectElder(code)
+                        connectElder(code, userId)
                         this.onBackPressed()
                         Toast.makeText(this, "어르신 연결에 성공했습니다.", Toast.LENGTH_SHORT).show()
 
@@ -123,11 +123,11 @@ class GuardianConnectActivity : AppCompatActivity() {
                             val userName = data.child("username").getValue(String::class.java)
                             val userAge = data.child("age").getValue(Int::class.java)
                             var userGender = data.child("gender").getValue(String::class.java)
+                            userId = data.child("id").getValue(Int::class.java)!!
 
                             userGender = if (userGender == "female") "여" else "남"
 
                             userInfo = "$userName 어르신(${userAge}세/$userGender)"
-                            Log.e("username", userInfo)
                         }
                     }
                     callback(userInfo)
@@ -141,9 +141,9 @@ class GuardianConnectActivity : AppCompatActivity() {
     }
 
     /**
-     *  보호자와 어르신 연동 (보호자 Table의 code 속성에 값 부여)
+     *  보호자와 어르신 연동 (보호자 Table의 code 속성, user_id 속성에 값 부여)
      **/
-    private fun connectElder(code: String) {
+    private fun connectElder(code: String, userId: Int) {
         // 회원(Guardian)의 구글 계정 가져오기
         val account = this.let { GoogleSignIn.getLastSignedInAccount(this) }
 
@@ -162,10 +162,15 @@ class GuardianConnectActivity : AppCompatActivity() {
                     for (data in snapshot.children) {
                         val guardianCode = data.key
 
+                        val updates = HashMap<String, Any>()
+                        updates["code"] = code
+                        updates["user_id"] = userId
+
                         // code 속성에 값을 부여
-                        reference.child(guardianCode.toString()).child("code").setValue(code)
+                        reference.child(guardianCode.toString()).updateChildren(updates)
                             .addOnSuccessListener {
                                 // 코드 값 부여 성공
+                                user_id = userId
                             }
                             .addOnFailureListener { error ->
                                 // 코드 값 부여 실패

@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.swu.caresheep.databinding.ActivityElderBinding
 import com.swu.caresheep.elder.ElderVoiceMainActivity
 import com.swu.caresheep.elder.ElderWalkMainActivity
+import com.swu.caresheep.ui.elder.connect.ElderConnectActivity
 
 class ElderActivity : AppCompatActivity() {
 
@@ -44,6 +45,10 @@ class ElderActivity : AppCompatActivity() {
         todayScheduleRVAdapter.setData(todayScheduleData)
         binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
 
+        initView()
+    }
+
+    private fun initView() {
         // 음성 메시지 전송 버튼
         binding.btnVoiceRecord.setOnClickListener {
             val intent = Intent(this, ElderVoiceMainActivity::class.java)
@@ -53,6 +58,12 @@ class ElderActivity : AppCompatActivity() {
         // 만보기 측정 버튼
         binding.btnWalk.setOnClickListener {
             val intent = Intent(this, ElderWalkMainActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 보호자 연결 버튼
+        binding.btnConnect.setOnClickListener {
+            val intent = Intent(this, ElderConnectActivity::class.java)
             startActivity(intent)
         }
     }

@@ -9,7 +9,6 @@ import com.swu.caresheep.ui.guardian.home.GuardianHomeFragment
 import com.swu.caresheep.ui.guardian.mypage.GuardianMyPageFragment
 import pub.devrel.easypermissions.EasyPermissions
 
-
 class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
     private lateinit var binding: ActivityGuardianBinding

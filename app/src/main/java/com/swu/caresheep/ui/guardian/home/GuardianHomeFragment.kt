@@ -36,6 +36,7 @@ import com.swu.caresheep.ui.guardian.GuardianElderReportActivity
 import com.swu.caresheep.ui.guardian.calendar.*
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.PREF_ACCOUNT_NAME
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
+import com.swu.caresheep.ui.start.user_id
 import com.swu.caresheep.utils.GoogleLoginClient
 import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
