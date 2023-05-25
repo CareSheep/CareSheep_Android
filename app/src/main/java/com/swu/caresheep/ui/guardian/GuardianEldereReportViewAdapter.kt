@@ -14,7 +14,7 @@ class GuardianEldereReportViewAdapter (fm: FragmentManager, lifecycle: Lifecycle
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> GuardianElderTodayReportFragment()
-            1 -> GuardianElderTodayReportFragment()
+            1 -> GuardianElderWeekReportFragment()
             else -> GuardianElderTodayReportFragment()
         }
     }
