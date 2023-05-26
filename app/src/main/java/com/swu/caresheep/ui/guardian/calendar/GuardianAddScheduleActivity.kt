@@ -41,8 +41,8 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
     // Google Calendar API에 접근하기 위해 사용되는 구글 캘린더 API 서비스 객체
     private var mService: com.google.api.services.calendar.Calendar? = null
     private var mCredential: GoogleAccountCredential? = null
-    var isStartPickerClicked = false
-    var isEndPickerClicked = false
+    private var isStartPickerClicked = false
+    private var isEndPickerClicked = false
     private var scheduleTitle: String = ""
     private var scheduleMemo: String = ""
 
@@ -384,12 +384,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
                 addSchedule(eventInfo, listOf(gmail!!))
             }
-//            addSchedule(
-//                getNewEventInfo(
-//                    scheduleTitle, scheduleMemo,
-//                    startDateTime, endDateTime
-//                ), listOf(googleLoginClient.getElderInfo(this).gmail!!)
-//            )
+
             onBackPressedCallback.handleOnBackPressed()
             Toast.makeText(this, "일정을 추가했습니다.", Toast.LENGTH_SHORT).show()
         }

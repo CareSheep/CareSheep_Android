@@ -61,7 +61,6 @@
         android:fontFamily="@font/pretendard_bold"
         android:gravity="center"
         android:paddingVertical="35dp"
-        android:text="1234S6"
         app:layout_constraintStart_toStartOf="@+id/tv_user_code_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_user_code_caption" />
 
@@ -84,7 +83,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/rectangle_green_transp_40_radius_30"
-        android:fontFamily="@font/pretendard_bold"
+        android:fontFamily="@font/pretendard_semi_bold"
         android:gravity="center"
         android:paddingVertical="35dp"
         android:text="@string/elder_connect_not_exist_guardian"

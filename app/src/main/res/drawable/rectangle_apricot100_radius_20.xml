@@ -8,7 +8,7 @@
                 android:left="0dp"
                 android:right="1dp"
                 android:top="0dp" />
-            <corners android:radius="30dp" />
+            <corners android:radius="20dp" />
             <solid android:color="#00CCCCCC" />
         </shape>
     </item>
@@ -19,7 +19,7 @@
                 android:left="0dp"
                 android:right="1dp"
                 android:top="0dp" />
-            <corners android:radius="30dp" />
+            <corners android:radius="20dp" />
             <solid android:color="#10CCCCCC" />
         </shape>
     </item>
@@ -30,7 +30,7 @@
                 android:left="0dp"
                 android:right="1dp"
                 android:top="0dp" />
-            <corners android:radius="30dp" />
+            <corners android:radius="20dp" />
             <solid android:color="#20CCCCCC" />
         </shape>
     </item>
@@ -41,7 +41,7 @@
                 android:left="0dp"
                 android:right="1dp"
                 android:top="0dp" />
-            <corners android:radius="30dp" />
+            <corners android:radius="20dp" />
             <solid android:color="#30CCCCCC" />
         </shape>
     </item>
@@ -52,7 +52,7 @@
                 android:left="0dp"
                 android:right="1dp"
                 android:top="0dp" />
-            <corners android:radius="30dp" />
+            <corners android:radius="20dp" />
             <solid android:color="#50CCCCCC" />
         </shape>
     </item>
@@ -61,7 +61,7 @@
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@color/apricot_100" />
-            <corners android:radius="30dp" />
+            <corners android:radius="20dp" />
         </shape>
     </item>
     <item
@@ -70,7 +70,7 @@
         android:start="-28dp"
         android:top="-12dp">
         <shape android:shape="oval">
-            <corners android:radius="30dp" />
+            <corners android:radius="20dp" />
             <solid android:color="#26FFFFFF" />
         </shape>
     </item>
