@@ -2,6 +2,8 @@ package com.swu.caresheep.ui.elder.connect
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -33,6 +35,7 @@ class ElderConnectActivity : AppCompatActivity() {
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
         getUserCode()
+        getConnectedGuardian()
     }
 
     override fun onStart() {
@@ -73,6 +76,9 @@ class ElderConnectActivity : AppCompatActivity() {
      * 연결된 보호자 가져오기
      */
     private fun getConnectedGuardian() {
+        val connectedGuardianData = ArrayList<ConnectedGuardian>()
+        var connectedGuardianRVAdapter: ElderConnectRVAdapter
+
         Firebase.database(BuildConfig.DB_URL)
             .getReference("Guardian")
             .orderByChild("user_id")
@@ -84,11 +90,30 @@ class ElderConnectActivity : AppCompatActivity() {
                         for (data in snapshot.children) {
                             val guardianName =
                                 data.child("guardian_name").getValue(String::class.java)!!
+
+                            connectedGuardianData.add(ConnectedGuardian(guardianName))
                         }
 
+                        connectedGuardianRVAdapter = ElderConnectRVAdapter(connectedGuardianData)
+                        binding.rvConnectedGuardian.adapter = connectedGuardianRVAdapter
 
+                        binding.tvConnectedGuardianNotExist.visibility = View.INVISIBLE
+                        binding.rvConnectedGuardian.visibility = View.VISIBLE
                     } else {
                         // 해당 user_id를 가진 데이터가 Guardian 테이블에 존재하지 않는 경우
+                        binding.tvConnectedGuardianNotExist.visibility = View.VISIBLE
+                        binding.rvConnectedGuardian.visibility = View.INVISIBLE
+
+                        val context = applicationContext
+                        val resources = context?.resources
+                        val animation =
+                            resources?.let { AnimationUtils.loadAnimation(context, R.anim.fade_in) }
+
+                        animation?.also { hyperspaceJumpAnimation ->
+                            binding.tvConnectedGuardianNotExist.startAnimation(
+                                hyperspaceJumpAnimation
+                            )
+                        }
 
                     }
                 }
