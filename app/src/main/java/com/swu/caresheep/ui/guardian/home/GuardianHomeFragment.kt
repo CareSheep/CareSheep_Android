@@ -36,6 +36,7 @@ import com.swu.caresheep.ui.guardian.GuardianElderReportActivity
 import com.swu.caresheep.ui.guardian.calendar.*
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.PREF_ACCOUNT_NAME
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
+import com.swu.caresheep.ui.guardian.mypage.GuardianConnectActivity
 import com.swu.caresheep.ui.start.user_id
 import com.swu.caresheep.utils.GoogleLoginClient
 import kotlinx.coroutines.*
@@ -86,7 +87,6 @@ class GuardianHomeFragment : Fragment() {
             startActivity(intent)
         }
 
-        updateTodaySchedule()
 
         return binding.root
     }
@@ -98,28 +98,16 @@ class GuardianHomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-//        if (elderGmail == null) {
-//            lifecycleScope.launch {
-//                val elderInfo =
-//                    withContext(Dispatchers.IO) { googleLoginClient.getElderInfo(requireContext()) }
-//                elderGmail = elderInfo.gmail
-//
-//                if (elderGmail == null) {
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "사용자 코드를 입력하여 어르신과 연결하세요.",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    startActivity(Intent(requireContext(), GuardianConnectActivity::class.java))
-//                } else {
-//                    // 오늘의 일정 불러오기
-//                    updateTodaySchedule()
-//                }
-//            }
-//        } else {
-//            updateTodaySchedule()
-//
-//        }
+        if (user_id == 0) {
+            Toast.makeText(
+                requireContext(),
+                "사용자 코드를 입력하여 어르신과 연결하세요.",
+                Toast.LENGTH_SHORT
+            ).show()
+            startActivity(Intent(requireContext(), GuardianConnectActivity::class.java))
+        } else {
+            updateTodaySchedule()
+        }
     }
 
     private fun updateTodaySchedule() {

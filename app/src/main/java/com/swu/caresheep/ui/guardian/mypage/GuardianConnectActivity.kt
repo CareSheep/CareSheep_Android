@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,6 +27,14 @@ class GuardianConnectActivity : AppCompatActivity() {
     private var code: String = ""
     private var userId: Int = 0
 
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            // 뒤로가기 클릭 시 실행시킬 코드 입력
+            finish()
+            overridePendingTransition(R.anim.none, R.anim.slide_out_right)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGuardianConnectBinding.inflate(layoutInflater)
@@ -33,10 +42,8 @@ class GuardianConnectActivity : AppCompatActivity() {
 
         overridePendingTransition(R.anim.slide_in_right, R.anim.none)
 
-        // 뒤로 가기
-        binding.ivBack.setOnClickListener {
-            this.onBackPressed()
-        }
+        this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+
 
         binding.etUserCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -82,7 +89,6 @@ class GuardianConnectActivity : AppCompatActivity() {
                     verticalDialog.topBtnClickListener {
                         // 어르신 연결하기
                         connectElder(code, userId)
-                        this.onBackPressed()
                         Toast.makeText(this, "어르신 연결에 성공했습니다.", Toast.LENGTH_SHORT).show()
 
                         // 만약 연결된 어르신의 루틴이 설정되어 있지 않다면(null이라면), 루틴 설정으로 이동
@@ -101,10 +107,15 @@ class GuardianConnectActivity : AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.none, R.anim.slide_out_right)
+    override fun onStart() {
+        super.onStart()
+
+        // 뒤로 가기
+        binding.ivBack.setOnClickListener {
+            onBackPressedCallback.handleOnBackPressed()
+        }
     }
+
 
     /**
      * 해당 사용자 코드(code) 값을 가진 어르신 정보 반환
@@ -171,6 +182,7 @@ class GuardianConnectActivity : AppCompatActivity() {
                             .addOnSuccessListener {
                                 // 코드 값 부여 성공
                                 user_id = userId
+                                onBackPressedCallback.handleOnBackPressed()
                             }
                             .addOnFailureListener { error ->
                                 // 코드 값 부여 실패
