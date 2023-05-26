@@ -40,8 +40,6 @@ class GuardianConnectActivity : AppCompatActivity() {
         binding = ActivityGuardianConnectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        overridePendingTransition(R.anim.slide_in_right, R.anim.none)
-
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
 
@@ -109,6 +107,7 @@ class GuardianConnectActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.none)
 
         // 뒤로 가기
         binding.ivBack.setOnClickListener {

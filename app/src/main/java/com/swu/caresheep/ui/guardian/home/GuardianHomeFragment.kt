@@ -35,10 +35,11 @@ import com.swu.caresheep.recyclerview.RecycleMainRecordActivity
 import com.swu.caresheep.ui.guardian.GuardianElderReportActivity
 import com.swu.caresheep.ui.guardian.calendar.*
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.PREF_ACCOUNT_NAME
+import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_ACCOUNT_PICKER
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
+import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_GOOGLE_PLAY_SERVICES
 import com.swu.caresheep.ui.guardian.mypage.GuardianConnectActivity
 import com.swu.caresheep.ui.start.user_id
-import com.swu.caresheep.utils.GoogleLoginClient
 import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
@@ -51,11 +52,9 @@ class GuardianHomeFragment : Fragment() {
 
     // Google Calendar API에 접근하기 위해 사용되는 구글 캘린더 API 서비스 객체
     private var mService: com.google.api.services.calendar.Calendar? = null
-    var mCredential: GoogleAccountCredential? = null
+    private var mCredential: GoogleAccountCredential? = null
 
-    private var googleLoginClient: GoogleLoginClient = GoogleLoginClient()
-    private var task: MakeRequestTask = MakeRequestTask(mCredential, null)
-    private var elderGmail: String? = null
+    private var task: GoogleCalendarRequestTask = GoogleCalendarRequestTask(mCredential, null)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -142,13 +141,13 @@ class GuardianHomeFragment : Fragment() {
             val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(requireContext())
             mCredential!!.selectedAccount = lastSignedInAccount!!.account
 
-            task = MakeRequestTask(mCredential, selectedDate)
+            task = GoogleCalendarRequestTask(mCredential, selectedDate)
             task.execute()
         } else if (!isDeviceOnline()) {  // 인터넷을 사용할 수 없는 경우
             Toast.makeText(requireContext(), "인터넷을 사용할 수 없습니다.", Toast.LENGTH_SHORT).show()
         } else {
             // Google Calendar API 호출
-            task = MakeRequestTask(mCredential, selectedDate)
+            task = GoogleCalendarRequestTask(mCredential, selectedDate)
             task.execute()
         }
         return null
@@ -201,7 +200,7 @@ class GuardianHomeFragment : Fragment() {
     ) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            GuardianCalendarFragment.REQUEST_GOOGLE_PLAY_SERVICES -> if (resultCode != Activity.RESULT_OK) {
+            REQUEST_GOOGLE_PLAY_SERVICES -> if (resultCode != Activity.RESULT_OK) {
                 Toast.makeText(
                     requireContext(),
                     "앱을 실행시키려면 구글 플레이 서비스가 필요합니다. 구글 플레이 서비스를 설치 후 다시 실행하세요.",
@@ -210,7 +209,7 @@ class GuardianHomeFragment : Fragment() {
             } else {
                 getResultsFromApi(null)
             }
-            GuardianCalendarFragment.REQUEST_ACCOUNT_PICKER -> if (resultCode == Activity.RESULT_OK && data != null && data.extras != null) {
+            REQUEST_ACCOUNT_PICKER -> if (resultCode == Activity.RESULT_OK && data != null && data.extras != null) {
                 val accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
                 if (accountName != null) {
                     val settings: SharedPreferences =
@@ -291,7 +290,7 @@ class GuardianHomeFragment : Fragment() {
     /**
      * 비동기적으로 Google Calendar API 호출
      */
-    private inner class MakeRequestTask(
+    private inner class GoogleCalendarRequestTask(
         credential: GoogleAccountCredential?,
         private var selectedDate: java.util.Calendar?
     ) {
@@ -338,8 +337,7 @@ class GuardianHomeFragment : Fragment() {
         private fun onPreExecute() {
             binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
 
-            binding.tvTodayScheduleNotExist.visibility = View.INVISIBLE
-            binding.ivTodayScheduleNotExist.visibility = View.INVISIBLE
+            binding.llTodayScheduleNotExist.visibility = View.INVISIBLE
 
             binding.pbScheduleLoading.show()
         }
@@ -367,8 +365,7 @@ class GuardianHomeFragment : Fragment() {
 
             if (calendarID == null) {
                 // 공유 캘린더가 없으므로 오늘의 일정 X -> RV 안보이게 설정
-                binding.tvTodayScheduleNotExist.visibility = View.VISIBLE
-                binding.ivTodayScheduleNotExist.visibility = View.VISIBLE
+                binding.llTodayScheduleNotExist.visibility = View.VISIBLE
                 binding.rvTodaySchedule.visibility = View.INVISIBLE
 
                 return null
@@ -453,13 +450,11 @@ class GuardianHomeFragment : Fragment() {
                     binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
 
                     // 오늘의 일정 있으므로 RV 보이게 설정
-                    binding.tvTodayScheduleNotExist.visibility = View.INVISIBLE
-                    binding.ivTodayScheduleNotExist.visibility = View.INVISIBLE
+                    binding.llTodayScheduleNotExist.visibility = View.INVISIBLE
                     binding.rvTodaySchedule.visibility = View.VISIBLE
                 } else {
                     // 오늘의 일정 없으므로 RV 안 보이게 설정
-                    binding.tvTodayScheduleNotExist.visibility = View.VISIBLE
-                    binding.ivTodayScheduleNotExist.visibility = View.VISIBLE
+                    binding.llTodayScheduleNotExist.visibility = View.VISIBLE
                     binding.rvTodaySchedule.visibility = View.INVISIBLE
 
 
@@ -469,8 +464,7 @@ class GuardianHomeFragment : Fragment() {
                         resources?.let { AnimationUtils.loadAnimation(context, R.anim.fade_in) }
 
                     animation?.also { hyperspaceJumpAnimation ->
-                        binding.tvTodayScheduleNotExist.startAnimation(hyperspaceJumpAnimation)
-                        binding.ivTodayScheduleNotExist.startAnimation(hyperspaceJumpAnimation)
+                        binding.llTodayScheduleNotExist.startAnimation(hyperspaceJumpAnimation)
                     }
                 }
             }
@@ -496,8 +490,14 @@ class GuardianHomeFragment : Fragment() {
                         )
                     }
                     else -> {
+                        Log.e(
+                            "보호자 홈: ",
+                            "GoogleCalendarRequestTask The following error occurred: ${mLastError!!.message}"
+                        )
                     }
                 }
+            } else {
+                Log.e("보호자 홈: ", "요청이 취소됐습니다.")
             }
         }
 

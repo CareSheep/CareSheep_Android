@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_top"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="60dp"
         android:paddingHorizontal="20dp"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -28,86 +28,126 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_user_code_title"
-        style="@style/Text.Title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/user_code"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tb_top" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_user_code_caption"
-        style="@style/Text.Title4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/elder_connect_user_code_message"
-        android:textColor="@color/gray_700"
-        app:layout_constraintStart_toStartOf="@+id/tv_user_code_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_user_code_title" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_user_code"
-        style="@style/Text.Title3"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rectangle_green_transp_40_radius_30"
-        android:fontFamily="@font/pretendard_bold"
-        android:gravity="center"
-        android:paddingVertical="35dp"
-        android:text="1234S6"
-        app:layout_constraintStart_toStartOf="@+id/tv_user_code_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_user_code_caption" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_connected_guardian_title"
-        style="@style/Text.Title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/elder_connect_connected_guardian"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_user_code" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_connected_guardian"
-        style="@style/Text.Title3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rectangle_green_transp_40_radius_30"
-        android:fontFamily="@font/pretendard_bold"
-        android:gravity="center"
-        android:paddingVertical="35dp"
-        android:text="@string/elder_connect_not_exist_guardian"
-        android:textColor="@color/olive"
-        app:layout_constraintStart_toStartOf="@+id/tv_connected_guardian_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_connected_guardian_title" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_send_code"
-        style="@style/Text.Title3"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/rectangle_green_radius_30"
-        android:enabled="false"
-        android:gravity="center"
-        android:stateListAnimator="@null"
-        android:text="@string/elder_connect_send_code"
-        android:textColor="@color/white"
-        android:textStyle="bold"
+        android:layout_height="0dp"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tb_top">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_user_code_title"
+                style="@style/Text.Title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/user_code"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_user_code_caption"
+                style="@style/Text.Title4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/elder_connect_user_code_message"
+                android:textColor="@color/gray_700"
+                app:layout_constraintStart_toStartOf="@+id/tv_user_code_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_user_code_title" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_user_code"
+                style="@style/Text.Title3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rectangle_green_transp_40_radius_30"
+                android:fontFamily="@font/pretendard_bold"
+                android:gravity="center"
+                android:paddingVertical="35dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_user_code_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_user_code_caption" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_connected_guardian_title"
+                style="@style/Text.Title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/elder_connect_connected_guardian"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_user_code" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ll_connected_guardian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rectangle_green_transp_40_radius_30"
+                app:layout_constraintTop_toBottomOf="@+id/tv_connected_guardian_title">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_connected_guardian_not_exist"
+                    style="@style/Text.Title3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:gravity="center"
+                    android:paddingVertical="35dp"
+                    android:text="@string/elder_connect_not_exist_guardian"
+                    android:textColor="@color/olive"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_connected_guardian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layoutAnimation="@anim/item_layout_animation"
+                    android:overScrollMode="never"
+                    android:paddingVertical="12dp"
+                    android:visibility="invisible"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:spanCount="4"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_elder_connected_guardian" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_send_code"
+                style="@style/Text.Title3"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/rectangle_green_radius_30"
+                android:enabled="false"
+                android:gravity="center"
+                android:stateListAnimator="@null"
+                android:text="@string/elder_connect_send_code"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_connected_guardian" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

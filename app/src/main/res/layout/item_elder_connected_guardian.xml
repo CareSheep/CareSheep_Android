@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="18dp"
+    android:paddingVertical="8dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_connected_guardian"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:paddingHorizontal="2dp"
+        android:src="@drawable/img_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_connected_guardian"
+        style="@style/Text.Title4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/iv_connected_guardian"
+        app:layout_constraintStart_toStartOf="@+id/iv_connected_guardian"
+        app:layout_constraintTop_toBottomOf="@+id/iv_connected_guardian" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

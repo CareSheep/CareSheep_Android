@@ -1,6 +1,5 @@
 package com.swu.caresheep.ui.guardian.calendar
 
-import android.Manifest
 import android.accounts.AccountManager
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
@@ -38,7 +37,6 @@ import com.swu.caresheep.utils.GoogleLoginClient
 import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -48,7 +46,7 @@ class GuardianCalendarFragment : Fragment() {
 
     // Google Calendar API에 접근하기 위해 사용되는 구글 캘린더 API 서비스 객체
     private var mService: com.google.api.services.calendar.Calendar? = null
-    var mCredential: GoogleAccountCredential? = null
+    private var mCredential: GoogleAccountCredential? = null
 
     // Google Calendar API 호출 관련 메커니즘 및 AsyncTask을 재사용하기 위해 사용
     private var mID = 0
@@ -58,7 +56,6 @@ class GuardianCalendarFragment : Fragment() {
         const val REQUEST_ACCOUNT_PICKER = 1000
         const val REQUEST_AUTHORIZATION = 1001
         const val REQUEST_GOOGLE_PLAY_SERVICES = 1002
-        const val REQUEST_PERMISSION_GET_ACCOUNTS = 1003
 
         const val PREF_ACCOUNT_NAME = "accountName"
         val SCOPES = arrayOf(CalendarScopes.CALENDAR)
@@ -133,34 +130,10 @@ class GuardianCalendarFragment : Fragment() {
             startActivity(intent)
         }
 
-        // TDL
-        // 어르신과 연결 여부 확인
-        // 연결돼야 공유 캘린더 이용 가능
-
-//        mAddCalendarButton.setOnClickListener(View.OnClickListener {
-//            mAddCalendarButton.setEnabled(false)
-//            mStatusText.setText("")
-//            mID = 1 //캘린더 생성
-//            getResultsFromApi()
-//            mAddCalendarButton.setEnabled(true)
-//        })
-
 
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-//        // Google Calendar API 사용하기 위해 필요한 인증 초기화( 자격 증명 credentials, 서비스 객체 )
-//        // OAuth 2.0를 사용하여 구글 계정 선택 및 인증하기 위한 준비
-//        mCredential = GoogleAccountCredential.usingOAuth2(
-//            context,
-//            listOf(*SCOPES)
-//        ).setBackOff(ExponentialBackOff()) // I/O 예외 상황을 대비해서 백오프 정책 사용
-//
-//        mID = 1  // 캘린더 생성
-//        getResultsFromApi(today)
-    }
 
     /**
      * 다음 사전 조건을 모두 만족해야 Google Calendar API를 사용할 수 있다.
@@ -185,7 +158,7 @@ class GuardianCalendarFragment : Fragment() {
                     withContext(Dispatchers.IO) { googleLoginClient.getElderInfo(requireActivity()) }
                 val elderGmail = elderInfo.gmail
 
-                MakeRequestTask(
+                GoogleCalendarRequestTask(
                     mCredential,
                     selectedDate,
                     elderGmail
@@ -201,7 +174,7 @@ class GuardianCalendarFragment : Fragment() {
                     withContext(Dispatchers.IO) { googleLoginClient.getElderInfo(requireActivity()) }
                 val elderGmail = elderInfo.gmail
 
-                MakeRequestTask(
+                GoogleCalendarRequestTask(
                     mCredential,
                     selectedDate,
                     elderGmail
@@ -344,18 +317,11 @@ class GuardianCalendarFragment : Fragment() {
         return id
     }
 
-    private fun initSchedule(scheduleData: ArrayList<GuardianSchedule>) {
-        // 일정 RecyclerView 어댑터와 데이터 리스트 연결
-        val scheduleRVAdapter = GuardianScheduleRVAdapter(scheduleData)
-        scheduleRVAdapter.setData(scheduleData)
-        binding.rvSchedule.adapter = scheduleRVAdapter
-    }
-
 
     /**
      * 비동기적으로 Google Calendar API 호출
      */
-    private inner class MakeRequestTask(
+    private inner class GoogleCalendarRequestTask(
         credential: GoogleAccountCredential?,
         private var selectedDate: java.util.Calendar?,
         private var elderEmail: String?
@@ -385,10 +351,6 @@ class GuardianCalendarFragment : Fragment() {
                 val result = when (mID) {
                     1 -> withContext(Dispatchers.IO) {
                         createCalendar(selectedDate, elderEmail)
-                    }
-                    2 -> withContext(Dispatchers.IO) {
-                        addEvent()
-                        null
                     }
                     3 -> withContext(Dispatchers.IO) {
                         getEvent(selectedDate)
@@ -420,9 +382,7 @@ class GuardianCalendarFragment : Fragment() {
         @Throws(IOException::class)
         private fun getEvent(selectedDate: java.util.Calendar?): List<GuardianSchedule>? {
 
-            Log.e("[GetEvent 입장]selectedDate: ", selectedDate.toString())
-
-            var testDate: java.util.Calendar =
+            val testDate: java.util.Calendar =
                 selectedDate ?: java.util.Calendar.getInstance(timeZone)
 
             // 선택된 날짜로부터 시작과 끝 시간을 계산
@@ -569,7 +529,6 @@ class GuardianCalendarFragment : Fragment() {
         }
 
         private fun onPostExecute(result: List<GuardianSchedule>?) {
-//            super.onPostExecute(result)
 
             result?.let {
                 if (result.isNotEmpty()) {
@@ -625,48 +584,10 @@ class GuardianCalendarFragment : Fragment() {
                     }
                 }
             } else {
-//                mStatusText.setText("요청 취소됨.")
+                Log.e("보호자 공유 캘린더: ", "요청이 취소됐습니다.")
             }
         }
 
-        private fun addEvent(): String {
-            val calendarID: String = getCalendarID("공유 캘린더") ?: return "캘린더를 먼저 생성하세요."
-            var event: Event = Event()
-                .setSummary("구글 캘린더 테스트")
-                .setLocation("서울시")
-                .setDescription("캘린더에 이벤트 추가하는 것을 테스트합니다.")
-            val calander: java.util.Calendar = java.util.Calendar.getInstance(timeZone)
-            //simpledateformat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssZ", Locale.KOREA);
-            // Z에 대응하여 +0900이 입력되어 문제 생겨 수작업으로 입력
-            val simpledateformat =
-                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+09:00", Locale.KOREA)
-            val datetime: String = simpledateformat.format(calander.time)
-            val startDateTime =
-                DateTime(datetime)
-            val start = EventDateTime()
-                .setDateTime(startDateTime)
-                .setTimeZone("Asia/Seoul")
-            event.start = start
-            Log.d("@@@", datetime)
-            val endDateTime =
-                DateTime(datetime)
-            val end = EventDateTime()
-                .setDateTime(endDateTime)
-                .setTimeZone("Asia/Seoul")
-            event.end = end
-
-            //String[] recurrence = new String[]{"RRULE:FREQ=DAILY;COUNT=2"};
-            //event.setRecurrence(Arrays.asList(recurrence));
-            try {
-                event = mService!!.events().insert(calendarID, event).execute()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("Exception", "Exception : $e")
-            }
-            System.out.printf("Event created: %s\n", event.htmlLink)
-            Log.e("Event", "created : " + event.htmlLink)
-            return "created : " + event.htmlLink
-        }
     }
 
 }

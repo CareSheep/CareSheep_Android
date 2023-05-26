@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.caresheep.databinding.ItemGuardianScheduleBinding
-import com.swu.caresheep.ui.elder.main.ElderMainSchedule
+import com.swu.caresheep.ui.elder.main.ElderTodaySchedule
 
 class GuardianScheduleRVAdapter(private var scheduleList: ArrayList<GuardianSchedule>) :
     RecyclerView.Adapter<GuardianScheduleRVAdapter.ViewHolder>() {
 
     interface MyItemClickListener {
-        fun onItemClick(schedule: ElderMainSchedule)
+        fun onItemClick(schedule: ElderTodaySchedule)
     }
 
     private lateinit var mItemClickListener: MyItemClickListener
