@@ -44,7 +44,7 @@
             android:paddingBottom="18dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_bottom_sheet_notification_title">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <android.widget.Button
                 android:id="@+id/tv_bottom_sheet_notification_none"
                 style="@style/Text.Body1"
                 android:layout_width="0dp"
@@ -53,12 +53,13 @@
                 android:gravity="center"
                 android:paddingHorizontal="18dp"
                 android:paddingVertical="16dp"
+                android:stateListAnimator="@null"
                 android:text="@string/guardian_calendar_schedule_notification_none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <android.widget.Button
                 android:id="@+id/tv_bottom_sheet_notification_start"
                 style="@style/Text.Body1"
                 android:layout_width="0dp"
@@ -67,12 +68,13 @@
                 android:gravity="center"
                 android:paddingHorizontal="18dp"
                 android:paddingVertical="16dp"
+                android:stateListAnimator="@null"
                 android:text="@string/guardian_calendar_schedule_notification_start"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_bottom_sheet_notification_none" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <android.widget.Button
                 android:id="@+id/tv_bottom_sheet_notification_minute"
                 style="@style/Text.Body1"
                 android:layout_width="0dp"
@@ -81,12 +83,13 @@
                 android:gravity="center"
                 android:paddingHorizontal="18dp"
                 android:paddingVertical="16dp"
+                android:stateListAnimator="@null"
                 android:text="@string/guardian_calendar_schedule_notification_minute"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_bottom_sheet_notification_start" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <android.widget.Button
                 android:id="@+id/tv_bottom_sheet_notification_hour"
                 style="@style/Text.Body1"
                 android:layout_width="0dp"
@@ -95,12 +98,13 @@
                 android:gravity="center"
                 android:paddingHorizontal="18dp"
                 android:paddingVertical="16dp"
+                android:stateListAnimator="@null"
                 android:text="@string/guardian_calendar_schedule_notification_hour"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_bottom_sheet_notification_minute" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <android.widget.Button
                 android:id="@+id/tv_bottom_sheet_notification_day"
                 style="@style/Text.Body1"
                 android:layout_width="0dp"
@@ -109,6 +113,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="18dp"
                 android:paddingVertical="16dp"
+                android:stateListAnimator="@null"
                 android:text="@string/guardian_calendar_schedule_notification_day"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

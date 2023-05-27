@@ -3,7 +3,6 @@ package com.swu.caresheep.ui.guardian.calendar
 import android.app.Dialog
 import android.content.Context
 import android.net.ConnectivityManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.ConnectionResult
@@ -25,13 +25,13 @@ import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.client.util.DateTime
 import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.calendar.model.*
-import com.swu.caresheep.utils.GoogleLoginClient
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityGuardianAddScheduleBinding
 import com.swu.caresheep.databinding.BottomSheetScheduleNotificationBinding
 import com.swu.caresheep.databinding.BottomSheetScheduleRepeatBinding
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.timeZone
+import com.swu.caresheep.utils.GoogleLoginClient
 import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
@@ -52,9 +52,9 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
     private var notificationBottomSheetDialog: BottomSheetDialog? = null
     private var repeatBottomSheetDialog: BottomSheetDialog? = null
 
-    private var googleLoginClient: GoogleLoginClient = GoogleLoginClient()
+    private var eventInfo: Event = Event()
 
-    private var task: MakeRequestTask = MakeRequestTask(mCredential, null, null)
+    private var task: MakeRequestTask = MakeRequestTask(mCredential, null)
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -382,13 +382,9 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
             // 일정 추가
             lifecycleScope.launch {
-                val elderInfo =
-                    withContext(Dispatchers.IO) { googleLoginClient.getElderInfo(this@GuardianAddScheduleActivity) }
-                val gmail = elderInfo.gmail
-                val eventInfo =
-                    getNewEventInfo(scheduleTitle, scheduleMemo, startDateTime, endDateTime)
+                getNewEventInfo(scheduleTitle, scheduleMemo, startDateTime, endDateTime)
 
-                addSchedule(eventInfo, listOf(gmail!!))
+                addSchedule(eventInfo)
             }
 
             onBackPressedCallback.handleOnBackPressed()
@@ -410,25 +406,22 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         memo: String,
         startDateTime: DateTime,
         endDateTime: DateTime
-    ): Event {
-        val newEvent: Event = Event()
-            .setSummary(title)
-            .setDescription(memo)
+    ) {
+        eventInfo
+            .setSummary(title).description = memo
 
         // 시작 시간
         val start = EventDateTime()
             .setDateTime(startDateTime)
             .setTimeZone("Asia/Seoul")
-        newEvent.start = start
+        eventInfo.start = start
 
 
         // 종료 시간
         val end = EventDateTime()
             .setDateTime(endDateTime)
             .setTimeZone("Asia/Seoul")
-        newEvent.end = end
-
-        return newEvent
+        eventInfo.end = end
     }
 
     override fun onStart() {
@@ -535,8 +528,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         notificationBottomSheetDialog!!.setContentView(notificationBottomSheetView!!)
         setNotificationBottomSheetView(
             notificationBottomSheetView,
-            notificationBottomSheetDialog!!,
-            this
+            notificationBottomSheetDialog!!
         )
 
         binding.clAlarm.setOnClickListener {
@@ -552,7 +544,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
             BottomSheetDialog(this, R.style.BottomSheetDialogCustom)
 
         repeatBottomSheetDialog!!.setContentView(repeatBottomSheetView!!)
-        setRepeatBottomSheetView(repeatBottomSheetView, repeatBottomSheetDialog!!, this)
+        setRepeatBottomSheetView(repeatBottomSheetView, repeatBottomSheetDialog!!)
 
         binding.clRepeat.setOnClickListener {
             repeatBottomSheetDialog!!.show()
@@ -564,38 +556,102 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
     // 알림 메뉴 Bottom Sheet Click event 설정
     private fun setNotificationBottomSheetView(
         bottomSheetView: View,
-        dialog: BottomSheetDialog,
-        context: Context
+        dialog: BottomSheetDialog
     ) {
         val notificationBinding = BottomSheetScheduleNotificationBinding.bind(bottomSheetView)
+
+        // 기본으로 10분 전으로 설정
+        var reminders = Event.Reminders()
+        reminders.useDefault = false
+
+        var reminder10Minutes = EventReminder()
+        reminder10Minutes.method = "popup"
+        reminder10Minutes.minutes = 10
+
+        reminders.overrides = listOf(reminder10Minutes)
+
+        eventInfo.reminders = reminders
 
         // 알림 없음
         notificationBinding.tvBottomSheetNotificationNone.setOnClickListener {
             binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationNone.text
+
+            reminders = Event.Reminders()
+            reminders.useDefault = true
+            eventInfo.reminders = reminders
+
             dialog.dismiss()
         }
 
         // 일정 시작시간
         notificationBinding.tvBottomSheetNotificationStart.setOnClickListener {
             binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationStart.text
+
+            reminders = Event.Reminders()
+            reminders.useDefault = false
+
+            val reminderAtStart = EventReminder()
+            reminderAtStart.method = "popup"
+            reminderAtStart.minutes = 0
+
+            reminders.overrides = listOf(reminderAtStart)
+
+            eventInfo.reminders = reminders
+
             dialog.dismiss()
         }
 
         // 10분 전
         notificationBinding.tvBottomSheetNotificationMinute.setOnClickListener {
             binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationMinute.text
+
+            reminders = Event.Reminders()
+            reminders.useDefault = false
+
+            reminder10Minutes = EventReminder()
+            reminder10Minutes.method = "popup"
+            reminder10Minutes.minutes = 10
+
+            reminders.overrides = listOf(reminder10Minutes)
+
+            eventInfo.reminders = reminders
+
             dialog.dismiss()
         }
 
         // 1시간 전
         notificationBinding.tvBottomSheetNotificationHour.setOnClickListener {
             binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationHour.text
+
+            reminders = Event.Reminders()
+            reminders.useDefault = false
+
+            val reminder1Hour = EventReminder()
+            reminder1Hour.method = "popup"
+            reminder1Hour.minutes = 60
+
+            reminders.overrides = listOf(reminder1Hour)
+
+            eventInfo.reminders = reminders
+
             dialog.dismiss()
         }
 
         // 1일 전
         notificationBinding.tvBottomSheetNotificationDay.setOnClickListener {
             binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationDay.text
+
+            reminders = Event.Reminders()
+            reminders.useDefault = false
+
+            val reminder1Day = EventReminder()
+            reminder1Day.method = "popup"
+            reminder1Day.minutes = 24 * 60
+
+            reminders.overrides = listOf(reminder1Day)
+
+            eventInfo.reminders = reminders
+
             dialog.dismiss()
         }
 
@@ -609,38 +665,55 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
     // 반복 메뉴 Bottom Sheet Click event 설정
     private fun setRepeatBottomSheetView(
         bottomSheetView: View,
-        dialog: BottomSheetDialog,
-        context: Context
+        dialog: BottomSheetDialog
     ) {
         val repeatBinding = BottomSheetScheduleRepeatBinding.bind(bottomSheetView)
+
+        // 기본으로 반복 없음 설정
+        eventInfo.recurrence = null
 
         // 반복 없음
         repeatBinding.tvBottomSheetRepeatNone.setOnClickListener {
             binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatNone.text
+
+            eventInfo.recurrence = null
+
             dialog.dismiss()
         }
 
         // 매일
         repeatBinding.tvBottomSheetRepeatDay.setOnClickListener {
             binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatDay.text
+
+            eventInfo.recurrence = listOf("RRULE:FREQ=DAILY")
+
             dialog.dismiss()
         }
 
         // 매주
         repeatBinding.tvBottomSheetRepeatWeek.setOnClickListener {
             binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatWeek.text
+
+            eventInfo.recurrence = listOf("RRULE:FREQ=WEEKLY")
+
             dialog.dismiss()
         }
 
         // 매월
         repeatBinding.tvBottomSheetRepeatMonth.setOnClickListener {
             binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatMonth.text
+
+            eventInfo.recurrence = listOf("RRULE:FREQ=MONTHLY")
+
             dialog.dismiss()
         }
 
         // 매년
         repeatBinding.tvBottomSheetRepeatYear.setOnClickListener {
             binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatYear.text
+
+            eventInfo.recurrence = listOf("RRULE:FREQ=YEARLY")
+
             dialog.dismiss()
         }
 
@@ -702,9 +775,9 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
     }
 
 
-    private fun addSchedule(event: Event, attendees: List<String>?) {
+    private fun addSchedule(event: Event) {
         // Google Calendar API 호출
-        getResultsFromApi(event, attendees)
+        getResultsFromApi(event)
     }
 
     /**
@@ -717,7 +790,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
      *
      * 하나라도 만족하지 않으면 해당 사항을 사용자에게 알림.
      */
-    private fun getResultsFromApi(event: Event, attendees: List<String>?): String? {
+    private fun getResultsFromApi(event: Event): String? {
         if (!isGooglePlayServicesAvailable()) {  // Google Play Services를 사용할 수 없는 경우
             acquireGooglePlayServices()
         } else if (mCredential!!.selectedAccountName == null) {  // 유효한 Google 계정이 선택되어 있지 않은 경우
@@ -726,8 +799,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
             task = MakeRequestTask(
                 mCredential,
-                event,
-                attendees
+                event
             )
             task.execute()
         } else if (!isDeviceOnline()) {  // 인터넷을 사용할 수 없는 경우
@@ -736,8 +808,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
             // Google Calendar API 호출
             task = MakeRequestTask(
                 mCredential,
-                event,
-                attendees
+                event
             )
             task.execute()
         }
@@ -840,8 +911,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
      */
     private inner class MakeRequestTask(
         credential: GoogleAccountCredential?,
-        private var event: Event?,
-        private var attendees: List<String>?
+        private var event: Event?
     ) {
         private var mLastError: Exception? = null
         var job: Job? = null
@@ -858,21 +928,17 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 .build()
         }
 
-        private fun onPreExecute() {
-//            binding.pbScheduleLoading.show()
-        }
 
         /**
          * 백그라운드에서 Google Calendar API 호출 처리
          */
         fun execute() {
             job = CoroutineScope(Dispatchers.Main).launch {
-                onPreExecute()
 
                 try {
                     val result = withContext(Dispatchers.IO) {
                         try {
-                            addEvent(event!!, attendees)
+                            addEvent(event!!)
                             null
                         } catch (e: Exception) {
                             mLastError = e
@@ -898,9 +964,8 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 //            binding.pbScheduleLoading.hide()
         }
 
-        private fun addEvent(event: Event, attendees: List<String>?): String {
+        private fun addEvent(event: Event): String {
             val calendarID: String = getCalendarID("공유 캘린더") ?: return "공유 캘린더를 먼저 생성하세요."
-            event.attendees = attendees?.map { email -> EventAttendee().setEmail(email) }
             try {
                 val newEvent = mService!!.events().insert(calendarID, event).execute()
                 Log.e("[addEvent] NewEvent", newEvent.toString())

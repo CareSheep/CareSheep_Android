@@ -575,12 +575,6 @@ class GuardianCalendarFragment : Fragment() {
                         )
                     }
                     else -> {
-                        //                    mStatusText.setText(
-                        //                        """
-                        //                        MakeRequestTask The following error occurred:
-                        //                        ${mLastError!!.message}
-                        //                        """.trimIndent()
-                        //                    )
                     }
                 }
             } else {
