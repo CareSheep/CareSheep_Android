@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityGuardianElderReportBinding
+import com.swu.caresheep.ui.guardian.medicine.GuardianSetMedicineNameActivity
+import kotlinx.android.synthetic.main.activity_guardian_elder_report.go_to_back
 
 class GuardianElderReportActivity : AppCompatActivity() {
 
@@ -48,12 +50,10 @@ class GuardianElderReportActivity : AppCompatActivity() {
             }
         }.attach()
 
-        //supportFragmentManager.beginTransaction().add(R.id.fragmentContainer,GuardianElderTodayReportFragment()).commit()
-
-//        binding.goToReport.setOnClickListener {
-//            //replaceFragment(GuardianElderTodayReportFragment())
-//            supportFragmentManager.beginTransaction().add(R.id.fragmentContainer,GuardianElderTodayReportFragment()).commit()
-//        }
+        // 보호자 청므 화면으로 돌아감
+        go_to_back.setOnClickListener {
+            startActivity(Intent(this, GuardianActivity::class.java))
+        }
 
     }
 

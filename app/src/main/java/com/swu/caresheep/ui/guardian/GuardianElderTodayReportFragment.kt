@@ -1,15 +1,20 @@
 package com.swu.caresheep.ui.guardian
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.breakfast_check
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.dinner_check
@@ -17,6 +22,13 @@ import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.lunch
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.view.today_date
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.walk_check
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.walk_step_today
+import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check1
+import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check2
+import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check3
+import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check4
+import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check5
+import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check6
+import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check7
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -50,68 +62,101 @@ class GuardianElderTodayReportFragment : Fragment() {
     }
 
     private fun getTodayBreakfastData() {
-
-        dbRef = FirebaseDatabase.getInstance().getReference("Breakfast").child("test")
-
-        dbRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    if(snapshot.child("date").getValue().toString() == "$todayDate"){
-                        val breakfast_value = snapshot.child("done").getValue().toString()
-                        if(breakfast_value == "1"){
-                            println("this is Breakfast result: $breakfast_value")
-                            breakfast_check.setImageResource(R.drawable.baseline_check_circle_24)
+        try {
+            val user_id = 1 // user_id로 수정
+            Firebase.database(BuildConfig.DB_URL)
+                .getReference("Breakfast")
+                .orderByChild("user_id")
+                .equalTo(user_id.toDouble())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            for (data in snapshot.children) {
+                                val dateValue = data.child("date").getValue(String::class.java)
+                                // 월요일
+                                if (dateValue == "$todayDate") {
+                                    val breakfast1_value = data.child("done").getValue(Int::class.java)
+                                    if (breakfast1_value == 1) {
+                                        Log.d("test_success","$breakfast1_value")
+                                        breakfast_check.setImageResource(R.drawable.baseline_check_circle_24)
+                                    }
+                                }
+                            }
                         }
                     }
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                println("Failed to read value.")
-            }
-        })
+                    override fun onCancelled(error: DatabaseError) {
+                        // 쿼리 실행 중 오류 발생 시 처리할 내용
+                    }
+                })
+        } catch (e: ApiException) {
+            Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
+        }
+
     }
 
     private fun getTodayLunchData() {
-        dbRef = FirebaseDatabase.getInstance().getReference("Lunch").child("test")
-
-        dbRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    if(snapshot.child("date").getValue().toString() == "$todayDate"){
-                        val lunch_value = snapshot.child("done").getValue().toString()
-
-                        if(lunch_value == "1"){
-                            println("this is Lunch result: $lunch_value")
-                            lunch_check.setImageResource(R.drawable.baseline_check_circle_24)
+        try {
+            val user_id = 1 // user_id로 수정
+            Firebase.database(BuildConfig.DB_URL)
+                .getReference("Lunch")
+                .orderByChild("user_id")
+                .equalTo(user_id.toDouble())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            for (data in snapshot.children) {
+                                val dateValue = data.child("date").getValue(String::class.java)
+                                // 월요일
+                                if (dateValue == "$todayDate") {
+                                    val breakfast1_value = data.child("done").getValue(Int::class.java)
+                                    if (breakfast1_value == 1) {
+                                        Log.d("test_success","$breakfast1_value")
+                                        lunch_check.setImageResource(R.drawable.baseline_check_circle_24)
+                                    }
+                                }
+                            }
                         }
                     }
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                println("Failed to read value.")
-            }
-        })
+                    override fun onCancelled(error: DatabaseError) {
+                        // 쿼리 실행 중 오류 발생 시 처리할 내용
+                    }
+                })
+        } catch (e: ApiException) {
+            Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
+        }
+
     }
 
     private fun getTodayDinnerData() {
-        dbRef = FirebaseDatabase.getInstance().getReference("Dinner").child("test")
-
-        dbRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    if(snapshot.child("date").getValue().toString() == "$todayDate"){
-                        val dinner_value = snapshot.child("done").getValue().toString()
-                        if(dinner_value == "1"){
-                            println("this is Lunch result: $dinner_value")
-                            dinner_check.setImageResource(R.drawable.baseline_check_circle_24)
+        try {
+            val user_id = 1 // user_id로 수정
+            Firebase.database(BuildConfig.DB_URL)
+                .getReference("Dinner")
+                .orderByChild("user_id")
+                .equalTo(user_id.toDouble())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            for (data in snapshot.children) {
+                                val dateValue = data.child("date").getValue(String::class.java)
+                                // 월요일
+                                if (dateValue == "$todayDate") {
+                                    val breakfast1_value = data.child("done").getValue(Int::class.java)
+                                    if (breakfast1_value == 1) {
+                                        Log.d("test_success","$breakfast1_value")
+                                        dinner_check.setImageResource(R.drawable.baseline_check_circle_24)
+                                    }
+                                }
+                            }
                         }
                     }
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                println("Failed to read value.")
-            }
-        })
+                    override fun onCancelled(error: DatabaseError) {
+                        // 쿼리 실행 중 오류 발생 시 처리할 내용
+                    }
+                })
+        } catch (e: ApiException) {
+            Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
+        }
     }
 
     private fun getTodayWalkData() {

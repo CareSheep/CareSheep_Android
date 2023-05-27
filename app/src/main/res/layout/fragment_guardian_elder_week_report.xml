@@ -12,25 +12,13 @@
         android:fillViewport="true"
         android:scrollbars="none">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:background="#F1F1F1"
-        android:orientation="vertical"
-        android:layout_gravity="center">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="16dp">
-
-            <Button
-                android:id="@+id/testbutton"
-                android:layout_width="30dp"
-                android:layout_height="50dp"/>
+            android:layout_height="match_parent"
+            android:paddingTop="152dp"
+            android:background="#F1F1F1"
+            android:orientation="vertical"
+            android:layout_gravity="center">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -38,7 +26,7 @@
 
                 <ImageView
                     android:id="@+id/imageView6"
-                    android:layout_width="180dp"
+                    android:layout_width="250dp"
                     android:layout_height="50dp"
                     android:src="@drawable/rectangle_white_radius_15"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -49,7 +37,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/thissun"
+                    android:id="@+id/this_week"
                     android:text="주간"
                     android:textSize="18dp"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView6"
@@ -59,12 +47,99 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageButton
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingTop="16dp"
+            android:layout_width="380dp"
+            android:layout_height="148dp"
+            android:layout_gravity="center"
+            android:paddingBottom="16dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="380dp"
+                android:layout_height="116dp"
+                android:layout_gravity="center"
+                android:src="@drawable/rectangle_white_radius_15"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageView">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="주간 어르신 루틴 이행률"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="12dp"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="#ABC270"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="%"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="#ABC270"/>
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="320dp"
+                android:layout_height="25dp"
+                android:layout_marginBottom="16dp"
+                android:max="28"
+                android:progress="5"
+                android:progressDrawable="@drawable/progressbar1"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+            <LinearLayout
+                android:paddingBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="280dp"
+                    android:text="100%"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
 
 
-        </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,6 +167,18 @@
                 android:layout_marginBottom="48dp"
                 android:scaleType="center"
                 android:src="@drawable/breakfast_round_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.567" />
+
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:scaleType="center"
+                android:src="@drawable/baseline_rice_bowl_16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -202,6 +289,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.567" />
 
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:scaleType="center"
+                android:src="@drawable/baseline_rice_bowl_16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.567" />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -305,6 +404,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.567" />
 
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:scaleType="center"
+                android:src="@drawable/baseline_rice_bowl_16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.567" />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -402,6 +513,17 @@
                 android:layout_marginBottom="48dp"
                 android:scaleType="center"
                 android:src="@drawable/walk_round_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:scaleType="center"
+                android:src="@drawable/baseline_directions_walk_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
