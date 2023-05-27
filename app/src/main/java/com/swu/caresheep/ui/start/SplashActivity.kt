@@ -17,6 +17,8 @@ import com.swu.caresheep.databinding.ActivitySplashBinding
 import com.swu.caresheep.ui.elder.main.ElderActivity
 import com.swu.caresheep.ui.guardian.GuardianActivity
 
+var user_id: Int = 0
+
 class SplashActivity : AppCompatActivity() {
 
     lateinit var binding: ActivitySplashBinding
@@ -57,8 +59,13 @@ class SplashActivity : AppCompatActivity() {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             // 해당 이메일 주소를 가진 데이터가 User 테이블에 존재하는 경우
+                            for (data in snapshot.children) {
+                                user_id = data.child("id").getValue(Int::class.java)!!
+                            }
+
                             Handler().postDelayed({
-                                val intent = Intent(applicationContext, ElderActivity::class.java)
+                                val intent =
+                                    Intent(applicationContext, ElderActivity::class.java)
                                 startActivity(intent)
                                 finish()
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
@@ -75,6 +82,13 @@ class SplashActivity : AppCompatActivity() {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         if (snapshot.exists()) {
                                             // 해당 이메일 주소를 가진 데이터가 Guardian 테이블에 존재하는 경우
+                                            for (data in snapshot.children) {
+                                                val userId =
+                                                    data.child("user_id").getValue(Int::class.java)
+                                                if (userId != null)
+                                                    user_id = userId
+                                            }
+
                                             Handler().postDelayed({
                                                 val intent = Intent(
                                                     applicationContext,

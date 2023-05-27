@@ -63,16 +63,11 @@
     <string name="guardian_home_voice_mailbox_sub_title">새로운 메시지를 확인하세요</string>
     <string name="guardian_home_today_schedule_not_exist_message">아직 등록된 일정이 없습니다.</string>
 
-    <string name="sunday"><font color="#abc270">S</font></string>
-    <array name="weekdays_custom">
-        <item>M</item>
-        <item>T</item>
-        <item>W</item>
-        <item>T</item>
-        <item>F</item>
-        <item>S</item>
-        <item>@string/sunday</item>
-    </array>
+    <!-- Guardian - Calendar -->
+    <string name="guardian_calendar_schedule_title_error">제목을 입력해주세요.</string>
+    <string name="guardian_calendar_schedule_alarm_default">10분 전</string>
+    <string name="guardian_calendar_schedule_repeat_default">반복 안 함</string>
+    <string name="guardian_calendar_schedule_memo">메모</string>
 
     <!-- Guardian - MyPage -->
     <string name="guardian_my_page_routine_info">어르신 루틴 정보</string>
@@ -107,6 +102,7 @@
 
     <!-- Elder -->
     <string name="elder_today_schedule">오늘의 일정</string>
+    <string name="elder_main_caption">원하는 서비스를 선택하세요</string>
 
     <!-- Elder - Connect -->
     <string name="elder_connect">보호자 연결</string>

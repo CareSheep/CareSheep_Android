@@ -114,6 +114,7 @@ class UserAgeFragment : Fragment() {
                     reference.child(id.toString()).setValue(user)
                         .addOnSuccessListener {
                             // 저장 성공 시
+                            user_id = id
                             Log.e("[회원가입] - 어르신", "회원정보 DB에 저장 성공")
                         }
                         .addOnFailureListener {

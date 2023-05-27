@@ -3,13 +3,13 @@ package com.swu.caresheep.ui.elder.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.swu.caresheep.databinding.ItemElderScheduleBinding
+import com.swu.caresheep.databinding.ItemElderTodayScheduleBinding
 
-class ElderMainScheduleRVAdapter(private var scheduleList: ArrayList<ElderMainSchedule>) :
-    RecyclerView.Adapter<ElderMainScheduleRVAdapter.ViewHolder>() {
+class ElderTodayScheduleRVAdapter(private var scheduleList: ArrayList<ElderTodaySchedule>) :
+    RecyclerView.Adapter<ElderTodayScheduleRVAdapter.ViewHolder>() {
 
     interface MyItemClickListener {
-        fun onItemClick(schedule: ElderMainSchedule)
+        fun onItemClick(schedule: ElderTodaySchedule)
     }
 
     private lateinit var mItemClickListener: MyItemClickListener
@@ -21,8 +21,8 @@ class ElderMainScheduleRVAdapter(private var scheduleList: ArrayList<ElderMainSc
         viewGroup: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding: ItemElderScheduleBinding =
-            ItemElderScheduleBinding.inflate(
+        val binding: ItemElderTodayScheduleBinding =
+            ItemElderTodayScheduleBinding.inflate(
                 LayoutInflater.from(viewGroup.context),
                 viewGroup,
                 false
@@ -39,14 +39,14 @@ class ElderMainScheduleRVAdapter(private var scheduleList: ArrayList<ElderMainSc
         return scheduleList.size
     }
 
-    fun setData(items: ArrayList<ElderMainSchedule>) {
+    fun setData(items: ArrayList<ElderTodaySchedule>) {
         this.scheduleList = items
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(val binding: ItemElderScheduleBinding) :
+    inner class ViewHolder(val binding: ItemElderTodayScheduleBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ElderMainSchedule) {
+        fun bind(item: ElderTodaySchedule) {
             binding.tvScheduleTime.text = item.time
             binding.tvScheduleTitle.text = item.title
         }

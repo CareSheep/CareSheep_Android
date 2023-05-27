@@ -39,8 +39,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="40dp">
+            android:layout_height="wrap_content">
 
             <CalendarView
                 android:id="@+id/cv_shared"
@@ -61,18 +60,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_shared" />
 
-            <androidx.core.widget.ContentLoadingProgressBar
-                android:id="@+id/pb_schedule_loading"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:indeterminateTint="@color/green"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_today_date" />
-
             <View
                 android:id="@+id/v_line"
                 android:layout_width="match_parent"
@@ -82,15 +69,62 @@
                 android:background="@color/green"
                 app:layout_constraintTop_toBottomOf="@+id/tv_today_date" />
 
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/pb_schedule_loading"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ll_schedule_not_exist" />
+
+            <LinearLayout
+                android:id="@+id/ll_schedule_not_exist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_line">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_schedule_not_exist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="34dp"
+                    android:src="@drawable/ic_circle_schedule" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_schedule_not_exist"
+                    style="@style/Text.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="12dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:text="@string/guardian_home_today_schedule_not_exist_message"
+                    android:textColor="@color/gray_900" />
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_today_schedule"
+                android:id="@+id/rv_schedule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="6dp"
+                android:visibility="gone"
                 android:layoutAnimation="@anim/item_layout_animation"
                 android:overScrollMode="never"
+                android:paddingBottom="40dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/v_line"
                 tools:listitem="@layout/item_guardian_schedule" />
 
