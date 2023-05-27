@@ -51,5 +51,10 @@
         <item name="colorControlNormal">@color/transparent</item>
     </style>
 
+    <!-- Guardian - Calendar - Bottom Sheet Dialog - corner 뒷배경 투명 처리 -->
+    <style name="BottomSheetDialogCustom" parent="android:Theme.Holo.Dialog.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
 
 </resources>

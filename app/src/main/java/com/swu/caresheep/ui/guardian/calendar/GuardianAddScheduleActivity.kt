@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.api.client.extensions.android.http.AndroidHttp
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
@@ -27,6 +28,8 @@ import com.google.api.services.calendar.model.*
 import com.swu.caresheep.utils.GoogleLoginClient
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityGuardianAddScheduleBinding
+import com.swu.caresheep.databinding.BottomSheetScheduleNotificationBinding
+import com.swu.caresheep.databinding.BottomSheetScheduleRepeatBinding
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.timeZone
 import kotlinx.coroutines.*
@@ -41,10 +44,13 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
     // Google Calendar API에 접근하기 위해 사용되는 구글 캘린더 API 서비스 객체
     private var mService: com.google.api.services.calendar.Calendar? = null
     private var mCredential: GoogleAccountCredential? = null
+
     private var isStartPickerClicked = false
     private var isEndPickerClicked = false
     private var scheduleTitle: String = ""
     private var scheduleMemo: String = ""
+    private var notificationBottomSheetDialog: BottomSheetDialog? = null
+    private var repeatBottomSheetDialog: BottomSheetDialog? = null
 
     private var googleLoginClient: GoogleLoginClient = GoogleLoginClient()
 
@@ -519,7 +525,132 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         })
 
 
+        // 알림
+        // 알림 메뉴 Bottom Sheet
+        val notificationBottomSheetView =
+            layoutInflater.inflate(R.layout.bottom_sheet_schedule_notification, binding.root, false)
+        notificationBottomSheetDialog =
+            BottomSheetDialog(this, R.style.BottomSheetDialogCustom)
+
+        notificationBottomSheetDialog!!.setContentView(notificationBottomSheetView!!)
+        setNotificationBottomSheetView(
+            notificationBottomSheetView,
+            notificationBottomSheetDialog!!,
+            this
+        )
+
+        binding.clAlarm.setOnClickListener {
+            notificationBottomSheetDialog!!.show()
+        }
+
+
+        // 반복
+        // 반복 메뉴 Bottom Sheet
+        val repeatBottomSheetView =
+            layoutInflater.inflate(R.layout.bottom_sheet_schedule_repeat, binding.root, false)
+        repeatBottomSheetDialog =
+            BottomSheetDialog(this, R.style.BottomSheetDialogCustom)
+
+        repeatBottomSheetDialog!!.setContentView(repeatBottomSheetView!!)
+        setRepeatBottomSheetView(repeatBottomSheetView, repeatBottomSheetDialog!!, this)
+
+        binding.clRepeat.setOnClickListener {
+            repeatBottomSheetDialog!!.show()
+        }
+
+
     }
+
+    // 알림 메뉴 Bottom Sheet Click event 설정
+    private fun setNotificationBottomSheetView(
+        bottomSheetView: View,
+        dialog: BottomSheetDialog,
+        context: Context
+    ) {
+        val notificationBinding = BottomSheetScheduleNotificationBinding.bind(bottomSheetView)
+
+        // 알림 없음
+        notificationBinding.tvBottomSheetNotificationNone.setOnClickListener {
+            binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationNone.text
+            dialog.dismiss()
+        }
+
+        // 일정 시작시간
+        notificationBinding.tvBottomSheetNotificationStart.setOnClickListener {
+            binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationStart.text
+            dialog.dismiss()
+        }
+
+        // 10분 전
+        notificationBinding.tvBottomSheetNotificationMinute.setOnClickListener {
+            binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationMinute.text
+            dialog.dismiss()
+        }
+
+        // 1시간 전
+        notificationBinding.tvBottomSheetNotificationHour.setOnClickListener {
+            binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationHour.text
+            dialog.dismiss()
+        }
+
+        // 1일 전
+        notificationBinding.tvBottomSheetNotificationDay.setOnClickListener {
+            binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationDay.text
+            dialog.dismiss()
+        }
+
+        // 닫기
+        notificationBinding.btnBottomSheetNotificationClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+    }
+
+    // 반복 메뉴 Bottom Sheet Click event 설정
+    private fun setRepeatBottomSheetView(
+        bottomSheetView: View,
+        dialog: BottomSheetDialog,
+        context: Context
+    ) {
+        val repeatBinding = BottomSheetScheduleRepeatBinding.bind(bottomSheetView)
+
+        // 반복 없음
+        repeatBinding.tvBottomSheetRepeatNone.setOnClickListener {
+            binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatNone.text
+            dialog.dismiss()
+        }
+
+        // 매일
+        repeatBinding.tvBottomSheetRepeatDay.setOnClickListener {
+            binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatDay.text
+            dialog.dismiss()
+        }
+
+        // 매주
+        repeatBinding.tvBottomSheetRepeatWeek.setOnClickListener {
+            binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatWeek.text
+            dialog.dismiss()
+        }
+
+        // 매월
+        repeatBinding.tvBottomSheetRepeatMonth.setOnClickListener {
+            binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatMonth.text
+            dialog.dismiss()
+        }
+
+        // 매년
+        repeatBinding.tvBottomSheetRepeatYear.setOnClickListener {
+            binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatYear.text
+            dialog.dismiss()
+        }
+
+        // 닫기
+        repeatBinding.btnBottomSheetRepeatClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+    }
+
 
     // 해당 월의 일 수 가져오기
     private fun getMaxDayOfMonth(year: Int, month: Int): Int {
