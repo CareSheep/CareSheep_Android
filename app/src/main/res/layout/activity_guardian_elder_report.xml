@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/go_to_report"
+            android:id="@+id/go_to_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@android:color/transparent"
