@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,6 +32,7 @@ import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.calendar.CalendarScopes
 import com.google.api.services.calendar.model.*
 import com.google.api.services.calendar.model.Calendar
+import com.google.gson.Gson
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianCalendarBinding
 import com.swu.caresheep.utils.GoogleLoginClient
@@ -134,6 +136,27 @@ class GuardianCalendarFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        // 일정이 추가되거나 삭제되었으면 갱신
+        var sharedPrefs =
+            requireActivity().getSharedPreferences("Delete Schedule", Context.MODE_PRIVATE)
+        val isDeleted = sharedPrefs.getBoolean("isDeleted", false)
+
+        sharedPrefs =
+            requireActivity().getSharedPreferences("Add Schedule", Context.MODE_PRIVATE)
+        val isAdded = sharedPrefs.getBoolean("isAdded", false)
+
+        if (isDeleted || isAdded) {
+            val calendar = java.util.Calendar.getInstance(timeZone)
+            getResultsFromApi(calendar)
+
+            // isDeleted, isAdded 값 초기화
+            sharedPrefs.edit().putBoolean("isDeleted", false).apply()
+            sharedPrefs.edit().putBoolean("isAdded", false).apply()
+        }
+
+    }
 
     /**
      * 다음 사전 조건을 모두 만족해야 Google Calendar API를 사용할 수 있다.
@@ -162,7 +185,7 @@ class GuardianCalendarFragment : Fragment() {
                     mCredential,
                     selectedDate,
                     elderGmail
-                    ).execute()
+                ).execute()
             }
 //            Toast.makeText(requireContext(), "계정을 선택해야 합니다.", Toast.LENGTH_SHORT).show()
         } else if (!isDeviceOnline()) {
@@ -276,15 +299,15 @@ class GuardianCalendarFragment : Fragment() {
         )
     }
 
-
     /**
      * 안드로이드 디바이스가 인터넷 연결되어 있는지 확인한다. 연결되어 있다면 True 리턴, 아니면 False 리턴
      */
     private fun isDeviceOnline(): Boolean {
-        val connMgr =
-            requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        val networkInfo = connMgr!!.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
+        val connectivityManager =
+            requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 
     /**
@@ -418,6 +441,7 @@ class GuardianCalendarFragment : Fragment() {
             // CalendarView에 일정 표시
             val calendar = java.util.Calendar.getInstance(timeZone)
             items.forEach { event ->
+                val eventId = event.id
                 var eventTitle = event.summary
                 if (eventTitle.isNullOrEmpty()) {
                     eventTitle = "(제목 없음)"
@@ -425,47 +449,65 @@ class GuardianCalendarFragment : Fragment() {
                 val start = event.start.dateTime
                 val end = event.end.dateTime
 
-                var startTime = ""
-                var endTime = ""
+                var startDate = Date()
+                var endDate = Date()
+
                 if (start != null) {
                     // 한국 시간대로 설정
                     val koreaTimeZone = TimeZone.getTimeZone("Asia/Seoul")
                     calendar.timeZone = koreaTimeZone
 
-                    // 일정 시작 시간 계산
-                    val startDate = Date(start.value)
-                    calendar.time = startDate
-                    val startHour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
-                    val startMinute = calendar.get(java.util.Calendar.MINUTE)
-                    val startAMPM = calendar.get(java.util.Calendar.AM_PM)
+                    // 일정 시작 시간
+                    startDate = Date(start.value)
 
-                    val strStartMinute = if (startMinute / 10 == 0) "0$startMinute" else startMinute
-                    val strStartAMPM = if (startAMPM == java.util.Calendar.AM) "오전"
-                    else "오후"
-                    val startHour12 =
-                        if (startHour == 0) 12 else if (startHour > 12) startHour - 12 else startHour
-
-                    startTime = "$strStartAMPM ${startHour12}:${strStartMinute}"
-
-                    // 일정 종료 시간 계산
-                    val endDate = Date(end.value)
-                    calendar.time = endDate
-                    val endHour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
-                    val endMinute = calendar.get(java.util.Calendar.MINUTE)
-                    val endAMPM = calendar.get(java.util.Calendar.AM_PM)
-
-                    val strEndMinute = if (endMinute / 10 == 0) "0$endMinute" else endMinute
-                    val strEndAMPM = if (endAMPM == java.util.Calendar.AM) "오전"
-                    else "오후"
-                    val endHour12 =
-                        if (endHour == 0) 12 else if (endHour > 12) endHour - 12 else endHour
-
-                    endTime = "$strEndAMPM ${endHour12}:${strEndMinute}"
+                    // 일정 종료 시간
+                    endDate = Date(end.value)
                 }
-                scheduleData.add(GuardianSchedule(startTime, endTime, eventTitle))
+                // 메모 정보 가져오기
+                val memo: String? = event.description
+
+                // 알림 정보 가져오기
+                val notificationList: List<EventReminder> =
+                    event.reminders?.overrides ?: emptyList()
+                var notification = "알림 없음"
+                for (item in notificationList) {
+                    notification = when (item.minutes) {
+                        0 -> "일정 시작시간"
+                        10 -> "10분 전"
+                        60 -> "1시간 전"
+                        else -> "1일 전"
+                    }
+                }
+
+                // 반복 정보 가져오기
+                Log.e("event", event.toString())
+                val repeatList: List<String> = event.recurrence ?: emptyList()
+                var repeat = "반복 안 함"
+                for (item in repeatList) {
+                    repeat = when (item) {
+                        "RRULE:FREQ=DAILY" -> "매일"
+                        "RRULE:FREQ=WEEKLY" -> "매주"
+                        "RRULE:FREQ=MONTHLY" -> "매월"
+                        "RRULE:FREQ=YEARLY" -> "매년"
+                        else -> "반복 안 함"
+                    }
+                }
+
+
+                scheduleData.add(
+                    GuardianSchedule(
+                        eventId,
+                        startDate,
+                        endDate,
+                        eventTitle,
+                        notification,
+                        repeat,
+                        memo
+                    )
+                )
             }
 
-            Log.e("calendar", scheduleData.size.toString() + "개의 데이터를 가져왔습니다.")
+            Log.e("[보호자] 공유 캘린더", scheduleData.size.toString() + "개의 데이터를 가져왔습니다.")
 
             return scheduleData
         }
@@ -474,10 +516,13 @@ class GuardianCalendarFragment : Fragment() {
          * 선택되어 있는 Google 계정에 새 캘린더를 추가
          */
         @Throws(IOException::class)
-        private fun createCalendar(selectedDate: java.util.Calendar?, elderEmail: String?): List<GuardianSchedule>? {
+        private fun createCalendar(
+            selectedDate: java.util.Calendar?,
+            elderEmail: String?
+        ): List<GuardianSchedule>? {
             val ids: String? = getCalendarID("공유 캘린더")
             if (ids != null) {
-                Log.e("공유 캘린더", "이미 캘린더가 생성되어 있습니다.")
+                Log.e("[보호자] 공유 캘린더", "이미 캘린더가 생성되어 있습니다.")
                 return getEvent(selectedDate)
             }
 
@@ -542,9 +587,17 @@ class GuardianCalendarFragment : Fragment() {
 
                     scheduleRVAdapter.setMyItemClickListener(object :
                         GuardianScheduleRVAdapter.MyItemClickListener {
-                        override fun onItemClick(item: GuardianSchedule) {
+                        override fun onItemClick(schedule: GuardianSchedule) {
                             // Item 클릭 시 일정 세부 페이지로 이동
-                            startActivity(Intent(requireContext(), GuardianScheduleDetailActivity::class.java))
+                            val gson = Gson()
+                            val itemJson = gson.toJson(schedule)
+
+                            val intent = Intent(
+                                requireContext(),
+                                GuardianScheduleDetailActivity::class.java
+                            )
+                            intent.putExtra("Selected Schedule", itemJson)
+                            startActivity(intent)
                         }
                     })
                 } else {

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -249,10 +250,11 @@ class GuardianHomeFragment : Fragment() {
      * 안드로이드 디바이스가 인터넷 연결되어 있는지 확인한다. 연결되어 있다면 True 리턴, 아니면 False 리턴
      */
     private fun isDeviceOnline(): Boolean {
-        val connMgr =
-            requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        val networkInfo = connMgr!!.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
+        val connectivityManager =
+            requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 
     /**
@@ -386,6 +388,7 @@ class GuardianHomeFragment : Fragment() {
             // CalendarView에 일정 표시
             val calendar = java.util.Calendar.getInstance()
             items.forEach { event ->
+                val eventId = event.id
                 var eventTitle = event.summary
                 if (eventTitle.isNullOrEmpty()) {
                     eventTitle = "(제목 없음)"
@@ -393,46 +396,62 @@ class GuardianHomeFragment : Fragment() {
                 val start = event.start.dateTime
                 val end = event.end.dateTime
 
-                var startTime = ""
-                var endTime = ""
+                var startDate = Date()
+                var endDate = Date()
 
                 if (start != null) {
                     // 한국 시간대로 설정
                     val koreaTimeZone = TimeZone.getTimeZone("Asia/Seoul")
                     calendar.timeZone = koreaTimeZone
 
-                    // 일정 시작 시간 계산
-                    val startDate = Date(start.value)
-                    calendar.time = startDate
-                    val startHour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
-                    val startMinute = calendar.get(java.util.Calendar.MINUTE)
-                    val startAMPM = calendar.get(java.util.Calendar.AM_PM)
+                    // 일정 시작 시간
+                    startDate = Date(start.value)
 
-                    val strStartMinute = if (startMinute / 10 == 0) "0$startMinute" else startMinute
-                    val strStartAMPM = if (startAMPM == java.util.Calendar.AM) "오전"
-                    else "오후"
-                    val startHour12 =
-                        if (startHour == 0) 12 else if (startHour > 12) startHour - 12 else startHour
-
-                    startTime = "$strStartAMPM ${startHour12}:${strStartMinute}"
-
-                    // 일정 종료 시간 계산
-                    val endDate = Date(end.value)
-                    calendar.time = endDate
-                    val endHour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
-                    val endMinute = calendar.get(java.util.Calendar.MINUTE)
-                    val endAMPM = calendar.get(java.util.Calendar.AM_PM)
-
-                    val strEndMinute = if (endMinute / 10 == 0) "0$endMinute" else endMinute
-                    val strEndAMPM = if (endAMPM == java.util.Calendar.AM) "오전"
-                    else "오후"
-                    val endHour12 =
-                        if (endHour == 0) 12 else if (endHour > 12) endHour - 12 else endHour
-
-                    endTime = "$strEndAMPM ${endHour12}:${strEndMinute}"
-
+                    // 일정 종료 시간
+                    endDate = Date(end.value)
                 }
-                scheduleData.add(GuardianSchedule(startTime, endTime, eventTitle))
+                // 메모 정보 가져오기
+                val memo: String? = event.description
+
+                // 알림 정보 가져오기
+                val notificationList: List<EventReminder> =
+                    event.reminders?.overrides ?: emptyList()
+                var notification = "알림 없음"
+                for (item in notificationList) {
+                    notification = when (item.minutes) {
+                        0 -> "일정 시작시간"
+                        10 -> "10분 전"
+                        60 -> "1시간 전"
+                        else -> "1일 전"
+                    }
+                }
+
+                // 반복 정보 가져오기
+                Log.e("event", event.toString())
+                val repeatList: List<String> = event.recurrence ?: emptyList()
+                var repeat = "반복 안 함"
+                for (item in repeatList) {
+                    repeat = when (item) {
+                        "RRULE:FREQ=DAILY" -> "매일"
+                        "RRULE:FREQ=WEEKLY" -> "매주"
+                        "RRULE:FREQ=MONTHLY" -> "매월"
+                        "RRULE:FREQ=YEARLY" -> "매년"
+                        else -> "반복 안 함"
+                    }
+                }
+
+
+                scheduleData.add(
+                    GuardianSchedule(
+                        eventId,
+                        startDate,
+                        endDate,
+                        eventTitle,
+                        notification,
+                        repeat,
+                        memo
+                    )
+                )
             }
 
             Log.e("calendar", scheduleData.size.toString() + "개의 데이터를 가져왔습니다.")

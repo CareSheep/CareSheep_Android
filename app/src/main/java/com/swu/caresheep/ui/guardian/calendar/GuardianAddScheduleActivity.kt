@@ -3,6 +3,7 @@ package com.swu.caresheep.ui.guardian.calendar
 import android.app.Dialog
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -31,7 +32,6 @@ import com.swu.caresheep.databinding.BottomSheetScheduleNotificationBinding
 import com.swu.caresheep.databinding.BottomSheetScheduleRepeatBinding
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.timeZone
-import com.swu.caresheep.utils.GoogleLoginClient
 import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
@@ -386,6 +386,9 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
                 addSchedule(eventInfo)
             }
+
+            val sharedPrefs = getSharedPreferences("Add Schedule", Context.MODE_PRIVATE)
+            sharedPrefs.edit().putBoolean("isAdded", true).apply()
 
             onBackPressedCallback.handleOnBackPressed()
             Toast.makeText(this, "일정을 추가했습니다.", Toast.LENGTH_SHORT).show()
@@ -870,10 +873,11 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
      * 안드로이드 디바이스가 인터넷 연결되어 있는지 확인한다. 연결되어 있다면 True 리턴, 아니면 False 리턴
      */
     private fun isDeviceOnline(): Boolean {
-        val connMgr =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        val networkInfo = connMgr!!.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 
     /**

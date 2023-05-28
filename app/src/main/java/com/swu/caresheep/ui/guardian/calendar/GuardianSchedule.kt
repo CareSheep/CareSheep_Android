@@ -1,7 +1,13 @@
 package com.swu.caresheep.ui.guardian.calendar
 
+import java.util.*
+
 data class GuardianSchedule(
-    var startTime: String,
-    var endTime: String,
-    var title: String
+    var eventId: String,
+    var startTime: Date,
+    var endTime: Date,
+    var title: String,
+    var notification: String,
+    var repeat: String,
+    var memo: String?
 )

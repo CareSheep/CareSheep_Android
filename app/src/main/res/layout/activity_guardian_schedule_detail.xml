@@ -388,6 +388,7 @@
                     android:enabled="false"
                     android:hint="@string/guardian_calendar_schedule_memo"
                     android:paddingVertical="4dp"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_memo"
