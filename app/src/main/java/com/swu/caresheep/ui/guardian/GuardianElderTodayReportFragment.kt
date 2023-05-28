@@ -16,6 +16,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.breakfast_check
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.dinner_check
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.lunch_check
@@ -160,28 +161,63 @@ class GuardianElderTodayReportFragment : Fragment() {
     }
 
     private fun getTodayWalkData() {
-        dbRef = FirebaseDatabase.getInstance().getReference("Walk").child("test")
 
-        dbRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    if(snapshot.child("start_time").getValue().toString() == "$todayDate"){
-                        val walk_value = snapshot.child("done").getValue().toString()
-                        if(walk_value == "1"){
-                            println("this is Lunch result: $walk_value")
-                            walk_check.setImageResource(R.drawable.baseline_check_circle_24)
+        try {
+            val user_id = 1 // user_id로 수정
+            Firebase.database(BuildConfig.DB_URL)
+                .getReference("Walk")
+                .orderByChild("user_id")
+                .equalTo(user_id.toDouble())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            for (data in snapshot.children) {
+                                val dateValue = data.child("start_time").getValue(String::class.java)
+                                // 월요일
+                                if (dateValue == "$todayDate") {
+                                    val breakfast1_value = data.child("done").getValue(Int::class.java)
+                                    if (breakfast1_value == 1) {
+                                        Log.d("test_success","$breakfast1_value")
+                                        walk_check.setImageResource(R.drawable.baseline_check_circle_24)
+                                    }
+                                    val walk_step = data.child("walk").getValue(Int::class.java)
+                                    walk_step_today.setText("$walk_step")
+                                }
+                            }
                         }
-                        val walk_step = snapshot.child("walk").getValue().toString()
-                        walk_step_today.setText("$walk_step")
-
                     }
+                    override fun onCancelled(error: DatabaseError) {
+                        // 쿼리 실행 중 오류 발생 시 처리할 내용
+                    }
+                })
+        } catch (e: ApiException) {
+            Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
+        }
 
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                println("Failed to read value.")
-            }
-        })
+
+
+//        dbRef = FirebaseDatabase.getInstance().getReference("Walk").child("test")
+//
+//        dbRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                if (snapshot.exists()){
+//                    if(snapshot.child("start_time").getValue().toString() == "$todayDate"){
+//                        val walk_value = snapshot.child("done").getValue().toString()
+//                        if(walk_value == "1"){
+//                            println("this is Lunch result: $walk_value")
+//                            walk_check.setImageResource(R.drawable.baseline_check_circle_24)
+//                        }
+//                        val walk_step = snapshot.child("walk").getValue().toString()
+//                        walk_step_today.setText("$walk_step")
+//
+//                    }
+//
+//                }
+//            }
+//            override fun onCancelled(error: DatabaseError) {
+//                println("Failed to read value.")
+//            }
+//        })
     }
 
 }
