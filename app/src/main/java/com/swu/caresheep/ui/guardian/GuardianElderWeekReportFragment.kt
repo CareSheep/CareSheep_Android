@@ -25,6 +25,7 @@ import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.elder.main.ElderActivity
 import com.swu.caresheep.ui.start.SignUpActivity
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check1
 import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check2
 import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check3

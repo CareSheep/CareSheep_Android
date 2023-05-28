@@ -7,6 +7,8 @@
     <uses-feature android:name="android.hardware.sensor.stepcounter" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -15,6 +17,7 @@
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +29,22 @@
         android:theme="@style/Theme.CareSheep"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <activity
+            android:name=".ui.guardian.emergency.GuardianElderEmergencyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".elder.ElderGetMealAlarmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.elder.alarm.ElderDinnerAlarmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.elder.alarm.ElderLunchAlarmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.elder.alarm.ElderBreakfastAlarmActivity"
+            android:exported="false" />
         <activity
             android:name=".elder.ElderGetAlarmTimeActivity"
             android:exported="false" />
@@ -70,7 +89,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.guardian.mypage.GuardianElderRoutineActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.guardian.GuardianSetWalkStepActivity"
             android:exported="false" />
@@ -79,9 +98,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.guardian.GuardianStartActivity"
-            android:exported="true">
-        </activity>
-
+            android:exported="true" />
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineCountActivity"
             android:exported="false" />
@@ -93,8 +110,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineColorActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".ui.guardian.meal.GuardianSetBreakfastTimeActivity"
             android:exported="true" />
@@ -118,7 +134,7 @@
             android:exported="true" />
         <activity
             android:name=".elder.ElderWalkActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".ui.guardian.GuardianElderReportActivity"
             android:exported="false" />
