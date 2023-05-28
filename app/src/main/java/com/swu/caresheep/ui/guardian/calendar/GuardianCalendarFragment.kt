@@ -539,6 +539,14 @@ class GuardianCalendarFragment : Fragment() {
                     // 일정 있으므로 RV 보이게 설정
                     binding.llScheduleNotExist.visibility = View.INVISIBLE
                     binding.rvSchedule.visibility = View.VISIBLE
+
+                    scheduleRVAdapter.setMyItemClickListener(object :
+                        GuardianScheduleRVAdapter.MyItemClickListener {
+                        override fun onItemClick(item: GuardianSchedule) {
+                            // Item 클릭 시 일정 세부 페이지로 이동
+                            startActivity(Intent(requireContext(), GuardianScheduleDetailActivity::class.java))
+                        }
+                    })
                 } else {
                     // 일정 없으므로 RV 안 보이게 설정
                     binding.llScheduleNotExist.visibility = View.VISIBLE

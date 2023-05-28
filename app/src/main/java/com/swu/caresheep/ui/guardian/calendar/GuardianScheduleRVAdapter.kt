@@ -4,13 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.caresheep.databinding.ItemGuardianScheduleBinding
-import com.swu.caresheep.ui.elder.main.ElderTodaySchedule
 
 class GuardianScheduleRVAdapter(private var scheduleList: ArrayList<GuardianSchedule>) :
     RecyclerView.Adapter<GuardianScheduleRVAdapter.ViewHolder>() {
 
     interface MyItemClickListener {
-        fun onItemClick(schedule: ElderTodaySchedule)
+        fun onItemClick(schedule: GuardianSchedule)
     }
 
     private lateinit var mItemClickListener: MyItemClickListener
@@ -34,16 +33,12 @@ class GuardianScheduleRVAdapter(private var scheduleList: ArrayList<GuardianSche
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(scheduleList[position])
+        holder.itemView.setOnClickListener { mItemClickListener.onItemClick(scheduleList[position]) }
     }
 
     override fun getItemCount(): Int {
         return scheduleList.size
     }
-
-//    fun setData(items: ArrayList<GuardianSchedule>) {
-//        this.scheduleList = items
-//        notifyDataSetChanged()
-//    }
 
     fun setData(list: ArrayList<GuardianSchedule>) {
         this.scheduleList.clear()
@@ -53,7 +48,7 @@ class GuardianScheduleRVAdapter(private var scheduleList: ArrayList<GuardianSche
     inner class ViewHolder(val binding: ItemGuardianScheduleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: GuardianSchedule) {
-            binding.tvScheduleTime.text = "${item.startTime} - ${item.endTime}"
+            "${item.startTime} - ${item.endTime}".also { binding.tvScheduleTime.text = it }
             binding.tvScheduleTitle.text = item.title
         }
     }
