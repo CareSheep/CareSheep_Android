@@ -1,5 +1,6 @@
 package com.swu.caresheep.ui.guardian.mypage
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -19,6 +20,7 @@ import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityGuardianConnectBinding
 import com.swu.caresheep.ui.dialog.BaseDialog
 import com.swu.caresheep.ui.dialog.VerticalDialog
+import com.swu.caresheep.ui.guardian.GuardianStartActivity
 import com.swu.caresheep.ui.start.user_id
 
 class GuardianConnectActivity : AppCompatActivity() {
@@ -87,10 +89,20 @@ class GuardianConnectActivity : AppCompatActivity() {
                     verticalDialog.topBtnClickListener {
                         // 어르신 연결하기
                         connectElder(code, userId)
-                        Toast.makeText(this, "어르신 연결에 성공했습니다.", Toast.LENGTH_SHORT).show()
-
-                        // 만약 연결된 어르신의 루틴이 설정되어 있지 않다면(null이라면), 루틴 설정으로 이동
-
+//                        Toast.makeText(this, "어르신 연결에 성공했습니다.", Toast.LENGTH_SHORT).show()
+//
+//                        // 연결된 어르신의 루틴이 설정되어 있지 않다면, 루틴 설정으로 이동
+//                        getElderRoutineExist {
+//                            if (it) {
+//                                // 어르신 루틴 설정 O
+//                                onBackPressedCallback.handleOnBackPressed()
+//                            }else {
+//                                // 어르신 루틴 설정 X
+//                                startActivity(Intent(this, GuardianStartActivity::class.java))
+//                                finish()
+//                            }
+//
+//                        }
 
                     }
 
@@ -181,7 +193,21 @@ class GuardianConnectActivity : AppCompatActivity() {
                             .addOnSuccessListener {
                                 // 코드 값 부여 성공
                                 user_id = userId
-                                onBackPressedCallback.handleOnBackPressed()
+
+                                Toast.makeText(this@GuardianConnectActivity, "어르신 연결에 성공했습니다.", Toast.LENGTH_SHORT).show()
+
+                                // 연결된 어르신의 루틴이 설정되어 있지 않다면, 루틴 설정으로 이동
+                                getElderRoutineExist {
+                                    if (it) {
+                                        // 어르신 루틴 설정 O
+                                        onBackPressedCallback.handleOnBackPressed()
+                                    }else {
+                                        // 어르신 루틴 설정 X
+                                        startActivity(Intent(this@GuardianConnectActivity, GuardianStartActivity::class.java))
+                                        finish()
+                                    }
+
+                                }
                             }
                             .addOnFailureListener { error ->
                                 // 코드 값 부여 실패
@@ -197,5 +223,29 @@ class GuardianConnectActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * 어르신의 루틴설정 여부 반환
+     */
+    private fun getElderRoutineExist(callback: (Boolean) -> Unit) {
+        // 해당 code를 가진 어르신 불러오기
+        Firebase.database(BuildConfig.DB_URL)
+            .getReference("UsersRoutine")
+            .orderByChild("user_id")
+            .equalTo(user_id.toDouble())
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val isElderRoutineExisted: Boolean = snapshot.exists()
+                    Log.e("user_id", user_id.toString())
+
+                    Log.e("isElderRoutineExisted", isElderRoutineExisted.toString())
+                    callback(isElderRoutineExisted)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // 쿼리 실행 중 오류 발생 시 처리할 내용
+                    callback(false)
+                }
+            })
+    }
 
 }
