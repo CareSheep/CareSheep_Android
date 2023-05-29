@@ -47,7 +47,11 @@ class ElderTodayScheduleRVAdapter(private var scheduleList: ArrayList<ElderToday
     inner class ViewHolder(val binding: ItemElderTodayScheduleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ElderTodaySchedule) {
-            binding.tvScheduleTime.text = item.time
+            if (item.type == 1)
+                binding.tvScheduleTime.text = "하루 종일"
+            else
+                binding.tvScheduleTime.text = item.time
+
             binding.tvScheduleTitle.text = item.title
         }
     }

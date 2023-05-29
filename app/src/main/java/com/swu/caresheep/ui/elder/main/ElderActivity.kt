@@ -423,6 +423,18 @@ class ElderActivity : AppCompatActivity() {
 
                 var startTime = ""
                 var endTime = ""
+                val typeStartDate = event.start.date
+                val typeEndDate = event.end.date
+
+                var type = 0
+                if (start != null && end != null) {
+                    // 시간 지정 일정
+                    type = 0
+                } else if (typeStartDate != null && typeEndDate != null) {
+                    // 종일 일정
+                    type = 1
+                }
+
                 if (start != null) {
                     // 한국 시간대로 설정
                     val koreaTimeZone = TimeZone.getTimeZone("Asia/Seoul")
@@ -458,7 +470,7 @@ class ElderActivity : AppCompatActivity() {
 
                     endTime = "$strEndAMPM ${endHour12}:${strEndMinute}"
                 }
-                scheduleData.add(ElderTodaySchedule(startTime, eventTitle))
+                scheduleData.add(ElderTodaySchedule(startTime, type, eventTitle))
             }
 
             Log.e("calendar", scheduleData.size.toString() + "개의 데이터를 가져왔습니다.")
