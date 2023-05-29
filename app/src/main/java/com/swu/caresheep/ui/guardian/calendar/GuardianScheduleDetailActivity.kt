@@ -29,6 +29,8 @@ import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class GuardianScheduleDetailActivity : AppCompatActivity() {
@@ -69,6 +71,15 @@ class GuardianScheduleDetailActivity : AppCompatActivity() {
         val titleEditable = Editable.Factory.getInstance().newEditable(item.title)
         binding.etScheduleTitle.text = titleEditable
 
+        // 일정 유형 (시간 / 종일)
+        if (item.type == 0) {
+            binding.btnTime.isSelected = true
+            binding.btnAllDay.isSelected = false
+        } else {
+            binding.btnTime.isSelected = false
+            binding.btnAllDay.isSelected = true
+        }
+
         // 일정 메모
         val memoEditable = if (item.memo != null) {
             Editable.Factory.getInstance().newEditable(item.memo)
@@ -77,21 +88,53 @@ class GuardianScheduleDetailActivity : AppCompatActivity() {
         }
         binding.etMemo.text = memoEditable
 
-        // 일정 시간 format
-        val inputFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
-        val outputFormat = SimpleDateFormat("yyyy년 MM월 dd일 (E) a hh:mm", Locale.KOREAN)
-
-        val startDate: Date = inputFormat.parse(item.startTime.toString())!!
-        val formattedStartDate: String = outputFormat.format(startDate)
-
-        val endDate: Date = inputFormat.parse(item.endTime.toString())!!
-        val formattedEndDate: String = outputFormat.format(endDate)
-
         // 일정 시작 시간
-        binding.tvStartTime.text = formattedStartDate
+        val startTime = LocalDateTime.parse(item.startTime.toString(), DateTimeFormatter.ISO_DATE_TIME)
+        val endTime = LocalDateTime.parse(item.endTime.toString(), DateTimeFormatter.ISO_DATE_TIME)
 
-        // 일정 종료 시간
+        val outputFormat = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 (E)", Locale.KOREAN)
+        val outputFormatWithTime = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 (E) a hh:mm", Locale.KOREAN)
+
+        val formattedStartDate: String = if (item.type == 1) {
+            startTime.format(outputFormat)
+        } else {
+            startTime.format(outputFormatWithTime)
+        }
+
+        val formattedEndDate: String = if (item.type == 1) {
+            endTime.format(outputFormat)
+        } else {
+            endTime.format(outputFormatWithTime)
+        }
+
+        binding.tvStartTime.text = formattedStartDate
         binding.tvEndTime.text = formattedEndDate
+
+//        // 일정 format
+//        val inputFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+//        val startDate: Date = inputFormat.parse(item.startTime.toString())!!
+//        val endDate: Date = inputFormat.parse(item.endTime.toString())!!
+//
+//        val outputFormat = SimpleDateFormat("yyyy년 MM월 dd일 (E)", Locale.KOREAN)
+//        val outputFormatWithTime = SimpleDateFormat("yyyy년 MM월 dd일 (E) a hh:mm", Locale.KOREAN)
+//
+//        // 일정 시작 시간
+//        val formattedStartDate: String = if (item.type == 1) {
+//            outputFormat.format(startDate)
+//        } else {
+//            outputFormatWithTime.format(startDate)
+//        }
+//
+//        // 일정 종료 시간
+//        val formattedEndDate: String = if (item.type == 1) {
+//            outputFormat.format(endDate)
+//        } else {
+//            outputFormatWithTime.format(endDate)
+//        }
+//
+//        binding.tvStartTime.text = formattedStartDate
+//        binding.tvEndTime.text = formattedEndDate
+
 
         // 일정 알림
         binding.tvAlarm.text = item.notification

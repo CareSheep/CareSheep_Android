@@ -1,5 +1,6 @@
 package com.swu.caresheep.ui.guardian.calendar
 
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.net.ConnectivityManager
@@ -35,7 +36,9 @@ import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion
 import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Calendar
 
 class GuardianAddScheduleActivity : AppCompatActivity() {
 
@@ -45,8 +48,24 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
     private var mService: com.google.api.services.calendar.Calendar? = null
     private var mCredential: GoogleAccountCredential? = null
 
+    private var currentStartYear: Int = 0
+    private var currentStartMonth: Int = 0
+    private var currentStartDay: Int = 0
+    private var currentStartWeek: String = ""
+    var currentTime: String = ""
+    var currentEndTime: String = ""
+
+    private var currentEndYear: Int = 0
+    private var currentEndMonth: Int = 0
+    private var currentEndDay: Int = 0
+    private var currentEndWeek: String = ""
+
     private var isStartPickerClicked = false
     private var isEndPickerClicked = false
+
+    private var isTimeTypeClicked = true
+    private var isAllDayTypeClicked = false
+
     private var scheduleTitle: String = ""
     private var scheduleMemo: String = ""
     private var notificationBottomSheetDialog: BottomSheetDialog? = null
@@ -87,19 +106,19 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         val calendar = java.util.Calendar.getInstance(timeZone)
         calendar.time = selectedDate
 
-        var currentStartYear = calendar.get(java.util.Calendar.YEAR)
-        var currentStartMonth = calendar.get(java.util.Calendar.MONTH) + 1
-        var currentStartDay = calendar.get(java.util.Calendar.DAY_OF_MONTH)
-        val currentStartWeek = calendar.getDisplayName(
+        currentStartYear = calendar.get(java.util.Calendar.YEAR)
+        currentStartMonth = calendar.get(java.util.Calendar.MONTH) + 1
+        currentStartDay = calendar.get(java.util.Calendar.DAY_OF_MONTH)
+        currentStartWeek = calendar.getDisplayName(
             java.util.Calendar.DAY_OF_WEEK,
             java.util.Calendar.SHORT,
             Locale.getDefault()
         )!!
 
-        var currentEndYear = calendar.get(java.util.Calendar.YEAR)
-        var currentEndMonth = calendar.get(java.util.Calendar.MONTH) + 1
-        var currentEndDay = calendar.get(java.util.Calendar.DAY_OF_MONTH)
-        val currentEndWeek = calendar.getDisplayName(
+        currentEndYear = calendar.get(java.util.Calendar.YEAR)
+        currentEndMonth = calendar.get(java.util.Calendar.MONTH) + 1
+        currentEndDay = calendar.get(java.util.Calendar.DAY_OF_MONTH)
+        currentEndWeek = calendar.getDisplayName(
             java.util.Calendar.DAY_OF_WEEK,
             java.util.Calendar.SHORT,
             Locale.getDefault()
@@ -133,8 +152,8 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 java.util.Calendar.HOUR_OF_DAY
             ) + 1 - 12 else calendar.get(java.util.Calendar.HOUR_OF_DAY) + 1
 
-        var currentTime = "$strCurrentAMPM $strCurrentHour12:$strCurrentMinute"
-        var currentEndTime = "$strCurrentEndAMPM $strCurrentEndHour12:$strCurrentMinute"
+        currentTime = "$strCurrentAMPM $strCurrentHour12:$strCurrentMinute"
+        currentEndTime = "$strCurrentEndAMPM $strCurrentEndHour12:$strCurrentMinute"
 
         // 시작 TimePicker 시간 변경 시
         binding.tpStart.setOnTimeChangedListener { _, newHour, newMinute ->
@@ -292,8 +311,10 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
         // 시간 선택 시
         binding.btnTime.setOnClickListener {
-            binding.btnTime.isSelected = true
-            binding.btnAllDay.isSelected = false
+            isTimeTypeClicked = true
+            isAllDayTypeClicked = false
+            binding.btnTime.isSelected = isTimeTypeClicked
+            binding.btnAllDay.isSelected = isAllDayTypeClicked
 
             binding.tvStartTime.visibility = View.VISIBLE
             binding.tvEndTime.visibility = View.VISIBLE
@@ -316,8 +337,10 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
         // 종일 선택 시
         binding.btnAllDay.setOnClickListener {
-            binding.btnTime.isSelected = false
-            binding.btnAllDay.isSelected = true
+            isTimeTypeClicked = false
+            isAllDayTypeClicked = true
+            binding.btnTime.isSelected = isTimeTypeClicked
+            binding.btnAllDay.isSelected = isAllDayTypeClicked
 
             binding.npStartDay.visibility = View.GONE
             binding.npStartMonth.visibility = View.GONE
@@ -334,10 +357,10 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 null
             )
             updateEndTimeText(
-                currentStartYear,
-                currentStartMonth,
-                currentStartDay,
-                currentStartWeek,
+                currentEndYear,
+                currentEndMonth,
+                currentEndDay,
+                currentEndWeek,
                 null
             )
 
@@ -349,39 +372,63 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
         initBtn()
 
-
         // 저장 버튼 클릭 시
         binding.btnSave.setOnClickListener {
             // 시작 시간 가져오기
-            val startCalendar = java.util.Calendar.getInstance().apply {
-                set(
-                    currentStartYear,
-                    currentStartMonth - 1,
-                    currentStartDay,
-                    binding.tpStart.hour,
-                    binding.tpStart.minute
-                )
-                timeZone = GuardianCalendarFragment.timeZone
-            }
-            val startDateTime = DateTime(startCalendar.time)
+            val startCalendar: Calendar
+            val startDateTime: DateTime
 
+            if (isAllDayTypeClicked && !isTimeTypeClicked) {
+                startCalendar = Calendar.getInstance(timeZone).apply {
+                    set(
+                        currentStartYear,
+                        currentStartMonth - 1,
+                        currentStartDay
+                    )
+                }
+                startDateTime = DateTime(startCalendar.time)
+            } else {
+                startCalendar = Calendar.getInstance(timeZone).apply {
+                    set(
+                        currentStartYear,
+                        currentStartMonth - 1,
+                        currentStartDay,
+                        binding.tpStart.hour,
+                        binding.tpStart.minute
+                    )
+                }
+                startDateTime = DateTime(startCalendar.time)
+            }
 
             // 종료 시간 가져오기
-            val endCalendar = java.util.Calendar.getInstance().apply {
-                set(
-                    currentEndYear,
-                    currentEndMonth - 1,
-                    currentEndDay,
-                    binding.tpEnd.hour,
-                    binding.tpEnd.minute
-                )
-                timeZone = GuardianCalendarFragment.timeZone
-            }
-            val endDateTime = DateTime(endCalendar.time)
+            val endCalendar: Calendar
+            val endDateTime: DateTime
 
+            if (isAllDayTypeClicked && !isTimeTypeClicked) {
+                endCalendar = Calendar.getInstance(timeZone).apply {
+                    set(
+                        currentEndYear,
+                        currentEndMonth - 1,
+                        currentEndDay
+                    )
+                }
+                endDateTime = DateTime(endCalendar.time)
+            } else {
+                endCalendar = Calendar.getInstance(timeZone).apply {
+                    set(
+                        currentEndYear,
+                        currentEndMonth - 1,
+                        currentEndDay,
+                        binding.tpEnd.hour,
+                        binding.tpEnd.minute,
+                    )
+                }
+                endDateTime = DateTime(endCalendar.time)
+            }
 
             // 일정 추가
             lifecycleScope.launch {
+                Log.e("startDateTime", startDateTime.toString())
                 getNewEventInfo(scheduleTitle, scheduleMemo, startDateTime, endDateTime)
 
                 addSchedule(eventInfo)
@@ -410,21 +457,47 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         startDateTime: DateTime,
         endDateTime: DateTime
     ) {
-        eventInfo
-            .setSummary(title).description = memo
+        eventInfo.setSummary(title).description = memo
 
         // 시작 시간
         val start = EventDateTime()
             .setDateTime(startDateTime)
             .setTimeZone("Asia/Seoul")
-        eventInfo.start = start
+
+        if (isAllDayTypeClicked && !isTimeTypeClicked) {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formattedDate = dateFormat.format(Date(startDateTime.value))
+
+            val startAllDayDateTime = DateTime(formattedDate)
+            if (eventInfo.start == null) {
+                eventInfo.start = EventDateTime().setDate(startAllDayDateTime)
+            } else {
+                eventInfo.start.date = startAllDayDateTime
+            }
+        } else {
+            eventInfo.start = start
+        }
 
 
         // 종료 시간
         val end = EventDateTime()
             .setDateTime(endDateTime)
             .setTimeZone("Asia/Seoul")
-        eventInfo.end = end
+        if (isAllDayTypeClicked && !isTimeTypeClicked) {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formattedDate = dateFormat.format(Date(endDateTime.value))
+
+            val endAllDayDateTime = DateTime(formattedDate)
+            if (eventInfo.end == null) {
+                eventInfo.end = EventDateTime().setDate(endAllDayDateTime)
+            } else {
+                eventInfo.end.date = endAllDayDateTime
+                eventInfo.end.dateTime = null
+            }
+        } else {
+//            eventInfo.end = end.setDateTime(endDateTime)
+            eventInfo.end = end
+        }
     }
 
     override fun onStart() {
@@ -447,44 +520,166 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
      */
     private fun initBtn() {
         // 시간 및 종일 선택 초기 설정
-        binding.btnTime.isSelected = true
-        binding.btnAllDay.isSelected = false
+        binding.btnTime.isSelected = isTimeTypeClicked
+        binding.btnAllDay.isSelected = isAllDayTypeClicked
 
         // 날짜 및 시간 선택 visibility 설정
         binding.clStart.setOnClickListener {
-            isStartPickerClicked = !isStartPickerClicked
-            if (isStartPickerClicked) {
-                isEndPickerClicked = false
-                binding.npStartDay.visibility = View.VISIBLE
-                binding.npStartMonth.visibility = View.VISIBLE
-                binding.tpStart.visibility = View.VISIBLE
+            if (isTimeTypeClicked) {
+                // 시간 유형
+                isStartPickerClicked = !isStartPickerClicked
+                if (isStartPickerClicked) {
+                    isEndPickerClicked = false
+                    binding.npStartDay.visibility = View.VISIBLE
+                    binding.npStartMonth.visibility = View.VISIBLE
+                    binding.tpStart.visibility = View.VISIBLE
 
-                binding.npEndDay.visibility = View.GONE
-                binding.npEndMonth.visibility = View.GONE
-                binding.tpEnd.visibility = View.GONE
-            } else {
-                binding.npStartDay.visibility = View.GONE
-                binding.npStartMonth.visibility = View.GONE
-                binding.tpStart.visibility = View.GONE
+                    binding.npEndDay.visibility = View.GONE
+                    binding.npEndMonth.visibility = View.GONE
+                    binding.tpEnd.visibility = View.GONE
+                } else {
+                    binding.npStartDay.visibility = View.GONE
+                    binding.npStartMonth.visibility = View.GONE
+                    binding.tpStart.visibility = View.GONE
+                }
+
+            } else if (isAllDayTypeClicked) {
+                // 종일 유형
+                val datePickerDialog =
+                    DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                        val calendar = Calendar.getInstance(timeZone)
+                        calendar.set(selectedYear, selectedMonth, selectedDay)
+
+                        val selectedWeek = calendar.getDisplayName(
+                            Calendar.DAY_OF_WEEK,
+                            Calendar.SHORT,
+                            Locale.getDefault()
+                        )!!
+
+                        currentStartYear = selectedYear
+                        currentStartMonth = selectedMonth + 1
+                        currentStartDay = selectedDay
+                        currentStartWeek = selectedWeek
+
+                        currentEndYear = selectedYear
+                        currentEndMonth = selectedMonth + 1
+                        currentEndDay = selectedDay
+                        currentEndWeek = selectedWeek
+
+
+                        updateStartTimeText(
+                            selectedYear,
+                            selectedMonth + 1,
+                            selectedDay,
+                            selectedWeek,
+                            null
+                        )
+
+                        updateEndTimeText(
+                            selectedYear,
+                            selectedMonth + 1,
+                            selectedDay,
+                            selectedWeek,
+                            null
+                        )
+
+                        // 갱신
+                        binding.npStartMonth.value = currentStartMonth
+                        binding.npStartDay.value = currentStartDay
+
+                        updateStartTimeText(currentStartYear, currentStartMonth, currentStartDay, currentStartWeek, currentTime)
+
+                        binding.npEndMonth.value = currentEndMonth
+                        binding.npEndDay.value = currentEndDay
+
+                        updateEndTimeText(currentEndYear, currentEndMonth, currentEndDay, currentEndWeek, currentEndTime)
+
+                    }, currentStartYear, currentStartMonth - 1, currentStartDay)
+
+
+                // DatePickerDialog를 보여줌
+                datePickerDialog.show()
+
+
             }
         }
 
         binding.clEnd.setOnClickListener {
-            isEndPickerClicked = !isEndPickerClicked
-            if (isEndPickerClicked) {
-                isStartPickerClicked = false
-                binding.npEndDay.visibility = View.VISIBLE
-                binding.npEndMonth.visibility = View.VISIBLE
-                binding.tpEnd.visibility = View.VISIBLE
+            if (isTimeTypeClicked) {
+                // 시간 유형
+                isEndPickerClicked = !isEndPickerClicked
+                if (isEndPickerClicked) {
+                    isStartPickerClicked = false
+                    binding.npEndDay.visibility = View.VISIBLE
+                    binding.npEndMonth.visibility = View.VISIBLE
+                    binding.tpEnd.visibility = View.VISIBLE
 
-                binding.npStartDay.visibility = View.GONE
-                binding.npStartMonth.visibility = View.GONE
-                binding.tpStart.visibility = View.GONE
-            } else {
-                binding.npEndDay.visibility = View.GONE
-                binding.npEndMonth.visibility = View.GONE
-                binding.tpEnd.visibility = View.GONE
+                    binding.npStartDay.visibility = View.GONE
+                    binding.npStartMonth.visibility = View.GONE
+                    binding.tpStart.visibility = View.GONE
+                } else {
+                    binding.npEndDay.visibility = View.GONE
+                    binding.npEndMonth.visibility = View.GONE
+                    binding.tpEnd.visibility = View.GONE
+                }
+
+            } else if (isAllDayTypeClicked) {
+                // 종일 유형
+                val datePickerDialog =
+                    DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                        val calendar = Calendar.getInstance(timeZone)
+                        calendar.set(selectedYear, selectedMonth, selectedDay)
+
+                        val selectedWeek = calendar.getDisplayName(
+                            Calendar.DAY_OF_WEEK,
+                            Calendar.SHORT,
+                            Locale.getDefault()
+                        )!!
+
+                        currentEndYear = selectedYear
+                        currentEndMonth = selectedMonth + 1
+                        currentEndDay = selectedDay
+                        currentEndWeek = selectedWeek
+
+                        currentStartYear = selectedYear
+                        currentStartMonth = selectedMonth + 1
+                        currentStartDay = selectedDay
+                        currentStartWeek = selectedWeek
+
+                        updateStartTimeText(
+                            selectedYear,
+                            selectedMonth + 1,
+                            selectedDay,
+                            selectedWeek,
+                            null
+                        )
+                        updateEndTimeText(
+                            selectedYear,
+                            selectedMonth + 1,
+                            selectedDay,
+                            selectedWeek,
+                            null
+                        )
+
+                        // 갱신
+                        binding.npStartMonth.value = currentStartMonth
+                        binding.npStartDay.value = currentStartDay
+
+                        updateStartTimeText(currentStartYear, currentStartMonth, currentStartDay, currentStartWeek, currentTime)
+
+                        binding.npEndMonth.value = currentEndMonth
+                        binding.npEndDay.value = currentEndDay
+
+                        updateEndTimeText(currentEndYear, currentEndMonth, currentEndDay, currentEndWeek, currentEndTime)
+
+                    }, currentEndYear, currentEndMonth - 1, currentEndDay)
+
+
+                // DatePickerDialog를 보여줌
+                datePickerDialog.show()
+
             }
+
         }
 
         // 일정 제목 입력

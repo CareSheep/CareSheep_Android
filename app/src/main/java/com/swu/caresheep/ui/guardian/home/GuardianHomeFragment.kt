@@ -395,9 +395,20 @@ class GuardianHomeFragment : Fragment() {
                 }
                 val start = event.start.dateTime
                 val end = event.end.dateTime
+                val typeStartDate = event.start.date
+                val typeEndDate = event.end.date
 
-                var startDate = Date()
-                var endDate = Date()
+                var type = 0
+                if (start != null && end != null) {
+                    // 시간 지정 일정
+                    type = 0
+                } else if (typeStartDate != null && typeEndDate != null) {
+                    // 종일 일정
+                    type = 1
+                }
+
+                var startDate = DateTime(Date())
+                var endDate = DateTime(Date())
 
                 if (start != null) {
                     // 한국 시간대로 설정
@@ -405,10 +416,10 @@ class GuardianHomeFragment : Fragment() {
                     calendar.timeZone = koreaTimeZone
 
                     // 일정 시작 시간
-                    startDate = Date(start.value)
+                    startDate = DateTime(start.value)
 
                     // 일정 종료 시간
-                    endDate = Date(end.value)
+                    endDate = DateTime(end.value)
                 }
                 // 메모 정보 가져오기
                 val memo: String? = event.description
@@ -444,6 +455,7 @@ class GuardianHomeFragment : Fragment() {
                 scheduleData.add(
                     GuardianSchedule(
                         eventId,
+                        type,
                         startDate,
                         endDate,
                         eventTitle,

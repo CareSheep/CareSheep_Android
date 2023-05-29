@@ -139,21 +139,21 @@ class GuardianCalendarFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // 일정이 추가되거나 삭제되었으면 갱신
-        var sharedPrefs =
+        val sharedPrefsDelete =
             requireActivity().getSharedPreferences("Delete Schedule", Context.MODE_PRIVATE)
-        val isDeleted = sharedPrefs.getBoolean("isDeleted", false)
+        val isDeleted = sharedPrefsDelete.getBoolean("isDeleted", false)
 
-        sharedPrefs =
+        val sharedPrefsAdd =
             requireActivity().getSharedPreferences("Add Schedule", Context.MODE_PRIVATE)
-        val isAdded = sharedPrefs.getBoolean("isAdded", false)
+        val isAdded = sharedPrefsAdd.getBoolean("isAdded", false)
 
         if (isDeleted || isAdded) {
             val calendar = java.util.Calendar.getInstance(timeZone)
             getResultsFromApi(calendar)
 
             // isDeleted, isAdded 값 초기화
-            sharedPrefs.edit().putBoolean("isDeleted", false).apply()
-            sharedPrefs.edit().putBoolean("isAdded", false).apply()
+            sharedPrefsDelete.edit().putBoolean("isDeleted", false).apply()
+            sharedPrefsAdd.edit().putBoolean("isAdded", false).apply()
         }
 
     }
@@ -448,21 +448,33 @@ class GuardianCalendarFragment : Fragment() {
                 }
                 val start = event.start.dateTime
                 val end = event.end.dateTime
+                val typeStartDate = event.start.date
+                val typeEndDate = event.end.date
 
-                var startDate = Date()
-                var endDate = Date()
-
-                if (start != null) {
-                    // 한국 시간대로 설정
-                    val koreaTimeZone = TimeZone.getTimeZone("Asia/Seoul")
-                    calendar.timeZone = koreaTimeZone
-
-                    // 일정 시작 시간
-                    startDate = Date(start.value)
-
-                    // 일정 종료 시간
-                    endDate = Date(end.value)
+                var type = 0
+                if (start != null && end != null) {
+                    // 시간 지정 일정
+                    type = 0
+                } else if (typeStartDate != null && typeEndDate != null) {
+                    // 종일 일정
+                    type = 1
                 }
+
+                // 시작, 종료 시간
+                val startDate = if (start != null) {
+                    calendar.timeInMillis = start.value
+                    DateTime(calendar.timeInMillis)
+                } else {
+                    DateTime(startOfDay.timeInMillis)
+                }
+
+                val endDate = if (end != null) {
+                    calendar.timeInMillis = end.value
+                    DateTime(calendar.timeInMillis)
+                } else {
+                    DateTime(endOfDay.timeInMillis)
+                }
+
                 // 메모 정보 가져오기
                 val memo: String? = event.description
 
@@ -480,8 +492,9 @@ class GuardianCalendarFragment : Fragment() {
                 }
 
                 // 반복 정보 가져오기
-                Log.e("event", event.toString())
                 val repeatList: List<String> = event.recurrence ?: emptyList()
+//                Log.e("repeatList", event.summary + " : " + repeatList.toString())
+
                 var repeat = "반복 안 함"
                 for (item in repeatList) {
                     repeat = when (item) {
@@ -497,6 +510,7 @@ class GuardianCalendarFragment : Fragment() {
                 scheduleData.add(
                     GuardianSchedule(
                         eventId,
+                        type,
                         startDate,
                         endDate,
                         eventTitle,
@@ -505,7 +519,11 @@ class GuardianCalendarFragment : Fragment() {
                         memo
                     )
                 )
+
+//                Log.e("event", event.toString())
             }
+
+
 
             Log.e("[보호자] 공유 캘린더", scheduleData.size.toString() + "개의 데이터를 가져왔습니다.")
 
@@ -564,7 +582,7 @@ class GuardianCalendarFragment : Fragment() {
             calendarListEntry.backgroundColor = "#ABC270"
 
             // 변경한 내용을 구글 캘린더에 반영
-            val updatedCalendarListEntry: CalendarListEntry = mService!!.calendarList()
+            mService!!.calendarList()
                 .update(calendarListEntry.id, calendarListEntry)
                 .setColorRgbFormat(true)
                 .execute()
