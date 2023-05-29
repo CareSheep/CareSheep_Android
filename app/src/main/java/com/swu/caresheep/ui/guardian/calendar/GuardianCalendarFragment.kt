@@ -9,6 +9,8 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +56,8 @@ class GuardianCalendarFragment : Fragment() {
     private var mID = 0
     private var googleLoginClient: GoogleLoginClient = GoogleLoginClient()
 
+    private var selectedCalendar = java.util.Calendar.getInstance(timeZone)
+
     companion object {
         const val REQUEST_ACCOUNT_PICKER = 1000
         const val REQUEST_AUTHORIZATION = 1001
@@ -71,10 +75,10 @@ class GuardianCalendarFragment : Fragment() {
         binding = FragmentGuardianCalendarBinding.inflate(inflater, container, false)
 
         // 오늘 날짜 표시
-        val today = java.util.Calendar.getInstance(timeZone)
+        selectedCalendar = java.util.Calendar.getInstance(timeZone)
 
-        val dayOfMonth = today.get(java.util.Calendar.DAY_OF_MONTH)
-        val dayOfWeek = today.getDisplayName(
+        val dayOfMonth = selectedCalendar.get(java.util.Calendar.DAY_OF_MONTH)
+        val dayOfWeek = selectedCalendar.getDisplayName(
             java.util.Calendar.DAY_OF_WEEK,
             java.util.Calendar.SHORT,
             Locale.getDefault()
@@ -82,7 +86,7 @@ class GuardianCalendarFragment : Fragment() {
         "${dayOfMonth}일 ($dayOfWeek)".also { binding.tvTodayDate.text = it }
 
         // 달력에 선택된 날짜를 일정 추가 화면에 전달
-        var selectedDate = today.time
+        var selectedDate = selectedCalendar.time
 
         var sharedPreferences =
             requireActivity().getSharedPreferences("SelectedDate", Context.MODE_PRIVATE)
@@ -99,15 +103,15 @@ class GuardianCalendarFragment : Fragment() {
         ).setBackOff(ExponentialBackOff())  // I/O 예외 상황을 대비해서 백오프 정책 사용
 
         mID = 1  // 캘린더 생성
-        getResultsFromApi(today)
+        getResultsFromApi(selectedCalendar)
 
         // 선택된 날짜 반영
         binding.cvShared.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val calendar = java.util.Calendar.getInstance(timeZone).apply {
+            selectedCalendar = java.util.Calendar.getInstance(timeZone).apply {
                 set(year, month, dayOfMonth)
             }
-            val dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH)
-            val dayOfWeek = calendar.getDisplayName(
+            val dayOfMonth = selectedCalendar.get(java.util.Calendar.DAY_OF_MONTH)
+            val dayOfWeek = selectedCalendar.getDisplayName(
                 java.util.Calendar.DAY_OF_WEEK,
                 java.util.Calendar.SHORT,
                 Locale.getDefault()
@@ -115,10 +119,10 @@ class GuardianCalendarFragment : Fragment() {
             "${dayOfMonth}일 ($dayOfWeek)".also { binding.tvTodayDate.text = it }
 
             mID = 3  // 이벤트 불러오기
-            getResultsFromApi(calendar)
+            getResultsFromApi(selectedCalendar)
 
             // 달력에 선택된 날짜를 일정 추가 화면에 전달
-            selectedDate = calendar.time
+            selectedDate = selectedCalendar.time
             sharedPreferences =
                 requireActivity().getSharedPreferences("SelectedDate", Context.MODE_PRIVATE)
             editor = sharedPreferences.edit()
@@ -148,12 +152,15 @@ class GuardianCalendarFragment : Fragment() {
         val isAdded = sharedPrefsAdd.getBoolean("isAdded", false)
 
         if (isDeleted || isAdded) {
-            val calendar = java.util.Calendar.getInstance(timeZone)
-            getResultsFromApi(calendar)
+            val handler = Handler(Looper.getMainLooper())
 
-            // isDeleted, isAdded 값 초기화
-            sharedPrefsDelete.edit().putBoolean("isDeleted", false).apply()
-            sharedPrefsAdd.edit().putBoolean("isAdded", false).apply()
+            handler.postDelayed({
+                getResultsFromApi(selectedCalendar)
+
+                // isDeleted, isAdded 값 초기화
+                sharedPrefsDelete.edit().putBoolean("isDeleted", false).apply()
+                sharedPrefsAdd.edit().putBoolean("isAdded", false).apply()
+            }, 2000) // 2초 (2000 milliseconds) 후에 실행
         }
 
     }

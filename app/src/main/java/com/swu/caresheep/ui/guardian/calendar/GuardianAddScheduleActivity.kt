@@ -103,54 +103,54 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         val selectedDate = if (selectedDateInMillis != 0L) Date(selectedDateInMillis) else Date()
 
         // 선택된 날짜로 초기 설정
-        val calendar = java.util.Calendar.getInstance(timeZone)
+        val calendar = Calendar.getInstance(timeZone)
         calendar.time = selectedDate
 
-        currentStartYear = calendar.get(java.util.Calendar.YEAR)
-        currentStartMonth = calendar.get(java.util.Calendar.MONTH) + 1
-        currentStartDay = calendar.get(java.util.Calendar.DAY_OF_MONTH)
+        currentStartYear = calendar.get(Calendar.YEAR)
+        currentStartMonth = calendar.get(Calendar.MONTH) + 1
+        currentStartDay = calendar.get(Calendar.DAY_OF_MONTH)
         currentStartWeek = calendar.getDisplayName(
-            java.util.Calendar.DAY_OF_WEEK,
-            java.util.Calendar.SHORT,
+            Calendar.DAY_OF_WEEK,
+            Calendar.SHORT,
             Locale.getDefault()
         )!!
 
-        currentEndYear = calendar.get(java.util.Calendar.YEAR)
-        currentEndMonth = calendar.get(java.util.Calendar.MONTH) + 1
-        currentEndDay = calendar.get(java.util.Calendar.DAY_OF_MONTH)
+        currentEndYear = calendar.get(Calendar.YEAR)
+        currentEndMonth = calendar.get(Calendar.MONTH) + 1
+        currentEndDay = calendar.get(Calendar.DAY_OF_MONTH)
         currentEndWeek = calendar.getDisplayName(
-            java.util.Calendar.DAY_OF_WEEK,
-            java.util.Calendar.SHORT,
+            Calendar.DAY_OF_WEEK,
+            Calendar.SHORT,
             Locale.getDefault()
         )!!
 
         // TimePicker 초기 설정
-        binding.tpStart.hour = calendar.get(java.util.Calendar.HOUR_OF_DAY)  // 시작 Time
-        binding.tpStart.minute = calendar.get(java.util.Calendar.MINUTE)
-        binding.tpEnd.hour = calendar.get(java.util.Calendar.HOUR_OF_DAY) + 1  // 종료 Time
-        binding.tpEnd.minute = calendar.get(java.util.Calendar.MINUTE)
+        binding.tpStart.hour = calendar.get(Calendar.HOUR_OF_DAY)  // 시작 Time
+        binding.tpStart.minute = calendar.get(Calendar.MINUTE)
+        binding.tpEnd.hour = calendar.get(Calendar.HOUR_OF_DAY) + 1  // 종료 Time
+        binding.tpEnd.minute = calendar.get(Calendar.MINUTE)
 
 
         val strCurrentMinute =
-            if (calendar.get(java.util.Calendar.MINUTE) / 10 == 0) "0${calendar.get(java.util.Calendar.MINUTE)}" else calendar.get(
-                java.util.Calendar.MINUTE
+            if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${calendar.get(Calendar.MINUTE)}" else calendar.get(
+                Calendar.MINUTE
             )
         val strCurrentAMPM =
-            if (calendar.get(java.util.Calendar.AM_PM) == java.util.Calendar.AM) "오전"
+            if (calendar.get(Calendar.AM_PM) == Calendar.AM) "오전"
             else "오후"
         val strCurrentHour12 =
-            if (calendar.get(java.util.Calendar.HOUR_OF_DAY) == 0) 12 else if (calendar.get(java.util.Calendar.HOUR_OF_DAY) > 12) calendar.get(
-                java.util.Calendar.HOUR_OF_DAY
-            ) - 12 else calendar.get(java.util.Calendar.HOUR_OF_DAY)
+            if (calendar.get(Calendar.HOUR_OF_DAY) == 0) 12 else if (calendar.get(Calendar.HOUR_OF_DAY) > 12) calendar.get(
+                Calendar.HOUR_OF_DAY
+            ) - 12 else calendar.get(Calendar.HOUR_OF_DAY)
 
         val strCurrentEndAMPM =
-            if (calendar.get(java.util.Calendar.AM_PM) == java.util.Calendar.AM) "오전"
+            if (calendar.get(Calendar.AM_PM) == Calendar.AM) "오전"
             else "오후"
 
         val strCurrentEndHour12 =
-            if (calendar.get(java.util.Calendar.HOUR_OF_DAY) + 1 > 12) calendar.get(
-                java.util.Calendar.HOUR_OF_DAY
-            ) + 1 - 12 else calendar.get(java.util.Calendar.HOUR_OF_DAY) + 1
+            if (calendar.get(Calendar.HOUR_OF_DAY) + 1 > 12) calendar.get(
+                Calendar.HOUR_OF_DAY
+            ) + 1 - 12 else calendar.get(Calendar.HOUR_OF_DAY) + 1
 
         currentTime = "$strCurrentAMPM $strCurrentHour12:$strCurrentMinute"
         currentEndTime = "$strCurrentEndAMPM $strCurrentEndHour12:$strCurrentMinute"
@@ -163,7 +163,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 if (newHour == 0) 12 else if (newHour > 12) newHour - 12 else newHour
 
             val strNewMinute =
-                if (calendar.get(java.util.Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
+                if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
 
             currentTime = "$strNewAmPm $strNewHour:$strNewMinute"
             updateStartTimeText(
@@ -183,7 +183,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 if (newHour == 0) 12 else if (newHour > 12) newHour - 12 else newHour
 
             val strNewMinute =
-                if (calendar.get(java.util.Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
+                if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
 
             currentEndTime = "$strNewAmPm $strNewHour:$strNewMinute"
             updateEndTimeText(
@@ -925,9 +925,9 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
     // 해당 월의 일 수 가져오기
     private fun getMaxDayOfMonth(year: Int, month: Int): Int {
-        val calendar = java.util.Calendar.getInstance(timeZone)
+        val calendar = Calendar.getInstance(timeZone)
         calendar.set(year, month - 1, 1) // 연도와 월 설정
-        return calendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH)
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
     }
 
     // 일 설정 업데이트
