@@ -44,19 +44,30 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/tv_schedule_title"
+                android:id="@+id/et_schedule_title"
                 style="@style/Text.Title3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/green"
                 android:ellipsize="end"
                 android:fontFamily="@font/pretendard_medium"
                 android:hint="@string/schedule_title"
-                android:inputType="textNoSuggestions"
                 android:maxLines="1"
                 android:paddingBottom="14dp"
                 android:textColorHint="@color/gray_500"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_schedule_title_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="@string/guardian_calendar_schedule_title_error"
+                android:textColor="@color/red"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/et_schedule_title"
+                app:layout_constraintTop_toBottomOf="@+id/et_schedule_title" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_time"
@@ -74,8 +85,8 @@
                 android:stateListAnimator="@null"
                 android:text="@string/schedule_time"
                 android:textColor="@drawable/selector_schedule_time_btn_color"
-                app:layout_constraintStart_toStartOf="@+id/tv_schedule_title"
-                app:layout_constraintTop_toBottomOf="@+id/tv_schedule_title" />
+                app:layout_constraintStart_toStartOf="@+id/et_schedule_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_schedule_title_error" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_all_day"
@@ -122,11 +133,42 @@
                     style="@style/Text.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_start_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_start_title" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_start_all_day"
+                    style="@style/Text.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_start_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_start_title" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--                        <CalendarView-->
+            <!--                            android:id="@+id/cv_start"-->
+            <!--                            android:layout_width="0dp"-->
+            <!--                            android:layout_height="wrap_content"-->
+            <!--                            android:layout_marginHorizontal="20dp"-->
+            <!--                            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                            android:visibility="visible"-->
+            <!--                            app:layout_constraintStart_toStartOf="parent"-->
+            <!--                            app:layout_constraintTop_toBottomOf="@+id/cl_start" />-->
+
+            <!--            <DatePicker-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                android:datePickerMode="calendar"-->
+            <!--                android:layout_marginHorizontal="20dp"-->
+            <!--                android:visibility="visible"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/cl_start" />-->
 
             <NumberPicker
                 android:id="@+id/np_start_month"
@@ -134,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:theme="@style/NumberPickerCustom"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cl_start" />
 
@@ -143,7 +185,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:theme="@style/NumberPickerCustom"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/np_start_month"
                 app:layout_constraintStart_toEndOf="@+id/np_start_month"
                 app:layout_constraintTop_toTopOf="@+id/np_start_month" />
@@ -155,7 +197,7 @@
                 android:layout_marginEnd="20dp"
                 android:theme="@style/NumberPickerCustom"
                 android:timePickerMode="spinner"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/np_start_month"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/np_start_day"
@@ -187,6 +229,17 @@
                     style="@style/Text.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_end_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_end_title" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_end_all_day"
+                    style="@style/Text.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_end_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_end_title" />
@@ -226,64 +279,111 @@
                 app:layout_constraintStart_toEndOf="@+id/np_end_day"
                 app:layout_constraintTop_toTopOf="@+id/np_end_month" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_alarm"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_alarm"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="44dp"
-                android:src="@drawable/ic_alarm"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tp_end" />
+                android:layout_marginTop="36dp"
+                android:background="?attr/selectableItemBackground"
+                android:paddingVertical="4dp"
+                app:layout_constraintTop_toBottomOf="@+id/tp_end">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_alarm"
-                style="@style/Text.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_alarm"
-                app:layout_constraintStart_toEndOf="@+id/iv_alarm"
-                app:layout_constraintTop_toTopOf="@+id/iv_alarm" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_alarm"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_repeat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
-                android:src="@drawable/ic_repeat"
-                app:layout_constraintStart_toStartOf="@+id/iv_alarm"
-                app:layout_constraintTop_toBottomOf="@+id/iv_alarm" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_alarm"
+                    style="@style/Text.Body1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="20dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/guardian_calendar_schedule_alarm_default"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_alarm"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_alarm"
+                    app:layout_constraintTop_toTopOf="@+id/iv_alarm" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_repeat"
-                style="@style/Text.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_repeat"
-                app:layout_constraintStart_toEndOf="@+id/iv_repeat"
-                app:layout_constraintTop_toTopOf="@+id/iv_repeat" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_memo"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_repeat"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
-                android:src="@drawable/ic_memo"
-                app:layout_constraintStart_toStartOf="@+id/iv_repeat"
-                app:layout_constraintTop_toBottomOf="@+id/iv_repeat" />
+                android:layout_marginTop="14dp"
+                android:background="?attr/selectableItemBackground"
+                android:paddingVertical="4dp"
+                app:layout_constraintTop_toBottomOf="@+id/cl_alarm">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/et_memo"
-                style="@style/Text.Body1"
-                android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_repeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_repeat"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_repeat"
+                    style="@style/Text.Body1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="20dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/guardian_calendar_schedule_repeat_default"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_repeat"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_repeat"
+                    app:layout_constraintTop_toTopOf="@+id/iv_repeat" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_memo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:hint="메모"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_memo"
-                app:layout_constraintStart_toEndOf="@+id/iv_memo"
-                app:layout_constraintTop_toTopOf="@+id/iv_memo" />
+                android:layout_marginTop="14dp"
+                android:background="?attr/selectableItemBackground"
+                android:paddingVertical="4dp"
+                app:layout_constraintTop_toBottomOf="@+id/cl_repeat">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_memo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_memo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_memo"
+                    style="@style/Text.Body1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@null"
+                    android:hint="@string/guardian_calendar_schedule_memo"
+                    android:paddingVertical="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_memo"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -301,6 +401,7 @@
         android:drawableTop="@drawable/ic_cancel"
         android:drawablePadding="6dp"
         android:drawableTint="@drawable/selector_schedule_btn_color"
+        android:fontFamily="@font/pretendard_bold"
         android:paddingVertical="12dp"
         android:stateListAnimator="@null"
         android:text="@string/cancel"
@@ -311,6 +412,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_save"
+        style="@style/Text.Body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -320,6 +422,7 @@
         android:drawableTop="@drawable/ic_save"
         android:drawablePadding="6dp"
         android:drawableTint="@drawable/selector_schedule_btn_color"
+        android:fontFamily="@font/pretendard_bold"
         android:paddingVertical="12dp"
         android:stateListAnimator="@null"
         android:text="@string/save"

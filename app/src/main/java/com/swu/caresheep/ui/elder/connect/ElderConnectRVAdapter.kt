@@ -1,15 +1,15 @@
-package com.swu.caresheep.ui.elder.main
+package com.swu.caresheep.ui.elder.connect
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.swu.caresheep.databinding.ItemElderScheduleBinding
+import com.swu.caresheep.databinding.ItemElderConnectedGuardianBinding
 
-class ElderMainScheduleRVAdapter(private var scheduleList: ArrayList<ElderMainSchedule>) :
-    RecyclerView.Adapter<ElderMainScheduleRVAdapter.ViewHolder>() {
+class ElderConnectRVAdapter(private var guardianList: ArrayList<ConnectedGuardian>) :
+    RecyclerView.Adapter<ElderConnectRVAdapter.ViewHolder>() {
 
     interface MyItemClickListener {
-        fun onItemClick(schedule: ElderMainSchedule)
+        fun onItemClick(guardian: ConnectedGuardian)
     }
 
     private lateinit var mItemClickListener: MyItemClickListener
@@ -21,8 +21,8 @@ class ElderMainScheduleRVAdapter(private var scheduleList: ArrayList<ElderMainSc
         viewGroup: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding: ItemElderScheduleBinding =
-            ItemElderScheduleBinding.inflate(
+        val binding: ItemElderConnectedGuardianBinding =
+            ItemElderConnectedGuardianBinding.inflate(
                 LayoutInflater.from(viewGroup.context),
                 viewGroup,
                 false
@@ -32,23 +32,22 @@ class ElderMainScheduleRVAdapter(private var scheduleList: ArrayList<ElderMainSc
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(scheduleList[position])
+        holder.bind(guardianList[position])
     }
 
     override fun getItemCount(): Int {
-        return scheduleList.size
+        return guardianList.size
     }
 
-    fun setData(items: ArrayList<ElderMainSchedule>) {
-        this.scheduleList = items
+    fun setData(items: ArrayList<ConnectedGuardian>) {
+        this.guardianList = items
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(val binding: ItemElderScheduleBinding) :
+    inner class ViewHolder(val binding: ItemElderConnectedGuardianBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ElderMainSchedule) {
-            binding.tvScheduleTime.text = item.time
-            binding.tvScheduleTitle.text = item.title
+        fun bind(item: ConnectedGuardian) {
+            binding.tvConnectedGuardian.text = item.name
         }
     }
 

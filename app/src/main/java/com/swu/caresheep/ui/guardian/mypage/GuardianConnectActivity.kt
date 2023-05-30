@@ -1,11 +1,13 @@
 package com.swu.caresheep.ui.guardian.mypage
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -15,28 +17,33 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
-import com.swu.caresheep.User
 import com.swu.caresheep.databinding.ActivityGuardianConnectBinding
 import com.swu.caresheep.ui.dialog.BaseDialog
 import com.swu.caresheep.ui.dialog.VerticalDialog
-
+import com.swu.caresheep.ui.guardian.GuardianStartActivity
+import com.swu.caresheep.ui.start.user_id
 
 class GuardianConnectActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGuardianConnectBinding
     private var code: String = ""
+    private var userId: Int = 0
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            // 뒤로가기 클릭 시 실행시킬 코드 입력
+            finish()
+            overridePendingTransition(R.anim.none, R.anim.slide_out_right)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGuardianConnectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        overridePendingTransition(R.anim.slide_in_right, R.anim.none)
+        this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
-        // 뒤로 가기
-        binding.ivBack.setOnClickListener {
-            this.onBackPressed()
-        }
 
         binding.etUserCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -81,12 +88,21 @@ class GuardianConnectActivity : AppCompatActivity() {
 
                     verticalDialog.topBtnClickListener {
                         // 어르신 연결하기
-                        connectElder(code)
-                        this.onBackPressed()
-                        Toast.makeText(this, "어르신 연결에 성공했습니다.", Toast.LENGTH_SHORT).show()
-
-                        // 만약 연결된 어르신의 루틴이 설정되어 있지 않다면(null이라면), 루틴 설정으로 이동
-
+                        connectElder(code, userId)
+//                        Toast.makeText(this, "어르신 연결에 성공했습니다.", Toast.LENGTH_SHORT).show()
+//
+//                        // 연결된 어르신의 루틴이 설정되어 있지 않다면, 루틴 설정으로 이동
+//                        getElderRoutineExist {
+//                            if (it) {
+//                                // 어르신 루틴 설정 O
+//                                onBackPressedCallback.handleOnBackPressed()
+//                            }else {
+//                                // 어르신 루틴 설정 X
+//                                startActivity(Intent(this, GuardianStartActivity::class.java))
+//                                finish()
+//                            }
+//
+//                        }
 
                     }
 
@@ -101,10 +117,16 @@ class GuardianConnectActivity : AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.none, R.anim.slide_out_right)
+    override fun onStart() {
+        super.onStart()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.none)
+
+        // 뒤로 가기
+        binding.ivBack.setOnClickListener {
+            onBackPressedCallback.handleOnBackPressed()
+        }
     }
+
 
     /**
      * 해당 사용자 코드(code) 값을 가진 어르신 정보 반환
@@ -123,11 +145,11 @@ class GuardianConnectActivity : AppCompatActivity() {
                             val userName = data.child("username").getValue(String::class.java)
                             val userAge = data.child("age").getValue(Int::class.java)
                             var userGender = data.child("gender").getValue(String::class.java)
+                            userId = data.child("id").getValue(Int::class.java)!!
 
                             userGender = if (userGender == "female") "여" else "남"
 
                             userInfo = "$userName 어르신(${userAge}세/$userGender)"
-                            Log.e("username", userInfo)
                         }
                     }
                     callback(userInfo)
@@ -141,9 +163,9 @@ class GuardianConnectActivity : AppCompatActivity() {
     }
 
     /**
-     *  보호자와 어르신 연동 (보호자 Table의 code 속성에 값 부여)
+     *  보호자와 어르신 연동 (보호자 Table의 code 속성, user_id 속성에 값 부여)
      **/
-    private fun connectElder(code: String) {
+    private fun connectElder(code: String, userId: Int) {
         // 회원(Guardian)의 구글 계정 가져오기
         val account = this.let { GoogleSignIn.getLastSignedInAccount(this) }
 
@@ -162,10 +184,30 @@ class GuardianConnectActivity : AppCompatActivity() {
                     for (data in snapshot.children) {
                         val guardianCode = data.key
 
+                        val updates = HashMap<String, Any>()
+                        updates["code"] = code
+                        updates["user_id"] = userId
+
                         // code 속성에 값을 부여
-                        reference.child(guardianCode.toString()).child("code").setValue(code)
+                        reference.child(guardianCode.toString()).updateChildren(updates)
                             .addOnSuccessListener {
                                 // 코드 값 부여 성공
+                                user_id = userId
+
+                                Toast.makeText(this@GuardianConnectActivity, "어르신 연결에 성공했습니다.", Toast.LENGTH_SHORT).show()
+
+                                // 연결된 어르신의 루틴이 설정되어 있지 않다면, 루틴 설정으로 이동
+                                getElderRoutineExist {
+                                    if (it) {
+                                        // 어르신 루틴 설정 O
+                                        onBackPressedCallback.handleOnBackPressed()
+                                    }else {
+                                        // 어르신 루틴 설정 X
+                                        startActivity(Intent(this@GuardianConnectActivity, GuardianStartActivity::class.java))
+                                        finish()
+                                    }
+
+                                }
                             }
                             .addOnFailureListener { error ->
                                 // 코드 값 부여 실패
@@ -181,5 +223,29 @@ class GuardianConnectActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * 어르신의 루틴설정 여부 반환
+     */
+    private fun getElderRoutineExist(callback: (Boolean) -> Unit) {
+        // 해당 code를 가진 어르신 불러오기
+        Firebase.database(BuildConfig.DB_URL)
+            .getReference("UsersRoutine")
+            .orderByChild("user_id")
+            .equalTo(user_id.toDouble())
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val isElderRoutineExisted: Boolean = snapshot.exists()
+                    Log.e("user_id", user_id.toString())
+
+                    Log.e("isElderRoutineExisted", isElderRoutineExisted.toString())
+                    callback(isElderRoutineExisted)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // 쿼리 실행 중 오류 발생 시 처리할 내용
+                    callback(false)
+                }
+            })
+    }
 
 }

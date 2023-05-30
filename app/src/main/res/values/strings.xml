@@ -16,6 +16,8 @@
     <string name="schedule_all_day">종일</string>
     <string name="start">시작</string>
     <string name="end">종료</string>
+    <string name="change">수정</string>
+    <string name="delete">삭제</string>
     <string name="save">저장</string>
 
     <string name="dialog_check">확인</string>
@@ -63,16 +65,24 @@
     <string name="guardian_home_voice_mailbox_sub_title">새로운 메시지를 확인하세요</string>
     <string name="guardian_home_today_schedule_not_exist_message">아직 등록된 일정이 없습니다.</string>
 
-    <string name="sunday"><font color="#abc270">S</font></string>
-    <array name="weekdays_custom">
-        <item>M</item>
-        <item>T</item>
-        <item>W</item>
-        <item>T</item>
-        <item>F</item>
-        <item>S</item>
-        <item>@string/sunday</item>
-    </array>
+    <!-- Guardian - Calendar -->
+    <string name="guardian_calendar_add_schedule">일정 추가</string>
+    <string name="guardian_calendar_schedule_title_error">제목을 입력해주세요.</string>
+    <string name="guardian_calendar_schedule_alarm_default">10분 전</string>
+    <string name="guardian_calendar_schedule_repeat_default">반복 안 함</string>
+    <string name="guardian_calendar_schedule_memo">메모</string>
+    <string name="guardian_calendar_schedule_notification">알림</string>
+    <string name="guardian_calendar_schedule_notification_none">알림 없음</string>
+    <string name="guardian_calendar_schedule_notification_start">일정 시작시간</string>
+    <string name="guardian_calendar_schedule_notification_minute">10분 전</string>
+    <string name="guardian_calendar_schedule_notification_hour">1시간 전</string>
+    <string name="guardian_calendar_schedule_notification_day">1일 전</string>
+    <string name="guardian_calendar_schedule_repeat">반복</string>
+    <string name="guardian_calendar_schedule_repeat_none">반복 안 함</string>
+    <string name="guardian_calendar_schedule_repeat_day">매일</string>
+    <string name="guardian_calendar_schedule_repeat_week">매주</string>
+    <string name="guardian_calendar_schedule_repeat_month">매월</string>
+    <string name="guardian_calendar_schedule_repeat_year">매년</string>
 
     <!-- Guardian - MyPage -->
     <string name="guardian_my_page_routine_info">어르신 루틴 정보</string>
@@ -107,6 +117,7 @@
 
     <!-- Elder -->
     <string name="elder_today_schedule">오늘의 일정</string>
+    <string name="elder_main_caption">원하는 서비스를 선택하세요</string>
 
     <!-- Elder - Connect -->
     <string name="elder_connect">보호자 연결</string>
