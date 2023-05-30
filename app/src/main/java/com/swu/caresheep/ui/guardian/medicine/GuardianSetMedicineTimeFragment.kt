@@ -34,7 +34,6 @@ class GuardianSetMedicineTimeFragment : Fragment() {
     ): View? {
 
 
-
         // Firebase Realtime Database에서 데이터 가져오기
         val database =
             FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/")
@@ -44,55 +43,61 @@ class GuardianSetMedicineTimeFragment : Fragment() {
 
                 for (childSnapshot in dataSnapshot.children) {
                     val medicineData = childSnapshot.getValue(MedicineTime::class.java)
-                    val info = arrayOf(medicineData?.time, medicineData?.medicine_name, medicineData?.color, medicineData?.user_id, medicineData?.count, medicineData?.single_dose)
-                    if (info != null) {
-                        // time 필드 String으로 변환
-                        val timeString = info[0].toString()
+                    val info = arrayOf(
+                        medicineData?.time,
+                        medicineData?.medicine_name,
+                        medicineData?.color,
+                        medicineData?.user_id,
+                        medicineData?.count,
+                        medicineData?.single_dose
+                    )
 
-                        Log.d("Firebase", "시간 값: $timeString")
+                    // time 필드 String으로 변환
+                    val timeString = info[0].toString()
 
-                        // 시간 : 분 형태로 돼있어서 split으로 분리시킨 후 int로 변환
-                        val timeParts = timeString.split(":")
-                        if (timeParts.size == 2) {
-                            val hour = timeParts[0].toIntOrNull()
-                            val minute = timeParts[1].toIntOrNull()
-                            // 해당 시간에 알람 설정
-                            if (hour != null && minute != null) {
-                                val calendar = Calendar.getInstance()
-                                calendar.set(Calendar.HOUR_OF_DAY, hour)
-                                calendar.set(Calendar.MINUTE, minute)
-                                calendar.set(Calendar.SECOND, 0)
+                    Log.d("Firebase", "시간 값: $timeString")
 
-                                // 현재 시간보다 이전이면 다음 날로 설정
-                                if (calendar.before(Calendar.getInstance())) {
-                                    calendar.add(Calendar.DATE, 1)
-                                }
+                    // 시간 : 분 형태로 돼있어서 split으로 분리시킨 후 int로 변환
+                    val timeParts = timeString.split(":")
+                    if (timeParts.size == 2) {
+                        val hour = timeParts[0].toIntOrNull()
+                        val minute = timeParts[1].toIntOrNull()
+                        // 해당 시간에 알람 설정
+                        if (hour != null && minute != null) {
+                            val calendar = Calendar.getInstance()
+                            calendar.set(Calendar.HOUR_OF_DAY, hour)
+                            calendar.set(Calendar.MINUTE, minute)
+                            calendar.set(Calendar.SECOND, 0)
 
-                                val alarmIntent =
-                                    Intent(requireContext(), AlarmReceiver::class.java)
-                                val alarmManager =
-                                    requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                                alarmIntent.action = AlarmReceiver.ACTION_RESTART_SERVICE
-                                val alarmCallPendingIntent = PendingIntent.getBroadcast(
-                                    requireActivity(),
-                                    0,
-                                    alarmIntent,
-                                    PendingIntent.FLAG_UPDATE_CURRENT
+                            // 현재 시간보다 이전이면 다음 날로 설정
+                            if (calendar.before(Calendar.getInstance())) {
+                                calendar.add(Calendar.DATE, 1)
+                            }
+
+                            val alarmIntent =
+                                Intent(requireContext(), AlarmReceiver::class.java)
+                            val alarmManager =
+                                requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                            alarmIntent.action = AlarmReceiver.ACTION_RESTART_SERVICE
+                            val alarmCallPendingIntent = PendingIntent.getBroadcast(
+                                requireActivity(),
+                                0,
+                                alarmIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                            )
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                alarmManager.setExactAndAllowWhileIdle(
+                                    AlarmManager.RTC_WAKEUP,
+                                    calendar.timeInMillis,
+                                    alarmCallPendingIntent
                                 )
-
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    alarmManager.setExactAndAllowWhileIdle(
-                                        AlarmManager.RTC_WAKEUP,
-                                        calendar.timeInMillis,
-                                        alarmCallPendingIntent
-                                    )
-                                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                    alarmManager.setExact(
-                                        AlarmManager.RTC_WAKEUP,
-                                        calendar.timeInMillis,
-                                        alarmCallPendingIntent
-                                    )
-                                }
+                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                alarmManager.setExact(
+                                    AlarmManager.RTC_WAKEUP,
+                                    calendar.timeInMillis,
+                                    alarmCallPendingIntent
+                                )
                             }
                         }
                     }

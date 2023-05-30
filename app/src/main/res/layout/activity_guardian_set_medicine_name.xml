@@ -25,7 +25,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:gravity="left"
+        android:gravity="center"
         android:text="해당 약은 무슨 약인가요?"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"

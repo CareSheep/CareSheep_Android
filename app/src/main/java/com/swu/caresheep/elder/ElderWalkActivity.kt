@@ -12,6 +12,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.SystemClock
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -23,12 +24,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.swu.caresheep.ui.elder.main.ElderActivity
 import kotlinx.android.synthetic.main.activity_elder_walk.goal_walk
 import kotlinx.android.synthetic.main.activity_elder_walk.walktimeTV
 import java.time.LocalDate
 
-class ElderWalkActivity : AppCompatActivity() /*SensorEventListener*/ {
+class ElderWalkActivity : AppCompatActivity() ,SensorEventListener {
 
     //현재 날짜
     val todayDate: LocalDate = LocalDate.now()
@@ -42,7 +42,7 @@ class ElderWalkActivity : AppCompatActivity() /*SensorEventListener*/ {
     lateinit var stopButton: Button
 
     // 현재 걸음 수
-    private var currentSteps = 0
+    var currentSteps = 0
 
     // 목표 걸음 수
     var goalSteps = 0
@@ -83,28 +83,29 @@ class ElderWalkActivity : AppCompatActivity() /*SensorEventListener*/ {
         }
 
         // Check activity recognition permission
-//        if (ContextCompat.checkSelfPermission(
-//                this,
-//                Manifest.permission.ACTIVITY_RECOGNITION
-//            ) == PackageManager.PERMISSION_DENIED
-//        ) {
-//            requestPermissions(arrayOf(Manifest.permission.ACTIVITY_RECOGNITION), 0)
-//        }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACTIVITY_RECOGNITION
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
+            requestPermissions(arrayOf(Manifest.permission.ACTIVITY_RECOGNITION), 0)
+        }
 
         // Connect step sensor
-//        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-//        stepCountSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
-//
-//        // Check if step sensor is available on the device
-//        if (stepCountSensor == null) {
-//            Toast.makeText(this, "No Step Sensor", Toast.LENGTH_SHORT).show()
-//        }
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        stepCountSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
+
+        // Check if step sensor is available on the device
+        if (stepCountSensor == null) {
+            Toast.makeText(this, "No Step Sensor", Toast.LENGTH_SHORT).show()
+        }
 
         // Add reset button - reset functionality
         stopButton.setOnClickListener {
             // Reset current step count
             //stepCountView.text = currentSteps.toString()
             //실행 상태일때만 실행
+            todayWalkData()
             if(running){
                 //정지
                 walktimeTV.stop()
@@ -115,7 +116,7 @@ class ElderWalkActivity : AppCompatActivity() /*SensorEventListener*/ {
                 //화면 설정
                 viewMode("stop")
             }
-           //pushTodayWalkData()
+
 
             val intent = Intent(this, ElderWalkDoneActivity::class.java)
             startActivity(intent)
@@ -153,48 +154,64 @@ class ElderWalkActivity : AppCompatActivity() /*SensorEventListener*/ {
         })
     }
 
-    private fun pushTodayWalkData() {
+    private fun todayWalkData() {
 
-        val data = hashMapOf(
-            "done" to "1",
+//        if(goalWalk_value1.toInt() <= currentSteps){
+//            result1 = 1
+//        }
+
+        val data2 = hashMapOf(
+            "done" to 1,
             "goal_walk" to goalWalk_value1,
             "start_time" to todayDate,
-            "walk" to currentSteps.toString(),
-            "user_id" to "1",
+            "walk" to currentSteps,
+            "user_id" to 1,
         )
-        dbRef2 = FirebaseDatabase.getInstance().getReference("Walk").child("test")
 
-        if(goalWalk_value1.toInt() <= currentSteps){
-            result1 = 1
-        }
+        dbRef2 = FirebaseDatabase.getInstance().getReference("Walk")
+        dbRef2.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val childCount = dataSnapshot.childrenCount
+                val walkid = (childCount + 1).toInt()
+                // medicine_id = id // 약 고유번호 정해주기 -> 다음 액티비티에서 사용
 
-        // 삽입하기
-        dbRef2.setValue(data)
+                dbRef2.child(walkid.toString()).setValue(data2)
+                    .addOnSuccessListener {
+                        Log.e("걸음수 내역", "DB에 저장 성공")
+                    }.addOnFailureListener {
+                        Log.e("걸음수 내역", "DB에 저장 tlfvo")
+                    }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("걸음수 내역", "Database error: $error")
+            }
+        })
+
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        stepCountSensor?.let {
-//            // Set sensor speed
-//            sensorManager
-//            sensorManager!!.registerListener(
-//                this,
-//                stepCountSensor,
-//                SensorManager.SENSOR_DELAY_FASTEST
-//            )
-//        }
-//    }
-//
-//    override fun onSensorChanged(event: SensorEvent) {
-//        // 걸음 센서 이벤트 발생시
-//        if (event.sensor.type == Sensor.TYPE_STEP_DETECTOR) {
-//            if (event.values[0] == 1.0f) {
-//                // 센서 이벤트가 발생할때 마다 걸음수 증가
-//                currentSteps++
-//                stepCountView!!.text = currentSteps.toString()
-//            }
-//        }
-//    }
-//
-//    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+    override fun onStart() {
+        super.onStart()
+        stepCountSensor?.let {
+            // Set sensor speed
+            sensorManager
+            sensorManager!!.registerListener(
+                this,
+                stepCountSensor,
+                SensorManager.SENSOR_DELAY_FASTEST
+            )
+        }
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        // 걸음 센서 이벤트 발생시
+        if (event.sensor.type == Sensor.TYPE_STEP_DETECTOR) {
+            if (event.values[0] == 1.0f) {
+                // 센서 이벤트가 발생할때 마다 걸음수 증가
+                currentSteps++
+                stepCountView!!.text = currentSteps.toString()
+            }
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
 }
