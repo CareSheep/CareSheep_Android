@@ -9,6 +9,7 @@ plugins {
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def NAVER_MAP = properties.getProperty("NAVER_MAP")
 
 android {
     namespace 'com.swu.caresheep'
@@ -29,7 +30,7 @@ android {
         buildConfigField "String", "API_KEY", properties['API_KEY']
         buildConfigField "String", "DB_URL", properties['DB_URL']
 
-        manifestPlaceholders = [NAVER_MAP: "NAVER_MAP"]
+        manifestPlaceholders = [NAVER_MAP: NAVER_MAP]
     }
 
     buildTypes {
