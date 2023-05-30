@@ -9,18 +9,16 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.database.FirebaseDatabase
-import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
-import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class ElderMapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val TAG = "MainActivity"
 
     // 권한
@@ -34,7 +32,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
+        setContentView(R.layout.activity_elder_maps)
 
 
         val fm: FragmentManager = supportFragmentManager
