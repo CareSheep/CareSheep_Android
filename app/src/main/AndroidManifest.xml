@@ -46,6 +46,9 @@
             android:name=".ui.elder.alarm.ElderBreakfastAlarmActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.guardian.calendar.GuardianScheduleDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".elder.ElderGetAlarmTimeActivity"
             android:exported="false" />
         <activity
