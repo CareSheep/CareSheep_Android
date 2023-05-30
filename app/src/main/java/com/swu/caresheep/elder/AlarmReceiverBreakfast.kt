@@ -7,6 +7,7 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.PowerManager
 import android.provider.Settings
+import android.util.Log
 
 class AlarmReceiverBreakfast : BroadcastReceiver() {
 
@@ -14,8 +15,9 @@ class AlarmReceiverBreakfast : BroadcastReceiver() {
         const val ACTION_RESTART_SERVICE = "Restart"
     }
 
-
     override fun onReceive(context: Context, intent: Intent) {
+
+        Log.d("AlarmReceive", "AlarmReceive")
 
         if (intent.action == ACTION_RESTART_SERVICE) {
 
@@ -28,10 +30,8 @@ class AlarmReceiverBreakfast : BroadcastReceiver() {
             wakeLock.acquire()
 
             val inte = Intent(context, AlarmServiceBreakfast::class.java)
-            context.startForegroundService(inte)
+            context.startService(inte)
 
-            // WakeLock 해제
-            wakeLock.release()
         }
 
 
@@ -47,10 +47,6 @@ class AlarmReceiverBreakfast : BroadcastReceiver() {
         mediaPlayer.prepare()
         mediaPlayer.start()
 
-        // MediaPlayer 리소스 해제
-        mediaPlayer.setOnCompletionListener {
-            mediaPlayer.release()
-        }
 
     }
 }

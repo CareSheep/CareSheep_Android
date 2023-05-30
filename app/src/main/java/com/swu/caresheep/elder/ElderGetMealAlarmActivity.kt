@@ -73,22 +73,37 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
                                 val alarmIntent = Intent(this@ElderGetMealAlarmActivity, AlarmReceiverBreakfast::class.java)
                                 val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
                                 alarmIntent.action = AlarmReceiverBreakfast.ACTION_RESTART_SERVICE
+                                Log.d("AlarmService", "확인")
                                 val alarmCallPendingIntent = PendingIntent.getBroadcast(
                                     this@ElderGetMealAlarmActivity,
                                     0,
                                     alarmIntent,
-                                    PendingIntent.FLAG_UPDATE_CURRENT
+                                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                                 )
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    alarmManager.setExactAndAllowWhileIdle(
+                                        AlarmManager.RTC_WAKEUP,
+                                        calendar.timeInMillis,
+                                        alarmCallPendingIntent
+                                    )
+                                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                    alarmManager.setExact(
+                                        AlarmManager.RTC_WAKEUP,
+                                        calendar.timeInMillis,
+                                        alarmCallPendingIntent
+                                    )
+                                }
 
                                 // 알람 설정
-                                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, alarmCallPendingIntent)
+                                //alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, alarmCallPendingIntent)
 
 
-                                alarmManager.setExactAndAllowWhileIdle(
-                                    AlarmManager.RTC_WAKEUP,
-                                    calendar.timeInMillis,
-                                    alarmCallPendingIntent
-                                )
+//                                alarmManager.setExactAndAllowWhileIdle(
+//                                    AlarmManager.RTC_WAKEUP,
+//                                    calendar.timeInMillis,
+//                                    alarmCallPendingIntent
+//                                )
                             }
                         }
                     }
@@ -102,77 +117,6 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
 
             }
         })
-
-
-
-
-
-//        try {
-//            val user_id = 1 // user_id로 수정
-//            Firebase.database(BuildConfig.DB_URL)
-//                .getReference("UsersRoutine")
-//                .orderByChild("id")
-//                .equalTo(user_id.toDouble())
-//                .addListenerForSingleValueEvent(object : ValueEventListener {
-//                    override fun onDataChange(snapshot: DataSnapshot) {
-//                        if (snapshot.exists()) {
-//                            for (data in snapshot.children) {
-//                                val breakfastValue = data.child("breakfast").getValue(String::class.java).toString()
-//                                breakfast_time.setText("$breakfastValue")
-//
-//                                // :를 시간, 분 형태로 나누기 위해 split으로 분리
-//                                val timeParts = breakfastValue.split(":")
-//                                if (timeParts.size == 2) {
-//                                    val hour = timeParts[0].toIntOrNull()
-//                                    val minute = timeParts[1].toIntOrNull()
-//                                    // 해당 시간에 알람 설정
-//                                    if (hour != null && minute != null) {
-//                                        val calendar = Calendar.getInstance()
-//                                        calendar.set(Calendar.HOUR_OF_DAY, hour)
-//                                        calendar.set(Calendar.MINUTE, minute)
-//                                        calendar.set(Calendar.SECOND, 0)
-//
-//                                        // 현재 시간보다 이전이면 다음 날로 설정하기
-//                                        if (calendar.before(Calendar.getInstance())) {
-//                                            calendar.add(Calendar.DATE, 1)
-//                                        }
-//
-//                                        val alarmIntent = Intent(this@ElderGetMealAlarmActivity, AlarmReceiverBreakfast::class.java)
-//                                        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//                                        alarmIntent.action = AlarmReceiverBreakfast.ACTION_RESTART_SERVICE
-//                                        val alarmCallPendingIntent = PendingIntent.getBroadcast(
-//                                            this@ElderGetMealAlarmActivity,
-//                                            0,
-//                                            alarmIntent,
-//                                            PendingIntent.FLAG_UPDATE_CURRENT
-//                                        )
-//
-//                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//
-//                                            alarmManager.setExactAndAllowWhileIdle(
-//                                                AlarmManager.RTC_WAKEUP,
-//                                                calendar.timeInMillis,
-//                                                alarmCallPendingIntent
-//                                            )
-//                                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//                                            alarmManager.setExact(
-//                                                AlarmManager.RTC_WAKEUP,
-//                                                calendar.timeInMillis,
-//                                                alarmCallPendingIntent
-//                                            )
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                    override fun onCancelled(error: DatabaseError) {
-//                        // 쿼리 실행 중 오류 발생 시 처리할 내용
-//                    }
-//                })
-//        } catch (e: ApiException) {
-//            Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
-//        }
     }
 
     private fun getLunchAlarm(){
@@ -213,7 +157,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
                                             this@ElderGetMealAlarmActivity,
                                             0,
                                             alarmIntent,
-                                            PendingIntent.FLAG_UPDATE_CURRENT
+                                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                                         )
 
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -281,7 +225,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
                                             this@ElderGetMealAlarmActivity,
                                             0,
                                             alarmIntent,
-                                            PendingIntent.FLAG_UPDATE_CURRENT
+                                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                                         )
 
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

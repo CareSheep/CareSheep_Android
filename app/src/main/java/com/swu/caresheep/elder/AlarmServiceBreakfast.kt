@@ -19,7 +19,7 @@ class AlarmServiceBreakfast : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d(TAG, "AlarmService")
+        Log.d("AlarmService", "AlarmService")
 
         // PowerManager 객체 생성
         val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
