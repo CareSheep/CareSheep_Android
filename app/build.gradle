@@ -28,6 +28,8 @@ android {
 
         buildConfigField "String", "API_KEY", properties['API_KEY']
         buildConfigField "String", "DB_URL", properties['DB_URL']
+
+        manifestPlaceholders = [NAVER_MAP: "NAVER_MAP"]
     }
 
     buildTypes {
@@ -114,4 +116,8 @@ dependencies {
 
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 
+
+    implementation("com.naver.maps:map-sdk:3.16.2")
+
+    implementation("com.google.android.gms:play-services-location:16.0.0")
 }
