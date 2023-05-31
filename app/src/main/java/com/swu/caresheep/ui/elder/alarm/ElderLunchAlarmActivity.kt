@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
-import kotlinx.android.synthetic.main.activity_elder_medicine_first.medicine
+import kotlinx.android.synthetic.main.activity_elder_lunch_alarm.lunch
 import java.time.LocalDate
 import java.util.Calendar
 
@@ -65,7 +65,7 @@ class ElderLunchAlarmActivity : AppCompatActivity() {
         wakeLock?.acquire()
 
         // 라디오버튼
-        medicine.setOnCheckedChangeListener { radioGroup, checkedId ->
+        lunch.setOnCheckedChangeListener { radioGroup, checkedId ->
             when (checkedId) {
                 // 점심 먹음 체크
                 R.id.lunch_done -> {

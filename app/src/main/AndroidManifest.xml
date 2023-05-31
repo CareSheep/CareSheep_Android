@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
     <uses-feature android:name="android.hardware.sensor.stepcounter" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -195,6 +198,48 @@
 
         <service
             android:name=".elder.AlarmService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".elder.AlarmReceiverBreakfast"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="Restart" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".elder.AlarmServiceBreakfast"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".elder.AlarmReceiverLunch"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="Restart" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".elder.AlarmServiceLunch"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".elder.AlarmReceiverDinner"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="Restart" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".elder.AlarmServiceDinner"
             android:enabled="true"
             android:exported="true" />
 

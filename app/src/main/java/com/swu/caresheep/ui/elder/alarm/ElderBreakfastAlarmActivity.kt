@@ -15,8 +15,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
-import com.swu.caresheep.ui.guardian.medicine.medicine_id
-import kotlinx.android.synthetic.main.activity_elder_medicine_first.medicine
+import kotlinx.android.synthetic.main.activity_elder_breakfast_alarm.breakfast
 import java.time.LocalDate
 import java.util.Calendar
 
@@ -74,7 +73,7 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
         wakeLock?.acquire()
 
         // 라디오버튼
-        medicine.setOnCheckedChangeListener { radioGroup, checkedId ->
+        breakfast.setOnCheckedChangeListener { radioGroup, checkedId ->
             when (checkedId) {
                 // 아침 먹음 체크
                 R.id.breakfast_done -> {
@@ -110,6 +109,9 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
     }
 
     private fun checkBreakfast(){
+
+        Log.d("식사","아침식사")
+
         val data = hashMapOf(
             "date" to todayDate,
             "done" to done,
@@ -125,13 +127,13 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
 
                 dbRef.child(id.toString()).setValue(data)
                     .addOnSuccessListener {
-                        Log.e("아침 식사", "DB에 저장 성공")
+                        Log.d("아침 식사", "DB에 저장 성공")
                     }.addOnFailureListener {
-                        Log.e("아침 식사", "DB에 저장 실패")
+                        Log.d("아침 식사", "DB에 저장 실패")
                     }
             }
             override fun onCancelled(error: DatabaseError) {
-                Log.e("복약내용- 색상", "Database error: $error")
+                Log.d("아침 식사", "Database error: $error")
             }
         })
     }
