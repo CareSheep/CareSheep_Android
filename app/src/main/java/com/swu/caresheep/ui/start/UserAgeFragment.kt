@@ -15,9 +15,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.BuildConfig
-import com.swu.caresheep.Guardian
+import com.swu.caresheep.data.model.Guardian
 import com.swu.caresheep.R
-import com.swu.caresheep.User
+import com.swu.caresheep.data.model.User
 import kotlin.random.Random
 import com.swu.caresheep.databinding.FragmentUserAgeBinding
 import com.swu.caresheep.ui.dialog.BaseDialog

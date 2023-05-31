@@ -1,4 +1,4 @@
-package com.swu.caresheep
+package com.swu.caresheep.data.model
 
 class User {
 
