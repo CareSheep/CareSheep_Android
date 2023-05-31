@@ -10,8 +10,8 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
-import com.swu.caresheep.Guardian
-import com.swu.caresheep.User
+import com.swu.caresheep.data.model.Guardian
+import com.swu.caresheep.data.model.User
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
