@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
+import com.swu.caresheep.ElderMapsActivity
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityElderBinding
 import com.swu.caresheep.elder.ElderVoiceMainActivity
@@ -92,6 +93,12 @@ class ElderActivity : AppCompatActivity() {
         // 보호자 연결 버튼
         binding.btnConnect.setOnClickListener {
             val intent = Intent(this, ElderConnectActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 위치 추적 지도 버튼
+        binding.btnMap.setOnClickListener {
+            val intent = Intent(this, ElderMapsActivity::class.java)
             startActivity(intent)
         }
     }

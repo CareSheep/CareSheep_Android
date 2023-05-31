@@ -30,6 +30,7 @@ import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.client.util.DateTime
 import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.calendar.model.*
+import com.swu.caresheep.GuardianMapsActivity
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
 import com.swu.caresheep.recyclerview.RecycleMainRecordActivity
@@ -87,6 +88,11 @@ class GuardianHomeFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.ivMap.setOnClickListener {
+            // 위치 추적 지도 화면으로 이동
+            val intent = Intent(requireContext(), GuardianMapsActivity::class.java)
+            startActivity(intent)
+        }
 
         return binding.root
     }

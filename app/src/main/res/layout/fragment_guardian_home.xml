@@ -24,12 +24,13 @@
             android:src="@drawable/img_app_icon" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_notification"
+            android:id="@+id/iv_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tint="#BAC0C0"
             android:layout_gravity="end"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_notification" />
+            android:layout_marginEnd="22dp"
+            android:src="@drawable/ic_map" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_app_name"
