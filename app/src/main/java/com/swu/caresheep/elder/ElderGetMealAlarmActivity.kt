@@ -32,6 +32,15 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_elder_get_meal_alarm)
 
+        initView()
+//        getBrakfastAlarm()
+//        getLunchAlarm()
+//        getDinnerAlarm()
+//        getWalkAlarm()
+//        getMedicineAlarm()
+    }
+
+    fun initView() {
         getBrakfastAlarm()
         getLunchAlarm()
         getDinnerAlarm()
@@ -39,7 +48,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
         getMedicineAlarm()
     }
 
-    private fun getBrakfastAlarm(){
+    fun getBrakfastAlarm(){
 
         val user_id = 1 // user_id로 수정
 
@@ -52,7 +61,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
                 if(snapshot.exists()){
                     for(data in snapshot.children){
                         val breakfastValue = data.child("breakfast").getValue(String::class.java).toString()
-                        breakfast_time.setText("$breakfastValue")
+                        //breakfast_time.setText("$breakfastValue")
 
 
                         Log.d("Firebase", "시간 값: $breakfastValue")
@@ -123,7 +132,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
         })
     }
 
-    private fun getLunchAlarm(){
+    fun getLunchAlarm(){
         try {
             val user_id = 1 // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
@@ -135,7 +144,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
                                 val lunchValue = data.child("lunch").getValue(String::class.java).toString()
-                                lunch_time.setText("$lunchValue")
+                                //lunch_time.setText("$lunchValue")
 
                                 // :를 시간, 분 형태로 나누기 위해 split으로 분리
                                 val timeParts = lunchValue.split(":")
@@ -192,7 +201,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
     }
 
 
-    private fun getDinnerAlarm(){
+    fun getDinnerAlarm(){
         try {
             val user_id = 1 // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
@@ -204,7 +213,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
                                 val dinnerValue = data.child("dinner").getValue(String::class.java).toString()
-                                dinner_time.setText("$dinnerValue")
+                                //dinner_time.setText("$dinnerValue")
                                 Log.d("dinnerValue","$dinnerValue")
                                 // :를 시간, 분 형태로 나누기 위해 split으로 분리
                                 val timeParts = dinnerValue.split(":")
@@ -261,7 +270,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
     }
 
 
-    private fun getWalkAlarm(){
+    fun getWalkAlarm(){
         try {
             val user_id = 1 // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
@@ -274,7 +283,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
                             for (data in snapshot.children) {
                                 val walkValue = data.child("walk_time").getValue(String::class.java).toString()
                                 Log.d("walk","$walkValue")
-                                walk_time.setText("$walkValue")
+                                //walk_time.setText("$walkValue")
                                 // :를 시간, 분 형태로 나누기 위해 split으로 분리
                                 val timeParts = walkValue.split(":")
                                 if (timeParts.size == 2) {
@@ -330,7 +339,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
     }
 
 
-    private fun getMedicineAlarm(){
+    fun getMedicineAlarm(){
         try {
             val user_id = 1 // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
@@ -343,7 +352,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
                             for (data in snapshot.children) {
                                 val medicineValue = data.child("time").getValue(String::class.java).toString()
                                 Log.d("medicine time","$medicineValue")
-                                medcine_time.setText("$medicineValue")
+                                //medcine_time.setText("$medicineValue")
                                 // :를 시간, 분 형태로 나누기 위해 split으로 분리
                                 val timeParts = medicineValue.split(":")
                                 if (timeParts.size == 2) {

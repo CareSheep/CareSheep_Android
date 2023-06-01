@@ -46,7 +46,8 @@
             android:exported="false" />
         <activity
             android:name=".elder.ElderGetMealAlarmActivity"
-            android:exported="false" />
+            android:exported="true">
+        </activity>
         <activity
             android:name=".ui.elder.alarm.ElderDinnerAlarmActivity"
             android:exported="false" />

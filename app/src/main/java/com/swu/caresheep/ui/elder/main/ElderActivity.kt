@@ -55,6 +55,8 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
+import com.swu.caresheep.elder.ElderGetMealAlarmActivity
+
 class ElderActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityElderBinding
@@ -73,6 +75,13 @@ class ElderActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.orange_100)
 
         initView()
+
+        ElderGetMealAlarmActivity().getBrakfastAlarm()
+        ElderGetMealAlarmActivity().getDinnerAlarm()
+        ElderGetMealAlarmActivity().getLunchAlarm()
+        ElderGetMealAlarmActivity().getWalkAlarm()
+        ElderGetMealAlarmActivity().getMedicineAlarm()
+
     }
 
     override fun onStart() {
