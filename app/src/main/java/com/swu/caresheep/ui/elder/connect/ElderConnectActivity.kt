@@ -1,15 +1,18 @@
 package com.swu.caresheep.ui.elder.connect
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.view.animation.AnimationUtils
-import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.zxing.BarcodeFormat
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityElderConnectBinding
@@ -19,23 +22,13 @@ class ElderConnectActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityElderConnectBinding
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            // 뒤로가기 클릭 시 실행시킬 코드 입력
-            finish()
-            overridePendingTransition(R.anim.none, R.anim.slide_out_right)
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityElderConnectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
         getUserCode()
-        getConnectedGuardian()
     }
 
     override fun onStart() {
@@ -44,8 +37,19 @@ class ElderConnectActivity : AppCompatActivity() {
 
         // 뒤로 가기
         binding.ivClose.setOnClickListener {
-            onBackPressedCallback.handleOnBackPressed()
+            finish()
         }
+
+        // 연결된 보호자 목록
+        binding.btnConnectedGuardianList.setOnClickListener {
+            val intent = Intent(this, ElderConnectedGuardianActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.none, R.anim.slide_out_right)
     }
 
     /**
@@ -62,6 +66,20 @@ class ElderConnectActivity : AppCompatActivity() {
                         for (data in snapshot.children) {
                             val userCode = data.child("code").getValue(String::class.java)
                             binding.tvUserCode.text = userCode
+
+                            try {
+                                val barcodeEncoder = BarcodeEncoder()
+                                val bitmap = barcodeEncoder.encodeBitmap(userCode, BarcodeFormat.QR_CODE, 500, 500)
+                                val drawable = BitmapDrawable(resources, bitmap)
+
+                                binding.ivQrUserCode.setImageDrawable(drawable)
+
+                                // 애니메이션 적용
+                                val fadeInAnimation = AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in)
+                                binding.ivQrUserCode.startAnimation(fadeInAnimation)
+                            } catch (e: Exception) {
+                                Log.e("qr코드 경고", e.toString())
+                            }
                         }
                     }
                 }
@@ -72,55 +90,4 @@ class ElderConnectActivity : AppCompatActivity() {
             })
     }
 
-    /**
-     * 연결된 보호자 가져오기
-     */
-    private fun getConnectedGuardian() {
-        val connectedGuardianData = ArrayList<ConnectedGuardian>()
-        var connectedGuardianRVAdapter: ElderConnectRVAdapter
-
-        Firebase.database(BuildConfig.DB_URL)
-            .getReference("Guardian")
-            .orderByChild("user_id")
-            .equalTo(user_id.toDouble())
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        // 해당 user_id를 가진 데이터가 Guardian 테이블에 존재하는 경우
-                        for (data in snapshot.children) {
-                            val guardianName =
-                                data.child("guardian_name").getValue(String::class.java)!!
-
-                            connectedGuardianData.add(ConnectedGuardian(guardianName))
-                        }
-
-                        connectedGuardianRVAdapter = ElderConnectRVAdapter(connectedGuardianData)
-                        binding.rvConnectedGuardian.adapter = connectedGuardianRVAdapter
-
-                        binding.tvConnectedGuardianNotExist.visibility = View.INVISIBLE
-                        binding.rvConnectedGuardian.visibility = View.VISIBLE
-                    } else {
-                        // 해당 user_id를 가진 데이터가 Guardian 테이블에 존재하지 않는 경우
-                        binding.tvConnectedGuardianNotExist.visibility = View.VISIBLE
-                        binding.rvConnectedGuardian.visibility = View.INVISIBLE
-
-                        val context = applicationContext
-                        val resources = context?.resources
-                        val animation =
-                            resources?.let { AnimationUtils.loadAnimation(context, R.anim.fade_in) }
-
-                        animation?.also { hyperspaceJumpAnimation ->
-                            binding.tvConnectedGuardianNotExist.startAnimation(
-                                hyperspaceJumpAnimation
-                            )
-                        }
-
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    // 쿼리 실행 중 오류 발생 시 처리할 내용
-                }
-            })
-    }
 }
