@@ -1,9 +1,10 @@
 package com.swu.caresheep.ui.guardian.calendar
 
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.net.ConnectivityManager
-import androidx.appcompat.app.AppCompatActivity
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,10 +12,12 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.api.client.extensions.android.http.AndroidHttp
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
@@ -24,15 +27,18 @@ import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.client.util.DateTime
 import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.calendar.model.*
-import com.swu.caresheep.utils.GoogleLoginClient
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityGuardianAddScheduleBinding
+import com.swu.caresheep.databinding.BottomSheetScheduleNotificationBinding
+import com.swu.caresheep.databinding.BottomSheetScheduleRepeatBinding
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.timeZone
 import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Calendar
 
 class GuardianAddScheduleActivity : AppCompatActivity() {
 
@@ -41,14 +47,33 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
     // Google Calendar API에 접근하기 위해 사용되는 구글 캘린더 API 서비스 객체
     private var mService: com.google.api.services.calendar.Calendar? = null
     private var mCredential: GoogleAccountCredential? = null
+
+    private var currentStartYear: Int = 0
+    private var currentStartMonth: Int = 0
+    private var currentStartDay: Int = 0
+    private var currentStartWeek: String = ""
+    var currentTime: String = ""
+    var currentEndTime: String = ""
+
+    private var currentEndYear: Int = 0
+    private var currentEndMonth: Int = 0
+    private var currentEndDay: Int = 0
+    private var currentEndWeek: String = ""
+
     private var isStartPickerClicked = false
     private var isEndPickerClicked = false
+
+    private var isTimeTypeClicked = true
+    private var isAllDayTypeClicked = false
+
     private var scheduleTitle: String = ""
     private var scheduleMemo: String = ""
+    private var notificationBottomSheetDialog: BottomSheetDialog? = null
+    private var repeatBottomSheetDialog: BottomSheetDialog? = null
 
-    private var googleLoginClient: GoogleLoginClient = GoogleLoginClient()
+    private var eventInfo: Event = Event()
 
-    private var task: MakeRequestTask = MakeRequestTask(mCredential, null, null)
+    private var task: MakeRequestTask = MakeRequestTask(mCredential, null)
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -78,57 +103,57 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         val selectedDate = if (selectedDateInMillis != 0L) Date(selectedDateInMillis) else Date()
 
         // 선택된 날짜로 초기 설정
-        val calendar = java.util.Calendar.getInstance(timeZone)
+        val calendar = Calendar.getInstance(timeZone)
         calendar.time = selectedDate
 
-        var currentStartYear = calendar.get(java.util.Calendar.YEAR)
-        var currentStartMonth = calendar.get(java.util.Calendar.MONTH) + 1
-        var currentStartDay = calendar.get(java.util.Calendar.DAY_OF_MONTH)
-        val currentStartWeek = calendar.getDisplayName(
-            java.util.Calendar.DAY_OF_WEEK,
-            java.util.Calendar.SHORT,
+        currentStartYear = calendar.get(Calendar.YEAR)
+        currentStartMonth = calendar.get(Calendar.MONTH) + 1
+        currentStartDay = calendar.get(Calendar.DAY_OF_MONTH)
+        currentStartWeek = calendar.getDisplayName(
+            Calendar.DAY_OF_WEEK,
+            Calendar.SHORT,
             Locale.getDefault()
         )!!
 
-        var currentEndYear = calendar.get(java.util.Calendar.YEAR)
-        var currentEndMonth = calendar.get(java.util.Calendar.MONTH) + 1
-        var currentEndDay = calendar.get(java.util.Calendar.DAY_OF_MONTH)
-        val currentEndWeek = calendar.getDisplayName(
-            java.util.Calendar.DAY_OF_WEEK,
-            java.util.Calendar.SHORT,
+        currentEndYear = calendar.get(Calendar.YEAR)
+        currentEndMonth = calendar.get(Calendar.MONTH) + 1
+        currentEndDay = calendar.get(Calendar.DAY_OF_MONTH)
+        currentEndWeek = calendar.getDisplayName(
+            Calendar.DAY_OF_WEEK,
+            Calendar.SHORT,
             Locale.getDefault()
         )!!
 
         // TimePicker 초기 설정
-        binding.tpStart.hour = calendar.get(java.util.Calendar.HOUR_OF_DAY)  // 시작 Time
-        binding.tpStart.minute = calendar.get(java.util.Calendar.MINUTE)
-        binding.tpEnd.hour = calendar.get(java.util.Calendar.HOUR_OF_DAY) + 1  // 종료 Time
-        binding.tpEnd.minute = calendar.get(java.util.Calendar.MINUTE)
+        binding.tpStart.hour = calendar.get(Calendar.HOUR_OF_DAY)  // 시작 Time
+        binding.tpStart.minute = calendar.get(Calendar.MINUTE)
+        binding.tpEnd.hour = calendar.get(Calendar.HOUR_OF_DAY) + 1  // 종료 Time
+        binding.tpEnd.minute = calendar.get(Calendar.MINUTE)
 
 
         val strCurrentMinute =
-            if (calendar.get(java.util.Calendar.MINUTE) / 10 == 0) "0${calendar.get(java.util.Calendar.MINUTE)}" else calendar.get(
-                java.util.Calendar.MINUTE
+            if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${calendar.get(Calendar.MINUTE)}" else calendar.get(
+                Calendar.MINUTE
             )
         val strCurrentAMPM =
-            if (calendar.get(java.util.Calendar.AM_PM) == java.util.Calendar.AM) "오전"
+            if (calendar.get(Calendar.AM_PM) == Calendar.AM) "오전"
             else "오후"
         val strCurrentHour12 =
-            if (calendar.get(java.util.Calendar.HOUR_OF_DAY) == 0) 12 else if (calendar.get(java.util.Calendar.HOUR_OF_DAY) > 12) calendar.get(
-                java.util.Calendar.HOUR_OF_DAY
-            ) - 12 else calendar.get(java.util.Calendar.HOUR_OF_DAY)
+            if (calendar.get(Calendar.HOUR_OF_DAY) == 0) 12 else if (calendar.get(Calendar.HOUR_OF_DAY) > 12) calendar.get(
+                Calendar.HOUR_OF_DAY
+            ) - 12 else calendar.get(Calendar.HOUR_OF_DAY)
 
         val strCurrentEndAMPM =
-            if (calendar.get(java.util.Calendar.AM_PM) == java.util.Calendar.AM) "오전"
+            if (calendar.get(Calendar.AM_PM) == Calendar.AM) "오전"
             else "오후"
 
         val strCurrentEndHour12 =
-            if (calendar.get(java.util.Calendar.HOUR_OF_DAY) + 1 > 12) calendar.get(
-                java.util.Calendar.HOUR_OF_DAY
-            ) + 1 - 12 else calendar.get(java.util.Calendar.HOUR_OF_DAY) + 1
+            if (calendar.get(Calendar.HOUR_OF_DAY) + 1 > 12) calendar.get(
+                Calendar.HOUR_OF_DAY
+            ) + 1 - 12 else calendar.get(Calendar.HOUR_OF_DAY) + 1
 
-        var currentTime = "$strCurrentAMPM $strCurrentHour12:$strCurrentMinute"
-        var currentEndTime = "$strCurrentEndAMPM $strCurrentEndHour12:$strCurrentMinute"
+        currentTime = "$strCurrentAMPM $strCurrentHour12:$strCurrentMinute"
+        currentEndTime = "$strCurrentEndAMPM $strCurrentEndHour12:$strCurrentMinute"
 
         // 시작 TimePicker 시간 변경 시
         binding.tpStart.setOnTimeChangedListener { _, newHour, newMinute ->
@@ -138,7 +163,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 if (newHour == 0) 12 else if (newHour > 12) newHour - 12 else newHour
 
             val strNewMinute =
-                if (calendar.get(java.util.Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
+                if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
 
             currentTime = "$strNewAmPm $strNewHour:$strNewMinute"
             updateStartTimeText(
@@ -158,7 +183,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 if (newHour == 0) 12 else if (newHour > 12) newHour - 12 else newHour
 
             val strNewMinute =
-                if (calendar.get(java.util.Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
+                if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
 
             currentEndTime = "$strNewAmPm $strNewHour:$strNewMinute"
             updateEndTimeText(
@@ -286,8 +311,10 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
         // 시간 선택 시
         binding.btnTime.setOnClickListener {
-            binding.btnTime.isSelected = true
-            binding.btnAllDay.isSelected = false
+            isTimeTypeClicked = true
+            isAllDayTypeClicked = false
+            binding.btnTime.isSelected = isTimeTypeClicked
+            binding.btnAllDay.isSelected = isAllDayTypeClicked
 
             binding.tvStartTime.visibility = View.VISIBLE
             binding.tvEndTime.visibility = View.VISIBLE
@@ -310,8 +337,10 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
         // 종일 선택 시
         binding.btnAllDay.setOnClickListener {
-            binding.btnTime.isSelected = false
-            binding.btnAllDay.isSelected = true
+            isTimeTypeClicked = false
+            isAllDayTypeClicked = true
+            binding.btnTime.isSelected = isTimeTypeClicked
+            binding.btnAllDay.isSelected = isAllDayTypeClicked
 
             binding.npStartDay.visibility = View.GONE
             binding.npStartMonth.visibility = View.GONE
@@ -328,10 +357,10 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 null
             )
             updateEndTimeText(
-                currentStartYear,
-                currentStartMonth,
-                currentStartDay,
-                currentStartWeek,
+                currentEndYear,
+                currentEndMonth,
+                currentEndDay,
+                currentEndWeek,
                 null
             )
 
@@ -343,47 +372,70 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
         initBtn()
 
-
         // 저장 버튼 클릭 시
         binding.btnSave.setOnClickListener {
             // 시작 시간 가져오기
-            val startCalendar = java.util.Calendar.getInstance().apply {
-                set(
-                    currentStartYear,
-                    currentStartMonth - 1,
-                    currentStartDay,
-                    binding.tpStart.hour,
-                    binding.tpStart.minute
-                )
-                timeZone = GuardianCalendarFragment.timeZone
-            }
-            val startDateTime = DateTime(startCalendar.time)
+            val startCalendar: Calendar
+            val startDateTime: DateTime
 
+            if (isAllDayTypeClicked && !isTimeTypeClicked) {
+                startCalendar = Calendar.getInstance(timeZone).apply {
+                    set(
+                        currentStartYear,
+                        currentStartMonth - 1,
+                        currentStartDay
+                    )
+                }
+                startDateTime = DateTime(startCalendar.time)
+            } else {
+                startCalendar = Calendar.getInstance(timeZone).apply {
+                    set(
+                        currentStartYear,
+                        currentStartMonth - 1,
+                        currentStartDay,
+                        binding.tpStart.hour,
+                        binding.tpStart.minute
+                    )
+                }
+                startDateTime = DateTime(startCalendar.time)
+            }
 
             // 종료 시간 가져오기
-            val endCalendar = java.util.Calendar.getInstance().apply {
-                set(
-                    currentEndYear,
-                    currentEndMonth - 1,
-                    currentEndDay,
-                    binding.tpEnd.hour,
-                    binding.tpEnd.minute
-                )
-                timeZone = GuardianCalendarFragment.timeZone
-            }
-            val endDateTime = DateTime(endCalendar.time)
+            val endCalendar: Calendar
+            val endDateTime: DateTime
 
+            if (isAllDayTypeClicked && !isTimeTypeClicked) {
+                endCalendar = Calendar.getInstance(timeZone).apply {
+                    set(
+                        currentEndYear,
+                        currentEndMonth - 1,
+                        currentEndDay
+                    )
+                }
+                endDateTime = DateTime(endCalendar.time)
+            } else {
+                endCalendar = Calendar.getInstance(timeZone).apply {
+                    set(
+                        currentEndYear,
+                        currentEndMonth - 1,
+                        currentEndDay,
+                        binding.tpEnd.hour,
+                        binding.tpEnd.minute,
+                    )
+                }
+                endDateTime = DateTime(endCalendar.time)
+            }
 
             // 일정 추가
             lifecycleScope.launch {
-                val elderInfo =
-                    withContext(Dispatchers.IO) { googleLoginClient.getElderInfo(this@GuardianAddScheduleActivity) }
-                val gmail = elderInfo.gmail
-                val eventInfo =
-                    getNewEventInfo(scheduleTitle, scheduleMemo, startDateTime, endDateTime)
+                Log.e("startDateTime", startDateTime.toString())
+                getNewEventInfo(scheduleTitle, scheduleMemo, startDateTime, endDateTime)
 
-                addSchedule(eventInfo, listOf(gmail!!))
+                addSchedule(eventInfo)
             }
+
+            val sharedPrefs = getSharedPreferences("Add Schedule", Context.MODE_PRIVATE)
+            sharedPrefs.edit().putBoolean("isAdded", true).apply()
 
             onBackPressedCallback.handleOnBackPressed()
             Toast.makeText(this, "일정을 추가했습니다.", Toast.LENGTH_SHORT).show()
@@ -404,25 +456,48 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         memo: String,
         startDateTime: DateTime,
         endDateTime: DateTime
-    ): Event {
-        val newEvent: Event = Event()
-            .setSummary(title)
-            .setDescription(memo)
+    ) {
+        eventInfo.setSummary(title).description = memo
 
         // 시작 시간
         val start = EventDateTime()
             .setDateTime(startDateTime)
             .setTimeZone("Asia/Seoul")
-        newEvent.start = start
+
+        if (isAllDayTypeClicked && !isTimeTypeClicked) {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formattedDate = dateFormat.format(Date(startDateTime.value))
+
+            val startAllDayDateTime = DateTime(formattedDate)
+            if (eventInfo.start == null) {
+                eventInfo.start = EventDateTime().setDate(startAllDayDateTime)
+            } else {
+                eventInfo.start.date = startAllDayDateTime
+            }
+        } else {
+            eventInfo.start = start
+        }
 
 
         // 종료 시간
         val end = EventDateTime()
             .setDateTime(endDateTime)
             .setTimeZone("Asia/Seoul")
-        newEvent.end = end
+        if (isAllDayTypeClicked && !isTimeTypeClicked) {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formattedDate = dateFormat.format(Date(endDateTime.value))
 
-        return newEvent
+            val endAllDayDateTime = DateTime(formattedDate)
+            if (eventInfo.end == null) {
+                eventInfo.end = EventDateTime().setDate(endAllDayDateTime)
+            } else {
+                eventInfo.end.date = endAllDayDateTime
+                eventInfo.end.dateTime = null
+            }
+        } else {
+//            eventInfo.end = end.setDateTime(endDateTime)
+            eventInfo.end = end
+        }
     }
 
     override fun onStart() {
@@ -445,44 +520,166 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
      */
     private fun initBtn() {
         // 시간 및 종일 선택 초기 설정
-        binding.btnTime.isSelected = true
-        binding.btnAllDay.isSelected = false
+        binding.btnTime.isSelected = isTimeTypeClicked
+        binding.btnAllDay.isSelected = isAllDayTypeClicked
 
         // 날짜 및 시간 선택 visibility 설정
         binding.clStart.setOnClickListener {
-            isStartPickerClicked = !isStartPickerClicked
-            if (isStartPickerClicked) {
-                isEndPickerClicked = false
-                binding.npStartDay.visibility = View.VISIBLE
-                binding.npStartMonth.visibility = View.VISIBLE
-                binding.tpStart.visibility = View.VISIBLE
+            if (isTimeTypeClicked) {
+                // 시간 유형
+                isStartPickerClicked = !isStartPickerClicked
+                if (isStartPickerClicked) {
+                    isEndPickerClicked = false
+                    binding.npStartDay.visibility = View.VISIBLE
+                    binding.npStartMonth.visibility = View.VISIBLE
+                    binding.tpStart.visibility = View.VISIBLE
 
-                binding.npEndDay.visibility = View.GONE
-                binding.npEndMonth.visibility = View.GONE
-                binding.tpEnd.visibility = View.GONE
-            } else {
-                binding.npStartDay.visibility = View.GONE
-                binding.npStartMonth.visibility = View.GONE
-                binding.tpStart.visibility = View.GONE
+                    binding.npEndDay.visibility = View.GONE
+                    binding.npEndMonth.visibility = View.GONE
+                    binding.tpEnd.visibility = View.GONE
+                } else {
+                    binding.npStartDay.visibility = View.GONE
+                    binding.npStartMonth.visibility = View.GONE
+                    binding.tpStart.visibility = View.GONE
+                }
+
+            } else if (isAllDayTypeClicked) {
+                // 종일 유형
+                val datePickerDialog =
+                    DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                        val calendar = Calendar.getInstance(timeZone)
+                        calendar.set(selectedYear, selectedMonth, selectedDay)
+
+                        val selectedWeek = calendar.getDisplayName(
+                            Calendar.DAY_OF_WEEK,
+                            Calendar.SHORT,
+                            Locale.getDefault()
+                        )!!
+
+                        currentStartYear = selectedYear
+                        currentStartMonth = selectedMonth + 1
+                        currentStartDay = selectedDay
+                        currentStartWeek = selectedWeek
+
+                        currentEndYear = selectedYear
+                        currentEndMonth = selectedMonth + 1
+                        currentEndDay = selectedDay
+                        currentEndWeek = selectedWeek
+
+
+                        updateStartTimeText(
+                            selectedYear,
+                            selectedMonth + 1,
+                            selectedDay,
+                            selectedWeek,
+                            null
+                        )
+
+                        updateEndTimeText(
+                            selectedYear,
+                            selectedMonth + 1,
+                            selectedDay,
+                            selectedWeek,
+                            null
+                        )
+
+                        // 갱신
+                        binding.npStartMonth.value = currentStartMonth
+                        binding.npStartDay.value = currentStartDay
+
+                        updateStartTimeText(currentStartYear, currentStartMonth, currentStartDay, currentStartWeek, currentTime)
+
+                        binding.npEndMonth.value = currentEndMonth
+                        binding.npEndDay.value = currentEndDay
+
+                        updateEndTimeText(currentEndYear, currentEndMonth, currentEndDay, currentEndWeek, currentEndTime)
+
+                    }, currentStartYear, currentStartMonth - 1, currentStartDay)
+
+
+                // DatePickerDialog를 보여줌
+                datePickerDialog.show()
+
+
             }
         }
 
         binding.clEnd.setOnClickListener {
-            isEndPickerClicked = !isEndPickerClicked
-            if (isEndPickerClicked) {
-                isStartPickerClicked = false
-                binding.npEndDay.visibility = View.VISIBLE
-                binding.npEndMonth.visibility = View.VISIBLE
-                binding.tpEnd.visibility = View.VISIBLE
+            if (isTimeTypeClicked) {
+                // 시간 유형
+                isEndPickerClicked = !isEndPickerClicked
+                if (isEndPickerClicked) {
+                    isStartPickerClicked = false
+                    binding.npEndDay.visibility = View.VISIBLE
+                    binding.npEndMonth.visibility = View.VISIBLE
+                    binding.tpEnd.visibility = View.VISIBLE
 
-                binding.npStartDay.visibility = View.GONE
-                binding.npStartMonth.visibility = View.GONE
-                binding.tpStart.visibility = View.GONE
-            } else {
-                binding.npEndDay.visibility = View.GONE
-                binding.npEndMonth.visibility = View.GONE
-                binding.tpEnd.visibility = View.GONE
+                    binding.npStartDay.visibility = View.GONE
+                    binding.npStartMonth.visibility = View.GONE
+                    binding.tpStart.visibility = View.GONE
+                } else {
+                    binding.npEndDay.visibility = View.GONE
+                    binding.npEndMonth.visibility = View.GONE
+                    binding.tpEnd.visibility = View.GONE
+                }
+
+            } else if (isAllDayTypeClicked) {
+                // 종일 유형
+                val datePickerDialog =
+                    DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                        val calendar = Calendar.getInstance(timeZone)
+                        calendar.set(selectedYear, selectedMonth, selectedDay)
+
+                        val selectedWeek = calendar.getDisplayName(
+                            Calendar.DAY_OF_WEEK,
+                            Calendar.SHORT,
+                            Locale.getDefault()
+                        )!!
+
+                        currentEndYear = selectedYear
+                        currentEndMonth = selectedMonth + 1
+                        currentEndDay = selectedDay
+                        currentEndWeek = selectedWeek
+
+                        currentStartYear = selectedYear
+                        currentStartMonth = selectedMonth + 1
+                        currentStartDay = selectedDay
+                        currentStartWeek = selectedWeek
+
+                        updateStartTimeText(
+                            selectedYear,
+                            selectedMonth + 1,
+                            selectedDay,
+                            selectedWeek,
+                            null
+                        )
+                        updateEndTimeText(
+                            selectedYear,
+                            selectedMonth + 1,
+                            selectedDay,
+                            selectedWeek,
+                            null
+                        )
+
+                        // 갱신
+                        binding.npStartMonth.value = currentStartMonth
+                        binding.npStartDay.value = currentStartDay
+
+                        updateStartTimeText(currentStartYear, currentStartMonth, currentStartDay, currentStartWeek, currentTime)
+
+                        binding.npEndMonth.value = currentEndMonth
+                        binding.npEndDay.value = currentEndDay
+
+                        updateEndTimeText(currentEndYear, currentEndMonth, currentEndDay, currentEndWeek, currentEndTime)
+
+                    }, currentEndYear, currentEndMonth - 1, currentEndDay)
+
+
+                // DatePickerDialog를 보여줌
+                datePickerDialog.show()
+
             }
+
         }
 
         // 일정 제목 입력
@@ -519,13 +716,218 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         })
 
 
+        // 알림
+        // 알림 메뉴 Bottom Sheet
+        val notificationBottomSheetView =
+            layoutInflater.inflate(R.layout.bottom_sheet_schedule_notification, binding.root, false)
+        notificationBottomSheetDialog =
+            BottomSheetDialog(this, R.style.BottomSheetDialogCustom)
+
+        notificationBottomSheetDialog!!.setContentView(notificationBottomSheetView!!)
+        setNotificationBottomSheetView(
+            notificationBottomSheetView,
+            notificationBottomSheetDialog!!
+        )
+
+        binding.clAlarm.setOnClickListener {
+            notificationBottomSheetDialog!!.show()
+        }
+
+
+        // 반복
+        // 반복 메뉴 Bottom Sheet
+        val repeatBottomSheetView =
+            layoutInflater.inflate(R.layout.bottom_sheet_schedule_repeat, binding.root, false)
+        repeatBottomSheetDialog =
+            BottomSheetDialog(this, R.style.BottomSheetDialogCustom)
+
+        repeatBottomSheetDialog!!.setContentView(repeatBottomSheetView!!)
+        setRepeatBottomSheetView(repeatBottomSheetView, repeatBottomSheetDialog!!)
+
+        binding.clRepeat.setOnClickListener {
+            repeatBottomSheetDialog!!.show()
+        }
+
+
     }
+
+    // 알림 메뉴 Bottom Sheet Click event 설정
+    private fun setNotificationBottomSheetView(
+        bottomSheetView: View,
+        dialog: BottomSheetDialog
+    ) {
+        val notificationBinding = BottomSheetScheduleNotificationBinding.bind(bottomSheetView)
+
+        // 기본으로 10분 전으로 설정
+        var reminders = Event.Reminders()
+        reminders.useDefault = false
+
+        var reminder10Minutes = EventReminder()
+        reminder10Minutes.method = "popup"
+        reminder10Minutes.minutes = 10
+
+        reminders.overrides = listOf(reminder10Minutes)
+
+        eventInfo.reminders = reminders
+
+        // 알림 없음
+        notificationBinding.tvBottomSheetNotificationNone.setOnClickListener {
+            binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationNone.text
+
+            reminders = Event.Reminders()
+            reminders.useDefault = true
+            eventInfo.reminders = reminders
+
+            dialog.dismiss()
+        }
+
+        // 일정 시작시간
+        notificationBinding.tvBottomSheetNotificationStart.setOnClickListener {
+            binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationStart.text
+
+            reminders = Event.Reminders()
+            reminders.useDefault = false
+
+            val reminderAtStart = EventReminder()
+            reminderAtStart.method = "popup"
+            reminderAtStart.minutes = 0
+
+            reminders.overrides = listOf(reminderAtStart)
+
+            eventInfo.reminders = reminders
+
+            dialog.dismiss()
+        }
+
+        // 10분 전
+        notificationBinding.tvBottomSheetNotificationMinute.setOnClickListener {
+            binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationMinute.text
+
+            reminders = Event.Reminders()
+            reminders.useDefault = false
+
+            reminder10Minutes = EventReminder()
+            reminder10Minutes.method = "popup"
+            reminder10Minutes.minutes = 10
+
+            reminders.overrides = listOf(reminder10Minutes)
+
+            eventInfo.reminders = reminders
+
+            dialog.dismiss()
+        }
+
+        // 1시간 전
+        notificationBinding.tvBottomSheetNotificationHour.setOnClickListener {
+            binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationHour.text
+
+            reminders = Event.Reminders()
+            reminders.useDefault = false
+
+            val reminder1Hour = EventReminder()
+            reminder1Hour.method = "popup"
+            reminder1Hour.minutes = 60
+
+            reminders.overrides = listOf(reminder1Hour)
+
+            eventInfo.reminders = reminders
+
+            dialog.dismiss()
+        }
+
+        // 1일 전
+        notificationBinding.tvBottomSheetNotificationDay.setOnClickListener {
+            binding.tvAlarm.text = notificationBinding.tvBottomSheetNotificationDay.text
+
+            reminders = Event.Reminders()
+            reminders.useDefault = false
+
+            val reminder1Day = EventReminder()
+            reminder1Day.method = "popup"
+            reminder1Day.minutes = 24 * 60
+
+            reminders.overrides = listOf(reminder1Day)
+
+            eventInfo.reminders = reminders
+
+            dialog.dismiss()
+        }
+
+        // 닫기
+        notificationBinding.btnBottomSheetNotificationClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+    }
+
+    // 반복 메뉴 Bottom Sheet Click event 설정
+    private fun setRepeatBottomSheetView(
+        bottomSheetView: View,
+        dialog: BottomSheetDialog
+    ) {
+        val repeatBinding = BottomSheetScheduleRepeatBinding.bind(bottomSheetView)
+
+        // 기본으로 반복 없음 설정
+        eventInfo.recurrence = null
+
+        // 반복 없음
+        repeatBinding.tvBottomSheetRepeatNone.setOnClickListener {
+            binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatNone.text
+
+            eventInfo.recurrence = null
+
+            dialog.dismiss()
+        }
+
+        // 매일
+        repeatBinding.tvBottomSheetRepeatDay.setOnClickListener {
+            binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatDay.text
+
+            eventInfo.recurrence = listOf("RRULE:FREQ=DAILY")
+
+            dialog.dismiss()
+        }
+
+        // 매주
+        repeatBinding.tvBottomSheetRepeatWeek.setOnClickListener {
+            binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatWeek.text
+
+            eventInfo.recurrence = listOf("RRULE:FREQ=WEEKLY")
+
+            dialog.dismiss()
+        }
+
+        // 매월
+        repeatBinding.tvBottomSheetRepeatMonth.setOnClickListener {
+            binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatMonth.text
+
+            eventInfo.recurrence = listOf("RRULE:FREQ=MONTHLY")
+
+            dialog.dismiss()
+        }
+
+        // 매년
+        repeatBinding.tvBottomSheetRepeatYear.setOnClickListener {
+            binding.tvRepeat.text = repeatBinding.tvBottomSheetRepeatYear.text
+
+            eventInfo.recurrence = listOf("RRULE:FREQ=YEARLY")
+
+            dialog.dismiss()
+        }
+
+        // 닫기
+        repeatBinding.btnBottomSheetRepeatClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+    }
+
 
     // 해당 월의 일 수 가져오기
     private fun getMaxDayOfMonth(year: Int, month: Int): Int {
-        val calendar = java.util.Calendar.getInstance(timeZone)
+        val calendar = Calendar.getInstance(timeZone)
         calendar.set(year, month - 1, 1) // 연도와 월 설정
-        return calendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH)
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
     }
 
     // 일 설정 업데이트
@@ -571,9 +973,9 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
     }
 
 
-    private fun addSchedule(event: Event, attendees: List<String>?) {
+    private fun addSchedule(event: Event) {
         // Google Calendar API 호출
-        getResultsFromApi(event, attendees)
+        getResultsFromApi(event)
     }
 
     /**
@@ -586,7 +988,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
      *
      * 하나라도 만족하지 않으면 해당 사항을 사용자에게 알림.
      */
-    private fun getResultsFromApi(event: Event, attendees: List<String>?): String? {
+    private fun getResultsFromApi(event: Event): String? {
         if (!isGooglePlayServicesAvailable()) {  // Google Play Services를 사용할 수 없는 경우
             acquireGooglePlayServices()
         } else if (mCredential!!.selectedAccountName == null) {  // 유효한 Google 계정이 선택되어 있지 않은 경우
@@ -595,8 +997,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
             task = MakeRequestTask(
                 mCredential,
-                event,
-                attendees
+                event
             )
             task.execute()
         } else if (!isDeviceOnline()) {  // 인터넷을 사용할 수 없는 경우
@@ -605,8 +1006,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
             // Google Calendar API 호출
             task = MakeRequestTask(
                 mCredential,
-                event,
-                attendees
+                event
             )
             task.execute()
         }
@@ -668,10 +1068,11 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
      * 안드로이드 디바이스가 인터넷 연결되어 있는지 확인한다. 연결되어 있다면 True 리턴, 아니면 False 리턴
      */
     private fun isDeviceOnline(): Boolean {
-        val connMgr =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        val networkInfo = connMgr!!.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 
     /**
@@ -709,8 +1110,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
      */
     private inner class MakeRequestTask(
         credential: GoogleAccountCredential?,
-        private var event: Event?,
-        private var attendees: List<String>?
+        private var event: Event?
     ) {
         private var mLastError: Exception? = null
         var job: Job? = null
@@ -727,21 +1127,17 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 .build()
         }
 
-        private fun onPreExecute() {
-//            binding.pbScheduleLoading.show()
-        }
 
         /**
          * 백그라운드에서 Google Calendar API 호출 처리
          */
         fun execute() {
             job = CoroutineScope(Dispatchers.Main).launch {
-                onPreExecute()
 
                 try {
                     val result = withContext(Dispatchers.IO) {
                         try {
-                            addEvent(event!!, attendees)
+                            addEvent(event!!)
                             null
                         } catch (e: Exception) {
                             mLastError = e
@@ -767,9 +1163,8 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 //            binding.pbScheduleLoading.hide()
         }
 
-        private fun addEvent(event: Event, attendees: List<String>?): String {
+        private fun addEvent(event: Event): String {
             val calendarID: String = getCalendarID("공유 캘린더") ?: return "공유 캘린더를 먼저 생성하세요."
-            event.attendees = attendees?.map { email -> EventAttendee().setEmail(email) }
             try {
                 val newEvent = mService!!.events().insert(calendarID, event).execute()
                 Log.e("[addEvent] NewEvent", newEvent.toString())

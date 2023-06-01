@@ -37,6 +37,16 @@
             app:layout_constraintTop_toTopOf="@+id/iv_app_logo" />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_map"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_app_logo"
+            app:layout_constraintEnd_toStartOf="@+id/btn_connect"
+            app:layout_constraintTop_toTopOf="@+id/iv_app_logo" />
+
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btn_connect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,6 +121,22 @@
                     android:paddingBottom="20dp"
                     android:text="@string/elder_today_schedule"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_update_today_schedule"
+                    style="@style/Text.Title3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/rectangle_gray400_radius_20"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="@string/update"
+                    android:textColor="@color/gray_900"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_today_schedule"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/btn_today_schedule" />
 
                 <androidx.core.widget.ContentLoadingProgressBar
                     android:id="@+id/pb_today_schedule_loading"

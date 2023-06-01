@@ -9,7 +9,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
-import com.swu.caresheep.User
 import com.swu.caresheep.ui.start.UserAgeFragment
 import kotlinx.android.synthetic.main.activity_elder_get_alarm_time.userid
 
