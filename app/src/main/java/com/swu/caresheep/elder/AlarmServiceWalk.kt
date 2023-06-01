@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.os.PowerManager
 import android.util.Log
+import com.swu.caresheep.ui.elder.alarm.ElderBreakfastAlarmActivity
 import com.swu.caresheep.ui.elder.alarm.ElderWalkAlarmActivity
 
 class AlarmServiceWalk : Service() {

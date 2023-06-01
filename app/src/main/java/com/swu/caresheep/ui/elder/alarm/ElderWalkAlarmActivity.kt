@@ -15,12 +15,19 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
+import kotlinx.android.synthetic.main.activity_elder_breakfast_alarm.breakfast
 import kotlinx.android.synthetic.main.activity_elder_walk_alarm.walk
 import java.time.LocalDate
 import java.util.Calendar
 
-var walk_id : Int = 0
 
+var walk_id : Int = 0
+// 알고리즘 순서
+// 1. Routine 데이터 테이블에서 값들을 알람 매니저에 저장 = 이건 ElderConnedtActivity 혹은 ElderActivity에서 하는 것이 맞음
+// 2. 알람 매니저에의해 뜨는 화면에서 ~하시겠습니까? - 예  버튼을 누를시  Breakfast 테이블에
+// 오늘의 날짜, done, uer_id의 값이 저장
+
+// 알람 매니저에 의해 뜨는 화면에 대한 Activity
 class ElderWalkAlarmActivity : AppCompatActivity() {
 
     private var flag = true
@@ -66,26 +73,25 @@ class ElderWalkAlarmActivity : AppCompatActivity() {
         // WakeLock 획득
         wakeLock?.acquire()
 
-
         // 라디오버튼
         walk.setOnCheckedChangeListener { radioGroup, checkedId ->
             when (checkedId) {
-                // 아침 먹음 체크
                 R.id.walk_done -> {
                     done = 1
-                    checkWalk()
                     finish()
                     flag = false
 
                 }
                 // 아침 안 먹음 체크
                 R.id.walk_no -> {
-                    checkWalk()
                     finish()
                     flag = false
                 }
+
             }
+
         }
+
     }
 
     override fun onDestroy() {
@@ -100,33 +106,32 @@ class ElderWalkAlarmActivity : AppCompatActivity() {
 
     }
 
-    private fun checkWalk(){
-
-        Log.d("식사","아침식사")
-
+    private fun checkLunch() {
         val data = hashMapOf(
             "date" to todayDate,
             "done" to done,
             "user_id" to 1,
         )
 
-        dbRef = FirebaseDatabase.getInstance().getReference("Walk")
-        dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
+        dbRef = FirebaseDatabase.getInstance().getReference("Lunch")
+        dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val childCount = dataSnapshot.childrenCount
                 val id = (childCount + 1).toInt()
-                walk_id = id // 약 고유번호 정해주기 -> 다음 액티비티에서 사용
+                dinner_id = id // 약 고유번호 정해주기 -> 다음 액티비티에서 사용
 
                 dbRef.child(id.toString()).setValue(data)
                     .addOnSuccessListener {
-                        Log.d("걷기 운동", "DB에 저장 성공")
+                        Log.e("저녁 식사", "DB에 저장 성공")
                     }.addOnFailureListener {
-                        Log.d("걷기 운동", "DB에 저장 실패")
+                        Log.e("저녁 식사", "DB에 저장 실패")
                     }
             }
+
             override fun onCancelled(error: DatabaseError) {
-                Log.d("걷기 운동", "Database error: $error")
+                Log.e("복약내용- 색상", "Database error: $error")
             }
         })
     }
+
 }

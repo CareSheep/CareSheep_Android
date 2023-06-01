@@ -182,7 +182,7 @@ class GuardianSetMedicineTimeActivity : AppCompatActivity() {
             startActivity(Intent(this, GuardianActivity::class.java)) // 홈화면으로 이동(모든 루틴 설정 완료)
         }else if (nextpage == 1){
             // 다음 액티비티 이동
-            startActivity(Intent(this, GuardianSetMedicineTimeActivity2::class.java))
+            startActivity(Intent(this, GuardianActivity::class.java)) // 추후 수정 예정
             countMedicine++ // 카운트 증가
             Log.d("증가1!","카운트 증가했고,$countMedicine")
         }
