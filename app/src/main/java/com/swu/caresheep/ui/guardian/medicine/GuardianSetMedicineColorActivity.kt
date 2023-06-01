@@ -60,10 +60,10 @@ class GuardianSetMedicineColorActivity : AppCompatActivity() {
                 "medicine_name" to "",
                 "single_dose" to 0,
                 "time" to "",
-                "user_id" to 1,
+                "user_id" to "1",
             )
 
-            dbRef1 = FirebaseDatabase.getInstance().getReference("TakingMedicine")
+            dbRef1 = FirebaseDatabase.getInstance().getReference("MedicineTime")
             dbRef1.addListenerForSingleValueEvent(object: ValueEventListener{
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val childCount = dataSnapshot.childrenCount
@@ -74,7 +74,7 @@ class GuardianSetMedicineColorActivity : AppCompatActivity() {
                         .addOnSuccessListener {
                             Log.e("복약내용 색상", "DB에 저장 성공")
                         }.addOnFailureListener {
-                            Log.e("복약내용 색상", "DB에 저장 tlfvo")
+                            Log.e("복약내용 색상", "DB에 저장 실패")
                         }
                     }
                 override fun onCancelled(error: DatabaseError) {

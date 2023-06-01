@@ -7,13 +7,13 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.guardian.meal.GuardianSetBreakfastTimeActivity
-import kotlinx.android.synthetic.main.activity_guardian_set_walk_step.editText
+import com.swu.caresheep.ui.guardian.medicine.medicine_id
 import kotlinx.android.synthetic.main.activity_guardian_set_walk_step.setWalkStepButton
+import kotlinx.android.synthetic.main.activity_guardian_set_walk_step.walkStepText
 
 class GuardianSetWalkStepActivity : AppCompatActivity() {
 
     private lateinit var dbRef: DatabaseReference
-    var stepText : String = ""
     var step : Int = 0
 
 
@@ -21,17 +21,22 @@ class GuardianSetWalkStepActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guardian_set_walk_step)
 
-        // 정수형으로 변환
-        stepText = editText.toString()
-        // step = stepText.toInt()
+
+
+//        val data = hashMapOf(
+//            "walk_step" to step,
+//        )
 
         setWalkStepButton.setOnClickListener {
 
-            dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("test")
+            // 정수형으로 변환
+            val stepText = walkStepText.text.toString()
+            val step = stepText.toInt()
 
             val updatedData = HashMap<String, Any>()
-            updatedData["walk_step"] = stepText
+            updatedData["walk_step"] = step
 
+            dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("$routine_id")
             dbRef.updateChildren(updatedData).addOnSuccessListener(){
                 println("Data updated successfully")
             }.addOnFailureListener {

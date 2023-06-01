@@ -47,6 +47,7 @@
         android:layout_height="200dp"
         android:layout_marginBottom="16dp"
         android:timePickerMode="spinner"
+        android:format24Hour="true"
         app:layout_constraintBottom_toTopOf="@+id/fourthMedcineButton" />
 
     <androidx.appcompat.widget.AppCompatButton

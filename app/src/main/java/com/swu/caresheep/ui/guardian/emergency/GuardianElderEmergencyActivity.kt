@@ -8,6 +8,7 @@ import com.swu.caresheep.R
 import com.swu.caresheep.ui.guardian.GuardianActivity
 import com.swu.caresheep.ui.guardian.home.GuardianHomeFragment
 import com.swu.caresheep.ui.guardian.medicine.GuardianSetMedicineNameActivity
+import com.swu.caresheep.ui.guardian.mypage.GuardianMyPageFragment
 import kotlinx.android.synthetic.main.activity_guardian_elder_emergency.back_button
 import kotlinx.android.synthetic.main.activity_guardian_elder_emergency.call_number
 import kotlinx.android.synthetic.main.activity_guardian_elder_emergency.emergency_next1_button
@@ -30,7 +31,7 @@ class GuardianElderEmergencyActivity : AppCompatActivity() {
         }
 
         back_button.setOnClickListener {
-            startActivity(Intent(this, GuardianActivity::class.java))
+            startActivity(Intent(this, GuardianMyPageFragment::class.java))
         }
     }
 }
