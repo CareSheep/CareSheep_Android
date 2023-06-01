@@ -42,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:src="@drawable/ic_map"
+            android:tint="#3F3D56"
             app:layout_constraintBottom_toBottomOf="@+id/iv_app_logo"
             app:layout_constraintEnd_toStartOf="@+id/btn_connect"
             app:layout_constraintTop_toTopOf="@+id/iv_app_logo" />
@@ -51,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_connect"
+            android:tint="#3F3D56"
             app:layout_constraintBottom_toBottomOf="@+id/iv_app_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/iv_app_logo" />
