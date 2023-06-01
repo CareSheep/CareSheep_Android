@@ -113,6 +113,10 @@
             android:name=".ui.guardian.mypage.GuardianConnectActivity"
             android:exported="false" />
         <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
+        <activity
             android:name=".ui.guardian.mypage.GuardianElderRoutineActivity"
             android:exported="true" />
         <activity
