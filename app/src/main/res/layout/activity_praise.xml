@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PraiseActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/voice_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="48dp"
+        android:text="잘하셨습니다!"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="60dp"/>
+
+
+    <android.widget.Button
+        android:id="@+id/record_button"
+        android:layout_width="301dp"
+        android:layout_height="247dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/baseline_thumb_up_24"
+        android:text=""
+        android:textSize="60dp"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+</LinearLayout>
