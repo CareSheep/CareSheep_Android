@@ -15,7 +15,10 @@ import com.swu.caresheep.R
 import com.swu.caresheep.ui.guardian.GuardianActivity
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_time3.thirdMedcineButton
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_time3.thirdMedcinetimePicker
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.HashMap
+import java.util.Locale
 
 var result3 : String = ""
 
@@ -45,8 +48,8 @@ class GuardianSetMedicineTimeActivity3 : AppCompatActivity() {
             Log.d("T", "$countMedicine")
             pushTime()
 
-            dbRef5 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("$medicine_id")
-            dbRef6 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("$medicine_id")
+            dbRef5 = FirebaseDatabase.getInstance().getReference("MedicineTime").child("$medicine_id")
+            dbRef6 = FirebaseDatabase.getInstance().getReference("MedicineTime").child("$medicine_id")
 
             val updatedData = HashMap<String, Any>()
             updatedData["time"] = "$result1,$result2,$result3"
@@ -98,27 +101,20 @@ class GuardianSetMedicineTimeActivity3 : AppCompatActivity() {
     }
 
     private fun pushTime() {
-        thirdMedcinetimePicker.is24HourView()
         picker = thirdMedcinetimePicker
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            timehour = picker.hour
-            timeminute = picker.minute
-        } else {
-            timehour = picker.currentHour
-            timeminute = picker.currentMinute
-        }
+        val hour = picker.hour
+        val minute = picker.minute
 
-        if (timehour > 12) {
-            am_pm = "PM"
-            timehour -= 12
-        } else {
-            am_pm = "AM"
-        }
-
-        result3 = "$timehour:$timeminute"
-        // print(result)
-        Log.d("T",result3)
+        // 시간과 분을 형식화하여 문자열로 변환
+        val timeString = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
+            Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+            }.time
+        )
+        result3 = timeString
+        Log.d("저장되는 시간은","$result3")
 
     }
 }

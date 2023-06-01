@@ -10,8 +10,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.guardian.GuardianStartSetMedicineActivity
+import com.swu.caresheep.ui.guardian.routine_id
 import kotlinx.android.synthetic.main.activity_guardian_set_dinner_time.dinnerTimePicker
 import kotlinx.android.synthetic.main.activity_guardian_set_dinner_time.setDinnerTimeButton
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 class GuardianSetDinnerTimeActivity : AppCompatActivity() {
@@ -24,7 +28,7 @@ class GuardianSetDinnerTimeActivity : AppCompatActivity() {
     var timeminute: Int = 0
     var am_pm: String = "am"
 
-    var result:String = ""
+    var result : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +43,7 @@ class GuardianSetDinnerTimeActivity : AppCompatActivity() {
                 "dinner" to result,
             )
 
-            dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("test")
+            dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("$routine_id")
 
             val updatedData = HashMap<String, Any>()
             updatedData["dinner"] = result
@@ -56,27 +60,20 @@ class GuardianSetDinnerTimeActivity : AppCompatActivity() {
     }
 
     private fun pushTime() {
-        dinnerTimePicker.is24HourView()
         picker = dinnerTimePicker
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            timehour = picker.hour
-            timeminute = picker.minute
-        } else {
-            timehour = picker.currentHour
-            timeminute = picker.currentMinute
-        }
+        val hour = picker.hour
+        val minute = picker.minute
 
-        if (timehour > 12) {
-            am_pm = "PM"
-            timehour -= 12
-        } else {
-            am_pm = "AM"
-        }
-
-        result = "$timehour:$timeminute"
-        // print(result)
-        Log.d("T",result)
+        // 시간과 분을 형식화하여 문자열로 변환
+        val timeString = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
+            Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+            }.time
+        )
+        result = timeString
+        Log.d("저장되는 시간은","$result")
 
     }
 }

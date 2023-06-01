@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
@@ -37,6 +36,9 @@
         android:theme="@style/Theme.CareSheep"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.elder.alarm.ElderWalkAlarmActivity"
+            android:exported="false" />
 
         <activity
             android:name=".ui.guardian.emergency.GuardianElderEmergencyActivity"
@@ -131,6 +133,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.guardian.GuardianStartActivity"
+            android:exported="false" />
             android:exported="true"></activity>
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineCountActivity"
@@ -143,6 +146,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineColorActivity"
+            android:exported="false" />
             android:exported="true"></activity>
         <activity
             android:name=".ui.guardian.meal.GuardianSetBreakfastTimeActivity"
@@ -240,6 +244,20 @@
 
         <service
             android:name=".elder.AlarmServiceDinner"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".elder.AlarmReceiverWalk"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="Restart" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".elder.AlarmServiceWalk"
             android:enabled="true"
             android:exported="true" />
 

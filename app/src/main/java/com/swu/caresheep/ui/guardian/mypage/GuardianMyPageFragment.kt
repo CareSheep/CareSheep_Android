@@ -18,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianMyPageBinding
+import com.swu.caresheep.ui.guardian.emergency.GuardianElderEmergencyActivity
 
 class GuardianMyPageFragment : Fragment() {
 
@@ -38,6 +39,12 @@ class GuardianMyPageFragment : Fragment() {
         // 어르신 연결하기 버튼 클릭 시
         binding.btnConnectElder.setOnClickListener {
             val intent = Intent(requireContext(), GuardianConnectActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 어르신 긴급 상황 전화 버튼 클릭 시
+        binding.btnEmergencyElder.setOnClickListener {
+            val intent = Intent(requireContext(), GuardianElderEmergencyActivity::class.java)
             startActivity(intent)
         }
 

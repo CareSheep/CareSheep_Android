@@ -43,8 +43,10 @@
         android:id="@+id/timePicker"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:format24Hour="true"
         android:timePickerMode="spinner"
-        app:layout_constraintBottom_toTopOf="@+id/setWalkTimeButton" />
+        app:layout_constraintBottom_toTopOf="@+id/setWalkTimeButton"
+        tools:layout_editor_absoluteX="0dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/setWalkTimeButton"

@@ -28,7 +28,7 @@ class GuardianSetMedicineNameActivity : AppCompatActivity() {
                 "medicine_name" to medicine_name,
             )
 
-            dbRef = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("$medicine_id")
+            dbRef = FirebaseDatabase.getInstance().getReference("MedicineTime").child("$medicine_id")
             dbRef.updateChildren(data as Map<String, Any>).addOnSuccessListener {
                 print("User data updated successfully")
                 medicine_exist = 1
