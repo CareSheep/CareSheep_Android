@@ -92,8 +92,9 @@
     <string name="guardian_my_page_dementia_elder">치매 어르신 설정</string>
     <string name="guardian_my_page_connect_title">사용자 코드를 \n입력하세요</string>
     <string name="guardian_my_page_connect_sub_title">어르신과의 연동을 위해 필요합니다.</string>
+    <string name="guardian_my_page_connect_qr_code_scan">QR코드 스캔</string>
     <string name="guardian_my_page_connect_way_info_title">연결 방법</string>
-    <string name="guardian_my_page_connect_way_info_detail">1. 어르신 앱 실행\n2. 어르신 앱 메인 화면 우측 상단 연결 버튼 클릭\n3. 버튼 클릭 시 나타나는 사용자 코드 입력</string>
+    <string name="guardian_my_page_connect_way_info_detail">1. 어르신 앱 실행\n2. 어르신 앱 메인 화면 우측 상단 연결 버튼 클릭\n3. 버튼 클릭 시 나타나는 QR코드 스캔 또는\n     직접 사용자 코드 입력</string>
     <string name="guardian_my_page_connect_elder_caption">아래 버튼을 통해 연결 또는 취소를 진행하세요</string>
     <string name="guardian_my_page_connect_not_exist_message">해당 사용자 코드를 가진 \n어르신이 없습니다</string>
 

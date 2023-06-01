@@ -1,5 +1,6 @@
 package com.swu.caresheep.ui.guardian.mypage
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,7 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -15,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.zxing.integration.android.IntentIntegrator
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityGuardianConnectBinding
@@ -28,7 +30,6 @@ class GuardianConnectActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGuardianConnectBinding
     private var code: String = ""
     private var userId: Int = 0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,6 +103,11 @@ class GuardianConnectActivity : AppCompatActivity() {
         binding.ivBack.setOnClickListener {
             finish()
         }
+
+        // QR코드 스캔 버튼
+        binding.btnQrUserCode.setOnClickListener {
+            startQrCodeScanner()
+        }
     }
 
     override fun finish() {
@@ -109,6 +115,30 @@ class GuardianConnectActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.none, R.anim.slide_out_right)
     }
 
+    private val qrCodeScannerActivityResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val scanningResult =
+                    IntentIntegrator.parseActivityResult(result.resultCode, result.data)
+                if (scanningResult != null) {
+                    if (scanningResult.contents == null) {
+                        Toast.makeText(this, "QR코드 스캔이 취소되었습니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        binding.etUserCode.setText(scanningResult.contents)
+                    }
+                }
+            }
+        }
+
+    /**
+     * QR코드 스캔
+     **/
+    private fun startQrCodeScanner() {
+        val integrator = IntentIntegrator(this)
+        integrator.setOrientationLocked(false)  // default가 세로모드, 휴대폰 방향에 따라 가로, 세로로 자동 변경
+        integrator.setPrompt("QR코드를 스캔하세요")
+        qrCodeScannerActivityResult.launch(integrator.createScanIntent())
+    }
 
 
     /**
@@ -177,16 +207,25 @@ class GuardianConnectActivity : AppCompatActivity() {
                                 // 코드 값 부여 성공
                                 user_id = userId
 
-                                Toast.makeText(this@GuardianConnectActivity, "어르신 연결에 성공했습니다.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this@GuardianConnectActivity,
+                                    "어르신 연결에 성공했습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
 
                                 // 연결된 어르신의 루틴이 설정되어 있지 않다면, 루틴 설정으로 이동
                                 getElderRoutineExist {
                                     if (it) {
                                         // 어르신 루틴 설정 O
                                         finish()
-                                    }else {
+                                    } else {
                                         // 어르신 루틴 설정 X
-                                        startActivity(Intent(this@GuardianConnectActivity, GuardianStartActivity::class.java))
+                                        startActivity(
+                                            Intent(
+                                                this@GuardianConnectActivity,
+                                                GuardianStartActivity::class.java
+                                            )
+                                        )
                                         finish()
                                     }
 
