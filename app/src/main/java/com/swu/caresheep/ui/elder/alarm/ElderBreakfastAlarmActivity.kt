@@ -35,8 +35,6 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
     // 데이터 베이스 연결
     private lateinit var dbRef: DatabaseReference
 
-    //오늘의 날짜
-    val todayDate: LocalDate = LocalDate.now()
 
     // 아침을 먹었는지 확인
     var done : Int = 0
@@ -78,14 +76,74 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
                 // 아침 먹음 체크
                 R.id.breakfast_done -> {
                     done = 1
-                    checkBreakfast()
+                    // 오늘의 날짜
+                    val todayDate: LocalDate = LocalDate.now()
+
+                    val data = hashMapOf(
+                        "date" to todayDate.toString(),
+                        "done" to done,
+                        "user_id" to 1,
+                    )
+
+                    dbRef = FirebaseDatabase.getInstance().getReference("Breakfast")
+                    dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val childCount = dataSnapshot.childrenCount
+                            val id = (childCount + 1).toString()
+
+                            val breakfastRef = dbRef.child(id)
+                            breakfastRef.setValue(data)
+                                .addOnSuccessListener {
+                                    Log.d("아침 식사", "DB에 저장 성공")
+                                }
+                                .addOnFailureListener {
+                                    Log.d("아침 식사", "DB에 저장 실패")
+                                }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.d("아침 식사", "Database error: ${error.message}")
+                        }
+                    })
+
+                    //
                     finish()
                     flag = false
 
                 }
                 // 아침 안 먹음 체크
                 R.id.breakfast_no -> {
-                    checkBreakfast()
+                    done = 0
+                    // 오늘의 날짜
+                    val todayDate: LocalDate = LocalDate.now()
+
+                    val data = hashMapOf(
+                        "date" to todayDate.toString(),
+                        "done" to done,
+                        "user_id" to 1,
+                    )
+
+                    dbRef = FirebaseDatabase.getInstance().getReference("Breakfast")
+                    dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val childCount = dataSnapshot.childrenCount
+                            val id = (childCount + 1).toString()
+
+                            val breakfastRef = dbRef.child(id)
+                            breakfastRef.setValue(data)
+                                .addOnSuccessListener {
+                                    Log.d("아침 식사", "DB에 저장 성공")
+                                }
+                                .addOnFailureListener {
+                                    Log.d("아침 식사", "DB에 저장 실패")
+                                }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.d("아침 식사", "Database error: ${error.message}")
+                        }
+                    })
+
                     finish()
                     flag = false
                 }
@@ -108,33 +166,36 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
 
     }
 
-    private fun checkBreakfast(){
-
-        Log.d("식사","아침식사")
-
-        val data = hashMapOf(
-            "date" to todayDate,
-            "done" to done,
-            "user_id" to 1,
-        )
-
-        dbRef = FirebaseDatabase.getInstance().getReference("Breakfast")
-        dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val childCount = dataSnapshot.childrenCount
-                val id = (childCount + 1).toInt()
-                breakfast_id = id // 약 고유번호 정해주기 -> 다음 액티비티에서 사용
-
-                dbRef.child(id.toString()).setValue(data)
-                    .addOnSuccessListener {
-                        Log.d("아침 식사", "DB에 저장 성공")
-                    }.addOnFailureListener {
-                        Log.d("아침 식사", "DB에 저장 실패")
-                    }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("아침 식사", "Database error: $error")
-            }
-        })
-    }
+//    private fun checkBreakfast(){
+//
+//        Log.d("식사","아침식사")
+//
+//        //오늘의 날짜
+//        val todayDate: LocalDate = LocalDate.now()
+//
+//        val data = hashMapOf(
+//            "date" to todayDate,
+//            "done" to 1,
+//            "user_id" to 1,
+//        )
+//
+//        dbRef = FirebaseDatabase.getInstance().getReference("Breakfast")
+//        dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                val childCount = dataSnapshot.childrenCount
+//                val id2 = (childCount + 1).toInt()
+//                //breakfast_id = id // 약 고유번호 정해주기 -> 다음 액티비티에서 사용
+//
+//                dbRef.child(id2.toString()).setValue(data)
+//                    .addOnSuccessListener {
+//                        Log.d("아침 식사", "DB에 저장 성공")
+//                    }.addOnFailureListener {
+//                        Log.d("아침 식사", "DB에 저장 실패")
+//                    }
+//            }
+//            override fun onCancelled(error: DatabaseError) {
+//                Log.d("아침 식사", "Database error: $error")
+//            }
+//        })
+//    }
 }

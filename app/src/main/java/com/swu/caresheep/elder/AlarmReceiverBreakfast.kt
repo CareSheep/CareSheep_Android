@@ -15,6 +15,8 @@ class AlarmReceiverBreakfast : BroadcastReceiver() {
         const val ACTION_RESTART_SERVICE = "Restart"
     }
 
+    private var mediaPlayer: MediaPlayer? = null
+
     override fun onReceive(context: Context, intent: Intent) {
 
         Log.d("AlarmReceive", "AlarmReceive")
@@ -41,11 +43,20 @@ class AlarmReceiverBreakfast : BroadcastReceiver() {
             .setUsage(AudioAttributes.USAGE_ALARM)
             .build()
 
-        val mediaPlayer = MediaPlayer()
-        mediaPlayer.setAudioAttributes(audioAttributes)
-        mediaPlayer.setDataSource(context, Settings.System.DEFAULT_ALARM_ALERT_URI)
-        mediaPlayer.prepare()
-        mediaPlayer.start()
+        mediaPlayer = MediaPlayer()
+        mediaPlayer?.setAudioAttributes(audioAttributes)
+        mediaPlayer?.setDataSource(context, Settings.System.DEFAULT_ALARM_ALERT_URI)
+        mediaPlayer?.prepare()
+        mediaPlayer?.start()
+
+        // 일정 시간 후에 알람 소리 중지
+        val stopDelayMillis = 5000 // 5초후에 중지
+        val stopHandler = android.os.Handler()
+        stopHandler.postDelayed({
+            mediaPlayer?.stop()
+            mediaPlayer?.release()
+            mediaPlayer = null
+        }, stopDelayMillis.toLong())
 
 
     }
