@@ -16,7 +16,10 @@ import com.swu.caresheep.ui.guardian.GuardianActivity
 import com.swu.caresheep.ui.guardian.GuardianStartSetMedicineActivity
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_time2.secondMedcineButton
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_time2.secondMedcinetimePicker
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.HashMap
+import java.util.Locale
 
 var result2 : String = ""
 
@@ -46,8 +49,8 @@ class GuardianSetMedicineTimeActivity2 : AppCompatActivity() {
 
             pushTime()
 
-            dbRef3 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("$medicine_id")
-            dbRef4 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("$medicine_id")
+            dbRef3 = FirebaseDatabase.getInstance().getReference("MedicineTime").child("$medicine_id")
+            dbRef4 = FirebaseDatabase.getInstance().getReference("MedicineTime").child("$medicine_id")
 
             val updatedData = HashMap<String, Any>()
             updatedData["time"] = "$result1,$result2"
@@ -98,25 +101,21 @@ class GuardianSetMedicineTimeActivity2 : AppCompatActivity() {
     }
 
     private fun pushTime() {
-        secondMedcinetimePicker.is24HourView()
         picker = secondMedcinetimePicker
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            timehour = picker.hour
-            timeminute = picker.minute
-        } else {
-            timehour = picker.currentHour
-            timeminute = picker.currentMinute
-        }
+        val hour = picker.hour
+        val minute = picker.minute
 
-        if (timehour > 12) {
-            am_pm = "PM"
-            timehour -= 12
-        } else {
-            am_pm = "AM"
-        }
+        // 시간과 분을 형식화하여 문자열로 변환
+        val timeString = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
+            Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+            }.time
+        )
+        result2 = timeString
+        Log.d("저장되는 시간은","$result2")
 
-        result2 = "$timehour:$timeminute"
         // print(result)
         Log.d("T",result2)
 

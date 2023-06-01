@@ -69,8 +69,10 @@
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/setWalkStepButton">
 
-        <EditText
-            android:id="@+id/editText"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:hint="걸음 수"
+            style="@style/Text.Body1"
+            android:id="@+id/walkStepText"
             android:layout_width="160dp"
             android:layout_height="80dp"/>
 
