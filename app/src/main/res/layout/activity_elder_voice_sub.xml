@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="48dp"
-        android:text="녹음 중입니다.\n말씀이 끝나셨다면\n '멈춤'을 누러주세요."
+        android:text="녹음 중입니다.\n말씀이 끝나셨다면\n '멈춤'을 눌러주세요."
         android:gravity="center"
         android:textSize="32dp"/>
 
@@ -21,10 +21,11 @@
         android:id="@+id/record_button"
         android:layout_width="301dp"
         android:layout_height="247dp"
-        android:layout_marginTop="80dp"
         android:layout_gravity="center"
-        android:background="@drawable/solid_button"
-        android:text="녹음중"
-        android:textSize="60dp"/>
+        android:layout_marginTop="80dp"
+        android:background="@drawable/baseline_keyboard_voice_24"
+        android:text=""
+        android:textSize="60dp"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </LinearLayout>
