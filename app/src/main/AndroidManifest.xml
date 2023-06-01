@@ -45,7 +45,8 @@
             android:exported="false" />
         <activity
             android:name=".elder.ElderGetMealAlarmActivity"
-            android:exported="false" />
+            android:exported="true">
+        </activity>
         <activity
             android:name=".ui.elder.alarm.ElderDinnerAlarmActivity"
             android:exported="false" />
@@ -134,7 +135,6 @@
         <activity
             android:name=".ui.guardian.GuardianStartActivity"
             android:exported="false" />
-            android:exported="true"></activity>
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineCountActivity"
             android:exported="false" />
@@ -147,7 +147,6 @@
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineColorActivity"
             android:exported="false" />
-            android:exported="true"></activity>
         <activity
             android:name=".ui.guardian.meal.GuardianSetBreakfastTimeActivity"
             android:exported="true" />
