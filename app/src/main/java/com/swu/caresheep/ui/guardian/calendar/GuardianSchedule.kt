@@ -1,7 +1,14 @@
 package com.swu.caresheep.ui.guardian.calendar
 
+import com.google.api.client.util.DateTime
+
 data class GuardianSchedule(
-    var startTime: String,
-    var endTime: String,
-    var title: String
+    var eventId: String,
+    var type: Int,  // 0이면 시간, 1이면 종일
+    var startTime: DateTime,
+    var endTime: DateTime,
+    var title: String,
+    var notification: String,
+    var repeat: String,
+    var memo: String?
 )

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -34,6 +35,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
+import com.swu.caresheep.ElderMapsActivity
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityElderBinding
 import com.swu.caresheep.elder.ElderVoiceMainActivity
@@ -44,7 +46,6 @@ import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_GOOGLE_PLAY_SERVICES
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.timeZone
-import com.swu.caresheep.ui.guardian.calendar.GuardianSchedule
 import com.swu.caresheep.ui.start.user_id
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -94,6 +95,17 @@ class ElderActivity : AppCompatActivity() {
             val intent = Intent(this, ElderConnectActivity::class.java)
             startActivity(intent)
         }
+
+        // 위치 추적 지도 버튼
+        binding.btnMap.setOnClickListener {
+            val intent = Intent(this, ElderMapsActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 새로 고침 버튼
+        binding.btnUpdateTodaySchedule.setOnClickListener {
+            initView()
+        }
     }
 
     private fun initView() {
@@ -142,12 +154,6 @@ class ElderActivity : AppCompatActivity() {
         getResultsFromApi(today)
     }
 
-    private fun initSchedule(scheduleData: ArrayList<GuardianSchedule>) {
-        // 일정 RecyclerView 어댑터와 데이터 리스트 연결
-//        val scheduleRVAdapter = GuardianScheduleRVAdapter(scheduleData)
-//        scheduleRVAdapter.setData(scheduleData)
-//        binding.rvSchedule.adapter = scheduleRVAdapter
-    }
 
     /**
      * 다음 사전 조건을 모두 만족해야 Google Calendar API를 사용할 수 있다.
@@ -211,7 +217,7 @@ class ElderActivity : AppCompatActivity() {
         val dialog: Dialog = apiAvailability.getErrorDialog(
             this,
             connectionStatusCode,
-            GuardianCalendarFragment.REQUEST_GOOGLE_PLAY_SERVICES
+            REQUEST_GOOGLE_PLAY_SERVICES
         )!!
         dialog.show()
     }
@@ -275,9 +281,11 @@ class ElderActivity : AppCompatActivity() {
      * 안드로이드 디바이스가 인터넷 연결되어 있는지 확인한다. 연결되어 있다면 True 리턴, 아니면 False 리턴
      */
     private fun isDeviceOnline(): Boolean {
-        val connMgr = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        val networkInfo = connMgr!!.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 
     /**
@@ -293,7 +301,7 @@ class ElderActivity : AppCompatActivity() {
             try {
                 calendarList = mService!!.calendarList().list().setPageToken(pageToken).execute()
             } catch (e: UserRecoverableAuthIOException) {
-                startActivityForResult(e.intent, GuardianCalendarFragment.REQUEST_AUTHORIZATION)
+                startActivityForResult(e.intent, REQUEST_AUTHORIZATION)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -423,6 +431,18 @@ class ElderActivity : AppCompatActivity() {
 
                 var startTime = ""
                 var endTime = ""
+                val typeStartDate = event.start.date
+                val typeEndDate = event.end.date
+
+                var type = 0
+                if (start != null && end != null) {
+                    // 시간 지정 일정
+                    type = 0
+                } else if (typeStartDate != null && typeEndDate != null) {
+                    // 종일 일정
+                    type = 1
+                }
+
                 if (start != null) {
                     // 한국 시간대로 설정
                     val koreaTimeZone = TimeZone.getTimeZone("Asia/Seoul")
@@ -442,23 +462,9 @@ class ElderActivity : AppCompatActivity() {
                         if (startHour == 0) 12 else if (startHour > 12) startHour - 12 else startHour
 
                     startTime = "$strStartAMPM ${startHour12}:${strStartMinute}"
-
-                    // 일정 종료 시간 계산
-                    val endDate = Date(end.value)
-                    calendar.time = endDate
-                    val endHour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
-                    val endMinute = calendar.get(java.util.Calendar.MINUTE)
-                    val endAMPM = calendar.get(java.util.Calendar.AM_PM)
-
-                    val strEndMinute = if (endMinute / 10 == 0) "0$endMinute" else endMinute
-                    val strEndAMPM = if (endAMPM == java.util.Calendar.AM) "오전"
-                    else "오후"
-                    val endHour12 =
-                        if (endHour == 0) 12 else if (endHour > 12) endHour - 12 else endHour
-
-                    endTime = "$strEndAMPM ${endHour12}:${strEndMinute}"
                 }
-                scheduleData.add(ElderTodaySchedule(startTime, eventTitle))
+
+                scheduleData.add(ElderTodaySchedule(startTime, type, eventTitle))
             }
 
             Log.e("calendar", scheduleData.size.toString() + "개의 데이터를 가져왔습니다.")
@@ -471,7 +477,8 @@ class ElderActivity : AppCompatActivity() {
             result?.let {
                 if (result.isNotEmpty()) {
                     // RecyclerView 어댑터와 데이터 리스트 연결
-                    todayScheduleRVAdapter = ElderTodayScheduleRVAdapter(it as ArrayList<ElderTodaySchedule>)
+                    todayScheduleRVAdapter =
+                        ElderTodayScheduleRVAdapter(it as ArrayList<ElderTodaySchedule>)
                     binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
 
                     // 일정 있으므로 RV 보이게 설정

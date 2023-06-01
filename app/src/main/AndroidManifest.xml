@@ -21,6 +21,11 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -51,11 +56,36 @@
             android:name=".ui.elder.alarm.ElderBreakfastAlarmActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.guardian.calendar.GuardianScheduleDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ElderMapsActivity"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".GuardianMapsActivity"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="${NAVER_MAP}" />
+
+        <activity
             android:name=".elder.ElderGetAlarmTimeActivity"
             android:exported="false" />
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity4"
-            android:exported="false" />
+            android:exported="true"></activity>
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity3"
             android:exported="false" />
@@ -104,6 +134,7 @@
         <activity
             android:name=".ui.guardian.GuardianStartActivity"
             android:exported="false" />
+            android:exported="true"></activity>
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineCountActivity"
             android:exported="false" />
@@ -116,6 +147,7 @@
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineColorActivity"
             android:exported="false" />
+            android:exported="true"></activity>
         <activity
             android:name=".ui.guardian.meal.GuardianSetBreakfastTimeActivity"
             android:exported="true" />
@@ -125,11 +157,11 @@
         <activity
             android:name=".ui.start.SplashActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
         </activity>
         <activity
             android:name=".ui.elder.main.ElderActivity"

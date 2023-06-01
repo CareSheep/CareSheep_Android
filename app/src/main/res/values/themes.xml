@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryVariant">@color/olive</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorAccent">@color/green</item>
         <!-- Secondary brand color. -->
 <!--        <item name="colorSecondary">@color/teal_200</item>-->
 <!--        <item name="colorSecondaryVariant">@color/teal_700</item>-->
@@ -51,5 +52,10 @@
         <item name="colorControlNormal">@color/transparent</item>
     </style>
 
+    <!-- Guardian - Calendar - Bottom Sheet Dialog - corner 뒷배경 투명 처리 -->
+    <style name="BottomSheetDialogCustom" parent="android:Theme.Holo.Dialog.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
 
 </resources>
