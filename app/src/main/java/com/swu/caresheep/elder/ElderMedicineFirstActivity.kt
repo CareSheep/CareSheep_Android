@@ -17,8 +17,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.MedicineTime
+import com.swu.caresheep.PraiseActivity
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
+import com.swu.caresheep.ui.guardian.medicine.GuardianSetMedicineTimeActivity4
 import kotlinx.android.synthetic.main.activity_elder_medicine_first.*
 import java.util.*
 
@@ -27,10 +29,11 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
     private var flag = true
     private lateinit var calendar: Calendar
 
-
     private var mediaPlayer: MediaPlayer? = null
     private var wakeLock: PowerManager.WakeLock? = null
 
+
+    private lateinit var alarmManager: AlarmManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -61,6 +64,71 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
 
         // 약 정보에 맞도록 화면 구성(색깔)
         var color: String = ""
+
+        // 알람 매니저 초기화
+        alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        // 라디오버튼
+        medicine.setOnCheckedChangeListener { radioGroup, checkedId ->
+            when (checkedId) {
+                // 약 먹음 체크
+                R.id.medicine_done -> {
+                    finish()
+                    flag = false
+                    val intent = Intent(this, PraiseActivity::class.java)
+                    startActivity(intent)
+
+                }
+
+                // 약 먹지 않음 체크
+                R.id.medicine_no -> {
+                    val intent = Intent(this@ElderMedicineFirstActivity, AlarmReceiver::class.java)
+                    val pendingIntent = PendingIntent.getBroadcast(
+                        this@ElderMedicineFirstActivity,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+
+                    // 알람 취소
+                    alarmManager.cancel(pendingIntent)
+                    pendingIntent.cancel()
+
+                    // 5분 뒤에 알람을 다시 설정
+                    val calendar = Calendar.getInstance().apply {
+                        timeInMillis = System.currentTimeMillis()
+                        add(Calendar.MINUTE, 5)
+                    }
+                    val alarmIntent = Intent(this@ElderMedicineFirstActivity, AlarmReceiver::class.java)
+                    val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    alarmIntent.action = AlarmReceiver.ACTION_RESTART_SERVICE
+                    val alarmCallPendingIntent = PendingIntent.getBroadcast(
+                        this@ElderMedicineFirstActivity,
+                        0,
+                        alarmIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        alarmManager.setExactAndAllowWhileIdle(
+                            AlarmManager.RTC_WAKEUP,
+                            calendar.timeInMillis,
+                            alarmCallPendingIntent
+                        )
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        alarmManager.setExact(
+                            AlarmManager.RTC_WAKEUP,
+                            calendar.timeInMillis,
+                            alarmCallPendingIntent
+                        )
+                    }
+
+                }
+
+
+            }
+        }
 
         val database =
             FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/")
@@ -95,21 +163,6 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
             }
         })
 
-        // 라디오버튼
-        medicine.setOnCheckedChangeListener { radioGroup, checkedId ->
-            when (checkedId) {
-                // 약 먹음 체크
-                R.id.medicine_done -> {
-                    finish()
-                    flag = false
-                }
-
-//                // 약 먹지 않음 체크
-//                R.id.medicine_no ->
-
-
-            }
-        }
 
     }
 
