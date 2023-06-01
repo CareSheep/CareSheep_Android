@@ -29,20 +29,11 @@ class GuardianConnectActivity : AppCompatActivity() {
     private var code: String = ""
     private var userId: Int = 0
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            // 뒤로가기 클릭 시 실행시킬 코드 입력
-            finish()
-            overridePendingTransition(R.anim.none, R.anim.slide_out_right)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGuardianConnectBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
 
         binding.etUserCode.addTextChangedListener(object : TextWatcher {
@@ -89,20 +80,6 @@ class GuardianConnectActivity : AppCompatActivity() {
                     verticalDialog.topBtnClickListener {
                         // 어르신 연결하기
                         connectElder(code, userId)
-//                        Toast.makeText(this, "어르신 연결에 성공했습니다.", Toast.LENGTH_SHORT).show()
-//
-//                        // 연결된 어르신의 루틴이 설정되어 있지 않다면, 루틴 설정으로 이동
-//                        getElderRoutineExist {
-//                            if (it) {
-//                                // 어르신 루틴 설정 O
-//                                onBackPressedCallback.handleOnBackPressed()
-//                            }else {
-//                                // 어르신 루틴 설정 X
-//                                startActivity(Intent(this, GuardianStartActivity::class.java))
-//                                finish()
-//                            }
-//
-//                        }
 
                     }
 
@@ -123,9 +100,15 @@ class GuardianConnectActivity : AppCompatActivity() {
 
         // 뒤로 가기
         binding.ivBack.setOnClickListener {
-            onBackPressedCallback.handleOnBackPressed()
+            finish()
         }
     }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.none, R.anim.slide_out_right)
+    }
+
 
 
     /**
@@ -200,7 +183,7 @@ class GuardianConnectActivity : AppCompatActivity() {
                                 getElderRoutineExist {
                                     if (it) {
                                         // 어르신 루틴 설정 O
-                                        onBackPressedCallback.handleOnBackPressed()
+                                        finish()
                                     }else {
                                         // 어르신 루틴 설정 X
                                         startActivity(Intent(this@GuardianConnectActivity, GuardianStartActivity::class.java))

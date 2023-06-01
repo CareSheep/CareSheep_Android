@@ -8,6 +8,7 @@
 
     <uses-feature android:name="android.hardware.sensor.stepcounter" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.SET_ALARM" />
@@ -20,16 +21,14 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -37,9 +36,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.elder.connect.ElderConnectedGuardianActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.elder.alarm.ElderWalkAlarmActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.guardian.emergency.GuardianElderEmergencyActivity"
             android:exported="false" />
@@ -60,22 +61,11 @@
             android:exported="false" />
         <activity
             android:name=".ElderMapsActivity"
-            android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".GuardianMapsActivity"
-            android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            android:exported="true" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="${NAVER_MAP}" />
@@ -85,7 +75,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity4"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity3"
             android:exported="false" />
@@ -134,7 +124,6 @@
         <activity
             android:name=".ui.guardian.GuardianStartActivity"
             android:exported="false" />
-            android:exported="true"></activity>
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineCountActivity"
             android:exported="false" />
@@ -147,7 +136,6 @@
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineColorActivity"
             android:exported="false" />
-            android:exported="true"></activity>
         <activity
             android:name=".ui.guardian.meal.GuardianSetBreakfastTimeActivity"
             android:exported="true" />
@@ -157,11 +145,11 @@
         <activity
             android:name=".ui.start.SplashActivity"
             android:exported="true">
-                        <intent-filter>
-                            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                            <category android:name="android.intent.category.LAUNCHER" />
-                        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.elder.main.ElderActivity"
@@ -263,13 +251,7 @@
 
         <activity
             android:name=".elder.ElderVoiceMainActivity"
-            android:exported="true">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".elder.ElderVoiceSubActivity"
             android:exported="true" />
@@ -287,15 +269,7 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
