@@ -176,7 +176,8 @@ class GuardianSetMedicineTimeActivity : AppCompatActivity() {
     }
 
     private fun nextPage() {
-        startActivity(Intent(this, GuardianActivity::class.java))
+
+        startActivity(Intent(this, GuardianActivity::class.java)) // 수정
         // 만약에 복약횟수랑 같으면 홈으로 이동 아니라면 다음약 설정으로 이동
 //        if(countMatched == 1 && nextpage == 1){
 //            // 다음 액티비티 이동
