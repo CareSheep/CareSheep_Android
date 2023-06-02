@@ -25,12 +25,12 @@ import java.util.*
 
 class ElderVoiceSubActivity : AppCompatActivity() {
 
-    private val REQUEST_PERMISSION  = 100 // 음성 녹음
-    private val REQUEST_CODE_PERMISSIONS  = 200 // storage 권한
+    private val REQUEST_PERMISSION = 100 // 음성 녹음
+    private val REQUEST_CODE_PERMISSIONS = 200 // storage 권한
     private lateinit var recognizerIntent: Intent
-    private var speechRecognizer : SpeechRecognizer? = null
+    private var speechRecognizer: SpeechRecognizer? = null
 
-    private lateinit var database : DatabaseReference // DB (파이어베이스)
+    private lateinit var database: DatabaseReference // DB (파이어베이스)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +58,10 @@ class ElderVoiceSubActivity : AppCompatActivity() {
 
         // Storage 권한 요청
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_CODE_PERMISSIONS)
+            requestPermissions(
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                REQUEST_CODE_PERMISSIONS
+            )
         }
     }
 
@@ -132,14 +135,15 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     """.trimIndent()
             Gpt3Api.requestGpt3Api(prompt, model) { response -> // 요청
                 // response에는 API 응답 결과가 반환됨
-                val labels = response?.toString()?.split('\n')  // \n 기준으로 분할해서 labels 리스트에 저장 (null 처리하려고 ?.)
+                val labels = response?.toString()
+                    ?.split('\n')  // \n 기준으로 분할해서 labels 리스트에 저장 (null 처리하려고 ?.)
                 val dangerLabel = labels?.get(0).toString() // 위험 상황이면 1
                 val shortageLabel = labels?.get(1).toString() // 물건 부족 상황이면 1
 
-                if(dangerLabel == "1") {
+                if (dangerLabel == "1") {
                     danger = "1"
                 }
-                if(shortageLabel == "1") {
+                if (shortageLabel == "1") {
                     in_need = "1"
                 }
 
@@ -158,7 +162,8 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     voice_id = 1
                 )
 
-                database = FirebaseDatabase.getInstance(DB_URL).getReference("Voice") //Voice 테이블에 접근
+                database =
+                    FirebaseDatabase.getInstance(DB_URL).getReference("Voice") //Voice 테이블에 접근
                 database.child(timeStamp).setValue(voice)   // 데이터가 계속 쌓이도록(timeStamp가 참조 꼬리로 쌓이도록)
                     //업로드 성공했는지 확인해보려고
                     .addOnSuccessListener {
@@ -171,6 +176,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 // 녹음이 종료 & 홈으로 이동
                 speechRecognizer?.stopListening()
                 val intent = Intent(applicationContext, ElderActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
             }
 

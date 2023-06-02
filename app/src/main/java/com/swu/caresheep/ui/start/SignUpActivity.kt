@@ -1,7 +1,6 @@
 package com.swu.caresheep.ui.start
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -35,7 +34,7 @@ class SignUpActivity : AppCompatActivity() {
             verticalDialog.topBtnClickListener {
                 // 구글 로그아웃
                 logout()
-                this.onBackPressed()
+                finish()
             }
 
             verticalDialog.bottomBtnClickListener {
@@ -44,8 +43,8 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+    override fun finish() {
+        super.finish()
         overridePendingTransition(R.anim.none, R.anim.slide_out_right)
     }
 
