@@ -589,12 +589,12 @@ class ElderActivity : AppCompatActivity() {
                                     calendar.add(Calendar.DATE, 1)
                                 }
 
-                                val alarmIntent = Intent(this@ElderGetMealAlarmActivity, AlarmReceiverBreakfast::class.java)
+                                val alarmIntent = Intent(this@ElderActivity, AlarmReceiverBreakfast::class.java)
                                 val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
                                 alarmIntent.action = AlarmReceiverBreakfast.ACTION_RESTART_SERVICE
                                 Log.d("AlarmService", "확인")
                                 val alarmCallPendingIntent = PendingIntent.getBroadcast(
-                                    this@ElderGetMealAlarmActivity,
+                                    this@ElderActivity,
                                     0,
                                     alarmIntent,
                                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -669,11 +669,11 @@ class ElderActivity : AppCompatActivity() {
                                             calendar.add(Calendar.DATE, 1)
                                         }
 
-                                        val alarmIntent = Intent(this@ElderGetMealAlarmActivity, AlarmReceiverLunch::class.java)
+                                        val alarmIntent = Intent(this@ElderActivity, AlarmReceiverLunch::class.java)
                                         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
                                         alarmIntent.action = AlarmReceiverLunch.ACTION_RESTART_SERVICE
                                         val alarmCallPendingIntent = PendingIntent.getBroadcast(
-                                            this@ElderGetMealAlarmActivity,
+                                            this@ElderActivity,
                                             0,
                                             alarmIntent,
                                             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -738,11 +738,11 @@ class ElderActivity : AppCompatActivity() {
                                             calendar.add(Calendar.DATE, 1)
                                         }
 
-                                        val alarmIntent = Intent(this@ElderGetMealAlarmActivity, AlarmReceiverDinner::class.java)
+                                        val alarmIntent = Intent(this@ElderActivity, AlarmReceiverDinner::class.java)
                                         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
                                         alarmIntent.action = AlarmReceiverDinner.ACTION_RESTART_SERVICE
                                         val alarmCallPendingIntent = PendingIntent.getBroadcast(
-                                            this@ElderGetMealAlarmActivity,
+                                            this@ElderActivity,
                                             0,
                                             alarmIntent,
                                             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -807,11 +807,11 @@ class ElderActivity : AppCompatActivity() {
                                             calendar.add(Calendar.DATE, 1)
                                         }
 
-                                        val alarmIntent = Intent(this@ElderGetMealAlarmActivity, AlarmReceiverWalk::class.java)
+                                        val alarmIntent = Intent(this@ElderActivity, AlarmReceiverWalk::class.java)
                                         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
                                         alarmIntent.action = AlarmReceiverWalk.ACTION_RESTART_SERVICE
                                         val alarmCallPendingIntent = PendingIntent.getBroadcast(
-                                            this@ElderGetMealAlarmActivity,
+                                            this@ElderActivity,
                                             0,
                                             alarmIntent,
                                             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -876,11 +876,11 @@ class ElderActivity : AppCompatActivity() {
                                             calendar.add(Calendar.DATE, 1)
                                         }
 
-                                        val alarmIntent = Intent(this@ElderGetMealAlarmActivity, AlarmReceiver::class.java)
+                                        val alarmIntent = Intent(this@ElderActivity, AlarmReceiver::class.java)
                                         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
                                         alarmIntent.action = AlarmReceiver.ACTION_RESTART_SERVICE
                                         val alarmCallPendingIntent = PendingIntent.getBroadcast(
-                                            this@ElderGetMealAlarmActivity,
+                                            this@ElderActivity,
                                             0,
                                             alarmIntent,
                                             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
