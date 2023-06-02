@@ -31,7 +31,7 @@ class GuardianElderEmergencyActivity : AppCompatActivity() {
         }
 
         back_button.setOnClickListener {
-            startActivity(Intent(this, GuardianMyPageFragment::class.java))
+            finish()
         }
     }
 }

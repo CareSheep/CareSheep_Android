@@ -100,7 +100,7 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
                     // 5분 뒤에 알람을 다시 설정
                     val calendar = Calendar.getInstance().apply {
                         timeInMillis = System.currentTimeMillis()
-                        add(Calendar.MINUTE, 5)
+                        add(Calendar.MINUTE, 1)
                     }
                     val alarmIntent = Intent(this@ElderMedicineFirstActivity, AlarmReceiver::class.java)
                     val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
