@@ -8,6 +8,8 @@ import android.util.Log
 import android.widget.TimePicker
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.swu.caresheep.BuildConfig
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.guardian.GuardianStartSetMedicineActivity
 import com.swu.caresheep.ui.guardian.routine_id
@@ -43,7 +45,7 @@ class GuardianSetDinnerTimeActivity : AppCompatActivity() {
                 "dinner" to result,
             )
 
-            dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("$routine_id")
+            dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("UsersRoutine").child("$routine_id")
 
             val updatedData = HashMap<String, Any>()
             updatedData["dinner"] = result
@@ -56,6 +58,7 @@ class GuardianSetDinnerTimeActivity : AppCompatActivity() {
 
             // 다음 액티비티 이동
             startActivity(Intent(this, GuardianStartSetMedicineActivity::class.java))
+            finish()
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.guardian.meal.GuardianSetBreakfastTimeActivity
 import com.swu.caresheep.ui.guardian.medicine.medicine_id
@@ -36,7 +37,7 @@ class GuardianSetWalkStepActivity : AppCompatActivity() {
             val updatedData = HashMap<String, Any>()
             updatedData["walk_step"] = step
 
-            dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("$routine_id")
+            dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("UsersRoutine").child("$routine_id")
             dbRef.updateChildren(updatedData).addOnSuccessListener(){
                 println("Data updated successfully")
             }.addOnFailureListener {
@@ -45,6 +46,7 @@ class GuardianSetWalkStepActivity : AppCompatActivity() {
 
             // 다음 액티비티 이동
             startActivity(Intent(this, GuardianSetBreakfastTimeActivity::class.java))
+            finish()
         }
     }
 }

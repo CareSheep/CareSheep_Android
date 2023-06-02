@@ -13,6 +13,7 @@ class GuardianStartActivity : AppCompatActivity() {
 
         startSettingButton.setOnClickListener {
             startActivity(Intent(this, GuardianSetWalkTimeActivity::class.java))
+            finish()
         }
     }
 }

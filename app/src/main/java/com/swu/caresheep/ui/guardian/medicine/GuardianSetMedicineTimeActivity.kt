@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.MedicineTime
 import com.swu.caresheep.elder.AlarmReceiver
 import com.swu.caresheep.ui.guardian.GuardianActivity
@@ -62,8 +63,8 @@ class GuardianSetMedicineTimeActivity : AppCompatActivity() {
             pushTime()
             Log.d("Time","$result1")
 
-            dbRef1 = FirebaseDatabase.getInstance().getReference("MedicineTime").child("$medicine_id")
-            dbRef2 = FirebaseDatabase.getInstance().getReference("MedicineTime").child("$medicine_id")
+            dbRef1 = FirebaseDatabase.getInstance(DB_URL).getReference("MedicineTime").child("$medicine_id")
+            dbRef2 = FirebaseDatabase.getInstance(DB_URL).getReference("MedicineTime").child("$medicine_id")
 
             val updatedData = HashMap<String, Any>()
             updatedData["time"] = "$result1"
@@ -105,7 +106,7 @@ class GuardianSetMedicineTimeActivity : AppCompatActivity() {
 
         // Firebase Realtime Database에서 데이터 가져오기
         val database =
-            FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            FirebaseDatabase.getInstance(DB_URL)
         val reference = database.getReference("MedicineTime")
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -176,8 +177,8 @@ class GuardianSetMedicineTimeActivity : AppCompatActivity() {
     }
 
     private fun nextPage() {
-
-        startActivity(Intent(this, GuardianActivity::class.java)) //재수정
+        finish()
+//        startActivity(Intent(this, GuardianActivity::class.java)) //재수정
 
         // 추후 수정 예정
         // 만약에 복약횟수랑 같으면 홈으로 이동 아니라면 다음약 설정으로 이동
