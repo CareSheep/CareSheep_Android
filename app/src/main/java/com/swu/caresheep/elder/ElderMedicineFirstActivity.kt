@@ -82,12 +82,15 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
 
                 // 약 먹지 않음 체크
                 R.id.medicine_no -> {
+                    finish()
+                    flag = false
+
                     val intent = Intent(this@ElderMedicineFirstActivity, AlarmReceiver::class.java)
                     val pendingIntent = PendingIntent.getBroadcast(
                         this@ElderMedicineFirstActivity,
                         0,
                         intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
 
                     // 알람 취소
@@ -106,7 +109,7 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
                         this@ElderMedicineFirstActivity,
                         0,
                         alarmIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
 
 
