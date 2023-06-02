@@ -6,52 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".ui.guardian.GuardianElderWeekReportFragment">
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="152dp"
-            android:background="#F1F1F1"
-            android:orientation="vertical"
-            android:layout_gravity="center">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/rectangle_white_radius_15"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/this_week"
-                    android:text="주간"
-                    android:textSize="18dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView6"
-                    app:layout_constraintStart_toStartOf="@+id/imageView6"
-                    app:layout_constraintTop_toTopOf="@+id/imageView6" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_gravity="center"
+        android:background="#F1F1F1"
+        android:orientation="vertical"
+        android:paddingTop="64dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:paddingTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:src="@drawable/rectangle_white_radius_15"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/this_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주간"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                app:layout_constraintEnd_toEndOf="@+id/imageView6"
+                app:layout_constraintStart_toStartOf="@+id/imageView6"
+                app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="380dp"
             android:layout_height="148dp"
             android:layout_gravity="center"
+            android:paddingTop="16dp"
             android:paddingBottom="16dp">
 
             <ImageView
@@ -85,17 +80,17 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="12dp"
                     android:text="0"
-                    android:textStyle="bold"
+                    android:textColor="#ABC270"
                     android:textSize="20dp"
-                    android:textColor="#ABC270"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="%"
-                    android:textStyle="bold"
+                    android:textColor="#ABC270"
                     android:textSize="20dp"
-                    android:textColor="#ABC270"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -114,10 +109,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
             <LinearLayout
-                android:paddingBottom="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:paddingBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="@+id/imageView"
                 app:layout_constraintStart_toStartOf="parent">
@@ -136,7 +131,6 @@
                     android:textSize="16dp" />
 
             </LinearLayout>
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -258,7 +252,6 @@
             </LinearLayout>
 
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -376,6 +369,7 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="380dp"
             android:layout_height="132dp"
@@ -491,6 +485,7 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="380dp"
             android:layout_height="132dp"
@@ -544,9 +539,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#68B5FD"
                 android:layout_marginStart="8dp"
                 android:text=""
+                android:textColor="#68B5FD"
                 android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView4"
                 app:layout_constraintStart_toEndOf="@+id/textView9"
@@ -622,8 +617,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Loading Data....."
-            android:textSize="28sp"
             android:textColor="@color/black"
+            android:textSize="28sp"
             android:textStyle="bold"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -634,7 +629,5 @@
 
     </LinearLayout>
 
-
-    </ScrollView>
 
 </FrameLayout>
