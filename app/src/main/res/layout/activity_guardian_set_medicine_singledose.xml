@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="복용의 횟수를 알려주세요"
+        android:text="복용 알약의 갯수를 알려주세요"
         android:textSize="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +26,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:gravity="left"
-        android:text="하루에 몇번 알람이 울리면 되는지\n알려주세요! "
+        android:text="한번에 몇개를 복용해야 되는지\n알려주세요! "
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
