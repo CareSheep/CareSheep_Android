@@ -5,23 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".elder.ElderWalkDoneActivity"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/good"
+        android:id="@+id/voice_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="잘 하셨습니다!"
-        android:textSize="50dp"/>
+        android:layout_marginTop="48dp"
+        android:text="잘하셨습니다!"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="60dp"/>
 
-    <!-- 잘 했다는 따봉-->
-    <ImageView
-        android:id="@+id/goodImage"
-        android:layout_width="385dp"
-        android:layout_height="259dp"
-        android:layout_marginTop="50dp"
-        app:srcCompat="@drawable/ic_launcher_background" />
+    <android.widget.Button
+        android:id="@+id/record_button"
+        android:layout_width="301dp"
+        android:layout_height="247dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/baseline_thumb_up_24"
+        android:text=""
+        android:textSize="60dp"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </LinearLayout>
