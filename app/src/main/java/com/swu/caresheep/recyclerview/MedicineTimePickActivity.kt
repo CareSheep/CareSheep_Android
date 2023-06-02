@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.MedicineTime
 import com.swu.caresheep.R
 import kotlinx.android.synthetic.main.activity_medicine_time_pick.*
@@ -17,7 +18,7 @@ class MedicineTimePickActivity : AppCompatActivity() {
 
     lateinit var timepickerAdapter : MedicineTimePickerListAdapter
 
-    private val database = FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TakingMedicine")
+    private val database = FirebaseDatabase.getInstance(DB_URL).getReference("TakingMedicine")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

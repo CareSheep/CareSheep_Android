@@ -1,7 +1,10 @@
 package com.swu.caresheep.ui.guardian
 
 import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.SensorEventListener
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +22,7 @@ import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import java.util.*
+import com.swu.caresheep.elder.AlarmReceiver
 
 class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks,SensorEventListener {
 
@@ -92,6 +95,8 @@ class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallback
                 SensorManager.SENSOR_DELAY_FASTEST
             )
         }
+
+//        startGuardianActivity()
     }
 
     override fun onSensorChanged(event: SensorEvent) {
@@ -133,6 +138,19 @@ class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallback
             }
             false
         }
+    }
+
+    private fun startGuardianActivity() {
+        // 알람 취소 코드 추가
+        val alarmIntent = Intent(this, AlarmReceiver::class.java)
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmCallPendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            alarmIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        alarmManager.cancel(alarmCallPendingIntent)
     }
 
     /**

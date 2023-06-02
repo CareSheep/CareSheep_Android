@@ -38,7 +38,6 @@ class GuardianSetMedicineNameActivity : AppCompatActivity() {
             }
 
             startActivity(Intent(this, GuardianSetMedicineSingledoseActivity::class.java))
-            finish()
         }
     }
 }

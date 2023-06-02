@@ -16,7 +16,6 @@ class GuardianStartSetMedicineActivity : AppCompatActivity() {
         start_set_medicine_button.setOnClickListener {
             // 약 설정 액티비티 이동
             startActivity(Intent(this, GuardianSetMedicineColorActivity::class.java))
-            finish()
         }
 
         stop_set_medicine_button.setOnClickListener {

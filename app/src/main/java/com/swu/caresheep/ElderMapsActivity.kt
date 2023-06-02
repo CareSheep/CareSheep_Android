@@ -98,7 +98,7 @@ class ElderMapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         // 위치 정보를 성공적으로 가져왔을 때
                         if (location != null) {
                             val database =
-                                FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                                FirebaseDatabase.getInstance("DB_URL")
                                 .getReference("Location")
 
                             // Voice의 각 필드에 넣기

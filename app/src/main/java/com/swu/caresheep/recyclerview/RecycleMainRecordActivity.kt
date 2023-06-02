@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
 import kotlinx.android.synthetic.main.activity_recycle_record_main.*
@@ -17,7 +18,7 @@ class RecycleMainRecordActivity : AppCompatActivity() {
 
 
     //val datas = mutableListOf<RecordData>() // 테스트용 임시 데이터
-    private val database = FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Voice")  //Firebase DB의 Voice 테이블에 접근
+    private val database = FirebaseDatabase.getInstance(DB_URL).getReference("Voice")  //Firebase DB의 Voice 테이블에 접근
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

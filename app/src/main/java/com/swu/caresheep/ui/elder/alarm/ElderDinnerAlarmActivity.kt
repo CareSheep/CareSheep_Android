@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import kotlinx.android.synthetic.main.activity_elder_dinner_alarm.dinner
 import java.time.LocalDate
@@ -81,7 +82,7 @@ class ElderDinnerAlarmActivity : AppCompatActivity() {
                         "user_id" to 1,
                     )
 
-                    dbRef = FirebaseDatabase.getInstance().getReference("Dinner")
+                    dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Dinner")
                     dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             val childCount = dataSnapshot.childrenCount
@@ -117,7 +118,7 @@ class ElderDinnerAlarmActivity : AppCompatActivity() {
                         "user_id" to 1,
                     )
 
-                    dbRef = FirebaseDatabase.getInstance().getReference("Dinner")
+                    dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Dinner")
                     dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             val childCount = dataSnapshot.childrenCount
@@ -165,7 +166,7 @@ class ElderDinnerAlarmActivity : AppCompatActivity() {
             "user_id" to 1,
         )
 
-        dbRef = FirebaseDatabase.getInstance().getReference("Dinner")
+        dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Dinner")
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val childCount = dataSnapshot.childrenCount

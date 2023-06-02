@@ -58,7 +58,6 @@ class GuardianSetDinnerTimeActivity : AppCompatActivity() {
 
             // 다음 액티비티 이동
             startActivity(Intent(this, GuardianStartSetMedicineActivity::class.java))
-            finish()
         }
     }
 

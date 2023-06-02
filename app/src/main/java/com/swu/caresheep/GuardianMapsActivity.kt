@@ -15,6 +15,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
+import com.swu.caresheep.BuildConfig.DB_URL
 
 class GuardianMapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val TAG = "MainActivity"
@@ -52,7 +53,7 @@ class GuardianMapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // 파이어베이스에서 위치 정보 가져오기
         val database =
-            FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            FirebaseDatabase.getInstance(DB_URL)
         val reference = database.getReference("Location")
         val query = reference.orderByChild("timestamp").limitToLast(1) //맨 위 하나
 

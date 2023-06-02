@@ -46,7 +46,7 @@
             android:exported="false" />
         <activity
             android:name=".elder.ElderGetMealAlarmActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ui.elder.alarm.ElderDinnerAlarmActivity"
             android:exported="false" />
@@ -190,6 +190,9 @@
             android:exported="false" />
         <activity
             android:name=".elder.ElderMedicineReActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PraiseActivity"
             android:exported="false" />
         <activity
             android:name=".elder.ElderMedicineFirstActivity"

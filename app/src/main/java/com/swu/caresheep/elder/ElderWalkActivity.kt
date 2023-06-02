@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.BuildConfig.DB_URL
 import kotlinx.android.synthetic.main.activity_elder_walk.goal_walk
 import kotlinx.android.synthetic.main.activity_elder_walk.walktimeTV
 import java.time.LocalDate
@@ -139,7 +140,7 @@ class ElderWalkActivity : AppCompatActivity() ,SensorEventListener {
     }
 
     private fun getTodayWalkData() {
-        dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("test")
+        dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("UsersRoutine").child("test")
 
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -168,7 +169,7 @@ class ElderWalkActivity : AppCompatActivity() ,SensorEventListener {
             "user_id" to 1,
         )
 
-        dbRef2 = FirebaseDatabase.getInstance().getReference("Walk")
+        dbRef2 = FirebaseDatabase.getInstance(DB_URL).getReference("Walk")
         dbRef2.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val childCount = dataSnapshot.childrenCount

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_count.count_text
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_count.medicine_next4_button
@@ -42,7 +43,7 @@ class GuardianSetMedicineCountActivity : AppCompatActivity() {
                 //"user_id" to 1,
             )
 
-            dbRef = FirebaseDatabase.getInstance().getReference("MedicineTime").child("$medicine_id")
+            dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("MedicineTime").child("$medicine_id")
             dbRef.updateChildren(data as Map<String, Any>).addOnSuccessListener {
                 print("User data updated successfully")
             }.addOnFailureListener {
@@ -51,7 +52,6 @@ class GuardianSetMedicineCountActivity : AppCompatActivity() {
 
             // 다음 액티비티 이동
             startActivity(Intent(this, GuardianSetMedicineTimeActivity::class.java))
-            finish()
         }
     }
 }
