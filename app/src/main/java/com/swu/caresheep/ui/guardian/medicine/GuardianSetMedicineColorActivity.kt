@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_color.blackMedicine
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_color.blueMedicine
@@ -63,7 +64,7 @@ class GuardianSetMedicineColorActivity : AppCompatActivity() {
                 "user_id" to "1",
             )
 
-            dbRef1 = FirebaseDatabase.getInstance().getReference("MedicineTime")
+            dbRef1 = FirebaseDatabase.getInstance(DB_URL).getReference("MedicineTime")
             dbRef1.addListenerForSingleValueEvent(object: ValueEventListener{
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val childCount = dataSnapshot.childrenCount

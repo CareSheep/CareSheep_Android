@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.swu.caresheep.BuildConfig
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_name.medicine_next2_button
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_name.et_medicine_name
@@ -28,7 +30,7 @@ class GuardianSetMedicineNameActivity : AppCompatActivity() {
                 "medicine_name" to medicine_name,
             )
 
-            dbRef = FirebaseDatabase.getInstance().getReference("MedicineTime").child("$medicine_id")
+            dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("MedicineTime").child("$medicine_id")
             dbRef.updateChildren(data as Map<String, Any>).addOnSuccessListener {
                 print("User data updated successfully")
                 medicine_exist = 1
