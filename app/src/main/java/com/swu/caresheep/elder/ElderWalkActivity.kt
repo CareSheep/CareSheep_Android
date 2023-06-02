@@ -25,11 +25,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.BuildConfig.DB_URL
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_walk.goal_walk
 import kotlinx.android.synthetic.main.activity_elder_walk.walktimeTV
 import java.time.LocalDate
 
-class ElderWalkActivity : AppCompatActivity() ,SensorEventListener {
+class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
 
     //현재 날짜
     val todayDate: LocalDate = LocalDate.now()
@@ -47,7 +48,7 @@ class ElderWalkActivity : AppCompatActivity() ,SensorEventListener {
 
     // 목표 걸음 수
     var goalSteps = 0
-    var goalWalk_value1 :String = ""
+    var goalWalk_value1: String = ""
 
     // 결과
     var result1 = 0
@@ -72,7 +73,7 @@ class ElderWalkActivity : AppCompatActivity() ,SensorEventListener {
         viewMode("stop")
 
         //정지 상태일 때만 실행
-        if(!running){
+        if (!running) {
             //기본 셋팅
             walktimeTV.base = SystemClock.elapsedRealtime() - pauseTime
 
@@ -107,7 +108,7 @@ class ElderWalkActivity : AppCompatActivity() ,SensorEventListener {
             //stepCountView.text = currentSteps.toString()
             //실행 상태일때만 실행
             todayWalkData()
-            if(running){
+            if (running) {
                 //정지
                 walktimeTV.stop()
 
@@ -125,14 +126,14 @@ class ElderWalkActivity : AppCompatActivity() ,SensorEventListener {
     }
 
     //화면 설정
-    private fun viewMode(mode: String){
+    private fun viewMode(mode: String) {
 
         //활성화 처리
-        if(mode == "start"){
+        if (mode == "start") {
             //startBtn.isEnabled = false
             stopButton.isEnabled = true
             running = true
-        }else{
+        } else {
             //startBtn.isEnabled = true
             stopButton.isEnabled = false
             running = false
@@ -140,19 +141,24 @@ class ElderWalkActivity : AppCompatActivity() ,SensorEventListener {
     }
 
     private fun getTodayWalkData() {
-        dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("UsersRoutine").child("test")
+        FirebaseDatabase.getInstance(DB_URL).getReference("UsersRoutine").orderByChild("user_id")
+            .equalTo(user_id.toDouble()).addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (data in snapshot.children) {
+                            val goalWalk_value1 =
+                                data.child("walk_step").value.toString()
 
-        dbRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    goalWalk_value1 = snapshot.child("walk_step").getValue().toString()
-                    goal_walk.setText("$goalWalk_value1")
+                            // 목표 걸음 수 설정
+                            goal_walk.text = goalWalk_value1
+                        }
+                    }
                 }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                println("Failed to read value.")
-            }
-        })
+
+                override fun onCancelled(error: DatabaseError) {
+                    println("Failed to read value.")
+                }
+            })
     }
 
     private fun todayWalkData() {
@@ -170,7 +176,7 @@ class ElderWalkActivity : AppCompatActivity() ,SensorEventListener {
         )
 
         dbRef2 = FirebaseDatabase.getInstance(DB_URL).getReference("Walk")
-        dbRef2.addListenerForSingleValueEvent(object: ValueEventListener{
+        dbRef2.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val childCount = dataSnapshot.childrenCount
                 val walkid = (childCount + 1).toInt()
@@ -183,6 +189,7 @@ class ElderWalkActivity : AppCompatActivity() ,SensorEventListener {
                         Log.e("걸음수 내역", "DB에 저장 tlfvo")
                     }
             }
+
             override fun onCancelled(error: DatabaseError) {
                 Log.e("걸음수 내역", "Database error: $error")
             }
