@@ -14,6 +14,7 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.util.FusedLocationSource
+import com.swu.caresheep.BuildConfig.DB_URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -98,7 +99,7 @@ class ElderMapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         // 위치 정보를 성공적으로 가져왔을 때
                         if (location != null) {
                             val database =
-                                FirebaseDatabase.getInstance("DB_URL")
+                                FirebaseDatabase.getInstance(DB_URL)
                                 .getReference("Location")
 
                             // Voice의 각 필드에 넣기
