@@ -2,12 +2,14 @@ package com.swu.caresheep.recyclerview
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
@@ -59,10 +61,12 @@ RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
             // 상황 여부에 따른 버튼 색상
             // 위험 상황일 경우
             if(item.danger == "1") { // 위험 상황일 경우
-                list_number.setBackgroundResource(R.color.red) // 버튼 배경 색상을 빨간색으로
+                val newColor: Int = ContextCompat.getColor(context, R.color.red)
+                list_number.backgroundTintList = ColorStateList.valueOf(newColor) // 버튼 배경 색상을 빨간색으로
             }
             else if(item.in_need == "1")  {   // 물건 필요 상황일 경우
-                list_number.setBackgroundResource(R.color.blue) // 버튼 배경 색상을 파랑색으로
+                val newColor: Int = ContextCompat.getColor(context, R.color.blue)
+                list_number.backgroundTintList = ColorStateList.valueOf(newColor) // 버튼 배경 색상을 파랑색으로
             }
 
             // 클릭이벤트 ; 세부 내용 화면으로 전환

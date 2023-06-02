@@ -1,13 +1,15 @@
 package com.swu.caresheep.ui.guardian
 
+import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
 import kotlinx.android.synthetic.main.activity_guardian_voice_detail.*
 
 class GuardianVoiceDetailActivity : AppCompatActivity() {
-    lateinit var data : Voice
+    lateinit var data: Voice
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,11 +28,12 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
         record_time.text = recording_date
         record_content.text = content
 
-        if(danger == "1") { // 위험 상황일 경우
-            record_content.setBackgroundResource(R.color.red) // 버튼 배경 색상을 빨간색으로
-        }
-        else if(in_need == "1") { // 물건 필요 상황일 경우
-            record_content.setBackgroundResource(R.color.blue) // 버튼 배경 색상을 파랑색으로
+        if (danger == "1") { // 위험 상황일 경우
+            val newColor: Int = ContextCompat.getColor(this, R.color.red)
+            record_content.backgroundTintList = ColorStateList.valueOf(newColor) // 버튼 배경 색상을 빨간색으로
+        } else if (in_need == "1") { // 물건 필요 상황일 경우
+            val newColor: Int = ContextCompat.getColor(this, R.color.blue)
+            record_content.backgroundTintList = ColorStateList.valueOf(newColor) // 버튼 배경 색상을 파랑색으로
         }
 
     }
