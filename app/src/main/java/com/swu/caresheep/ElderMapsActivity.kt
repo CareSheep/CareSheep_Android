@@ -100,7 +100,7 @@ class ElderMapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         if (location != null) {
                             val database =
                                 FirebaseDatabase.getInstance(DB_URL)
-                                .getReference("Location")
+                                    .getReference("Location")
 
                             // Voice의 각 필드에 넣기
                             val location = Location(
@@ -109,7 +109,7 @@ class ElderMapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                 location_date = timeStamp,
                                 user_id = 1,
 
-                            )
+                                )
                             database.child(timeStamp).setValue(location)   // 데이터가 계속 쌓이도록(timeStamp가 참조 꼬리로 쌓이도록)
                                 //업로드 성공했는지 확인해보려고
                                 .addOnSuccessListener {

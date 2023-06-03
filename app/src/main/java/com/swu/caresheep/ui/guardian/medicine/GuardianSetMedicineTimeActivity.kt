@@ -104,6 +104,7 @@ class GuardianSetMedicineTimeActivity : AppCompatActivity() {
             })
         }
 
+//        // Firebase Realtime Database에서 데이터 가져오기
         // Firebase Realtime Database에서 데이터 가져오기
 //        val database =
 //            FirebaseDatabase.getInstance(DB_URL)
