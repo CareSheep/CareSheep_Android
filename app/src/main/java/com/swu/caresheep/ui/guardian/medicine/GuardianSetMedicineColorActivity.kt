@@ -61,7 +61,7 @@ class GuardianSetMedicineColorActivity : AppCompatActivity() {
                 "medicine_name" to "",
                 "single_dose" to 0,
                 "time" to "",
-                "user_id" to "1",
+                "user_id" to 1,
             )
 
             dbRef1 = FirebaseDatabase.getInstance(DB_URL).getReference("MedicineTime")

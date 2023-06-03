@@ -346,7 +346,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("MedicineTime")
                 .orderByChild("user_id")
-                .equalTo(user_id.toString())
+                .equalTo(user_id.toDouble())
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {

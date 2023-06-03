@@ -63,6 +63,11 @@ class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallback
         }
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
+
     private fun checkMoving(){
         if(currentSteps>=1){
             // 긴급상황 아님
