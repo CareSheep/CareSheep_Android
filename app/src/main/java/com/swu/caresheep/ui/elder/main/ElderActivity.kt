@@ -39,7 +39,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.ElderMapsActivity
 import com.swu.caresheep.R
@@ -91,9 +90,6 @@ class ElderActivity : AppCompatActivity() {
         getLunchAlarm()
         getWalkAlarm()
         getMedicineAlarm()
-
-        Log.e("gggggg", "gggggggggggggggggg")
-
     }
 
     override fun onStart() {
@@ -138,7 +134,7 @@ class ElderActivity : AppCompatActivity() {
      * 사용자 (어르신) 이름 불러오기
      */
     private fun getUserName() {
-        Firebase.database(BuildConfig.DB_URL)
+        Firebase.database(DB_URL)
             .getReference("Users")
             .orderByChild("id")
             .equalTo(user_id.toDouble())
@@ -730,7 +726,7 @@ class ElderActivity : AppCompatActivity() {
                                 val dinnerValue =
                                     data.child("dinner").getValue(String::class.java).toString()
                                 //dinner_time.setText("$dinnerValue")
-                                Log.d("dinnerValue", "$dinnerValue")
+                                Log.d("dinnerValue", dinnerValue)
                                 // :를 시간, 분 형태로 나누기 위해 split으로 분리
                                 val timeParts = dinnerValue.split(":")
                                 if (timeParts.size == 2) {
@@ -805,7 +801,7 @@ class ElderActivity : AppCompatActivity() {
                             for (data in snapshot.children) {
                                 val walkValue =
                                     data.child("walk_time").getValue(String::class.java).toString()
-                                Log.d("walk", "$walkValue")
+                                Log.d("walk", walkValue)
                                 //walk_time.setText("$walkValue")
                                 // :를 시간, 분 형태로 나누기 위해 split으로 분리
                                 val timeParts = walkValue.split(":")
@@ -881,7 +877,7 @@ class ElderActivity : AppCompatActivity() {
                             for (data in snapshot.children) {
                                 val medicineValue =
                                     data.child("time").getValue(String::class.java).toString()
-                                Log.d("medicine time", "$medicineValue")
+                                Log.d("medicine time", medicineValue)
                                 //medcine_time.setText("$medicineValue")
                                 // :를 시간, 분 형태로 나누기 위해 split으로 분리
                                 val timeParts = medicineValue.split(":")

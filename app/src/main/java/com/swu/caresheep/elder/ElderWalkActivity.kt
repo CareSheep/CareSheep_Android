@@ -33,7 +33,7 @@ import java.time.LocalDate
 class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
 
     //현재 날짜
-    val todayDate: LocalDate = LocalDate.now()
+    private val todayDate = LocalDate.now().toString()
 
     private lateinit var dbRef: DatabaseReference
     private lateinit var dbRef2: DatabaseReference
@@ -48,7 +48,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
 
     // 목표 걸음 수
     var goalSteps = 0
-    var goalWalk_value1: String = ""
+    var goalWalk = 0
 
     // 결과
     var result1 = 0
@@ -146,11 +146,11 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         for (data in snapshot.children) {
-                            val goalWalk_value1 =
-                                data.child("walk_step").value.toString()
+                            goalWalk =
+                                data.child("walk_step").getValue(Int::class.java)!!
 
                             // 목표 걸음 수 설정
-                            goal_walk.text = goalWalk_value1
+                            goal_walk.text = goalWalk.toString()
                         }
                     }
                 }
@@ -169,7 +169,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
 
         val data2 = hashMapOf(
             "done" to 1,
-            "goal_walk" to goalWalk_value1,
+            "goal_walk" to goalWalk,
             "start_time" to todayDate,
             "walk" to currentSteps,
             "user_id" to 1,
@@ -202,7 +202,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
         stepCountSensor?.let {
             // Set sensor speed
             sensorManager
-            sensorManager!!.registerListener(
+            sensorManager.registerListener(
                 this,
                 stepCountSensor,
                 SensorManager.SENSOR_DELAY_FASTEST
@@ -216,7 +216,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
             if (event.values[0] == 1.0f) {
                 // 센서 이벤트가 발생할때 마다 걸음수 증가
                 currentSteps++
-                stepCountView!!.text = currentSteps.toString()
+                stepCountView.text = currentSteps.toString()
             }
         }
     }
