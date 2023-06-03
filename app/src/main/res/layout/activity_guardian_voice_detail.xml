@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.guardian.GuardianVoiceDetailActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.guardian.GuardianVoiceDetailActivity">
 
     <android.widget.Button
         android:id="@+id/record_content"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:background="@drawable/solid_positive_button"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
+        android:background="@drawable/solid_positive_button"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="24dp"
         android:text="녹음 상세 내용"
         android:textSize="20sp" />
 

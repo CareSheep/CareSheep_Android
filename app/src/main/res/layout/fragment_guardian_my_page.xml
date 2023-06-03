@@ -151,7 +151,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/v_gray" />
 
             <View
-                android:id="@+id/v_first"
+                android:id="@+id/v_1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_400"
@@ -173,10 +173,10 @@
                 android:text="@string/guardian_my_page_routine_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/v_first" />
+                app:layout_constraintTop_toBottomOf="@+id/v_1" />
 
             <View
-                android:id="@+id/v_middle"
+                android:id="@+id/v_2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_400"
@@ -198,10 +198,10 @@
                 android:text="@string/guardian_my_page_connect_elder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/v_middle" />
+                app:layout_constraintTop_toBottomOf="@+id/v_2" />
 
             <View
-                android:id="@+id/view"
+                android:id="@+id/v_3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_400"
@@ -213,7 +213,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:drawableStart="@drawable/ic_circle_connect"
+                android:drawableStart="@drawable/ic_circle_emergency"
                 android:drawableEnd="@drawable/ic_arrow_right"
                 android:drawablePadding="12dp"
                 android:gravity="start|center_vertical"
@@ -223,10 +223,10 @@
                 android:text="@string/guardian_my_page_emergency_elder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_connect_elder" />
+                app:layout_constraintTop_toBottomOf="@+id/v_3" />
 
             <View
-                android:id="@+id/view2"
+                android:id="@+id/v_4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_400"
@@ -238,7 +238,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:drawableStart="@drawable/ic_circle_connect"
+                android:drawableStart="@drawable/ic_circle_dementia_elder_setting"
                 android:drawableEnd="@drawable/ic_arrow_right"
                 android:drawablePadding="12dp"
                 android:gravity="start|center_vertical"
@@ -248,13 +248,61 @@
                 android:text="@string/guardian_my_page_dementia_elder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_emergency_elder" />
+                app:layout_constraintTop_toBottomOf="@+id/v_4" />
 
             <View
+                android:id="@+id/v_gray_2"
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:background="@color/gray_200"
+                app:layout_constraintTop_toBottomOf="@+id/btn_dementia_elder" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_account"
+                style="@style/Text.Title4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="18dp"
+                android:text="@string/guardian_my_page_account_management"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_gray_2" />
+
+            <View
+                android:id="@+id/v_6"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_400"
-                app:layout_constraintTop_toBottomOf="@+id/btn_dementia_elder" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_account" />
+
+            <android.widget.Button
+                android:id="@+id/btn_logout"
+                style="@style/Text.Body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:drawableStart="@drawable/ic_circle_logout"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:drawablePadding="12dp"
+                android:gravity="start|center_vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="13dp"
+                android:stateListAnimator="@null"
+                android:text="@string/logout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_6" />
+
+            <View
+                android:id="@+id/v_7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_400"
+                app:layout_constraintTop_toBottomOf="@+id/btn_logout" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
