@@ -81,6 +81,8 @@ class ElderActivity : AppCompatActivity() {
         binding = ActivityElderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         window.statusBarColor = ContextCompat.getColor(this, R.color.orange_100)
 
         initView()

@@ -65,6 +65,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
+                    android:id="@+id/iv_edit_user_name"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="1dp"
                     android:src="@drawable/ic_edit"

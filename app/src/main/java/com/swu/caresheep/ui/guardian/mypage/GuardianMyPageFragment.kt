@@ -69,6 +69,8 @@ class GuardianMyPageFragment : Fragment() {
             .also { hyperspaceJumpAnimation ->
                 binding.tvUserName.startAnimation(hyperspaceJumpAnimation)
                 binding.tvUserGmail.startAnimation(hyperspaceJumpAnimation)
+                binding.ivEditUserName.startAnimation(hyperspaceJumpAnimation)
+                binding.ivConnectInfo.startAnimation(hyperspaceJumpAnimation)
                 binding.btnElderConnectedInfo.startAnimation(hyperspaceJumpAnimation)
             }
     }
@@ -82,6 +84,8 @@ class GuardianMyPageFragment : Fragment() {
             .also { hyperspaceJumpAnimation ->
                 binding.tvUserName.startAnimation(hyperspaceJumpAnimation)
                 binding.tvUserGmail.startAnimation(hyperspaceJumpAnimation)
+                binding.ivEditUserName.startAnimation(hyperspaceJumpAnimation)
+                binding.ivConnectInfo.startAnimation(hyperspaceJumpAnimation)
                 binding.btnElderConnectedInfo.startAnimation(hyperspaceJumpAnimation)
             }
     }

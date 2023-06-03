@@ -106,7 +106,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="20,000보"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_walk_goal"
                 app:layout_constraintStart_toEndOf="@+id/tv_walk_goal_title"
                 app:layout_constraintTop_toTopOf="@+id/iv_walk_goal" />
@@ -183,7 +182,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="오전 8시"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_breakfast_goal"
                 app:layout_constraintStart_toEndOf="@+id/tv_breakfast_title"
                 app:layout_constraintTop_toTopOf="@+id/iv_breakfast_goal" />
@@ -214,7 +212,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="오후 1시"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_lunch_goal"
                 app:layout_constraintStart_toEndOf="@+id/tv_lunch_title"
                 app:layout_constraintTop_toTopOf="@+id/iv_lunch_goal" />
@@ -245,7 +242,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="오후 6시"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_dinner_goal"
                 app:layout_constraintStart_toEndOf="@+id/tv_dinner_title"
                 app:layout_constraintTop_toTopOf="@+id/iv_dinner_goal" />
@@ -601,7 +597,7 @@
                 android:layout_height="wrap_content"
                 android:text="회"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_brown_medicine_goal"
-                app:layout_constraintStart_toEndOf="@+id/tv_black_medicine_count_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_brown_medicine_count_goal"
                 app:layout_constraintTop_toTopOf="@+id/iv_brown_medicine_goal" />
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -647,14 +643,12 @@
                 app:layout_constraintTop_toTopOf="@+id/iv_black_medicine_goal" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:paddingLeft="10dp"
                 style="@style/Text.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:text="회"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_black_medicine_goal"
-                app:layout_constraintStart_toEndOf="@+id/tv_black_medicine_time_goal"
+                app:layout_constraintStart_toEndOf="@+id/tv_black_medicine_count_goal"
                 app:layout_constraintTop_toTopOf="@+id/iv_black_medicine_goal" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
