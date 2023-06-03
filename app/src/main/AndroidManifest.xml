@@ -46,8 +46,7 @@
             android:exported="false" />
         <activity
             android:name=".elder.ElderGetMealAlarmActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".ui.elder.alarm.ElderDinnerAlarmActivity"
             android:exported="false" />
@@ -103,10 +102,12 @@
             android:exported="false" />
         <activity
             android:name=".ui.guardian.meal.GuardianSetDinnerTimeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.guardian.meal.GuardianSetLunchTimeActivity" />
         <activity
             android:name=".ui.guardian.meal.GuardianSetLunchTimeActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".ui.guardian.meal.GuardianSetBreakfastTimeActivity" />
         <activity
             android:name=".ui.guardian.calendar.GuardianAddScheduleActivity"
             android:exported="false" />
@@ -122,28 +123,35 @@
             android:exported="true" />
         <activity
             android:name=".ui.guardian.GuardianSetWalkStepActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.guardian.GuardianSetWalkTimeActivity" />
         <activity
             android:name=".ui.guardian.GuardianSetWalkTimeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.guardian.GuardianStartActivity" />
         <activity
             android:name=".ui.guardian.GuardianStartActivity"
             android:exported="false" />
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineCountActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.guardian.medicine.GuardianSetMedicineSingledoseActivity" />
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineSingledoseActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.guardian.medicine.GuardianSetMedicineNameActivity" />
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineNameActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.guardian.medicine.GuardianSetMedicineColorActivity" />
         <activity
             android:name=".ui.guardian.medicine.GuardianSetMedicineColorActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.guardian.GuardianStartSetMedicineActivity" />
         <activity
             android:name=".ui.guardian.meal.GuardianSetBreakfastTimeActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".ui.guardian.GuardianSetWalkStepActivity" />
         <activity
             android:name=".ui.guardian.GuardianVoiceDetailActivity"
             android:exported="false" />
@@ -182,6 +190,9 @@
             android:exported="false" />
         <activity
             android:name=".elder.ElderMedicineReActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PraiseActivity"
             android:exported="false" />
         <activity
             android:name=".elder.ElderMedicineFirstActivity"

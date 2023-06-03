@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.TimePicker
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.guardian.routine_id
 import kotlinx.android.synthetic.main.activity_guardian_set_lunch_time.lunchTimePicker
@@ -36,7 +37,7 @@ class GuardianSetLunchTimeActivity : AppCompatActivity() {
             //timepicker에서 시간 가져오는 함수
             pushTime()
 
-            dbRef = FirebaseDatabase.getInstance().getReference("UsersRoutine").child("$routine_id")
+            dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("UsersRoutine").child("$routine_id")
 
             val updatedData = HashMap<String, Any>()
             updatedData["lunch"] = result

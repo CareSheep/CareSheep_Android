@@ -11,6 +11,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.BuildConfig
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.guardian.medicine.medicine_id
 import com.swu.caresheep.ui.guardian.medicine.result1
@@ -50,7 +52,7 @@ class GuardianSetWalkTimeActivity : AppCompatActivity() {
                 "walk_step" to 0
             )
 
-            dbRef1 = FirebaseDatabase.getInstance().getReference("UsersRoutine")
+            dbRef1 = FirebaseDatabase.getInstance(DB_URL).getReference("UsersRoutine")
             dbRef1.addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val childCount = dataSnapshot.childrenCount

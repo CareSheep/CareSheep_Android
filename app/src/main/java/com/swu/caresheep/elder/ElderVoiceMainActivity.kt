@@ -22,8 +22,7 @@ class ElderVoiceMainActivity : AppCompatActivity() {
         }
         // '아니오' 버튼 => 홈 화면
         voice_no.setOnClickListener {
-            val intent = Intent(this, ElderActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
     }

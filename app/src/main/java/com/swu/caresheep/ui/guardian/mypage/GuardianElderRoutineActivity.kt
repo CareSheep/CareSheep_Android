@@ -60,8 +60,8 @@ class GuardianElderRoutineActivity : AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+    override fun finish() {
+        super.finish()
         overridePendingTransition(R.anim.none, R.anim.slide_out_right)
     }
 
@@ -70,7 +70,7 @@ class GuardianElderRoutineActivity : AppCompatActivity() {
             val user_id = 1 // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("UsersRoutine")
-                .orderByChild("id")
+                .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {

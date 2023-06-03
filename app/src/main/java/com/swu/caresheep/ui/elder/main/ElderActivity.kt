@@ -40,6 +40,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.ElderMapsActivity
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityElderBinding
@@ -64,8 +65,6 @@ import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
-
-import com.swu.caresheep.elder.ElderGetMealAlarmActivity
 import java.util.Calendar
 
 class ElderActivity : AppCompatActivity() {
@@ -87,11 +86,13 @@ class ElderActivity : AppCompatActivity() {
 
         initView()
 
-        getBrakfastAlarm()
+        getBreakfastAlarm()
         getDinnerAlarm()
         getLunchAlarm()
         getWalkAlarm()
         getMedicineAlarm()
+
+        Log.e("gggggg", "gggggggggggggggggg")
 
     }
 
@@ -161,7 +162,7 @@ class ElderActivity : AppCompatActivity() {
      * 오늘의 일정 가져오기
      */
     private fun getTodaySchedule() {
-        val today = java.util.Calendar.getInstance(timeZone)
+        val today = Calendar.getInstance(timeZone)
 
         // Google Calendar API 사용하기 위해 필요한 인증 초기화( 자격 증명 credentials, 서비스 객체 )
         // OAuth 2.0를 사용하여 구글 계정 선택 및 인증하기 위한 준비
@@ -185,7 +186,7 @@ class ElderActivity : AppCompatActivity() {
      *
      * 하나라도 만족하지 않으면 해당 사항을 사용자에게 알림.
      */
-    private fun getResultsFromApi(selectedDate: java.util.Calendar?): String? {
+    private fun getResultsFromApi(selectedDate: Calendar?): String? {
         if (!isGooglePlayServicesAvailable()) {  // Google Play Services를 사용할 수 없는 경우
             acquireGooglePlayServices()
         } else if (mCredential!!.selectedAccountName == null) {  // 유효한 Google 계정이 선택되어 있지 않은 경우
@@ -345,7 +346,7 @@ class ElderActivity : AppCompatActivity() {
      */
     private inner class GoogleCalendarRequestTask(
         credential: GoogleAccountCredential?,
-        private var selectedDate: java.util.Calendar?,
+        private var selectedDate: Calendar?,
     ) {
         private var mLastError: Exception? = null
 
@@ -389,9 +390,7 @@ class ElderActivity : AppCompatActivity() {
 
         private fun onPreExecute() {
             binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
-
             binding.llTodayScheduleNotExist.visibility = View.INVISIBLE
-
             binding.pbTodayScheduleLoading.show()
         }
 
@@ -400,23 +399,23 @@ class ElderActivity : AppCompatActivity() {
          * CalendarTitle 이름의 캘린더에서 해당 날짜의 일정을 가져와 리턴
          */
         @Throws(IOException::class)
-        private fun getEvent(selectedDate: java.util.Calendar?): List<ElderTodaySchedule>? {
+        private fun getEvent(selectedDate: Calendar?): List<ElderTodaySchedule>? {
 
             Log.e("[GetEvent 입장]selectedDate: ", selectedDate.toString())
 
-            val testDate: java.util.Calendar =
-                selectedDate ?: java.util.Calendar.getInstance(timeZone)
+            val testDate: Calendar =
+                selectedDate ?: Calendar.getInstance(timeZone)
 
             // 선택된 날짜로부터 시작과 끝 시간을 계산
-            val startOfDay = testDate.clone() as java.util.Calendar
-            startOfDay.set(java.util.Calendar.HOUR_OF_DAY, 0)
-            startOfDay.set(java.util.Calendar.MINUTE, 0)
-            startOfDay.set(java.util.Calendar.SECOND, 0)
+            val startOfDay = testDate.clone() as Calendar
+            startOfDay.set(Calendar.HOUR_OF_DAY, 0)
+            startOfDay.set(Calendar.MINUTE, 0)
+            startOfDay.set(Calendar.SECOND, 0)
 
-            val endOfDay = testDate.clone() as java.util.Calendar
-            endOfDay.set(java.util.Calendar.HOUR_OF_DAY, 23)
-            endOfDay.set(java.util.Calendar.MINUTE, 59)
-            endOfDay.set(java.util.Calendar.SECOND, 59)
+            val endOfDay = testDate.clone() as Calendar
+            endOfDay.set(Calendar.HOUR_OF_DAY, 23)
+            endOfDay.set(Calendar.MINUTE, 59)
+            endOfDay.set(Calendar.SECOND, 59)
 
 
             val calendarID: String? = getCalendarID("공유 캘린더")
@@ -440,7 +439,7 @@ class ElderActivity : AppCompatActivity() {
             val scheduleData = ArrayList<ElderTodaySchedule>()
 
             // CalendarView에 일정 표시
-            val calendar = java.util.Calendar.getInstance(timeZone)
+            val calendar = Calendar.getInstance(timeZone)
             items.forEach { event ->
                 var eventTitle = event.summary
                 if (eventTitle.isNullOrEmpty()) {
@@ -450,7 +449,6 @@ class ElderActivity : AppCompatActivity() {
                 val end = event.end.dateTime
 
                 var startTime = ""
-                var endTime = ""
                 val typeStartDate = event.start.date
                 val typeEndDate = event.end.date
 
@@ -471,12 +469,12 @@ class ElderActivity : AppCompatActivity() {
                     // 일정 시작 시간 계산
                     val startDate = Date(start.value)
                     calendar.time = startDate
-                    val startHour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
-                    val startMinute = calendar.get(java.util.Calendar.MINUTE)
-                    val startAMPM = calendar.get(java.util.Calendar.AM_PM)
+                    val startHour = calendar.get(Calendar.HOUR_OF_DAY)
+                    val startMinute = calendar.get(Calendar.MINUTE)
+                    val startAMPM = calendar.get(Calendar.AM_PM)
 
                     val strStartMinute = if (startMinute / 10 == 0) "0$startMinute" else startMinute
-                    val strStartAMPM = if (startAMPM == java.util.Calendar.AM) "오전"
+                    val strStartAMPM = if (startAMPM == Calendar.AM) "오전"
                     else "오후"
                     val startHour12 =
                         if (startHour == 0) 12 else if (startHour > 12) startHour - 12 else startHour
@@ -541,32 +539,34 @@ class ElderActivity : AppCompatActivity() {
                     }
                     else -> {
                         Log.e(
-                            "환자 메인: ",
+                            "어르신 메인: ",
                             "GoogleCalendarRequestTask The following error occurred: ${mLastError!!.message}"
                         )
                     }
                 }
             } else {
-                Log.e("환자 메인: ", "요청이 취소됐습니다.")
+                Log.e("어르신 메인: ", "요청이 취소됐습니다.")
             }
         }
 
     }
 
-    /* 루틴가져오기 */
-    fun getBrakfastAlarm(){
+    /* 루틴 가져오기 */
+    private fun getBreakfastAlarm() {
 
         val user_id = 1 // user_id로 수정
 
         // Firebase Realtime Database에서 데이터 가져오기
         val database =
-            FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/")
-        val reference = database.getReference("UsersRoutine").orderByChild("user_id").equalTo(user_id.toDouble())
+            FirebaseDatabase.getInstance(DB_URL)
+        val reference = database.getReference("UsersRoutine").orderByChild("user_id")
+            .equalTo(user_id.toDouble())
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()){
-                    for(data in snapshot.children){
-                        val breakfastValue = data.child("breakfast").getValue(String::class.java).toString()
+                if (snapshot.exists()) {
+                    for (data in snapshot.children) {
+                        val breakfastValue =
+                            data.child("breakfast").getValue(String::class.java).toString()
                         //breakfast_time.setText("$breakfastValue")
 
 
@@ -589,8 +589,10 @@ class ElderActivity : AppCompatActivity() {
                                     calendar.add(Calendar.DATE, 1)
                                 }
 
-                                val alarmIntent = Intent(this@ElderActivity, AlarmReceiverBreakfast::class.java)
-                                val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                                val alarmIntent =
+                                    Intent(this@ElderActivity, AlarmReceiverBreakfast::class.java)
+                                val alarmManager =
+                                    getSystemService(Context.ALARM_SERVICE) as AlarmManager
                                 alarmIntent.action = AlarmReceiverBreakfast.ACTION_RESTART_SERVICE
                                 Log.d("AlarmService", "확인")
                                 val alarmCallPendingIntent = PendingIntent.getBroadcast(
@@ -638,10 +640,10 @@ class ElderActivity : AppCompatActivity() {
         })
     }
 
-    fun getLunchAlarm(){
+    private fun getLunchAlarm() {
         try {
             val user_id = 1 // user_id로 수정
-            Firebase.database(BuildConfig.DB_URL)
+            Firebase.database(DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
@@ -649,7 +651,8 @@ class ElderActivity : AppCompatActivity() {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
-                                val lunchValue = data.child("lunch").getValue(String::class.java).toString()
+                                val lunchValue =
+                                    data.child("lunch").getValue(String::class.java).toString()
                                 //lunch_time.setText("$lunchValue")
 
                                 // :를 시간, 분 형태로 나누기 위해 split으로 분리
@@ -669,9 +672,14 @@ class ElderActivity : AppCompatActivity() {
                                             calendar.add(Calendar.DATE, 1)
                                         }
 
-                                        val alarmIntent = Intent(this@ElderActivity, AlarmReceiverLunch::class.java)
-                                        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                                        alarmIntent.action = AlarmReceiverLunch.ACTION_RESTART_SERVICE
+                                        val alarmIntent = Intent(
+                                            this@ElderActivity,
+                                            AlarmReceiverLunch::class.java
+                                        )
+                                        val alarmManager =
+                                            getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                                        alarmIntent.action =
+                                            AlarmReceiverLunch.ACTION_RESTART_SERVICE
                                         val alarmCallPendingIntent = PendingIntent.getBroadcast(
                                             this@ElderActivity,
                                             0,
@@ -697,6 +705,7 @@ class ElderActivity : AppCompatActivity() {
                             }
                         }
                     }
+
                     override fun onCancelled(error: DatabaseError) {
                         // 쿼리 실행 중 오류 발생 시 처리할 내용
                     }
@@ -707,10 +716,10 @@ class ElderActivity : AppCompatActivity() {
     }
 
 
-    fun getDinnerAlarm(){
+    private fun getDinnerAlarm() {
         try {
             val user_id = 1 // user_id로 수정
-            Firebase.database(BuildConfig.DB_URL)
+            Firebase.database(DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
@@ -718,9 +727,10 @@ class ElderActivity : AppCompatActivity() {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
-                                val dinnerValue = data.child("dinner").getValue(String::class.java).toString()
+                                val dinnerValue =
+                                    data.child("dinner").getValue(String::class.java).toString()
                                 //dinner_time.setText("$dinnerValue")
-                                Log.d("dinnerValue","$dinnerValue")
+                                Log.d("dinnerValue", "$dinnerValue")
                                 // :를 시간, 분 형태로 나누기 위해 split으로 분리
                                 val timeParts = dinnerValue.split(":")
                                 if (timeParts.size == 2) {
@@ -738,9 +748,14 @@ class ElderActivity : AppCompatActivity() {
                                             calendar.add(Calendar.DATE, 1)
                                         }
 
-                                        val alarmIntent = Intent(this@ElderActivity, AlarmReceiverDinner::class.java)
-                                        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                                        alarmIntent.action = AlarmReceiverDinner.ACTION_RESTART_SERVICE
+                                        val alarmIntent = Intent(
+                                            this@ElderActivity,
+                                            AlarmReceiverDinner::class.java
+                                        )
+                                        val alarmManager =
+                                            getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                                        alarmIntent.action =
+                                            AlarmReceiverDinner.ACTION_RESTART_SERVICE
                                         val alarmCallPendingIntent = PendingIntent.getBroadcast(
                                             this@ElderActivity,
                                             0,
@@ -766,6 +781,7 @@ class ElderActivity : AppCompatActivity() {
                             }
                         }
                     }
+
                     override fun onCancelled(error: DatabaseError) {
                         // 쿼리 실행 중 오류 발생 시 처리할 내용
                     }
@@ -776,10 +792,10 @@ class ElderActivity : AppCompatActivity() {
     }
 
 
-    fun getWalkAlarm(){
+    private fun getWalkAlarm() {
         try {
             val user_id = 1 // user_id로 수정
-            Firebase.database(BuildConfig.DB_URL)
+            Firebase.database(DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
@@ -787,8 +803,9 @@ class ElderActivity : AppCompatActivity() {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
-                                val walkValue = data.child("walk_time").getValue(String::class.java).toString()
-                                Log.d("walk","$walkValue")
+                                val walkValue =
+                                    data.child("walk_time").getValue(String::class.java).toString()
+                                Log.d("walk", "$walkValue")
                                 //walk_time.setText("$walkValue")
                                 // :를 시간, 분 형태로 나누기 위해 split으로 분리
                                 val timeParts = walkValue.split(":")
@@ -807,9 +824,14 @@ class ElderActivity : AppCompatActivity() {
                                             calendar.add(Calendar.DATE, 1)
                                         }
 
-                                        val alarmIntent = Intent(this@ElderActivity, AlarmReceiverWalk::class.java)
-                                        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                                        alarmIntent.action = AlarmReceiverWalk.ACTION_RESTART_SERVICE
+                                        val alarmIntent = Intent(
+                                            this@ElderActivity,
+                                            AlarmReceiverWalk::class.java
+                                        )
+                                        val alarmManager =
+                                            getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                                        alarmIntent.action =
+                                            AlarmReceiverWalk.ACTION_RESTART_SERVICE
                                         val alarmCallPendingIntent = PendingIntent.getBroadcast(
                                             this@ElderActivity,
                                             0,
@@ -835,6 +857,7 @@ class ElderActivity : AppCompatActivity() {
                             }
                         }
                     }
+
                     override fun onCancelled(error: DatabaseError) {
                         // 쿼리 실행 중 오류 발생 시 처리할 내용
                     }
@@ -845,19 +868,20 @@ class ElderActivity : AppCompatActivity() {
     }
 
 
-    fun getMedicineAlarm(){
+    private fun getMedicineAlarm() {
         try {
             val user_id = 1 // user_id로 수정
-            Firebase.database(BuildConfig.DB_URL)
+            Firebase.database(DB_URL)
                 .getReference("MedicineTime")
                 .orderByChild("user_id")
-                .equalTo(user_id.toString())
+                .equalTo(user_id.toDouble())
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
-                                val medicineValue = data.child("time").getValue(String::class.java).toString()
-                                Log.d("medicine time","$medicineValue")
+                                val medicineValue =
+                                    data.child("time").getValue(String::class.java).toString()
+                                Log.d("medicine time", "$medicineValue")
                                 //medcine_time.setText("$medicineValue")
                                 // :를 시간, 분 형태로 나누기 위해 split으로 분리
                                 val timeParts = medicineValue.split(":")
@@ -876,8 +900,10 @@ class ElderActivity : AppCompatActivity() {
                                             calendar.add(Calendar.DATE, 1)
                                         }
 
-                                        val alarmIntent = Intent(this@ElderActivity, AlarmReceiver::class.java)
-                                        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                                        val alarmIntent =
+                                            Intent(this@ElderActivity, AlarmReceiver::class.java)
+                                        val alarmManager =
+                                            getSystemService(Context.ALARM_SERVICE) as AlarmManager
                                         alarmIntent.action = AlarmReceiver.ACTION_RESTART_SERVICE
                                         val alarmCallPendingIntent = PendingIntent.getBroadcast(
                                             this@ElderActivity,
@@ -904,6 +930,7 @@ class ElderActivity : AppCompatActivity() {
                             }
                         }
                     }
+
                     override fun onCancelled(error: DatabaseError) {
                         // 쿼리 실행 중 오류 발생 시 처리할 내용
                     }

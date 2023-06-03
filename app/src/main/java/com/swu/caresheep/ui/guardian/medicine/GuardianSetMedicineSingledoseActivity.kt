@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_singledose.medicine_next3_button

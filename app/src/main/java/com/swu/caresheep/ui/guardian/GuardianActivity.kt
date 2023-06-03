@@ -19,7 +19,6 @@ import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import java.util.*
 
 class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks,SensorEventListener {
 
@@ -92,6 +91,7 @@ class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallback
                 SensorManager.SENSOR_DELAY_FASTEST
             )
         }
+
     }
 
     override fun onSensorChanged(event: SensorEvent) {

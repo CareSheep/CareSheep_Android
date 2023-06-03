@@ -16,6 +16,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_get_meal_alarm.breakfast_time
@@ -41,20 +42,20 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
     }
 
     fun initView() {
-        getBrakfastAlarm()
+        getBreakfastAlarm()
         getLunchAlarm()
         getDinnerAlarm()
         getWalkAlarm()
         getMedicineAlarm()
     }
 
-    fun getBrakfastAlarm(){
+    fun getBreakfastAlarm(){
 
         val user_id = 1 // user_id로 수정
 
         // Firebase Realtime Database에서 데이터 가져오기
         val database =
-            FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            FirebaseDatabase.getInstance(DB_URL)
         val reference = database.getReference("UsersRoutine").orderByChild("user_id").equalTo(user_id.toDouble())
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

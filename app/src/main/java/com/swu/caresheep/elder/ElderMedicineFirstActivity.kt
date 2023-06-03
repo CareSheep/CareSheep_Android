@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.MedicineTime
 import com.swu.caresheep.PraiseActivity
 import com.swu.caresheep.R
@@ -90,7 +91,7 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
                         this@ElderMedicineFirstActivity,
                         0,
                         intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                        PendingIntent.FLAG_UPDATE_CURRENT
                     )
 
                     // 알람 취소
@@ -100,7 +101,7 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
                     // 5분 뒤에 알람을 다시 설정
                     val calendar = Calendar.getInstance().apply {
                         timeInMillis = System.currentTimeMillis()
-                        add(Calendar.MINUTE, 5)
+                        add(Calendar.MINUTE, 1)
                     }
                     val alarmIntent = Intent(this@ElderMedicineFirstActivity, AlarmReceiver::class.java)
                     val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -109,7 +110,7 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
                         this@ElderMedicineFirstActivity,
                         0,
                         alarmIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                        PendingIntent.FLAG_UPDATE_CURRENT
                     )
 
 
@@ -134,7 +135,7 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
         }
 
         val database =
-            FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            FirebaseDatabase.getInstance(DB_URL)
         val reference = database.getReference("MedicineTime")
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

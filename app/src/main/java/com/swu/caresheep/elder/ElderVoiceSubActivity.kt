@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.Gpt3Api
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
@@ -157,7 +158,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     voice_id = 1
                 )
 
-                database = FirebaseDatabase.getInstance("https://caresheep-dcb96-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Voice") //Voice 테이블에 접근
+                database = FirebaseDatabase.getInstance(DB_URL).getReference("Voice") //Voice 테이블에 접근
                 database.child(timeStamp).setValue(voice)   // 데이터가 계속 쌓이도록(timeStamp가 참조 꼬리로 쌓이도록)
                     //업로드 성공했는지 확인해보려고
                     .addOnSuccessListener {

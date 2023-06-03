@@ -20,7 +20,7 @@ class GuardianStartSetMedicineActivity : AppCompatActivity() {
 
         stop_set_medicine_button.setOnClickListener {
             // 보호자 첫 액티비티 이동
-            startActivity(Intent(this, GuardianActivity::class.java))
+            finish()
         }
     }
 }
