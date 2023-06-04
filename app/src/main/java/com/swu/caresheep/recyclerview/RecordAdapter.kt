@@ -16,7 +16,7 @@ import com.swu.caresheep.Voice
 import com.swu.caresheep.ui.guardian.GuardianVoiceDetailActivity
 
 class RecordAdapter(private val context: Context) :
-RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
+    RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
     //var datas = mutableListOf<RecordData>()
     var datas = mutableListOf<Voice>()
 
@@ -67,6 +67,10 @@ RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
             else if(item.in_need == "1")  {   // 물건 필요 상황일 경우
                 val newColor: Int = ContextCompat.getColor(context, R.color.blue)
                 list_number.backgroundTintList = ColorStateList.valueOf(newColor) // 버튼 배경 색상을 파랑색으로
+            }
+            else if(item.danger == "0" && item.in_need == "0"){
+                val newColor: Int = ContextCompat.getColor(context, R.color.green)
+                list_number.backgroundTintList = ColorStateList.valueOf(newColor)
             }
 
             // 클릭이벤트 ; 세부 내용 화면으로 전환

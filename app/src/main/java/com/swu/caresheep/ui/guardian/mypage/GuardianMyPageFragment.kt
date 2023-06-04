@@ -90,7 +90,9 @@ class GuardianMyPageFragment : Fragment() {
             }
     }
 
-    // 로그아웃
+    /**
+     * 로그아웃
+     */
     private fun logout() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
@@ -99,13 +101,13 @@ class GuardianMyPageFragment : Fragment() {
 
         client.signOut()
             .addOnCompleteListener(requireActivity()) {
+                // 로그아웃 성공시 실행
+                // 로그아웃 이후의 이벤트들(토스트 메세지, 화면 종료)을 여기서 수행하면 됨
                 val intent = Intent(requireContext(), StartActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
                 Toast.makeText(requireContext(), "로그아웃되었습니다.", Toast.LENGTH_SHORT).show()
                 activity?.finish()
-                // 로그아웃 성공시 실행
-                // 로그아웃 이후의 이벤트들(토스트 메세지, 화면 종료)을 여기서 수행하면 됨
             }
     }
 

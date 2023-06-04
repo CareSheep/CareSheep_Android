@@ -20,6 +20,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.ApiException
@@ -56,6 +58,7 @@ import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_GOOGLE_PLAY_SERVICES
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.timeZone
+import com.swu.caresheep.ui.start.StartActivity
 import com.swu.caresheep.ui.start.user_id
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -70,6 +73,9 @@ class ElderActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityElderBinding
 
+    // Google Login
+    private lateinit var client: GoogleSignInClient
+
     // Google Calendar API에 접근하기 위해 사용되는 구글 캘린더 API 서비스 객체
     private var mService: com.google.api.services.calendar.Calendar? = null
     private var mCredential: GoogleAccountCredential? = null
@@ -81,8 +87,7 @@ class ElderActivity : AppCompatActivity() {
         binding = ActivityElderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
+        // 상태바 설정
         window.statusBarColor = ContextCompat.getColor(this, R.color.orange_100)
 
         initView()
@@ -125,11 +130,37 @@ class ElderActivity : AppCompatActivity() {
         binding.btnUpdateTodaySchedule.setOnClickListener {
             initView()
         }
+
+        // 로그아웃 버튼
+        binding.btnLogout.setOnClickListener {
+            logout()
+        }
     }
 
     private fun initView() {
         getUserName()
         getTodaySchedule()
+    }
+
+    /**
+     * 로그아웃
+     */
+    private fun logout() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        client = this.let { GoogleSignIn.getClient(this, gso) }
+
+        client.signOut()
+            .addOnCompleteListener(this) {
+                // 로그아웃 성공시 실행
+                // 로그아웃 이후의 이벤트들(토스트 메세지, 화면 종료)을 여기서 수행하면 됨
+                val intent = Intent(this, StartActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                Toast.makeText(this, "로그아웃되었습니다.", Toast.LENGTH_SHORT).show()
+                finish()
+            }
     }
 
     /**

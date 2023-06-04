@@ -21,6 +21,7 @@
     <string name="save">저장</string>
     <string name="update">새로 고침</string>
     <string name="logout">로그아웃</string>
+    <string name="logout_underline"><u>로그아웃</u></string>
 
     <string name="dialog_check">확인</string>
 
