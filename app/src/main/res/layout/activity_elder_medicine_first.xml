@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="##님\n@@색 약 먹을\n시간입니다."
+        android:text="약 먹을\n시간입니다."
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
         android:layout_height="247dp"
         android:layout_gravity="center"
         android:layout_marginTop="48dp"
-        android:text="색들어갈예정" />
+        android:text= ". " />
 
     <TextView
         android:id="@+id/medicine_question"

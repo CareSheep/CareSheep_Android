@@ -157,6 +157,8 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
 
                     // 출력 문자열에 색깔 정보 포함하여 설정
                     medicine_alarm.text = "$color 색 약 먹을\n시간입니다."
+                    // 색상에는 text 표시 안뜨게
+                    medicine_color.text = ""
                 }
             }
 
