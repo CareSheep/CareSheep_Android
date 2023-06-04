@@ -119,9 +119,16 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
                 viewMode("stop")
             }
 
+            if(goalWalk <= currentSteps){
+                val intent = Intent(this, ElderWalkDoneActivity::class.java)
+                startActivity(intent)
+            } else{
+                val intent = Intent(this, ElderWalkMainActivity::class.java)
+                startActivity(intent)
+            }
 
-            val intent = Intent(this, ElderWalkDoneActivity::class.java)
-            startActivity(intent)
+
+
         }
     }
 
@@ -151,6 +158,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
 
                             // 목표 걸음 수 설정
                             goal_walk.text = goalWalk.toString()
+                            goalSteps = goalWalk
                         }
                     }
                 }
