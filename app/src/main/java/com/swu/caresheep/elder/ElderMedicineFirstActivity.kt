@@ -156,7 +156,15 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
                     }
 
                     // 출력 문자열에 색깔 정보 포함하여 설정
-                    medicine_alarm.text = "$color 색 약 먹을\n시간입니다."
+                    when (color) {
+                        "red" ->  medicine_alarm.text = "빨간색 약 먹을\n시간입니다."
+                        "blue" ->  medicine_alarm.text = "파란색 약 먹을\n시간입니다."
+                        "yellow" ->  medicine_alarm.text = "노란색 약 먹을\n시간입니다."
+                        "green" ->  medicine_alarm.text = "초록색 약 먹을\n시간입니다."
+                        "purple" ->  medicine_alarm.text = "보라색 약 먹을\n시간입니다."
+                        "brown" ->  medicine_alarm.text = "갈색 약 먹을\n시간입니다."
+                        "black" ->  medicine_alarm.text = "검정색 약 먹을\n시간입니다."
+                    }
                     // 색상에는 text 표시 안뜨게
                     medicine_color.text = ""
                 }
