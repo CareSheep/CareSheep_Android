@@ -2,6 +2,7 @@ package com.swu.caresheep.ui.elder.alarm
 
 import android.app.KeyguardManager
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
+import com.swu.caresheep.elder.ElderWalkMainActivity
+import com.swu.caresheep.ui.guardian.GuardianActivity
 import kotlinx.android.synthetic.main.activity_elder_breakfast_alarm.breakfast
 import kotlinx.android.synthetic.main.activity_elder_walk_alarm.walk
 import java.time.LocalDate
@@ -80,6 +83,9 @@ class ElderWalkAlarmActivity : AppCompatActivity() {
                     done = 1
                     finish()
                     flag = false
+                    val intent = Intent(this, ElderWalkMainActivity::class.java)
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
 
                 }
                 // 아침 안 먹음 체크
@@ -104,34 +110,6 @@ class ElderWalkAlarmActivity : AppCompatActivity() {
         mediaPlayer?.release()
         mediaPlayer = null
 
-    }
-
-    private fun checkLunch() {
-        val data = hashMapOf(
-            "date" to todayDate,
-            "done" to done,
-            "user_id" to 1,
-        )
-
-        dbRef = FirebaseDatabase.getInstance().getReference("Lunch")
-        dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val childCount = dataSnapshot.childrenCount
-                val id = (childCount + 1).toInt()
-                dinner_id = id // 약 고유번호 정해주기 -> 다음 액티비티에서 사용
-
-                dbRef.child(id.toString()).setValue(data)
-                    .addOnSuccessListener {
-                        Log.e("저녁 식사", "DB에 저장 성공")
-                    }.addOnFailureListener {
-                        Log.e("저녁 식사", "DB에 저장 실패")
-                    }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("복약내용- 색상", "Database error: $error")
-            }
-        })
     }
 
 }
