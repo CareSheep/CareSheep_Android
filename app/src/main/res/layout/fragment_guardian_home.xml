@@ -27,10 +27,11 @@
             android:id="@+id/iv_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="#BAC0C0"
             android:layout_gravity="end"
             android:layout_marginEnd="22dp"
-            android:src="@drawable/ic_map" />
+            android:src="@drawable/ic_map"
+            android:tint="#BAC0C0"
+            android:visibility="invisible" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_app_name"
