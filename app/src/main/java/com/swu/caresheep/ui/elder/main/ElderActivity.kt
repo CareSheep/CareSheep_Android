@@ -8,6 +8,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -16,7 +20,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -37,6 +43,7 @@ import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.calendar.model.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
@@ -68,8 +75,28 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 import java.util.Calendar
+import kotlin.concurrent.schedule
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-class ElderActivity : AppCompatActivity() {
+var emergency_id : Int = 0
+
+class ElderActivity : AppCompatActivity(), SensorEventListener {
+
+
+    /**긴급 상황 대비를 위한 걷기 감지 기능**/
+
+    lateinit var sensorManager: SensorManager
+    var stepCountSensor: Sensor? = null
+    lateinit var stepCountView: TextView
+
+    // 어른신이 걸으시는지(긴급 상황이 아닌지) 확인
+    var isWalking : Boolean = false
+    // 현재 걸음 수
+    var currentSteps = 0
+    // 긴급상황 DB 연결
+    private lateinit var dbRef: DatabaseReference
+
 
     private lateinit var binding: ActivityElderBinding
 
@@ -82,6 +109,8 @@ class ElderActivity : AppCompatActivity() {
 
     private var task: GoogleCalendarRequestTask = GoogleCalendarRequestTask(mCredential, null)
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityElderBinding.inflate(layoutInflater)
@@ -90,6 +119,43 @@ class ElderActivity : AppCompatActivity() {
         // 상태바 설정
         window.statusBarColor = ContextCompat.getColor(this, R.color.orange_100)
 
+        // 3분 = 180초 동안 걷지 않으면 걷지 않음 알림
+        Timer().schedule(180000) {
+            // 밀리 초
+            checkWalking()
+            if(isWalking == false){
+                var result = 1
+                // DB에 저장
+                val now = LocalDateTime.now()
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                val formattedDateTime = now.format(formatter)
+
+                val data = hashMapOf(
+                    "user_id" to 1,
+                    "emergency" to result,
+                    "today_date" to formattedDateTime
+                )
+
+                dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Emergency")
+                dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val childCount = dataSnapshot.childrenCount
+                        val id = (childCount + 1).toInt()
+                        emergency_id = id // 긴급상황 고유번호 정해주기 -> 다음 액티비티에서 사용
+
+                        dbRef.child(id.toString()).setValue(data)
+                            .addOnSuccessListener {
+                                Log.e("긴급 상황 감지", "DB에 저장 성공")
+                            }.addOnFailureListener {
+                                Log.e("긴급 상황 감지", "DB에 저장 실패")
+                            }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e("긴급 상황 감지", "Database error: $error")
+                    }
+                })
+            }
+        }
         initView()
 
         getBreakfastAlarm()
@@ -101,6 +167,17 @@ class ElderActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
+        // 어르신 사용자가 걷는지 확인
+        stepCountSensor?.let {
+            // Set sensor speed
+            sensorManager
+            sensorManager.registerListener(
+                this,
+                stepCountSensor,
+                SensorManager.SENSOR_DELAY_FASTEST
+            )
+        }
 
         // 음성 메시지 전송 버튼
         binding.btnVoiceRecord.setOnClickListener {
@@ -968,4 +1045,25 @@ class ElderActivity : AppCompatActivity() {
             Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
         }
     }
+
+
+    /**걷기 감지**/
+
+    private fun checkWalking(){
+        if(currentSteps > 0){
+            isWalking = true
+        }
+    }
+    override fun onSensorChanged(event: SensorEvent) {
+        // 걸음 센서 이벤트 발생시
+        if (event.sensor.type == Sensor.TYPE_STEP_DETECTOR) {
+            if (event.values[0] == 1.0f) {
+                // 센서 이벤트가 발생할때 마다 걸음수 증가
+                currentSteps++
+                stepCountView.text = currentSteps.toString()
+            }
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
 }
