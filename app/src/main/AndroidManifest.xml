@@ -265,6 +265,20 @@
             android:enabled="true"
             android:exported="true" />
 
+        <receiver
+            android:name=".ui.guardian.emergency.AlarmReceiverEmergency"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="Restart" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".ui.guardian.emergency.AlarmServiceEmergency"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".elder.ElderVoiceMainActivity"
             android:exported="true" />
