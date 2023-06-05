@@ -21,9 +21,7 @@ class ElderWalkMainActivity : AppCompatActivity() {
         }
         // '아니오' 버튼 => 홈 화면
         walk_no.setOnClickListener {
-            //finish()
-            val intent = Intent(this, ElderActivity::class.java)
-            startActivity(intent)
+            finish()  // finish()로 액티비티를 끝내서 홈으로 돌아가야 함
         }
     }
 }

@@ -64,18 +64,30 @@ class GuardianSetDinnerTimeActivity : AppCompatActivity() {
     private fun pushTime() {
         picker = dinnerTimePicker
 
-        val hour = picker.hour
-        val minute = picker.minute
+        // TimePicker의 OnTimeChangedListener 설정
+        picker.setOnTimeChangedListener { _, hour, minute ->
+            // 시간과 분을 형식화하여 문자열로 변환
+            val timeString = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
+                Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, hour)
+                    set(Calendar.MINUTE, minute)
+                }.time
+            )
+            result = timeString
+            Log.d("저장되는 시간은", result)
+        }
 
-        // 시간과 분을 형식화하여 문자열로 변환
-        val timeString = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
+        // 초기 시간 반영
+        val initialHour = picker.hour
+        val initialMinute = picker.minute
+        val initialTimeString = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
             Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, hour)
-                set(Calendar.MINUTE, minute)
+                set(Calendar.HOUR_OF_DAY, initialHour)
+                set(Calendar.MINUTE, initialMinute)
             }.time
         )
-        result = timeString
-        Log.d("저장되는 시간은","$result")
+        result = initialTimeString
+        Log.d("저장되는 시간은", result)
 
     }
 }
