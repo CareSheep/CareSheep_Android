@@ -15,14 +15,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianMyPageBinding
+import com.swu.caresheep.ui.dialog.VerticalDialog
+import com.swu.caresheep.ui.guardian.GuardianActivity
 import com.swu.caresheep.ui.guardian.emergency.GuardianElderEmergencyActivity
 import com.swu.caresheep.ui.start.StartActivity
+import com.swu.caresheep.ui.start.user_id
 
 class GuardianMyPageFragment : Fragment() {
 
@@ -51,6 +55,28 @@ class GuardianMyPageFragment : Fragment() {
         binding.btnEmergencyElder.setOnClickListener {
             val intent = Intent(requireContext(), GuardianElderEmergencyActivity::class.java)
             startActivity(intent)
+        }
+
+
+        binding.btnDementiaElder.setOnClickListener {
+            // 치매 어르신 설정 다이얼로그 표시
+            val verticalDialog = VerticalDialog(context as GuardianActivity)
+
+            verticalDialog.show(
+                "어르신이 치매 환자이신가요?",
+                "치매 환자를 위한 기능을 사용할 수 있도록 설정합니다",
+                "치매 환자입니다",
+                "아니요"
+            )
+
+            verticalDialog.topBtnClickListener {
+                // 치매 어르신 설정하기
+                setDementiaElder(1)
+            }
+
+            verticalDialog.bottomBtnClickListener {
+                setDementiaElder(0)
+            }
         }
 
         // 로그아웃 버튼 클릭 시
@@ -88,6 +114,54 @@ class GuardianMyPageFragment : Fragment() {
                 binding.ivConnectInfo.startAnimation(hyperspaceJumpAnimation)
                 binding.btnElderConnectedInfo.startAnimation(hyperspaceJumpAnimation)
             }
+    }
+
+    /**
+     *  치매 어르신 설정
+     **/
+    private fun setDementiaElder(isDementia: Int) {
+        val database = FirebaseDatabase.getInstance(BuildConfig.DB_URL)
+        val reference = database.getReference("Dementia")
+
+        reference.orderByChild("user_id").equalTo(user_id.toDouble())
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var foundRecord = false
+
+                    for (data in snapshot.children) {
+                        val recordId = data.key
+                        val recordRef = reference.child(recordId!!)
+                        recordRef.child("dementia").setValue(isDementia)
+                            .addOnSuccessListener {
+                                // 업데이트 성공 시
+                            }
+                            .addOnFailureListener {
+                                // 업데이트 실패 시
+                            }
+
+                        foundRecord = true
+                    }
+
+                    if (!foundRecord) {
+                        val childCount = snapshot.childrenCount
+                        val newRecordId = (childCount + 1).toString()  // 튜플 개수 + 1을 사용하여 새로운 이름 생성
+
+                        val newRecordRef = reference.child(newRecordId)
+                        newRecordRef.child("user_id").setValue(user_id)
+                        newRecordRef.child("dementia").setValue(isDementia)
+                            .addOnSuccessListener {
+                                // 추가 성공 시
+                            }
+                            .addOnFailureListener {
+                                // 추가 실패 시
+                            }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // 쿼리 실행 중 오류 발생 시 처리할 내용
+                }
+            })
     }
 
     /**
