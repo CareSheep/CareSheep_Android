@@ -30,6 +30,11 @@ import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.client.util.DateTime
 import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.calendar.model.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.GuardianMapsActivity
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
@@ -113,9 +118,13 @@ class GuardianHomeFragment : Fragment() {
             startActivity(Intent(requireContext(), GuardianConnectActivity::class.java))
         } else {
             updateTodaySchedule()
+            checkDementiaStatus()
         }
     }
 
+    /**
+     * 오늘의 일정 업데이트
+     */
     private fun updateTodaySchedule() {
         val today = java.util.Calendar.getInstance()
 
@@ -128,6 +137,36 @@ class GuardianHomeFragment : Fragment() {
 
         // Google Calendar API 호출
         getResultsFromApi(today)
+    }
+
+    /**
+     * 치매 어르신 여부에 따른 지도 표시
+     */
+    private fun checkDementiaStatus() {
+        val database = FirebaseDatabase.getInstance(DB_URL)
+        val reference = database.getReference("Dementia")
+
+        reference.orderByChild("user_id").equalTo(user_id.toDouble())
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (data in snapshot.children) {
+                        val dementiaValue = data.child("dementia").getValue(Int::class.java)
+                        if (dementiaValue == 1) {
+                            // 치매 어르신인 경우
+                            binding.ivMap.visibility = View.VISIBLE
+                            val fadeInAnimation =
+                                AnimationUtils.loadAnimation(context, R.anim.fade_in)
+                            binding.ivMap.startAnimation(fadeInAnimation)
+                        } else {
+                            binding.ivMap.visibility = View.INVISIBLE
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // 쿼리 실행 중 오류 발생 시 처리할 내용
+                }
+            })
     }
 
     /**
