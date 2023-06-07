@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.BuildConfig.DB_URL
+import com.swu.caresheep.ui.elder.main.ElderActivity
 import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_walk.goal_walk
 import kotlinx.android.synthetic.main.activity_elder_walk.walktimeTV
@@ -123,7 +124,8 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
                 val intent = Intent(this, ElderWalkDoneActivity::class.java)
                 startActivity(intent)
             } else{
-                val intent = Intent(this, ElderWalkMainActivity::class.java)
+                val intent = Intent(this, ElderActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
             }
 
