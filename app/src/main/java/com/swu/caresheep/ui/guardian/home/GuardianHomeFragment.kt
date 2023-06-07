@@ -19,7 +19,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.ConnectionResult
@@ -46,7 +45,6 @@ import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.GuardianMapsActivity
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
-import com.swu.caresheep.elder.AlarmReceiverLunch
 import com.swu.caresheep.recyclerview.RecycleMainRecordActivity
 import com.swu.caresheep.ui.guardian.GuardianElderReportActivity
 import com.swu.caresheep.ui.guardian.calendar.*

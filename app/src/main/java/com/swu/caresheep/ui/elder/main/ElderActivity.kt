@@ -120,42 +120,42 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
         window.statusBarColor = ContextCompat.getColor(this, R.color.orange_100)
 
         // 3분 = 180초 동안 걷지 않으면 걷지 않음 알림
-        Timer().schedule(180000) {
-            // 밀리 초
-            checkWalking()
-            if(isWalking == false){
-                var result = 1
-                // DB에 저장
-                val now = LocalDateTime.now()
-                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-                val formattedDateTime = now.format(formatter)
-
-                val data = hashMapOf(
-                    "user_id" to 1,
-                    "emergency" to result,
-                    "today_date" to formattedDateTime
-                )
-
-                dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Emergency")
-                dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        val childCount = dataSnapshot.childrenCount
-                        val id = (childCount + 1).toInt()
-                        emergency_id = id // 긴급상황 고유번호 정해주기 -> 다음 액티비티에서 사용
-
-                        dbRef.child(id.toString()).setValue(data)
-                            .addOnSuccessListener {
-                                Log.e("긴급 상황 감지", "DB에 저장 성공")
-                            }.addOnFailureListener {
-                                Log.e("긴급 상황 감지", "DB에 저장 실패")
-                            }
-                    }
-                    override fun onCancelled(error: DatabaseError) {
-                        Log.e("긴급 상황 감지", "Database error: $error")
-                    }
-                })
-            }
-        }
+//        Timer().schedule(180000) {
+//            // 밀리 초
+//            checkWalking()
+//            if(isWalking == false){
+//                var result = 1
+//                // DB에 저장
+//                val now = LocalDateTime.now()
+//                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+//                val formattedDateTime = now.format(formatter)
+//
+//                val data = hashMapOf(
+//                    "user_id" to 1,
+//                    "emergency" to result,
+//                    "today_date" to formattedDateTime
+//                )
+//
+//                dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Emergency")
+//                dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
+//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                        val childCount = dataSnapshot.childrenCount
+//                        val id = (childCount + 1).toInt()
+//                        emergency_id = id // 긴급상황 고유번호 정해주기 -> 다음 액티비티에서 사용
+//
+//                        dbRef.child(id.toString()).setValue(data)
+//                            .addOnSuccessListener {
+//                                Log.e("긴급 상황 감지", "DB에 저장 성공")
+//                            }.addOnFailureListener {
+//                                Log.e("긴급 상황 감지", "DB에 저장 실패")
+//                            }
+//                    }
+//                    override fun onCancelled(error: DatabaseError) {
+//                        Log.e("긴급 상황 감지", "Database error: $error")
+//                    }
+//                })
+//            }
+//        }
         initView()
 
         getBreakfastAlarm()
