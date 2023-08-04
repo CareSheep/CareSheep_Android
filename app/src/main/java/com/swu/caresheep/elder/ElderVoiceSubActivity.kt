@@ -13,10 +13,8 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.swu.caresheep.*
 import com.swu.caresheep.BuildConfig.DB_URL
-import com.swu.caresheep.Gpt3Api
-import com.swu.caresheep.R
-import com.swu.caresheep.Voice
 import com.swu.caresheep.ui.elder.main.ElderActivity
 import kotlinx.android.synthetic.main.activity_elder_voice_sub.voice_question
 import java.text.SimpleDateFormat
@@ -128,10 +126,10 @@ class ElderVoiceSubActivity : AppCompatActivity() {
             // 모델에 content를 입력하고 위험 및 생필품 부족 여부를 판단한 후 값을 설정
             val model = "text-davinci-002"
             val prompt = """
-                    다음 텍스트가 노인의 위험상황 및 물건 부족 상황인지 판단하세요:
+                    다음 텍스트가 노인이 위험한 상황인지 아니면 물건이 부족한 상황인지 판단하세요:
                     $content
-                    위험상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:
-                    물건 부족 상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:
+                    노인이 위험한 상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:
+                    물건이 부족해서 물건을 구매해야 할 상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:
                     """.trimIndent()
             Gpt3Api.requestGpt3Api(prompt, model) { response -> // 요청
                 // response에는 API 응답 결과가 반환됨
@@ -168,6 +166,9 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     //업로드 성공했는지 확인해보려고
                     .addOnSuccessListener {
                         Log.d("Firebase", "데이터 업로드 성공")
+
+                        showNotification("$timeStamp", "$content")
+
                     }
                     .addOnFailureListener { exception ->
                         Log.e("Firebase", "데이터 업로드 실패: ${exception.message}", exception)
@@ -187,6 +188,16 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         override fun onPartialResults(partialResults: Bundle?) {}
 
         override fun onEvent(eventType: Int, params: Bundle?) {}
+    }
+    // Method to show the notification
+    private fun showNotification(title: String, message: String) {
+        // Create a FirebaseMessagingService intent to trigger the push notification
+        val intent = Intent(this, MyFirebaseMessagingService::class.java).apply {
+            putExtra("type", NotificationType.CUSTOM.toString())
+            putExtra("title", title)
+            putExtra("message", message)
+        }
+        startService(intent)
     }
 
 
