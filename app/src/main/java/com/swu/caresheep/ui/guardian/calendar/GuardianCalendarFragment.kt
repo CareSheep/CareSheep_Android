@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.google.api.services.calendar.CalendarScopes
 import com.swu.caresheep.databinding.FragmentGuardianCalendarBinding
 import com.swu.caresheep.utils.CalendarUtil
+import com.swu.caresheep.utils.CalendarUtil.Companion.SEOUL_TIME_ZONE
 import java.util.*
 
 class GuardianCalendarFragment : Fragment() {
@@ -32,7 +33,7 @@ class GuardianCalendarFragment : Fragment() {
         const val SEOUL_TIME_ZONE_ID = "Asia/Seoul"
 
         val SCOPES = arrayOf(CalendarScopes.CALENDAR)
-        val SEOUL_TIME_ZONE = TimeZone.getTimeZone(SEOUL_TIME_ZONE_ID)!!
+//        val SEOUL_TIME_ZONE = TimeZone.getTimeZone(SEOUL_TIME_ZONE_ID)!!
     }
 
     override fun onAttach(context: Context) {

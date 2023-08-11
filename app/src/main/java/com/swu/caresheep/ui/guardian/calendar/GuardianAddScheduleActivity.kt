@@ -32,7 +32,7 @@ import com.swu.caresheep.databinding.ActivityGuardianAddScheduleBinding
 import com.swu.caresheep.databinding.BottomSheetScheduleNotificationBinding
 import com.swu.caresheep.databinding.BottomSheetScheduleRepeatBinding
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
-import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.SEOUL_TIME_ZONE
+import com.swu.caresheep.utils.CalendarUtil.Companion.SEOUL_TIME_ZONE
 import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException

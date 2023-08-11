@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.caresheep.databinding.ItemGuardianScheduleBinding
+import com.swu.caresheep.utils.CalendarUtil.Companion.SEOUL_TIME_ZONE
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -50,7 +51,7 @@ class GuardianScheduleRVAdapter(private var scheduleList: ArrayList<GuardianSche
     inner class ViewHolder(val binding: ItemGuardianScheduleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: GuardianSchedule) {
-            val calendar = Calendar.getInstance(GuardianCalendarFragment.SEOUL_TIME_ZONE)
+            val calendar = Calendar.getInstance(SEOUL_TIME_ZONE)
 
             // 종일 유형
             if (item.type == 1)

@@ -34,10 +34,12 @@ import com.google.api.services.calendar.model.Calendar
 import com.google.gson.Gson
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianCalendarBinding
+import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment
 import com.swu.caresheep.ui.guardian.calendar.GuardianSchedule
 import com.swu.caresheep.ui.guardian.calendar.GuardianScheduleDetailActivity
 import com.swu.caresheep.ui.guardian.calendar.GuardianScheduleRVAdapter
+import com.swu.caresheep.ui.guardian.home.GuardianTodayScheduleRVAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -61,6 +63,7 @@ class CalendarUtil(
     companion object {
         const val CALENDAR_TITLE = "공유 캘린더"
         const val SEOUL_TIME_ZONE_ID = "Asia/Seoul"
+        val SEOUL_TIME_ZONE = TimeZone.getTimeZone(GuardianCalendarFragment.SEOUL_TIME_ZONE_ID)!!
     }
 
     /**
@@ -271,8 +274,12 @@ class CalendarUtil(
         private var mLastError: Exception? = null
 
         // 일정 데이터 리스트 선언
-        var scheduleData = ArrayList<GuardianSchedule>()
-        var scheduleRVAdapter = GuardianScheduleRVAdapter(scheduleData)
+        private var scheduleData = ArrayList<GuardianSchedule>()
+        private var scheduleRVAdapter = GuardianScheduleRVAdapter(scheduleData)
+
+        // 오늘의 일정 데이터 리스트 선언
+        private var todayScheduleData = ArrayList<GuardianSchedule>()
+        private val todayScheduleRVAdapter = GuardianTodayScheduleRVAdapter(todayScheduleData)
 
         init {
             val transport: HttpTransport = AndroidHttp.newCompatibleTransport()
@@ -316,6 +323,12 @@ class CalendarUtil(
                 binding.rvSchedule.visibility = View.GONE
 
                 binding.pbScheduleLoading.show()
+            } else if (binding is FragmentGuardianHomeBinding) {
+                binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
+
+                binding.llTodayScheduleNotExist.visibility = View.INVISIBLE
+
+                binding.pbScheduleLoading.show()
             }
         }
 
@@ -327,7 +340,7 @@ class CalendarUtil(
         private fun getEvent(selectedDate: java.util.Calendar?): List<GuardianSchedule>? {
             val testDate: java.util.Calendar =
                 selectedDate
-                    ?: java.util.Calendar.getInstance(GuardianCalendarFragment.SEOUL_TIME_ZONE)
+                    ?: java.util.Calendar.getInstance(SEOUL_TIME_ZONE)
 
             // 선택된 날짜로부터 시작과 끝 시간을 계산
             val startOfDay = testDate.clone() as java.util.Calendar
@@ -343,8 +356,16 @@ class CalendarUtil(
 
             val calendarID: String? = getCalendarID()
             if (calendarID == null) {
-                createCalendar(selectedDate, elderEmail)
-                return null
+                if (binding is FragmentGuardianCalendarBinding) {
+                    createCalendar(selectedDate, elderEmail)
+                    return null
+                } else if (binding is FragmentGuardianHomeBinding) {
+                    // 공유 캘린더가 없으므로 오늘의 일정 X -> RV 안보이게 설정
+                    binding.llTodayScheduleNotExist.visibility = View.VISIBLE
+                    binding.rvTodaySchedule.visibility = View.INVISIBLE
+
+                    return null
+                }
             }
 
             val events: Events = mService!!.events().list(calendarID)
@@ -360,7 +381,7 @@ class CalendarUtil(
             val scheduleData = ArrayList<GuardianSchedule>()
 
             // CalendarView에 일정 표시
-            val calendar = java.util.Calendar.getInstance(GuardianCalendarFragment.SEOUL_TIME_ZONE)
+            val calendar = java.util.Calendar.getInstance(SEOUL_TIME_ZONE)
             items.forEach { event ->
                 val eventId = event.id
                 var eventTitle = event.summary
@@ -488,7 +509,6 @@ class CalendarUtil(
 
         private fun onPostExecute(result: List<GuardianSchedule>?) {
             if (binding is FragmentGuardianCalendarBinding) {
-
                 result?.let {
                     if (result.isNotEmpty()) {
                         // RecyclerView 어댑터와 데이터 리스트 연결
@@ -531,14 +551,45 @@ class CalendarUtil(
                     }
                 }
                 binding.pbScheduleLoading.hide()
+            } else if (binding is FragmentGuardianHomeBinding) {
+                result?.let {
+                    if (result.isNotEmpty()) {
+                        // RecyclerView 어댑터와 데이터 리스트 연결
+                        val todayScheduleRVAdapter =
+                            GuardianTodayScheduleRVAdapter(it as ArrayList<GuardianSchedule>)
+                        binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
+
+                        // 오늘의 일정 있으므로 RV 보이게 설정
+                        binding.llTodayScheduleNotExist.visibility = View.INVISIBLE
+                        binding.rvTodaySchedule.visibility = View.VISIBLE
+                    } else {
+                        // 오늘의 일정 없으므로 RV 안 보이게 설정
+                        binding.llTodayScheduleNotExist.visibility = View.VISIBLE
+                        binding.rvTodaySchedule.visibility = View.INVISIBLE
+
+
+                        val context = fragment.requireContext()
+                        val resources = context.resources
+                        val animation =
+                            resources?.let { AnimationUtils.loadAnimation(context, R.anim.fade_in) }
+
+                        animation?.also { hyperspaceJumpAnimation ->
+                            binding.llTodayScheduleNotExist.startAnimation(hyperspaceJumpAnimation)
+                        }
+                    }
+                }
+
+                binding.pbScheduleLoading.hide()
             }
         }
 
         private fun onCancelled() {
             if (binding is FragmentGuardianCalendarBinding) {
-
+                binding.pbScheduleLoading.hide()
+            } else if (binding is FragmentGuardianHomeBinding) {
                 binding.pbScheduleLoading.hide()
             }
+
             mLastError?.let { error ->
                 when (error) {
                     is GooglePlayServicesAvailabilityIOException -> {
@@ -551,7 +602,7 @@ class CalendarUtil(
                         authorizationLauncher.launch(error.intent)
                     }
                 }
-            } ?: Log.e("보호자 공유 캘린더: ", "요청이 취소됐습니다.")
+            } ?: Log.e("보호자: ", "캘린더 요청이 취소됐습니다.")
         }
     }
 }

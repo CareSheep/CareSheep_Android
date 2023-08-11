@@ -64,9 +64,9 @@ import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_ACCOUNT_PICKER
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_GOOGLE_PLAY_SERVICES
-import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.SEOUL_TIME_ZONE
 import com.swu.caresheep.ui.start.StartActivity
 import com.swu.caresheep.ui.start.user_id
+import com.swu.caresheep.utils.CalendarUtil.Companion.SEOUL_TIME_ZONE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
