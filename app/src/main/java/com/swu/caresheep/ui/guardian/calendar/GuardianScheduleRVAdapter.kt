@@ -50,7 +50,7 @@ class GuardianScheduleRVAdapter(private var scheduleList: ArrayList<GuardianSche
     inner class ViewHolder(val binding: ItemGuardianScheduleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: GuardianSchedule) {
-            val calendar = Calendar.getInstance(GuardianCalendarFragment.timeZone)
+            val calendar = Calendar.getInstance(GuardianCalendarFragment.SEOUL_TIME_ZONE)
 
             // 종일 유형
             if (item.type == 1)

@@ -32,7 +32,7 @@ import com.swu.caresheep.databinding.ActivityGuardianAddScheduleBinding
 import com.swu.caresheep.databinding.BottomSheetScheduleNotificationBinding
 import com.swu.caresheep.databinding.BottomSheetScheduleRepeatBinding
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
-import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.timeZone
+import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.SEOUL_TIME_ZONE
 import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.IOException
@@ -103,7 +103,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         val selectedDate = if (selectedDateInMillis != 0L) Date(selectedDateInMillis) else Date()
 
         // 선택된 날짜로 초기 설정
-        val calendar = Calendar.getInstance(timeZone)
+        val calendar = Calendar.getInstance(SEOUL_TIME_ZONE)
         calendar.time = selectedDate
 
         currentStartYear = calendar.get(Calendar.YEAR)
@@ -379,7 +379,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
             val startDateTime: DateTime
 
             if (isAllDayTypeClicked && !isTimeTypeClicked) {
-                startCalendar = Calendar.getInstance(timeZone).apply {
+                startCalendar = Calendar.getInstance(SEOUL_TIME_ZONE).apply {
                     set(
                         currentStartYear,
                         currentStartMonth - 1,
@@ -388,7 +388,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 }
                 startDateTime = DateTime(startCalendar.time)
             } else {
-                startCalendar = Calendar.getInstance(timeZone).apply {
+                startCalendar = Calendar.getInstance(SEOUL_TIME_ZONE).apply {
                     set(
                         currentStartYear,
                         currentStartMonth - 1,
@@ -405,7 +405,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
             val endDateTime: DateTime
 
             if (isAllDayTypeClicked && !isTimeTypeClicked) {
-                endCalendar = Calendar.getInstance(timeZone).apply {
+                endCalendar = Calendar.getInstance(SEOUL_TIME_ZONE).apply {
                     set(
                         currentEndYear,
                         currentEndMonth - 1,
@@ -414,7 +414,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 }
                 endDateTime = DateTime(endCalendar.time)
             } else {
-                endCalendar = Calendar.getInstance(timeZone).apply {
+                endCalendar = Calendar.getInstance(SEOUL_TIME_ZONE).apply {
                     set(
                         currentEndYear,
                         currentEndMonth - 1,
@@ -547,7 +547,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 // 종일 유형
                 val datePickerDialog =
                     DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                        val calendar = Calendar.getInstance(timeZone)
+                        val calendar = Calendar.getInstance(SEOUL_TIME_ZONE)
                         calendar.set(selectedYear, selectedMonth, selectedDay)
 
                         val selectedWeek = calendar.getDisplayName(
@@ -627,7 +627,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
                 // 종일 유형
                 val datePickerDialog =
                     DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                        val calendar = Calendar.getInstance(timeZone)
+                        val calendar = Calendar.getInstance(SEOUL_TIME_ZONE)
                         calendar.set(selectedYear, selectedMonth, selectedDay)
 
                         val selectedWeek = calendar.getDisplayName(
@@ -925,7 +925,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
     // 해당 월의 일 수 가져오기
     private fun getMaxDayOfMonth(year: Int, month: Int): Int {
-        val calendar = Calendar.getInstance(timeZone)
+        val calendar = Calendar.getInstance(SEOUL_TIME_ZONE)
         calendar.set(year, month - 1, 1) // 연도와 월 설정
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
     }

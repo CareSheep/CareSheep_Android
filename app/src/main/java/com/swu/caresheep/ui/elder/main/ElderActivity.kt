@@ -64,7 +64,7 @@ import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_ACCOUNT_PICKER
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
 import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_GOOGLE_PLAY_SERVICES
-import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.timeZone
+import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.SEOUL_TIME_ZONE
 import com.swu.caresheep.ui.start.StartActivity
 import com.swu.caresheep.ui.start.user_id
 import kotlinx.coroutines.Dispatchers
@@ -75,9 +75,6 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 import java.util.Calendar
-import kotlin.concurrent.schedule
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 var emergency_id : Int = 0
 
@@ -268,7 +265,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
      * 오늘의 일정 가져오기
      */
     private fun getTodaySchedule() {
-        val today = Calendar.getInstance(timeZone)
+        val today = Calendar.getInstance(SEOUL_TIME_ZONE)
 
         // Google Calendar API 사용하기 위해 필요한 인증 초기화( 자격 증명 credentials, 서비스 객체 )
         // OAuth 2.0를 사용하여 구글 계정 선택 및 인증하기 위한 준비
@@ -510,7 +507,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
             Log.e("[GetEvent 입장]selectedDate: ", selectedDate.toString())
 
             val testDate: Calendar =
-                selectedDate ?: Calendar.getInstance(timeZone)
+                selectedDate ?: Calendar.getInstance(SEOUL_TIME_ZONE)
 
             // 선택된 날짜로부터 시작과 끝 시간을 계산
             val startOfDay = testDate.clone() as Calendar
@@ -545,7 +542,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
             val scheduleData = ArrayList<ElderTodaySchedule>()
 
             // CalendarView에 일정 표시
-            val calendar = Calendar.getInstance(timeZone)
+            val calendar = Calendar.getInstance(SEOUL_TIME_ZONE)
             items.forEach { event ->
                 var eventTitle = event.summary
                 if (eventTitle.isNullOrEmpty()) {

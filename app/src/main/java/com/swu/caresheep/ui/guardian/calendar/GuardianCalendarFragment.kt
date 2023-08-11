@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -47,16 +48,15 @@ import kotlin.collections.ArrayList
 class GuardianCalendarFragment : Fragment() {
 
     private lateinit var binding: FragmentGuardianCalendarBinding
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var mCredential: GoogleAccountCredential
+    private lateinit var selectedCalendar: java.util.Calendar
 
     // Google Calendar API에 접근하기 위해 사용되는 구글 캘린더 API 서비스 객체
     private var mService: com.google.api.services.calendar.Calendar? = null
-    private var mCredential: GoogleAccountCredential? = null
-
-    // Google Calendar API 호출 관련 메커니즘 및 AsyncTask을 재사용하기 위해 사용
     private var mID = 0
-    private var googleLoginClient: GoogleLoginClient = GoogleLoginClient()
+    private val googleLoginClient = GoogleLoginClient()
 
-    private var selectedCalendar = java.util.Calendar.getInstance(timeZone)
 
     companion object {
         const val REQUEST_ACCOUNT_PICKER = 1000
@@ -64,8 +64,11 @@ class GuardianCalendarFragment : Fragment() {
         const val REQUEST_GOOGLE_PLAY_SERVICES = 1002
 
         const val PREF_ACCOUNT_NAME = "accountName"
+        const val CALENDAR_TITLE = "공유 캘린더"
+        const val SEOUL_TIME_ZONE_ID = "Asia/Seoul"
+
         val SCOPES = arrayOf(CalendarScopes.CALENDAR)
-        val timeZone = TimeZone.getTimeZone("Asia/Seoul")!!
+        val SEOUL_TIME_ZONE = TimeZone.getTimeZone(SEOUL_TIME_ZONE_ID)!!
     }
 
     override fun onCreateView(
@@ -73,72 +76,82 @@ class GuardianCalendarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentGuardianCalendarBinding.inflate(inflater, container, false)
+        sharedPreferences =
+            requireActivity().getSharedPreferences("SelectedDate", Context.MODE_PRIVATE)
 
+        initView()
+
+        return binding.root
+    }
+
+    /**
+     * 화면 초기화 및 설정
+     */
+    private fun initView() {
         // 오늘 날짜 표시
-        selectedCalendar = java.util.Calendar.getInstance(timeZone)
+        selectedCalendar = java.util.Calendar.getInstance(SEOUL_TIME_ZONE)
+        updateSelectedDateText()
+        // 선택된 날짜 저장 (달력에서 선택된 날짜를 일정 추가 화면에 전달하기 위해)
+        saveSelectedDate(selectedCalendar.time)
 
+        setupGoogleApi()
+        mID = 1  // 캘린더 생성
+        getResultsFromApi(selectedCalendar)
+
+        // 달력에서 날짜를 선택했을 때의 동작
+        binding.cvShared.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            selectedCalendar.apply {
+                set(year, month, dayOfMonth)
+            }
+            updateSelectedDateText()
+            saveSelectedDate(selectedCalendar.time)
+            mID = 3  // 이벤트 불러오기
+            getResultsFromApi(selectedCalendar)
+        }
+
+        // 일정 추가 버튼
+        binding.fabAddSchedule.setOnClickListener {
+            val intent = Intent(requireContext(), GuardianAddScheduleActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    /**
+     * 선택된 날짜(일, 요일)를 UI에 표시
+     */
+    private fun updateSelectedDateText() {
         val dayOfMonth = selectedCalendar.get(java.util.Calendar.DAY_OF_MONTH)
         val dayOfWeek = selectedCalendar.getDisplayName(
             java.util.Calendar.DAY_OF_WEEK,
             java.util.Calendar.SHORT,
             Locale.getDefault()
         )
-        "${dayOfMonth}일 ($dayOfWeek)".also { binding.tvTodayDate.text = it }
+        val dateText = "${dayOfMonth}일 ($dayOfWeek)"
+        binding.tvTodayDate.text = dateText
+    }
 
-        // 달력에 선택된 날짜를 일정 추가 화면에 전달
-        var selectedDate = selectedCalendar.time
-
-        var sharedPreferences =
-            requireActivity().getSharedPreferences("SelectedDate", Context.MODE_PRIVATE)
-        var editor = sharedPreferences.edit()
+    /**
+     * 선택된 날짜를 저장
+     * 일정 추가 화면으로 전달하기 위해 선택된 날짜를 SharedPreferences에 저장
+     * @param selectedDate 저장할 선택된 날짜
+     */
+    private fun saveSelectedDate(selectedDate: Date) {
+        val editor = sharedPreferences.edit()
         editor.putLong("selectedDate", selectedDate.time)
         editor.apply()
+    }
 
-
-        // Google Calendar API 사용하기 위해 필요한 인증 초기화( 자격 증명 credentials, 서비스 객체 )
-        // OAuth 2.0를 사용하여 구글 계정 선택 및 인증하기 위한 준비
+    /**
+     * Google Calendar API 사용을 위해 인증 초기화
+     * OAuth 2.0 인증을 사용하여 Google 계정에 연결하고 API를 사용할 수 있게 준비
+     */
+    private fun setupGoogleApi() {
         mCredential = GoogleAccountCredential.usingOAuth2(
-            context,
+            requireContext(),
             listOf(*SCOPES)
         ).setBackOff(ExponentialBackOff())  // I/O 예외 상황을 대비해서 백오프 정책 사용
-
-        mID = 1  // 캘린더 생성
-        getResultsFromApi(selectedCalendar)
-
-        // 선택된 날짜 반영
-        binding.cvShared.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            selectedCalendar = java.util.Calendar.getInstance(timeZone).apply {
-                set(year, month, dayOfMonth)
-            }
-            val dayOfMonth = selectedCalendar.get(java.util.Calendar.DAY_OF_MONTH)
-            val dayOfWeek = selectedCalendar.getDisplayName(
-                java.util.Calendar.DAY_OF_WEEK,
-                java.util.Calendar.SHORT,
-                Locale.getDefault()
-            )
-            "${dayOfMonth}일 ($dayOfWeek)".also { binding.tvTodayDate.text = it }
-
-            mID = 3  // 이벤트 불러오기
-            getResultsFromApi(selectedCalendar)
-
-            // 달력에 선택된 날짜를 일정 추가 화면에 전달
-            selectedDate = selectedCalendar.time
-            sharedPreferences =
-                requireActivity().getSharedPreferences("SelectedDate", Context.MODE_PRIVATE)
-            editor = sharedPreferences.edit()
-            editor.putLong("selectedDate", selectedDate.time)
-            editor.apply()
-        }
-
-        // 일정 추가 버튼 클릭 시
-        binding.fabAddSchedule.setOnClickListener {
-            val intent = Intent(requireContext(), GuardianAddScheduleActivity::class.java)
-            startActivity(intent)
-        }
-
-
-        return binding.root
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -152,70 +165,44 @@ class GuardianCalendarFragment : Fragment() {
         val isAdded = sharedPrefsAdd.getBoolean("isAdded", false)
 
         if (isDeleted || isAdded) {
-            val handler = Handler(Looper.getMainLooper())
-
-            handler.postDelayed({
+            // 2초 후에 API 결과 가져오기
+            Handler(Looper.getMainLooper()).postDelayed({
                 getResultsFromApi(selectedCalendar)
 
                 // isDeleted, isAdded 값 초기화
                 sharedPrefsDelete.edit().putBoolean("isDeleted", false).apply()
                 sharedPrefsAdd.edit().putBoolean("isAdded", false).apply()
-            }, 2000) // 2초 (2000 milliseconds) 후에 실행
+            }, 2000)
         }
-
     }
 
     /**
-     * 다음 사전 조건을 모두 만족해야 Google Calendar API를 사용할 수 있다.
-     *
-     * 사전 조건
-     * - Google Play Services 설치
-     * - 유효한 구글 계정 선택
-     * - 안드로이드 디바이스에서 인터넷 사용 가능
-     *
-     * 하나라도 만족하지 않으면 해당 사항을 사용자에게 알림.
+     * Google Calendar API를 사용하기 위한 동작을 수행
+     * Google Play Services 설치 여부, 구글 계정 선택 여부, 인터넷 연결 여부를 확인하고
+     * 조건을 충족하는 경우 Google Calendar API를 호출
+     * @param selectedDate 선택된 날짜 (nullable)
      */
     private fun getResultsFromApi(selectedDate: java.util.Calendar?) {
-        if (!isGooglePlayServicesAvailable()) {  // Google Play Services를 사용할 수 없는 경우
-            acquireGooglePlayServices()
-        } else if (mCredential!!.selectedAccountName == null) {  // 유효한 Google 계정이 선택되어 있지 않은 경우
-            // 구글 계정 연결 후 Google Calendar API 호출
-            val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(requireContext())
-            mCredential!!.selectedAccount = lastSignedInAccount!!.account
-
-            lifecycleScope.launch {
-                val elderInfo =
-                    withContext(Dispatchers.IO) { googleLoginClient.getElderInfo(requireActivity()) }
-                val elderGmail = elderInfo.gmail
-
-                GoogleCalendarRequestTask(
-                    mCredential,
-                    selectedDate,
-                    elderGmail
-                ).execute()
-            }
-//            Toast.makeText(requireContext(), "계정을 선택해야 합니다.", Toast.LENGTH_SHORT).show()
-        } else if (!isDeviceOnline()) {
-            Toast.makeText(requireContext(), "인터넷을 사용할 수 없습니다.", Toast.LENGTH_SHORT).show()
-        } else {
-            // Google Calendar API 호출
-            lifecycleScope.launch {
-                val elderInfo =
-                    withContext(Dispatchers.IO) { googleLoginClient.getElderInfo(requireActivity()) }
-                val elderGmail = elderInfo.gmail
-
-                GoogleCalendarRequestTask(
-                    mCredential,
-                    selectedDate,
-                    elderGmail
-                ).execute()
-            }
+        when {
+            // Google Play Services를 사용할 수 없는 경우
+            !isGooglePlayServicesAvailable() -> acquireGooglePlayServices()
+            // 유효한 Google 계정이 선택되어 있지 않은 경우
+            mCredential.selectedAccountName == null -> connectGoogleAccount(selectedDate)
+            // 인터넷 연결이 안되어 있는 경우
+            !isDeviceOnline() -> Toast.makeText(
+                requireContext(),
+                "인터넷을 사용할 수 없습니다.",
+                Toast.LENGTH_SHORT
+            ).show()
+            // 조건을 충족하면 Google Calendar API 호출
+            else -> callGoogleCalendarApi(selectedDate)
         }
     }
 
 
     /**
      * 안드로이드 디바이스에 최신 버전의 Google Play Services가 설치되어 있는지 확인
+     * @return Google Play Services 설치 여부
      */
     private fun isGooglePlayServicesAvailable(): Boolean {
         val apiAvailability = GoogleApiAvailability.getInstance()
@@ -224,8 +211,7 @@ class GuardianCalendarFragment : Fragment() {
     }
 
     /**
-     * Google Play Services 업데이트로 해결가능하다면 사용자가 최신 버전으로 업데이트하도록 유도하기위해
-     * 대화상자를 보여줌
+     * Google Play Services를 설치하도록 유도하기 위해 대화상자 표시
      */
     private fun acquireGooglePlayServices() {
         val apiAvailability = GoogleApiAvailability.getInstance()
@@ -236,7 +222,7 @@ class GuardianCalendarFragment : Fragment() {
     }
 
     /**
-     * 안드로이드 디바이스에 Google Play Services가 설치 안되어 있거나 오래된 버전인 경우 보여주는 대화상자
+     * 안드로이드 디바이스에 Google Play Services가 설치 안되어 있거나 오래된 버전인 경우 보여지는 대화상자
      */
     private fun showGooglePlayServicesAvailabilityErrorDialog(
         connectionStatusCode: Int
@@ -250,18 +236,55 @@ class GuardianCalendarFragment : Fragment() {
         dialog.show()
     }
 
+    /**
+     * Google 계정이 연결되지 않았을 경우, 계정을 선택하고 API 호출
+     * @param selectedDate 선택된 날짜 (nullable)
+     */
+    private fun connectGoogleAccount(selectedDate: java.util.Calendar?) {
+        // 구글 계정 연결 후 Google Calendar API 호출
+        val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(requireContext())
+        mCredential.selectedAccount = lastSignedInAccount?.account
+
+        lifecycleScope.launch {
+            val elderInfo = withContext(Dispatchers.IO) {
+                googleLoginClient.getElderInfo(requireActivity())
+            }
+            val elderGmail = elderInfo.gmail
+
+            GoogleCalendarRequestTask(
+                mCredential,
+                selectedDate,
+                elderGmail
+            ).execute()
+        }
+    }
 
     /**
-     * 구글 플레이 서비스 업데이트 다이얼로그, 구글 계정 선택 다이얼로그, 인증 다이얼로그에서 되돌아올때 호출된다.
+     * Google Calendar API 호출
+     * @param selectedDate 선택된 날짜 (nullable)
      */
-    override fun onActivityResult(
-        requestCode: Int,  // onActivityResult가 호출되었을 때 요청 코드로 요청을 구분
-        resultCode: Int,  // 요청에 대한 결과 코드
-        data: Intent?
-    ) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            REQUEST_GOOGLE_PLAY_SERVICES -> if (resultCode != RESULT_OK) {
+    private fun callGoogleCalendarApi(selectedDate: java.util.Calendar?) {
+        lifecycleScope.launch {
+            val elderInfo = withContext(Dispatchers.IO) {
+                googleLoginClient.getElderInfo(requireActivity())
+            }
+            val elderGmail = elderInfo.gmail
+
+            GoogleCalendarRequestTask(
+                mCredential,
+                selectedDate,
+                elderGmail
+            ).execute()
+        }
+    }
+
+
+    /**
+     * 구글 플레이 서비스 업데이트 다이얼로그, 구글 계정 선택 다이얼로그, 인증 다이얼로그에서 되돌아올때 호출
+     */
+    private val googlePlayServicesLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode != RESULT_OK) {
                 Toast.makeText(
                     requireContext(),
                     "앱을 실행시키려면 구글 플레이 서비스가 필요합니다. 구글 플레이 서비스를 설치 후 다시 실행하세요.",
@@ -270,27 +293,37 @@ class GuardianCalendarFragment : Fragment() {
             } else {
                 getResultsFromApi(null)
             }
-            REQUEST_ACCOUNT_PICKER -> if (resultCode == RESULT_OK && data != null && data.extras != null) {
-                val accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
+        }
+
+    private val accountPickerLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK && result.data != null && result.data!!.extras != null) {
+                val accountName = result.data!!.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
                 if (accountName != null) {
                     val settings: SharedPreferences =
                         requireActivity().getPreferences(Context.MODE_PRIVATE)
                     val editor = settings.edit()
                     editor.putString(PREF_ACCOUNT_NAME, accountName)
                     editor.apply()
-                    mCredential!!.selectedAccountName = accountName
+                    mCredential.selectedAccountName = accountName
                     getResultsFromApi(null)
                 }
             }
-            REQUEST_AUTHORIZATION -> if (resultCode == RESULT_OK) {
+        }
+
+    private val authorizationLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
                 getResultsFromApi(null)
             }
         }
-    }
 
 
     /**
-     * Android 6.0 (API 23) 이상에서 런타임 권한 요청시 결과를 리턴받음
+     * Android 6.0 (API 23) 이상에서 런타임 권한 요청 결과를 리턴받기
+     * @param requestCode 권한 요청 코드
+     * @param permissions 요청한 퍼미션 배열
+     * @param grantResults 퍼미션 처리 결과 배열
      */
     override fun onRequestPermissionsResult(
         requestCode: Int,  // requestPermissions(android.app.Activity, String, int, String[])에서 전달된 요청 코드
@@ -307,7 +340,8 @@ class GuardianCalendarFragment : Fragment() {
     }
 
     /**
-     * 안드로이드 디바이스가 인터넷 연결되어 있는지 확인한다. 연결되어 있다면 True 리턴, 아니면 False 리턴
+     * 안드로이드 디바이스의 인터넷 연결 여부를 확인
+     * @return 인터넷 연결 여부
      */
     private fun isDeviceOnline(): Boolean {
         val connectivityManager =
@@ -318,26 +352,27 @@ class GuardianCalendarFragment : Fragment() {
     }
 
     /**
-     * 캘린더 이름에 대응하는 캘린더 ID를 리턴
+     * 캘린더 이름에 대응하는 캘린더 ID를 반환
+     * @return 캘린더 ID (nullable)
      */
-    private fun getCalendarID(calendarTitle: String): String? {
+    private fun getCalendarID(): String? {
         var id: String? = null
 
-        // Iterate through entries in calendar list
+        // 캘린더 목록 항목을 반복하며 캘린더 ID를 찾기
         var pageToken: String? = null
         do {
             var calendarList: CalendarList? = null
             try {
                 calendarList = mService!!.calendarList().list().setPageToken(pageToken).execute()
             } catch (e: UserRecoverableAuthIOException) {
-                startActivityForResult(e.intent, REQUEST_AUTHORIZATION)
+                authorizationLauncher.launch(e.intent)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
             val items: List<CalendarListEntry>? = calendarList?.items
             if (items != null) {
                 for (calendarListEntry in items) {
-                    if (calendarListEntry.summary.toString() == calendarTitle) {
+                    if (calendarListEntry.summary.toString() == CALENDAR_TITLE) {
                         id = calendarListEntry.id.toString()
                     }
                 }
@@ -411,9 +446,8 @@ class GuardianCalendarFragment : Fragment() {
          */
         @Throws(IOException::class)
         private fun getEvent(selectedDate: java.util.Calendar?): List<GuardianSchedule>? {
-
             val testDate: java.util.Calendar =
-                selectedDate ?: java.util.Calendar.getInstance(timeZone)
+                selectedDate ?: java.util.Calendar.getInstance(SEOUL_TIME_ZONE)
 
             // 선택된 날짜로부터 시작과 끝 시간을 계산
             val startOfDay = testDate.clone() as java.util.Calendar
@@ -427,7 +461,7 @@ class GuardianCalendarFragment : Fragment() {
             endOfDay.set(java.util.Calendar.SECOND, 59)
 
 
-            val calendarID: String? = getCalendarID("공유 캘린더")
+            val calendarID: String? = getCalendarID()
             if (calendarID == null) {
                 createCalendar(selectedDate, elderEmail)
                 return null
@@ -446,7 +480,7 @@ class GuardianCalendarFragment : Fragment() {
             val scheduleData = ArrayList<GuardianSchedule>()
 
             // CalendarView에 일정 표시
-            val calendar = java.util.Calendar.getInstance(timeZone)
+            val calendar = java.util.Calendar.getInstance(SEOUL_TIME_ZONE)
             items.forEach { event ->
                 val eventId = event.id
                 var eventTitle = event.summary
@@ -455,32 +489,17 @@ class GuardianCalendarFragment : Fragment() {
                 }
                 val start = event.start.dateTime
                 val end = event.end.dateTime
-                val typeStartDate = event.start.date
-                val typeEndDate = event.end.date
-
-                var type = 0
-                if (start != null && end != null) {
-                    // 시간 지정 일정
-                    type = 0
-                } else if (typeStartDate != null && typeEndDate != null) {
-                    // 종일 일정
-                    type = 1
-                }
 
                 // 시작, 종료 시간
-                val startDate = if (start != null) {
-                    calendar.timeInMillis = start.value
+                val startDate = start?.let {
+                    calendar.timeInMillis = it.value
                     DateTime(calendar.timeInMillis)
-                } else {
-                    DateTime(startOfDay.timeInMillis)
-                }
+                } ?: DateTime(startOfDay.timeInMillis)
 
-                val endDate = if (end != null) {
-                    calendar.timeInMillis = end.value
+                val endDate = end?.let {
+                    calendar.timeInMillis = it.value
                     DateTime(calendar.timeInMillis)
-                } else {
-                    DateTime(endOfDay.timeInMillis)
-                }
+                } ?: DateTime(endOfDay.timeInMillis)
 
                 // 메모 정보 가져오기
                 val memo: String? = event.description
@@ -488,36 +507,34 @@ class GuardianCalendarFragment : Fragment() {
                 // 알림 정보 가져오기
                 val notificationList: List<EventReminder> =
                     event.reminders?.overrides ?: emptyList()
-                var notification = "알림 없음"
-                for (item in notificationList) {
-                    notification = when (item.minutes) {
-                        0 -> "일정 시작시간"
-                        10 -> "10분 전"
-                        60 -> "1시간 전"
-                        else -> "1일 전"
+                val notification = notificationList
+                    .map {
+                        when (it.minutes) {
+                            0 -> "일정 시작시간"
+                            10 -> "10분 전"
+                            60 -> "1시간 전"
+                            else -> "1일 전"
+                        }
                     }
-                }
+                    .getOrElse(0) { "알림 없음" }
 
                 // 반복 정보 가져오기
                 val repeatList: List<String> = event.recurrence ?: emptyList()
-//                Log.e("repeatList", event.summary + " : " + repeatList.toString())
-
-                var repeat = "반복 안 함"
-                for (item in repeatList) {
-                    repeat = when (item) {
+                val repeat = repeatList.map {
+                    when (it) {
                         "RRULE:FREQ=DAILY" -> "매일"
                         "RRULE:FREQ=WEEKLY" -> "매주"
                         "RRULE:FREQ=MONTHLY" -> "매월"
                         "RRULE:FREQ=YEARLY" -> "매년"
                         else -> "반복 안 함"
                     }
-                }
+                }.getOrElse(0) { "반복 안 함" }
 
 
                 scheduleData.add(
                     GuardianSchedule(
                         eventId,
-                        type,
+                        if (start != null && end != null) 0 else 1,
                         startDate,
                         endDate,
                         eventTitle,
@@ -526,13 +543,10 @@ class GuardianCalendarFragment : Fragment() {
                         memo
                     )
                 )
-
 //                Log.e("event", event.toString())
             }
 
-
-
-            Log.e("[보호자] 공유 캘린더", scheduleData.size.toString() + "개의 데이터를 가져왔습니다.")
+            Log.e("[보호자] 공유 캘린더: ", scheduleData.size.toString() + "개의 데이터를 가져왔습니다.")
 
             return scheduleData
         }
@@ -545,20 +559,17 @@ class GuardianCalendarFragment : Fragment() {
             selectedDate: java.util.Calendar?,
             elderEmail: String?
         ): List<GuardianSchedule>? {
-            val ids: String? = getCalendarID("공유 캘린더")
-            if (ids != null) {
-                Log.e("[보호자] 공유 캘린더", "이미 캘린더가 생성되어 있습니다.")
+            val existingCalendarId = getCalendarID()
+            if (existingCalendarId != null) {
+                Log.e("[보호자] 공유 캘린더: ", "이미 캘린더가 생성되어 있습니다.")
                 return getEvent(selectedDate)
             }
 
             // 새로운 캘린더 생성
-            val calendar = Calendar()
-
-            // 캘린더의 제목 설정
-            calendar.summary = "공유 캘린더"
-
-            // 캘린더의 시간대 설정
-            calendar.timeZone = "Asia/Seoul"
+            val calendar = Calendar().apply {
+                summary = CALENDAR_TITLE  // 캘린더의 제목 설정
+                timeZone = SEOUL_TIME_ZONE_ID  // 캘린더의 시간대 설정
+            }
 
             // 구글 캘린더에 새로 만든 캘린더를 추가
             val createdCalendar: Calendar = mService!!.calendars().insert(calendar).execute()
@@ -584,9 +595,7 @@ class GuardianCalendarFragment : Fragment() {
             // 구글 캘린더의 캘린더 목록에서 새로 만든 캘린더를 검색
             val calendarListEntry: CalendarListEntry =
                 mService!!.calendarList().get(calendarId).execute()
-
-            // 캘린더의 배경색을 파란색으로 표시  RGB
-            calendarListEntry.backgroundColor = "#ABC270"
+            calendarListEntry.backgroundColor = "#ABC270" // 캘린더의 배경색을 초록색으로 설정
 
             // 변경한 내용을 구글 캘린더에 반영
             mService!!.calendarList()
@@ -594,12 +603,10 @@ class GuardianCalendarFragment : Fragment() {
                 .setColorRgbFormat(true)
                 .execute()
 
-            // 새로 추가한 캘린더의 ID를 리턴
             return null
         }
 
         private fun onPostExecute(result: List<GuardianSchedule>?) {
-
             result?.let {
                 if (result.isNotEmpty()) {
                     // RecyclerView 어댑터와 데이터 리스트 연결
@@ -646,28 +653,17 @@ class GuardianCalendarFragment : Fragment() {
         private fun onCancelled() {
             binding.pbScheduleLoading.hide()
 
-            if (mLastError != null) {
-                when (mLastError) {
+            mLastError?.let { error ->
+                when (error) {
                     is GooglePlayServicesAvailabilityIOException -> {
-                        showGooglePlayServicesAvailabilityErrorDialog(
-                            (mLastError as GooglePlayServicesAvailabilityIOException)
-                                .connectionStatusCode
-                        )
+                        showGooglePlayServicesAvailabilityErrorDialog(error.connectionStatusCode)
                     }
                     is UserRecoverableAuthIOException -> {
-                        startActivityForResult(
-                            (mLastError as UserRecoverableAuthIOException).intent,
-                            REQUEST_AUTHORIZATION
-                        )
-                    }
-                    else -> {
+                        authorizationLauncher.launch(error.intent)
                     }
                 }
-            } else {
-                Log.e("보호자 공유 캘린더: ", "요청이 취소됐습니다.")
-            }
+            } ?: Log.e("보호자 공유 캘린더: ", "요청이 취소됐습니다.")
         }
-
     }
 
 }
