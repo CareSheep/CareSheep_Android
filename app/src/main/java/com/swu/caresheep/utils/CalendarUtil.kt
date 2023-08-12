@@ -29,27 +29,26 @@ import com.google.api.client.json.JsonFactory
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.client.util.DateTime
 import com.google.api.client.util.ExponentialBackOff
+import com.google.api.services.calendar.CalendarScopes
 import com.google.api.services.calendar.model.*
 import com.google.api.services.calendar.model.Calendar
 import com.google.gson.Gson
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianCalendarBinding
 import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
-import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment
 import com.swu.caresheep.ui.guardian.calendar.GuardianSchedule
 import com.swu.caresheep.ui.guardian.calendar.GuardianScheduleDetailActivity
 import com.swu.caresheep.ui.guardian.calendar.GuardianScheduleRVAdapter
 import com.swu.caresheep.ui.guardian.home.GuardianTodayScheduleRVAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
 class CalendarUtil(
     private val context: Context,
-    private val fragment: Fragment,
+    private val fragment: Fragment?,
+    private val activity: Activity?,
     private val binding: ViewBinding
 ) {
 
@@ -61,9 +60,15 @@ class CalendarUtil(
     private val googleLoginClient = GoogleLoginClient()
 
     companion object {
+        const val REQUEST_ACCOUNT_PICKER = 1000
+        const val REQUEST_AUTHORIZATION = 1001
+        const val REQUEST_GOOGLE_PLAY_SERVICES = 1002
+
+        const val PREF_ACCOUNT_NAME = "accountName"
+        val SCOPES = arrayOf(CalendarScopes.CALENDAR)
         const val CALENDAR_TITLE = "공유 캘린더"
         const val SEOUL_TIME_ZONE_ID = "Asia/Seoul"
-        val SEOUL_TIME_ZONE = TimeZone.getTimeZone(GuardianCalendarFragment.SEOUL_TIME_ZONE_ID)!!
+        val SEOUL_TIME_ZONE = TimeZone.getTimeZone(SEOUL_TIME_ZONE_ID)!!
     }
 
     /**
@@ -73,7 +78,7 @@ class CalendarUtil(
     fun setupGoogleApi() {
         mCredential = GoogleAccountCredential.usingOAuth2(
             context,
-            listOf(*GuardianCalendarFragment.SCOPES)
+            listOf(*SCOPES)
         ).setBackOff(ExponentialBackOff())
     }
 
@@ -83,12 +88,12 @@ class CalendarUtil(
      * 조건을 충족하는 경우 Google Calendar API를 호출
      * @param selectedDate 선택된 날짜 (nullable)
      */
-    fun getResultsFromApi(selectedDate: java.util.Calendar?) {
+    fun getResultsFromApi(selectedDate: java.util.Calendar?, event: Event?) {
         when {
             // Google Play Services를 사용할 수 없는 경우
             !isGooglePlayServicesAvailable() -> acquireGooglePlayServices()
             // 유효한 Google 계정이 선택되어 있지 않은 경우
-            mCredential.selectedAccountName == null -> connectGoogleAccount(selectedDate)
+            mCredential.selectedAccountName == null -> connectGoogleAccount(selectedDate, event)
             // 인터넷 연결이 안되어 있는 경우
             !isDeviceOnline() -> Toast.makeText(
                 context,
@@ -96,7 +101,7 @@ class CalendarUtil(
                 Toast.LENGTH_SHORT
             ).show()
             // 조건을 충족하면 Google Calendar API 호출
-            else -> callGoogleCalendarApi(selectedDate)
+            else -> callGoogleCalendarApi(selectedDate, event)
         }
     }
 
@@ -117,7 +122,7 @@ class CalendarUtil(
         val apiAvailability = GoogleApiAvailability.getInstance()
         val connectionStatusCode = apiAvailability.isGooglePlayServicesAvailable(context)
         if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
-            showGooglePlayServicesAvailabilityErrorDialog(fragment, connectionStatusCode)
+            showGooglePlayServicesAvailabilityErrorDialog(fragment!!, connectionStatusCode)
         }
     }
 
@@ -132,7 +137,7 @@ class CalendarUtil(
         val dialog: Dialog = apiAvailability.getErrorDialog(
             fragment,
             connectionStatusCode,
-            GuardianCalendarFragment.REQUEST_GOOGLE_PLAY_SERVICES
+            REQUEST_GOOGLE_PLAY_SERVICES
         )!!
         dialog.show()
     }
@@ -141,21 +146,31 @@ class CalendarUtil(
      * Google 계정이 연결되지 않았을 경우, 계정을 선택하고 API 호출
      * @param selectedDate 선택된 날짜 (nullable)
      */
-    private fun connectGoogleAccount(selectedDate: java.util.Calendar?) {
+    private fun connectGoogleAccount(selectedDate: java.util.Calendar?, event: Event?) {
         // 구글 계정 연결 후 Google Calendar API 호출
         val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(context)
         mCredential.selectedAccount = lastSignedInAccount?.account
 
-        fragment.lifecycleScope.launch {
-            val elderInfo = withContext(Dispatchers.IO) {
-                googleLoginClient.getElderInfo(context)
-            }
-            val elderGmail = elderInfo.gmail
+        if (fragment != null) {
+            fragment.lifecycleScope.launch {
+                val elderInfo = withContext(Dispatchers.IO) {
+                    googleLoginClient.getElderInfo(context)
+                }
+                val elderGmail = elderInfo.gmail
 
+                GoogleCalendarRequestTask(
+                    mCredential,
+                    selectedDate,
+                    elderGmail,
+                    event
+                ).execute()
+            }
+        } else {
             GoogleCalendarRequestTask(
                 mCredential,
                 selectedDate,
-                elderGmail
+                null,
+                event
             ).execute()
         }
     }
@@ -164,19 +179,30 @@ class CalendarUtil(
      * Google Calendar API 호출
      * @param selectedDate 선택된 날짜 (nullable)
      */
-    private fun callGoogleCalendarApi(selectedDate: java.util.Calendar?) {
-        fragment.lifecycleScope.launch {
-            val elderInfo = withContext(Dispatchers.IO) {
-                googleLoginClient.getElderInfo(context)
-            }
-            val elderGmail = elderInfo.gmail
+    private fun callGoogleCalendarApi(selectedDate: java.util.Calendar?, event: Event?) {
+        if (fragment != null) {
+            fragment.lifecycleScope.launch {
+                val elderInfo = withContext(Dispatchers.IO) {
+                    googleLoginClient.getElderInfo(context)
+                }
+                val elderGmail = elderInfo.gmail
 
+                GoogleCalendarRequestTask(
+                    mCredential,
+                    selectedDate,
+                    elderGmail,
+                    event
+                ).execute()
+            }
+        } else {
             GoogleCalendarRequestTask(
                 mCredential,
                 selectedDate,
-                elderGmail
+                null,
+                event
             ).execute()
         }
+
     }
 
 
@@ -184,7 +210,7 @@ class CalendarUtil(
      * 구글 플레이 서비스 업데이트 다이얼로그, 구글 계정 선택 다이얼로그, 인증 다이얼로그에서 되돌아올때 호출
      */
     private val googlePlayServicesLauncher =
-        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment?.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode != Activity.RESULT_OK) {
                 Toast.makeText(
                     context,
@@ -192,30 +218,30 @@ class CalendarUtil(
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                getResultsFromApi(null)
+                getResultsFromApi(null, null)
             }
         }
 
     private val accountPickerLauncher =
-        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment?.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data != null && result.data!!.extras != null) {
                 val accountName = result.data!!.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
                 if (accountName != null) {
                     val settings: SharedPreferences =
                         fragment.requireActivity().getPreferences(Context.MODE_PRIVATE)
                     val editor = settings.edit()
-                    editor.putString(GuardianCalendarFragment.PREF_ACCOUNT_NAME, accountName)
+                    editor.putString(PREF_ACCOUNT_NAME, accountName)
                     editor.apply()
                     mCredential.selectedAccountName = accountName
-                    getResultsFromApi(null)
+                    getResultsFromApi(null, null)
                 }
             }
         }
 
     private val authorizationLauncher =
-        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment?.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                getResultsFromApi(null)
+                getResultsFromApi(null, null)
             }
         }
 
@@ -245,14 +271,14 @@ class CalendarUtil(
             try {
                 calendarList = mService!!.calendarList().list().setPageToken(pageToken).execute()
             } catch (e: UserRecoverableAuthIOException) {
-                authorizationLauncher.launch(e.intent)
+                authorizationLauncher?.launch(e.intent)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
             val items: List<CalendarListEntry>? = calendarList?.items
             if (items != null) {
                 for (calendarListEntry in items) {
-                    if (calendarListEntry.summary.toString() == GuardianCalendarFragment.CALENDAR_TITLE) {
+                    if (calendarListEntry.summary.toString() == CALENDAR_TITLE) {
                         id = calendarListEntry.id.toString()
                     }
                 }
@@ -269,7 +295,8 @@ class CalendarUtil(
     inner class GoogleCalendarRequestTask(
         credential: GoogleAccountCredential?,
         private var selectedDate: java.util.Calendar?,
-        private var elderEmail: String?
+        private var elderEmail: String?,
+        private var event: Event?
     ) {
         private var mLastError: Exception? = null
 
@@ -293,26 +320,39 @@ class CalendarUtil(
                 .build()
         }
 
-        fun execute() = fragment.lifecycleScope.launch {
-            onPreExecute()
+        fun execute() =
+            fragment?.lifecycleScope?.launch {
+                onPreExecute()
 
-            try {
-                val result = when (mID) {
-                    1 -> withContext(Dispatchers.IO) {
-                        createCalendar(selectedDate, elderEmail)
+                try {
+                    val result = when (mID) {
+                        1 -> withContext(Dispatchers.IO) {
+                            createCalendar(selectedDate, elderEmail)
+                        }
+                        2 -> withContext(Dispatchers.IO) {
+                            addEvent(event!!)
+                        }
+                        3 -> withContext(Dispatchers.IO) {
+                            getEvent(selectedDate)
+                        }
+                        else -> null
                     }
-                    3 -> withContext(Dispatchers.IO) {
-                        getEvent(selectedDate)
-                    }
-                    else -> null
+
+                    onPostExecute(result)
+                } catch (e: Exception) {
+                    mLastError = e
+                    onCancelled()
                 }
-
-                onPostExecute(result)
-            } catch (e: Exception) {
-                mLastError = e
-                onCancelled()
             }
-        }
+                ?: CoroutineScope(Dispatchers.Main).launch {
+                    try {
+                        withContext(Dispatchers.IO) {
+                            addEvent(event!!)
+                        }
+                    } catch (e: Exception) {
+                        mLastError = e
+                    }
+                }
 
 
         private fun onPreExecute() {
@@ -507,6 +547,19 @@ class CalendarUtil(
             return null
         }
 
+        private fun addEvent(event: Event): List<GuardianSchedule>? {
+            val calendarID: String = getCalendarID() ?: "공유 캘린더를 먼저 생성하세요."
+            try {
+                val newEvent = mService!!.events().insert(calendarID, event).execute()
+                Log.e("[addEvent] NewEvent", newEvent.toString())
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.e("Exception", "Exception : $e")
+            }
+
+            return null
+        }
+
         private fun onPostExecute(result: List<GuardianSchedule>?) {
             if (binding is FragmentGuardianCalendarBinding) {
                 result?.let {
@@ -540,7 +593,7 @@ class CalendarUtil(
                         binding.llScheduleNotExist.visibility = View.VISIBLE
                         binding.rvSchedule.visibility = View.GONE
 
-                        val context = fragment.requireContext()
+                        val context = fragment!!.requireContext()
                         val resources = context.resources
                         val animation =
                             resources?.let { AnimationUtils.loadAnimation(context, R.anim.fade_in) }
@@ -568,7 +621,7 @@ class CalendarUtil(
                         binding.rvTodaySchedule.visibility = View.INVISIBLE
 
 
-                        val context = fragment.requireContext()
+                        val context = fragment!!.requireContext()
                         val resources = context.resources
                         val animation =
                             resources?.let { AnimationUtils.loadAnimation(context, R.anim.fade_in) }
@@ -594,13 +647,14 @@ class CalendarUtil(
                 when (error) {
                     is GooglePlayServicesAvailabilityIOException -> {
                         showGooglePlayServicesAvailabilityErrorDialog(
-                            fragment,
+                            fragment!!,
                             error.connectionStatusCode
                         )
                     }
                     is UserRecoverableAuthIOException -> {
-                        authorizationLauncher.launch(error.intent)
+                        authorizationLauncher?.launch(error.intent)
                     }
+                    else -> {}
                 }
             } ?: Log.e("보호자: ", "캘린더 요청이 취소됐습니다.")
         }

@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.api.services.calendar.CalendarScopes
 import com.swu.caresheep.databinding.FragmentGuardianCalendarBinding
 import com.swu.caresheep.utils.CalendarUtil
 import com.swu.caresheep.utils.CalendarUtil.Companion.SEOUL_TIME_ZONE
@@ -22,19 +21,6 @@ class GuardianCalendarFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var selectedCalendar: Calendar
     private lateinit var calendarUtil: CalendarUtil
-
-    companion object {
-        const val REQUEST_ACCOUNT_PICKER = 1000
-        const val REQUEST_AUTHORIZATION = 1001
-        const val REQUEST_GOOGLE_PLAY_SERVICES = 1002
-
-        const val PREF_ACCOUNT_NAME = "accountName"
-        const val CALENDAR_TITLE = "공유 캘린더"
-        const val SEOUL_TIME_ZONE_ID = "Asia/Seoul"
-
-        val SCOPES = arrayOf(CalendarScopes.CALENDAR)
-//        val SEOUL_TIME_ZONE = TimeZone.getTimeZone(SEOUL_TIME_ZONE_ID)!!
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,7 +39,7 @@ class GuardianCalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        calendarUtil = CalendarUtil(requireContext(), this, binding)
+        calendarUtil = CalendarUtil(requireContext(), this, null, binding)
         initView()
     }
 
@@ -69,7 +55,7 @@ class GuardianCalendarFragment : Fragment() {
 
         calendarUtil.setupGoogleApi()
         calendarUtil.mID = 1  // 캘린더 생성
-        calendarUtil.getResultsFromApi(selectedCalendar)
+        calendarUtil.getResultsFromApi(selectedCalendar, null)
 
         // 달력에서 날짜를 선택했을 때의 동작
         binding.cvShared.setOnDateChangeListener { _, year, month, dayOfMonth ->
@@ -79,7 +65,7 @@ class GuardianCalendarFragment : Fragment() {
             updateSelectedDateText()
             saveSelectedDate(selectedCalendar.time)
             calendarUtil.mID = 3  // 이벤트 불러오기
-            calendarUtil.getResultsFromApi(selectedCalendar)
+            calendarUtil.getResultsFromApi(selectedCalendar, null)
         }
 
         // 일정 추가 버튼
@@ -128,7 +114,7 @@ class GuardianCalendarFragment : Fragment() {
         if (isDeleted || isAdded) {
             // 2초 후에 API 결과 가져오기
             Handler(Looper.getMainLooper()).postDelayed({
-                calendarUtil.getResultsFromApi(selectedCalendar)
+                calendarUtil.getResultsFromApi(selectedCalendar, null)
 
                 // isDeleted, isAdded 값 초기화
                 sharedPrefsDelete.edit().putBoolean("isDeleted", false).apply()

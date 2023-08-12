@@ -53,7 +53,7 @@ class GuardianHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        calendarUtil = CalendarUtil(requireContext(), this, binding)
+        calendarUtil = CalendarUtil(requireContext(), this, null, binding)
 
         // 당겨서 새로고침 기능 세팅
         binding.layoutSwipeRefresh.setOnRefreshListener {
@@ -110,7 +110,7 @@ class GuardianHomeFragment : Fragment() {
         calendarUtil.setupGoogleApi()
         calendarUtil.mID = 3  // 이벤트 불러오기
 
-        calendarUtil.getResultsFromApi(today)
+        calendarUtil.getResultsFromApi(today, null)
     }
 
     /**

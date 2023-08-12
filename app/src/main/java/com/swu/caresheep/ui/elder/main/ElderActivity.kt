@@ -60,12 +60,13 @@ import com.swu.caresheep.elder.AlarmReceiverWalk
 import com.swu.caresheep.elder.ElderVoiceMainActivity
 import com.swu.caresheep.elder.ElderWalkMainActivity
 import com.swu.caresheep.ui.elder.connect.ElderConnectActivity
-import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment
-import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_ACCOUNT_PICKER
-import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_AUTHORIZATION
-import com.swu.caresheep.ui.guardian.calendar.GuardianCalendarFragment.Companion.REQUEST_GOOGLE_PLAY_SERVICES
 import com.swu.caresheep.ui.start.StartActivity
 import com.swu.caresheep.ui.start.user_id
+import com.swu.caresheep.utils.CalendarUtil.Companion.PREF_ACCOUNT_NAME
+import com.swu.caresheep.utils.CalendarUtil.Companion.REQUEST_ACCOUNT_PICKER
+import com.swu.caresheep.utils.CalendarUtil.Companion.REQUEST_AUTHORIZATION
+import com.swu.caresheep.utils.CalendarUtil.Companion.REQUEST_GOOGLE_PLAY_SERVICES
+import com.swu.caresheep.utils.CalendarUtil.Companion.SCOPES
 import com.swu.caresheep.utils.CalendarUtil.Companion.SEOUL_TIME_ZONE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -271,7 +272,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
         // OAuth 2.0를 사용하여 구글 계정 선택 및 인증하기 위한 준비
         mCredential = GoogleAccountCredential.usingOAuth2(
             this,
-            listOf(*GuardianCalendarFragment.SCOPES)
+            listOf(*SCOPES)
         ).setBackOff(ExponentialBackOff())  // I/O 예외 상황을 대비해서 백오프 정책 사용
 
         // Google Calendar API 호출
@@ -371,7 +372,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
                     val settings: SharedPreferences =
                         getPreferences(Context.MODE_PRIVATE)
                     val editor = settings.edit()
-                    editor.putString(GuardianCalendarFragment.PREF_ACCOUNT_NAME, accountName)
+                    editor.putString(PREF_ACCOUNT_NAME, accountName)
                     editor.apply()
                     mCredential!!.selectedAccountName = accountName
                     getResultsFromApi(null)
