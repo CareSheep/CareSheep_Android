@@ -22,7 +22,7 @@ class GuardianScheduleDetailActivity : AppCompatActivity() {
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             finish()
-            overridePendingTransition(R.anim.none, R.anim.slide_out_right)
+            overridePendingTransition(R.anim.none, R.anim.fade_out)
         }
     }
 
@@ -41,85 +41,20 @@ class GuardianScheduleDetailActivity : AppCompatActivity() {
         val gson = Gson()
         val item = gson.fromJson(itemJson, GuardianSchedule::class.java)
 
-        // 일정 제목
-        val titleEditable = Editable.Factory.getInstance().newEditable(item.title)
-        binding.etScheduleTitle.text = titleEditable
+        // 일정 세부 정보 설정
+        setupScheduleDetails(item)
 
-        // 일정 유형 (시간 / 종일)
-        if (item.type == 0) {
-            binding.btnTime.isSelected = true
-            binding.btnAllDay.isSelected = false
-        } else {
-            binding.btnTime.isSelected = false
-            binding.btnAllDay.isSelected = true
+        // 뒤로 가기
+        binding.ivBack.setOnClickListener {
+            onBackPressedCallback.handleOnBackPressed()
         }
-
-        // 일정 메모
-        val memoEditable = if (item.memo != null) {
-            Editable.Factory.getInstance().newEditable(item.memo)
-        } else {
-            Editable.Factory.getInstance().newEditable("")
-        }
-        binding.etMemo.text = memoEditable
-
-        // 일정 시작 시간
-        val startTime = LocalDateTime.parse(item.startTime.toString(), DateTimeFormatter.ISO_DATE_TIME)
-        val endTime = LocalDateTime.parse(item.endTime.toString(), DateTimeFormatter.ISO_DATE_TIME)
-
-        val outputFormat = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 (E)", Locale.KOREAN)
-        val outputFormatWithTime = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 (E) a hh:mm", Locale.KOREAN)
-
-        val formattedStartDate: String = if (item.type == 1) {
-            startTime.format(outputFormat)
-        } else {
-            startTime.format(outputFormatWithTime)
-        }
-
-        val formattedEndDate: String = if (item.type == 1) {
-            endTime.format(outputFormat)
-        } else {
-            endTime.format(outputFormatWithTime)
-        }
-
-        binding.tvStartTime.text = formattedStartDate
-        binding.tvEndTime.text = formattedEndDate
-
-//        // 일정 format
-//        val inputFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
-//        val startDate: Date = inputFormat.parse(item.startTime.toString())!!
-//        val endDate: Date = inputFormat.parse(item.endTime.toString())!!
-//
-//        val outputFormat = SimpleDateFormat("yyyy년 MM월 dd일 (E)", Locale.KOREAN)
-//        val outputFormatWithTime = SimpleDateFormat("yyyy년 MM월 dd일 (E) a hh:mm", Locale.KOREAN)
-//
-//        // 일정 시작 시간
-//        val formattedStartDate: String = if (item.type == 1) {
-//            outputFormat.format(startDate)
-//        } else {
-//            outputFormatWithTime.format(startDate)
-//        }
-//
-//        // 일정 종료 시간
-//        val formattedEndDate: String = if (item.type == 1) {
-//            outputFormat.format(endDate)
-//        } else {
-//            outputFormatWithTime.format(endDate)
-//        }
-//
-//        binding.tvStartTime.text = formattedStartDate
-//        binding.tvEndTime.text = formattedEndDate
-
-
-        // 일정 알림
-        binding.tvAlarm.text = item.notification
-
-        // 일정 반복
-        binding.tvRepeat.text = item.repeat
 
         // 삭제 버튼
         binding.btnDelete.setOnClickListener {
+            // 일정 삭제
             deleteSchedule(item.eventId)
 
+            // 삭제 상태 저장을 위한 SharedPreferences 설정
             val sharedPrefs = getSharedPreferences("Delete Schedule", Context.MODE_PRIVATE)
             sharedPrefs.edit().putBoolean("isDeleted", true).apply()
 
@@ -130,14 +65,56 @@ class GuardianScheduleDetailActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        overridePendingTransition(R.anim.slide_in_right, R.anim.none)
-
-        // 뒤로 가기
-        binding.ivBack.setOnClickListener {
-            onBackPressedCallback.handleOnBackPressed()
-        }
+        overridePendingTransition(R.anim.fade_in, R.anim.none)
     }
 
+    /**
+     * 일정 세부 정보를 UI에 설정
+     * @param item GuardianSchedule (일정 정보 객체)
+     */
+    private fun setupScheduleDetails(item: GuardianSchedule) {
+        // 일정 제목
+        binding.etScheduleTitle.text = Editable.Factory.getInstance().newEditable(item.title)
+
+        // 일정 유형 (시간 / 종일)
+        binding.btnTime.isSelected = item.type == 0
+        binding.btnAllDay.isSelected = item.type == 1
+
+        // 일정 메모
+        val memoText = item.memo ?: ""
+        binding.etMemo.text = Editable.Factory.getInstance().newEditable(memoText)
+
+        // 일정 시작 / 종료 시간
+        val startTime = LocalDateTime.parse(item.startTime.toString(), DateTimeFormatter.ISO_DATE_TIME)
+        val endTime = LocalDateTime.parse(item.endTime.toString(), DateTimeFormatter.ISO_DATE_TIME)
+
+        val outputFormat = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 (E)", Locale.KOREAN)
+        val outputFormatWithTime = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 (E) a hh:mm", Locale.KOREAN)
+
+        // 일정 시작 및 종료 시간 포멧팅
+        val formattedStartDate = if (item.type == 1) {
+            startTime.format(outputFormat)
+        } else {
+            startTime.format(outputFormatWithTime)
+        }
+
+        val formattedEndDate = if (item.type == 1) {
+            endTime.format(outputFormat)
+        } else {
+            endTime.format(outputFormatWithTime)
+        }
+
+        binding.tvStartTime.text = formattedStartDate
+        binding.tvEndTime.text = formattedEndDate
+
+        binding.tvAlarm.text = item.notification  // 일정 알림
+        binding.tvRepeat.text = item.repeat  // 일정 반복
+    }
+
+    /**
+     * 주어진 eventId를 지닌 일정을 삭제
+     * @param eventId 삭제할 일정의 eventId
+     */
     private fun deleteSchedule(eventId: String) {
         calendarUtil.mID = 4  // 일정 삭제
         calendarUtil.getResultsFromApi(null, null, eventId)
