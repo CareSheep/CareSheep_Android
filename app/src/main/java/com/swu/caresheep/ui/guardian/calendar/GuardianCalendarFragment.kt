@@ -55,7 +55,7 @@ class GuardianCalendarFragment : Fragment() {
 
         calendarUtil.setupGoogleApi()
         calendarUtil.mID = 1  // 캘린더 생성
-        calendarUtil.getResultsFromApi(selectedCalendar, null)
+        calendarUtil.getResultsFromApi(selectedCalendar, null, null)
 
         // 달력에서 날짜를 선택했을 때의 동작
         binding.cvShared.setOnDateChangeListener { _, year, month, dayOfMonth ->
@@ -65,7 +65,7 @@ class GuardianCalendarFragment : Fragment() {
             updateSelectedDateText()
             saveSelectedDate(selectedCalendar.time)
             calendarUtil.mID = 3  // 이벤트 불러오기
-            calendarUtil.getResultsFromApi(selectedCalendar, null)
+            calendarUtil.getResultsFromApi(selectedCalendar, null, null)
         }
 
         // 일정 추가 버튼
@@ -114,7 +114,7 @@ class GuardianCalendarFragment : Fragment() {
         if (isDeleted || isAdded) {
             // 2초 후에 API 결과 가져오기
             Handler(Looper.getMainLooper()).postDelayed({
-                calendarUtil.getResultsFromApi(selectedCalendar, null)
+                calendarUtil.getResultsFromApi(selectedCalendar, null, null)
 
                 // isDeleted, isAdded 값 초기화
                 sharedPrefsDelete.edit().putBoolean("isDeleted", false).apply()

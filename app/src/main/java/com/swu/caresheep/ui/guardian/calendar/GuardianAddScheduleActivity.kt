@@ -848,9 +848,8 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
 
     private fun addSchedule(event: Event) {
-        // Google Calendar API 호출
-        calendarUtil.mID = 2  // 이벤트 추가
-        calendarUtil.getResultsFromApi(null, event)
+        calendarUtil.mID = 2  // 일정 추가
+        calendarUtil.getResultsFromApi(null, event, null)
     }
 
 }

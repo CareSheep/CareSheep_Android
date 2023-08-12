@@ -110,7 +110,7 @@ class GuardianHomeFragment : Fragment() {
         calendarUtil.setupGoogleApi()
         calendarUtil.mID = 3  // 이벤트 불러오기
 
-        calendarUtil.getResultsFromApi(today, null)
+        calendarUtil.getResultsFromApi(today, null, null)
     }
 
     /**

@@ -88,12 +88,12 @@ class CalendarUtil(
      * 조건을 충족하는 경우 Google Calendar API를 호출
      * @param selectedDate 선택된 날짜 (nullable)
      */
-    fun getResultsFromApi(selectedDate: java.util.Calendar?, event: Event?) {
+    fun getResultsFromApi(selectedDate: java.util.Calendar?, event: Event?, eventId: String?) {
         when {
             // Google Play Services를 사용할 수 없는 경우
             !isGooglePlayServicesAvailable() -> acquireGooglePlayServices()
             // 유효한 Google 계정이 선택되어 있지 않은 경우
-            mCredential.selectedAccountName == null -> connectGoogleAccount(selectedDate, event)
+            mCredential.selectedAccountName == null -> connectGoogleAccount(selectedDate, event, eventId)
             // 인터넷 연결이 안되어 있는 경우
             !isDeviceOnline() -> Toast.makeText(
                 context,
@@ -101,7 +101,7 @@ class CalendarUtil(
                 Toast.LENGTH_SHORT
             ).show()
             // 조건을 충족하면 Google Calendar API 호출
-            else -> callGoogleCalendarApi(selectedDate, event)
+            else -> callGoogleCalendarApi(selectedDate, event, eventId)
         }
     }
 
@@ -146,7 +146,7 @@ class CalendarUtil(
      * Google 계정이 연결되지 않았을 경우, 계정을 선택하고 API 호출
      * @param selectedDate 선택된 날짜 (nullable)
      */
-    private fun connectGoogleAccount(selectedDate: java.util.Calendar?, event: Event?) {
+    private fun connectGoogleAccount(selectedDate: java.util.Calendar?, event: Event?,eventId: String?) {
         // 구글 계정 연결 후 Google Calendar API 호출
         val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(context)
         mCredential.selectedAccount = lastSignedInAccount?.account
@@ -162,7 +162,8 @@ class CalendarUtil(
                     mCredential,
                     selectedDate,
                     elderGmail,
-                    event
+                    event,
+                    eventId
                 ).execute()
             }
         } else {
@@ -170,7 +171,8 @@ class CalendarUtil(
                 mCredential,
                 selectedDate,
                 null,
-                event
+                event,
+                eventId
             ).execute()
         }
     }
@@ -179,7 +181,7 @@ class CalendarUtil(
      * Google Calendar API 호출
      * @param selectedDate 선택된 날짜 (nullable)
      */
-    private fun callGoogleCalendarApi(selectedDate: java.util.Calendar?, event: Event?) {
+    private fun callGoogleCalendarApi(selectedDate: java.util.Calendar?, event: Event?, eventId: String?) {
         if (fragment != null) {
             fragment.lifecycleScope.launch {
                 val elderInfo = withContext(Dispatchers.IO) {
@@ -191,7 +193,8 @@ class CalendarUtil(
                     mCredential,
                     selectedDate,
                     elderGmail,
-                    event
+                    event,
+                    eventId
                 ).execute()
             }
         } else {
@@ -199,7 +202,8 @@ class CalendarUtil(
                 mCredential,
                 selectedDate,
                 null,
-                event
+                event,
+                eventId
             ).execute()
         }
 
@@ -218,7 +222,7 @@ class CalendarUtil(
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                getResultsFromApi(null, null)
+                getResultsFromApi(null, null, null)
             }
         }
 
@@ -233,7 +237,7 @@ class CalendarUtil(
                     editor.putString(PREF_ACCOUNT_NAME, accountName)
                     editor.apply()
                     mCredential.selectedAccountName = accountName
-                    getResultsFromApi(null, null)
+                    getResultsFromApi(null, null, null)
                 }
             }
         }
@@ -241,7 +245,7 @@ class CalendarUtil(
     private val authorizationLauncher =
         fragment?.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                getResultsFromApi(null, null)
+                getResultsFromApi(null, null, null)
             }
         }
 
@@ -296,7 +300,8 @@ class CalendarUtil(
         credential: GoogleAccountCredential?,
         private var selectedDate: java.util.Calendar?,
         private var elderEmail: String?,
-        private var event: Event?
+        private var event: Event?,
+        private var eventId: String?
     ) {
         private var mLastError: Exception? = null
 
@@ -329,9 +334,6 @@ class CalendarUtil(
                         1 -> withContext(Dispatchers.IO) {
                             createCalendar(selectedDate, elderEmail)
                         }
-                        2 -> withContext(Dispatchers.IO) {
-                            addEvent(event!!)
-                        }
                         3 -> withContext(Dispatchers.IO) {
                             getEvent(selectedDate)
                         }
@@ -346,8 +348,15 @@ class CalendarUtil(
             }
                 ?: CoroutineScope(Dispatchers.Main).launch {
                     try {
-                        withContext(Dispatchers.IO) {
-                            addEvent(event!!)
+                        when (mID) {
+                            2 -> withContext(Dispatchers.IO) {
+                                addEvent(event!!)
+                                null
+                            }
+                            4 -> withContext(Dispatchers.IO) {
+                                deleteEvent(eventId!!)
+                                null
+                            }
                         }
                     } catch (e: Exception) {
                         mLastError = e
@@ -558,6 +567,20 @@ class CalendarUtil(
             }
 
             return null
+        }
+
+        private fun deleteEvent(eventId: String): String {
+            val calendarID: String = getCalendarID() ?: return "공유 캘린더를 먼저 생성하세요."
+            try {
+                mService!!.events().delete(calendarID, eventId).execute()
+                Log.e("[deleteEvent]", "삭제")
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.e("Exception", "Exception : $e")
+            }
+
+            return "deleted : "
         }
 
         private fun onPostExecute(result: List<GuardianSchedule>?) {
