@@ -1,4 +1,4 @@
-package com.swu.caresheep.ui.guardian.calendar
+package com.swu.caresheep.data.model
 
 import com.google.api.client.util.DateTime
 

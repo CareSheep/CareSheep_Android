@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.caresheep.databinding.ItemGuardianTodayScheduleBinding
 import com.swu.caresheep.ui.elder.main.ElderTodaySchedule
-import com.swu.caresheep.ui.guardian.calendar.GuardianSchedule
+import com.swu.caresheep.data.model.GuardianSchedule
 import com.swu.caresheep.utils.CalendarUtil.Companion.SEOUL_TIME_ZONE
 import java.util.*
 import kotlin.collections.ArrayList

@@ -36,7 +36,7 @@ import com.google.gson.Gson
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianCalendarBinding
 import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
-import com.swu.caresheep.ui.guardian.calendar.GuardianSchedule
+import com.swu.caresheep.data.model.GuardianSchedule
 import com.swu.caresheep.ui.guardian.calendar.GuardianScheduleDetailActivity
 import com.swu.caresheep.ui.guardian.calendar.GuardianScheduleRVAdapter
 import com.swu.caresheep.ui.guardian.home.GuardianTodayScheduleRVAdapter

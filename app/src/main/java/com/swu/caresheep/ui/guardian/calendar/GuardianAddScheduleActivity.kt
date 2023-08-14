@@ -73,103 +73,107 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
         calendarUtil.setupGoogleApi()
 
+
         // GuardianCalendarFragment에서 선택된 날짜 가져오기
-        val sharedPreferences = getSharedPreferences("SelectedDate", MODE_PRIVATE)
-        val selectedDateInMillis = sharedPreferences.getLong("selectedDate", 0)
-        val selectedDate = if (selectedDateInMillis != 0L) Date(selectedDateInMillis) else Date()
+//        val sharedPreferences = getSharedPreferences("SelectedDate", MODE_PRIVATE)
+//        val selectedDateInMillis = sharedPreferences.getLong("selectedDate", 0)
+//        val selectedDate = if (selectedDateInMillis != 0L) Date(selectedDateInMillis) else Date()
 
         // 선택된 날짜로 초기 설정
-        val calendar = Calendar.getInstance(SEOUL_TIME_ZONE)
-        calendar.time = selectedDate
+//        val calendar = Calendar.getInstance(SEOUL_TIME_ZONE)
+//        calendar.time = selectedDate
+//
+//        currentStartYear = calendar.get(Calendar.YEAR)
+//        currentStartMonth = calendar.get(Calendar.MONTH) + 1
+//        currentStartDay = calendar.get(Calendar.DAY_OF_MONTH)
+//        currentStartWeek = calendar.getDisplayName(
+//            Calendar.DAY_OF_WEEK,
+//            Calendar.SHORT,
+//            Locale.getDefault()
+//        )!!
+//
+//        currentEndYear = calendar.get(Calendar.YEAR)
+//        currentEndMonth = calendar.get(Calendar.MONTH) + 1
+//        currentEndDay = calendar.get(Calendar.DAY_OF_MONTH)
+//        currentEndWeek = calendar.getDisplayName(
+//            Calendar.DAY_OF_WEEK,
+//            Calendar.SHORT,
+//            Locale.getDefault()
+//        )!!
 
-        currentStartYear = calendar.get(Calendar.YEAR)
-        currentStartMonth = calendar.get(Calendar.MONTH) + 1
-        currentStartDay = calendar.get(Calendar.DAY_OF_MONTH)
-        currentStartWeek = calendar.getDisplayName(
-            Calendar.DAY_OF_WEEK,
-            Calendar.SHORT,
-            Locale.getDefault()
-        )!!
+        // TimePicker 초기 설정 / GuardianCalendarFragment에서 선택된 날짜 가져오기
+        setupTimePickers(setupSelectedDate())
 
-        currentEndYear = calendar.get(Calendar.YEAR)
-        currentEndMonth = calendar.get(Calendar.MONTH) + 1
-        currentEndDay = calendar.get(Calendar.DAY_OF_MONTH)
-        currentEndWeek = calendar.getDisplayName(
-            Calendar.DAY_OF_WEEK,
-            Calendar.SHORT,
-            Locale.getDefault()
-        )!!
-
-        // TimePicker 초기 설정
-        binding.tpStart.hour = calendar.get(Calendar.HOUR_OF_DAY)  // 시작 Time
-        binding.tpStart.minute = calendar.get(Calendar.MINUTE)
-        binding.tpEnd.hour = calendar.get(Calendar.HOUR_OF_DAY) + 1  // 종료 Time
-        binding.tpEnd.minute = calendar.get(Calendar.MINUTE)
-
-
-        val strCurrentMinute =
-            if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${calendar.get(Calendar.MINUTE)}" else calendar.get(
-                Calendar.MINUTE
-            )
-        val strCurrentAMPM =
-            if (calendar.get(Calendar.AM_PM) == Calendar.AM) "오전"
-            else "오후"
-        val strCurrentHour12 =
-            if (calendar.get(Calendar.HOUR_OF_DAY) == 0) 12 else if (calendar.get(Calendar.HOUR_OF_DAY) > 12) calendar.get(
-                Calendar.HOUR_OF_DAY
-            ) - 12 else calendar.get(Calendar.HOUR_OF_DAY)
-
-        val strCurrentEndAMPM =
-            if (calendar.get(Calendar.AM_PM) == Calendar.AM) "오전"
-            else "오후"
-
-        val strCurrentEndHour12 =
-            if (calendar.get(Calendar.HOUR_OF_DAY) + 1 > 12) calendar.get(
-                Calendar.HOUR_OF_DAY
-            ) + 1 - 12 else calendar.get(Calendar.HOUR_OF_DAY) + 1
-
-        currentTime = "$strCurrentAMPM $strCurrentHour12:$strCurrentMinute"
-        currentEndTime = "$strCurrentEndAMPM $strCurrentEndHour12:$strCurrentMinute"
-
-        // 시작 TimePicker 시간 변경 시
-        binding.tpStart.setOnTimeChangedListener { _, newHour, newMinute ->
-            val strNewAmPm: String = if (newHour >= 12) "오후" else "오전"
-
-            val strNewHour =
-                if (newHour == 0) 12 else if (newHour > 12) newHour - 12 else newHour
-
-            val strNewMinute =
-                if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
-
-            currentTime = "$strNewAmPm $strNewHour:$strNewMinute"
-            updateStartTimeText(
-                currentStartYear,
-                currentStartMonth,
-                currentStartDay,
-                currentStartWeek,
-                currentTime
-            )
-        }
-
-        // 종료 TimePicker 시간 변경 시
-        binding.tpEnd.setOnTimeChangedListener { _, newHour, newMinute ->
-            val strNewAmPm: String = if (newHour >= 12) "오후" else "오전"
-
-            val strNewHour =
-                if (newHour == 0) 12 else if (newHour > 12) newHour - 12 else newHour
-
-            val strNewMinute =
-                if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
-
-            currentEndTime = "$strNewAmPm $strNewHour:$strNewMinute"
-            updateEndTimeText(
-                currentEndYear,
-                currentEndMonth,
-                currentEndDay,
-                currentEndWeek,
-                currentEndTime
-            )
-        }
+//        binding.tpStart.hour = calendar.get(Calendar.HOUR_OF_DAY)  // 시작 Time
+//        binding.tpStart.minute = calendar.get(Calendar.MINUTE)
+//        binding.tpEnd.hour = calendar.get(Calendar.HOUR_OF_DAY) + 1  // 종료 Time
+//        binding.tpEnd.minute = calendar.get(Calendar.MINUTE)
+//
+//
+//        val strCurrentMinute =
+//            if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${calendar.get(Calendar.MINUTE)}" else calendar.get(
+//                Calendar.MINUTE
+//            )
+//        val strCurrentAMPM =
+//            if (calendar.get(Calendar.AM_PM) == Calendar.AM) "오전"
+//            else "오후"
+//        val strCurrentHour12 =
+//            if (calendar.get(Calendar.HOUR_OF_DAY) == 0) 12 else if (calendar.get(Calendar.HOUR_OF_DAY) > 12) calendar.get(
+//                Calendar.HOUR_OF_DAY
+//            ) - 12 else calendar.get(Calendar.HOUR_OF_DAY)
+//
+//        val strCurrentEndAMPM =
+//            if (calendar.get(Calendar.AM_PM) == Calendar.AM) "오전"
+//            else "오후"
+//
+//        val strCurrentEndHour12 =
+//            if (calendar.get(Calendar.HOUR_OF_DAY) + 1 > 12) calendar.get(
+//                Calendar.HOUR_OF_DAY
+//            ) + 1 - 12 else calendar.get(Calendar.HOUR_OF_DAY) + 1
+//
+//        currentTime = "$strCurrentAMPM $strCurrentHour12:$strCurrentMinute"
+//        currentEndTime = "$strCurrentEndAMPM $strCurrentEndHour12:$strCurrentMinute"
+//
+//        // 시작 TimePicker 시간 변경 시
+//        binding.tpStart.setOnTimeChangedListener { _, newHour, newMinute ->
+//            val strNewAmPm: String = if (newHour >= 12) "오후" else "오전"
+//
+//            val strNewHour =
+//                if (newHour == 0) 12 else if (newHour > 12) newHour - 12 else newHour
+//
+//            val strNewMinute =
+//                if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
+//
+//            currentTime = "$strNewAmPm $strNewHour:$strNewMinute"
+//            updateStartTimeText(
+//                currentStartYear,
+//                currentStartMonth,
+//                currentStartDay,
+//                currentStartWeek,
+//                currentTime
+//            )
+//        }
+//
+//        // 종료 TimePicker 시간 변경 시
+//        binding.tpEnd.setOnTimeChangedListener { _, newHour, newMinute ->
+//            val strNewAmPm: String = if (newHour >= 12) "오후" else "오전"
+//
+//            val strNewHour =
+//                if (newHour == 0) 12 else if (newHour > 12) newHour - 12 else newHour
+//
+//            val strNewMinute =
+//                if (calendar.get(Calendar.MINUTE) / 10 == 0) "0${newMinute}" else newMinute.toString()
+//
+//            currentEndTime = "$strNewAmPm $strNewHour:$strNewMinute"
+//            updateEndTimeText(
+//                currentEndYear,
+//                currentEndMonth,
+//                currentEndDay,
+//                currentEndWeek,
+//                currentEndTime
+//            )
+//        }
+//////////////////////////////////////////////////////////
 
         // 월 초기 설정
         val months = arrayOf(
@@ -418,6 +422,84 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         }
 
     }
+
+
+    private fun setupSelectedDate(): Date {
+        // GuardianCalendarFragment에서 선택된 날짜 가져오기
+        val selectedDateInMillis = getSharedPreferences("SelectedDate", MODE_PRIVATE)
+            .getLong("selectedDate", 0)
+        val selectedDate = if (selectedDateInMillis != 0L) Date(selectedDateInMillis) else Date()
+
+        // 선택된 날짜로 초기 설정
+        val calendar = Calendar.getInstance(SEOUL_TIME_ZONE)
+        calendar.time = selectedDate
+
+        currentStartYear = calendar.get(Calendar.YEAR)
+        currentStartMonth = calendar.get(Calendar.MONTH) + 1
+        currentStartDay = calendar.get(Calendar.DAY_OF_MONTH)
+        currentStartWeek = calendar.getDisplayName(
+            Calendar.DAY_OF_WEEK,
+            Calendar.SHORT,
+            Locale.getDefault()
+        )!!
+
+        currentEndYear = currentStartYear
+        currentEndMonth = currentStartMonth
+        currentEndDay = currentStartDay
+        currentEndWeek = currentStartWeek
+
+        return selectedDate
+    }
+
+    private fun setupTimePickers(selectedDate: Date) {
+        val calendar = Calendar.getInstance(SEOUL_TIME_ZONE)
+        calendar.time = selectedDate
+
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+
+        binding.tpStart.apply {
+            hour = currentHour
+            minute = currentMinute
+        }
+
+        binding.tpEnd.apply {
+            hour = currentHour + 1
+            minute = currentMinute
+        }
+
+        val strCurrentMinute = if (currentMinute / 10 == 0) "0$currentMinute" else currentMinute.toString()
+        val strCurrentAMPM = if (calendar.get(Calendar.AM_PM) == Calendar.AM) "오전" else "오후"
+        val strCurrentHour12 = if (currentHour == 0) 12 else if (currentHour > 12) currentHour - 12 else currentHour
+
+        val strCurrentEndAMPM = if (calendar.get(Calendar.AM_PM) == Calendar.AM) "오전" else "오후"
+        val strCurrentEndHour12 = if (currentHour + 1 > 12) currentHour + 1 - 12 else currentHour + 1
+
+        currentTime = "$strCurrentAMPM $strCurrentHour12:$strCurrentMinute"
+        currentEndTime = "$strCurrentEndAMPM $strCurrentEndHour12:$strCurrentMinute"
+
+        binding.tpStart.setOnTimeChangedListener { _, newHour, newMinute ->
+            val strNewAmPm: String = if (newHour >= 12) "오후" else "오전"
+            val strNewHour = if (newHour == 0) 12 else if (newHour > 12) newHour - 12 else newHour
+            val strNewMinute = if (newMinute / 10 == 0) "0$newMinute" else newMinute.toString()
+
+            currentTime = "$strNewAmPm $strNewHour:$strNewMinute"
+            updateStartTimeText(currentStartYear, currentStartMonth, currentStartDay, currentStartWeek, currentTime)
+        }
+
+        binding.tpEnd.setOnTimeChangedListener { _, newHour, newMinute ->
+            val strNewAmPm: String = if (newHour >= 12) "오후" else "오전"
+            val strNewHour = if (newHour == 0) 12 else if (newHour > 12) newHour - 12 else newHour
+            val strNewMinute = if (newMinute / 10 == 0) "0$newMinute" else newMinute.toString()
+
+            currentEndTime = "$strNewAmPm $strNewHour:$strNewMinute"
+            updateEndTimeText(currentEndYear, currentEndMonth, currentEndDay, currentEndWeek, currentEndTime)
+        }
+    }
+
+
+
+
 
 
     /**
@@ -847,6 +929,10 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * 새로운 일정을 캘린더에 추가
+     * @param event 추가할 일정 정보가 포함된 Event 객체
+     */
     private fun addSchedule(event: Event) {
         calendarUtil.mID = 2  // 일정 추가
         calendarUtil.getResultsFromApi(null, event, null)
