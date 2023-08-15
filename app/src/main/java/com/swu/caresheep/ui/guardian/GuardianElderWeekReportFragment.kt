@@ -26,6 +26,7 @@ import com.swu.caresheep.R
 import com.swu.caresheep.ui.elder.main.ElderActivity
 import com.swu.caresheep.ui.start.SignUpActivity
 import com.swu.caresheep.ui.start.user_id
+import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.progress_bar_1
 import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check1
 import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check2
 import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check3
@@ -98,7 +99,7 @@ class GuardianElderWeekReportFragment : Fragment() {
 
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_guardian_elder_week_report, container, false)
-        val progress_percentage = view.findViewById<ProgressBar>(R.id.progress_bar)
+        val progress_percentage = view.findViewById<ProgressBar>(R.id.progress_bar_1)
         thisweekText = view.findViewById<TextView>(R.id.this_week)
         percentageText = view.findViewById<TextView>(R.id.percentage)
 
@@ -107,18 +108,10 @@ class GuardianElderWeekReportFragment : Fragment() {
         getLunchThisWeek()
         getDinnerThisWeek()
         getWalkThisWeek()
-        progress_percentage.progress.compareTo(per)
-        val df2 = DecimalFormat("##00.0")
-        percentageText.setText(df2.format(((progress_percentage.progress.toDouble() / progress_percentage.max.toDouble()))* 100.0).toString())
 
-//        button1.setOnClickListener {
-//
-//            getBreakfastThisWeek()
-//            getLunchThisWeek()
-//            getDinnerThisWeek()
-//            getWalkThisWeek()
-//            progress_percentage.progress = per
-//        }
+        val df2 = DecimalFormat("##00.0")
+        percentageText.setText((per / 28.0 * 100.0).toString())
+        percentageText.setText(DecimalFormat("##00.0").format((per / 28.0 * 100.0)).toString())
 
         return view
 
@@ -156,6 +149,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val breakfast1_value = data.child("done").getValue(Int::class.java)
                                     if (breakfast1_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$breakfast1_value")
                                         Log.d("test_success_per","$per")
                                         breakfast_check1.setImageResource(R.drawable.baseline_check_circle_24)
@@ -166,6 +161,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val breakfast2_value = data.child("done").getValue(Int::class.java)
                                     if (breakfast2_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$breakfast2_value")
                                         Log.d("test_success_per2","$per")
                                         breakfast_check2.setImageResource(R.drawable.baseline_check_circle_24)
@@ -176,6 +173,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val breakfast3_value = data.child("done").getValue(Int::class.java)
                                     if (breakfast3_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$breakfast3_value")
                                         breakfast_check3.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -185,6 +184,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val breakfast4_value = data.child("done").getValue(Int::class.java)
                                     if (breakfast4_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$breakfast4_value")
                                         breakfast_check4.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -194,6 +195,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val breakfast5_value = data.child("done").getValue(Int::class.java)
                                     if (breakfast5_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$breakfast5_value")
                                         breakfast_check5.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -203,6 +206,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val breakfast6_value = data.child("done").getValue(Int::class.java)
                                     if (breakfast6_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$breakfast6_value")
                                         breakfast_check6.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -212,6 +217,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val breakfast7_value = data.child("done").getValue(Int::class.java)
                                     if (breakfast7_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$breakfast7_value")
                                         breakfast_check7.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -245,6 +252,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val lunch1_value = data.child("done").getValue(Int::class.java)
                                     if (lunch1_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$lunch1_value")
                                         lunch_check1.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -254,6 +263,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val lunch2_value = data.child("done").getValue(Int::class.java)
                                     if (lunch2_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$lunch2_value")
                                         lunch_check2.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -263,6 +274,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val lunch3_value = data.child("done").getValue(Int::class.java)
                                     if (lunch3_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$lunch3_value")
                                         lunch_check3.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -272,6 +285,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val lunch4_value = data.child("done").getValue(Int::class.java)
                                     if (lunch4_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$lunch4_value")
                                         lunch_check4.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -281,6 +296,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val lunch5_value = data.child("done").getValue(Int::class.java)
                                     if (lunch5_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$lunch5_value")
                                         lunch_check5.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -290,6 +307,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val lunch6_value = data.child("done").getValue(Int::class.java)
                                     if (lunch6_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$lunch6_value")
                                         lunch_check6.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -299,6 +318,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val lunch7_value = data.child("done").getValue(Int::class.java)
                                     if (lunch7_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$lunch7_value")
                                         lunch_check7.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -314,7 +335,6 @@ class GuardianElderWeekReportFragment : Fragment() {
             Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
         }
     }
-
     private fun getDinnerThisWeek(){
         try {
             val user_id = 1 // user_id로 수정
@@ -332,6 +352,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val dinner1_value = data.child("done").getValue(Int::class.java)
                                     if (dinner1_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$dinner1_value")
                                         dinner_check1.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -341,6 +363,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val dinner2_value = data.child("done").getValue(Int::class.java)
                                     if (dinner2_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$dinner2_value")
                                         dinner_check2.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -350,6 +374,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val dinner3_value = data.child("done").getValue(Int::class.java)
                                     if (dinner3_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$dinner3_value")
                                         dinner_check3.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -359,6 +385,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val dinner4_value = data.child("done").getValue(Int::class.java)
                                     if (dinner4_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$dinner4_value")
                                         dinner_check4.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -368,6 +396,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val dinner5_value = data.child("done").getValue(Int::class.java)
                                     if (dinner5_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$dinner5_value")
                                         dinner_check5.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -377,6 +407,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val dinner6_value = data.child("done").getValue(Int::class.java)
                                     if (dinner6_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$dinner6_value")
                                         dinner_check6.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -386,6 +418,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val dinner7_value = data.child("done").getValue(Int::class.java)
                                     if (dinner7_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$dinner7_value")
                                         dinner_check7.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -419,6 +453,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val walk1_value = data.child("done").getValue(Int::class.java)
                                     if (walk1_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$walk1_value")
                                         walk_check1.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -428,6 +464,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val walk2_value = data.child("done").getValue(Int::class.java)
                                     if (walk2_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$walk2_value")
                                         walk_check2.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -437,6 +475,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val walk3_value = data.child("done").getValue(Int::class.java)
                                     if (walk3_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$walk3_value")
                                         walk_check3.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -446,6 +486,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val walk4_value = data.child("done").getValue(Int::class.java)
                                     if (walk4_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$walk4_value")
                                         walk_check4.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -455,6 +497,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val walk5_value = data.child("done").getValue(Int::class.java)
                                     if (walk5_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$walk5_value")
                                         walk_check5.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -464,6 +508,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val walk6_value = data.child("done").getValue(Int::class.java)
                                     if (walk6_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$walk6_value")
                                         walk_check6.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
@@ -473,6 +519,8 @@ class GuardianElderWeekReportFragment : Fragment() {
                                     val walk7_value = data.child("done").getValue(Int::class.java)
                                     if (walk7_value == 1) {
                                         per++
+                                        progress_bar_1.setProgress((per*3.5).toInt())
+                                        percentageText.setText(DecimalFormat("##0.0").format((per / 28.0 * 100.0)).toString())
                                         Log.d("test_success","$walk7_value")
                                         walk_check7.setImageResource(R.drawable.baseline_check_circle_24)
                                     }

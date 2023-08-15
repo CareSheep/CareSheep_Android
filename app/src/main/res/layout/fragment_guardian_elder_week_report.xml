@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.guardian.GuardianElderWeekReportFragment">
 
-
     <ScrollView
         android:id="@+id/layout_scroll"
         android:layout_width="match_parent"
@@ -104,13 +103,11 @@
                 </LinearLayout>
 
                 <ProgressBar
-                    android:id="@+id/progress_bar"
+                    android:id="@+id/progress_bar_1"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="320dp"
                     android:layout_height="25dp"
                     android:layout_marginBottom="16dp"
-                    android:max="28"
-                    android:progress="5"
                     android:progressDrawable="@drawable/progressbar1"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -141,9 +138,7 @@
 
                 </LinearLayout>
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="380dp"
@@ -302,7 +297,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.567" />
-
 
                 <TextView
                     android:layout_width="wrap_content"
