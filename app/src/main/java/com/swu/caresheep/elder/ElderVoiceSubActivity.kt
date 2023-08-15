@@ -1,6 +1,9 @@
 package com.swu.caresheep.elder
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -11,11 +14,13 @@ import android.speech.SpeechRecognizer
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.swu.caresheep.*
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.ui.elder.main.ElderActivity
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_voice_sub.voice_question
 import java.text.SimpleDateFormat
 import java.util.*
@@ -136,14 +141,14 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 val labels = response?.toString()
                     ?.split('\n')  // \n 기준으로 분할해서 labels 리스트에 저장 (null 처리하려고 ?.)
                 val dangerLabel = labels?.get(0).toString() // 위험 상황이면 1
-                val shortageLabel = labels?.get(1).toString() // 물건 부족 상황이면 1
+//                val shortageLabel = labels?.get(1).toString() // 물건 부족 상황이면 1
 
                 if (dangerLabel == "1") {
                     danger = "1"
                 }
-                if (shortageLabel == "1") {
-                    in_need = "1"
-                }
+//                if (shortageLabel == "1") {
+//                    in_need = "1"
+//                }
 
                 // Voice의 각 필드에 넣기
                 val voice = Voice(
@@ -152,11 +157,10 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     danger = danger,
 
                     in_need = in_need,
+                    user_id = user_id,
 
                     // 우선 디폴트 값으로
                     check = 0,
-                    user_id = 1,
-
                     voice_id = 1
                 )
 
@@ -166,9 +170,6 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     //업로드 성공했는지 확인해보려고
                     .addOnSuccessListener {
                         Log.d("Firebase", "데이터 업로드 성공")
-
-                        showNotification("$timeStamp", "$content")
-
                     }
                     .addOnFailureListener { exception ->
                         Log.e("Firebase", "데이터 업로드 실패: ${exception.message}", exception)
@@ -181,6 +182,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            sendFCMNotification(danger, in_need, content)
 
         }
 
@@ -189,15 +191,35 @@ class ElderVoiceSubActivity : AppCompatActivity() {
 
         override fun onEvent(eventType: Int, params: Bundle?) {}
     }
-    // Method to show the notification
-    private fun showNotification(title: String, message: String) {
-        // Create a FirebaseMessagingService intent to trigger the push notification
-        val intent = Intent(this, MyFirebaseMessagingService::class.java).apply {
-            putExtra("type", NotificationType.CUSTOM.toString())
-            putExtra("title", title)
-            putExtra("message", message)
+
+    private fun sendFCMNotification(danger: String, in_need: String, content: String) {
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val channel = NotificationChannel(
+            "fcm_default_channel",
+            "음성 알림",
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
         }
-        startService(intent)
+        notificationManager.createNotificationChannel(channel)
+
+        val notificationTitle = when {
+            danger == "1" && in_need == "1" -> "danger and inNeed"
+            danger == "1" -> "danger"
+            in_need == "1" -> "inNeed"
+            else -> "daily"
+        }
+        val notificationMessage = content
+
+        val notification = NotificationCompat.Builder(this, "fcm_default_channel")
+            .setContentTitle(notificationTitle)
+            .setContentText(notificationMessage)
+            .setSmallIcon(R.drawable.ic_notification) // Replace with your notification icon
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        notificationManager.notify(1, notification)
     }
 
 
