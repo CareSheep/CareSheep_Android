@@ -1,6 +1,7 @@
 package com.swu.caresheep.elder
 
 import android.Manifest
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
@@ -140,14 +141,14 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 val labels = response?.toString()
                     ?.split('\n')  // \n 기준으로 분할해서 labels 리스트에 저장 (null 처리하려고 ?.)
                 val dangerLabel = labels?.get(0).toString() // 위험 상황이면 1
-                val shortageLabel = labels?.get(1).toString() // 물건 부족 상황이면 1
+//                val shortageLabel = labels?.get(1).toString() // 물건 부족 상황이면 1
 
                 if (dangerLabel == "1") {
                     danger = "1"
                 }
-                if (shortageLabel == "1") {
-                    in_need = "1"
-                }
+//                if (shortageLabel == "1") {
+//                    in_need = "1"
+//                }
 
                 // Voice의 각 필드에 넣기
                 val voice = Voice(
@@ -181,7 +182,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-            sendFCMNotification()
+            sendFCMNotification(danger, in_need, content)
 
         }
 
@@ -191,9 +192,25 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         override fun onEvent(eventType: Int, params: Bundle?) {}
     }
 
-    private fun sendFCMNotification() {
-        val notificationTitle = "New Voice Title"
-        val notificationMessage = "New voice data has been added."
+    private fun sendFCMNotification(danger: String, in_need: String, content: String) {
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val channel = NotificationChannel(
+            "fcm_default_channel",
+            "음성 알림",
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+        }
+        notificationManager.createNotificationChannel(channel)
+
+        val notificationTitle = when {
+            danger == "1" && in_need == "1" -> "danger and inNeed"
+            danger == "1" -> "danger"
+            in_need == "1" -> "inNeed"
+            else -> "daily"
+        }
+        val notificationMessage = content
 
         val notification = NotificationCompat.Builder(this, "fcm_default_channel")
             .setContentTitle(notificationTitle)
@@ -202,8 +219,6 @@ class ElderVoiceSubActivity : AppCompatActivity() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(1, notification)
     }
 
