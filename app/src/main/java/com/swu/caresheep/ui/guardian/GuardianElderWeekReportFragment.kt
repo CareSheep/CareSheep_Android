@@ -347,7 +347,6 @@ class GuardianElderWeekReportFragment : Fragment() {
             Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
         }
     }
-
     private fun getDinnerThisWeek(){
         try {
             val user_id = 1 // user_id로 수정
