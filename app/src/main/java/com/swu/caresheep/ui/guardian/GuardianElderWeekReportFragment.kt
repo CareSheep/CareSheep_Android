@@ -109,7 +109,6 @@ class GuardianElderWeekReportFragment : Fragment() {
         getDinnerThisWeek()
         getWalkThisWeek()
 
-        //progress_percentage.progress.compareTo(per)
         val df2 = DecimalFormat("##00.0")
         percentageText.setText((per / 28.0 * 100.0).toString())
         percentageText.setText(DecimalFormat("##00.0").format((per / 28.0 * 100.0)).toString())
