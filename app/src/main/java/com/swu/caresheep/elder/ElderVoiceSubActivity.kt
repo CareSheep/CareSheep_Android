@@ -1,6 +1,8 @@
 package com.swu.caresheep.elder
 
 import android.Manifest
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -11,11 +13,13 @@ import android.speech.SpeechRecognizer
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.swu.caresheep.*
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.ui.elder.main.ElderActivity
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_voice_sub.voice_question
 import java.text.SimpleDateFormat
 import java.util.*
@@ -152,11 +156,10 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     danger = danger,
 
                     in_need = in_need,
+                    user_id = user_id,
 
                     // 우선 디폴트 값으로
                     check = 0,
-                    user_id = 1,
-
                     voice_id = 1
                 )
 
@@ -166,9 +169,6 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     //업로드 성공했는지 확인해보려고
                     .addOnSuccessListener {
                         Log.d("Firebase", "데이터 업로드 성공")
-
-                        showNotification("$timeStamp", "$content")
-
                     }
                     .addOnFailureListener { exception ->
                         Log.e("Firebase", "데이터 업로드 실패: ${exception.message}", exception)
@@ -181,6 +181,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            sendFCMNotification()
 
         }
 
@@ -189,15 +190,21 @@ class ElderVoiceSubActivity : AppCompatActivity() {
 
         override fun onEvent(eventType: Int, params: Bundle?) {}
     }
-    // Method to show the notification
-    private fun showNotification(title: String, message: String) {
-        // Create a FirebaseMessagingService intent to trigger the push notification
-        val intent = Intent(this, MyFirebaseMessagingService::class.java).apply {
-            putExtra("type", NotificationType.CUSTOM.toString())
-            putExtra("title", title)
-            putExtra("message", message)
-        }
-        startService(intent)
+
+    private fun sendFCMNotification() {
+        val notificationTitle = "New Voice Title"
+        val notificationMessage = "New voice data has been added."
+
+        val notification = NotificationCompat.Builder(this, "fcm_default_channel")
+            .setContentTitle(notificationTitle)
+            .setContentText(notificationMessage)
+            .setSmallIcon(R.drawable.ic_notification) // Replace with your notification icon
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(1, notification)
     }
 
 
