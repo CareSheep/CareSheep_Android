@@ -104,13 +104,11 @@
                 </LinearLayout>
 
                 <ProgressBar
-                    android:id="@+id/progress_bar"
+                    android:id="@+id/progress_bar_1"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="320dp"
                     android:layout_height="25dp"
                     android:layout_marginBottom="16dp"
-                    android:max="28"
-                    android:progress="5"
                     android:progressDrawable="@drawable/progressbar1"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView"
                     app:layout_constraintEnd_toEndOf="parent"
