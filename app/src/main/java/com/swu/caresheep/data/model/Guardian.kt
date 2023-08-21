@@ -9,6 +9,7 @@ class Guardian {
     var gender: String? = null
     var code: String? = null
     var gmail: String? = null
+    var fcmToken: String? = null
 
     constructor(
         guardian_id: Int?,
@@ -17,7 +18,8 @@ class Guardian {
         age: Int?,
         gender: String?,
         code: String?,
-        gmail: String?
+        gmail: String?,
+        fcmToken : String?
     ) {
         this.guardian_id = guardian_id
         this.user_id = user_id
@@ -26,5 +28,6 @@ class Guardian {
         this.gender = gender
         this.code = code
         this.gmail = gmail
+        this.fcmToken = fcmToken
     }
 }
