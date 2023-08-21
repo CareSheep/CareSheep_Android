@@ -31,95 +31,90 @@ class SplashActivity : AppCompatActivity() {
         // 상태바 설정
         val windowController = WindowInsetsControllerCompat(this.window, this.window.decorView)
         windowController.isAppearanceLightStatusBars = false
+
+        // 로그인 상태를 확인하고 이동 처리
+        checkLoginStatus()
     }
 
+    /**
+     * 로그인 상태 확인 후 적절한 화면 표시
+     */
+    private fun checkLoginStatus() {
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+
+        if (account != null) {
+            // 로그인된 경우 적절한 액티비티로 이동
+            navigateToActivity(account.email.toString())
+        } else {
+            // 로그인되지 않은 경우 스플래시 화면 표시
+            loadSplashScreen()
+        }
+    }
+
+    /**
+     * 로그인된 사용자의 이메일을 기반으로 액티비티 분기 처리
+     * @param email 사용자 구글 이메일
+     */
+    private fun navigateToActivity(email: String) {
+        val userRef = Firebase.database(DB_URL).getReference("Users")
+        val guardianRef = Firebase.database(DB_URL).getReference("Guardian")
+
+        val userListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    // User 테이블에 해당 이메일 정보가 있는 경우 ElderActivity로 이동
+                    Handler(mainLooper).postDelayed({
+                        val intent =
+                            Intent(applicationContext, ElderActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                    }, 2500)
+                } else {
+                    // User 테이블에 해당 이메일 정보가 없으면 Guardian 테이블을 검사
+                    guardianRef.orderByChild("gmail").equalTo(email).addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (snapshot.exists()) {
+                                // Guardian 테이블에 해당 이메일 정보가 있는 경우 GuardianActivity로 이동
+                                Handler(mainLooper).postDelayed({
+                                    val intent =
+                                        Intent(applicationContext, GuardianActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                                }, 2500)
+                            } else {
+                                // Guardian 테이블에 해당 이메일 정보가 없으면 스플래시 화면 표시
+                                loadSplashScreen()
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            // 데이터 조회 오류 처리
+                        }
+                    })
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // 데이터 조회 오류 처리
+            }
+        }
+
+        // User 테이블에서 이메일 정보 검사
+        userRef.orderByChild("gmail").equalTo(email).addListenerForSingleValueEvent(userListener)
+    }
+
+    /**
+     * 스플래시 화면 표시
+     */
     private fun loadSplashScreen() {
-        Handler().postDelayed({
+        Handler(mainLooper).postDelayed({
             val intent = Intent(this, StartActivity::class.java)
             startActivity(intent)
             finish()
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        }, 3000)
+        }, 2500)
     }
 
-    override fun onStart() {
-        super.onStart()
-        val account = this.let { GoogleSignIn.getLastSignedInAccount(it) }
-        if (account != null) {
-            // 이미 로그인한 사용자임.
-            // gmail 가지고 와서 DB에서 어르신인지, 보호자인지 확인
-            val gmail = account.email.toString()
-
-            // User 테이블에서 이메일 주소를 키 값으로 가지는 노드가 존재하는지 확인
-            Firebase.database(DB_URL)
-                .getReference("Users")
-                .orderByChild("gmail")
-                .equalTo(gmail)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            // 해당 이메일 주소를 가진 데이터가 User 테이블에 존재하는 경우
-                            for (data in snapshot.children) {
-                                user_id = data.child("id").getValue(Int::class.java)!!
-                            }
-
-                            Handler().postDelayed({
-                                val intent =
-                                    Intent(applicationContext, ElderActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-                            }, 3000)
-                        } else {
-                            // 해당 이메일 주소를 가진 데이터가 User 테이블에 존재하지 않는 경우
-
-                            // Guardian 테이블에서 이메일 주소를 키 값으로 가지는 노드가 존재하는지 확인
-                            Firebase.database(DB_URL)
-                                .getReference("Guardian")
-                                .orderByChild("gmail")
-                                .equalTo(gmail)
-                                .addListenerForSingleValueEvent(object : ValueEventListener {
-                                    override fun onDataChange(snapshot: DataSnapshot) {
-                                        if (snapshot.exists()) {
-                                            // 해당 이메일 주소를 가진 데이터가 Guardian 테이블에 존재하는 경우
-                                            for (data in snapshot.children) {
-                                                val userId =
-                                                    data.child("user_id").getValue(Int::class.java)
-                                                if (userId != null)
-                                                    user_id = userId
-                                            }
-
-                                            Handler().postDelayed({
-                                                val intent = Intent(
-                                                    applicationContext,
-                                                    GuardianActivity::class.java
-                                                )
-                                                startActivity(intent)
-                                                finish()
-                                                overridePendingTransition(
-                                                    R.anim.fade_in,
-                                                    R.anim.fade_out
-                                                )
-                                            }, 3000)
-                                        } else {
-                                            // 해당 이메일 주소를 가진 데이터가 Guardian 테이블에 존재하지 않는 경우
-                                            loadSplashScreen()
-                                        }
-                                    }
-
-                                    override fun onCancelled(error: DatabaseError) {
-                                        // 쿼리 실행 중 오류 발생 시 처리할 내용
-                                    }
-                                })
-                        }
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        // 쿼리 실행 중 오류 발생 시 처리할 내용
-                    }
-                })
-        } else {
-            loadSplashScreen()
-        }
-    }
 }
