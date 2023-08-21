@@ -3,6 +3,7 @@ package com.swu.caresheep.elder
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -15,8 +16,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.swu.caresheep.*
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.ui.elder.main.ElderActivity
@@ -24,6 +24,10 @@ import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_voice_sub.voice_question
 import java.text.SimpleDateFormat
 import java.util.*
+import com.swu.caresheep.MyFirebaseMessagingService
+import com.swu.caresheep.R
+import com.swu.caresheep.data.model.Guardian
+import com.swu.caresheep.recyclerview.RecycleMainRecordActivity
 
 
 class ElderVoiceSubActivity : AppCompatActivity() {
@@ -35,6 +39,8 @@ class ElderVoiceSubActivity : AppCompatActivity() {
 
     private lateinit var database: DatabaseReference // DB (파이어베이스)
 
+    private var fcmMessageTitle = "title"
+    private var notificationTitle = "title"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,7 +163,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     danger = danger,
 
                     in_need = in_need,
-                    user_id = user_id,
+                    user_id = 1,
 
                     // 우선 디폴트 값으로
                     check = 0,
@@ -182,7 +188,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-            sendFCMNotification(danger, in_need, content)
+            sendFCMNotification(danger, in_need, content) // fcm 알림 전송 메서드 호출
 
         }
 
@@ -192,35 +198,73 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         override fun onEvent(eventType: Int, params: Bundle?) {}
     }
 
+    // fcm 알림 전송
     private fun sendFCMNotification(danger: String, in_need: String, content: String) {
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+        // 채널 생성
         val channel = NotificationChannel(
             "fcm_default_channel",
             "음성 알림",
             NotificationManager.IMPORTANCE_HIGH
-        ).apply {
-        }
+        )
         notificationManager.createNotificationChannel(channel)
 
-        val notificationTitle = when {
-            danger == "1" && in_need == "1" -> "danger and inNeed"
-            danger == "1" -> "danger"
-            in_need == "1" -> "inNeed"
-            else -> "daily"
+        // fcm 알림 제목 설정
+        if(danger == "1" && in_need == "1")
+            fcmMessageTitle = "danger and in_need"
+        else if (danger == "1")
+            fcmMessageTitle = "danger"
+        else if (in_need == "1")
+            fcmMessageTitle = "in_need"
+        else if (danger == "0" && in_need == "0")
+            fcmMessageTitle = "daily"
+
+        val fcmMessageContent = content
+
+        // fcm 알림 클릭 시 이동될 화면
+        val intent = Intent(this, RecycleMainRecordActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+
+        
+        // Guardian 정보를 Firebase에서 가져오는 작업
+        var guardianFCMToken = "" // Guardian의 FCM 토큰을 가져와야 합니다.
+
+        database =
+            FirebaseDatabase.getInstance(DB_URL).getReference("Guardian")
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (guardianSnapshot in dataSnapshot.children) {
+                    val guardian = guardianSnapshot.getValue(Guardian::class.java)
+                    if (!guardian?.fcmToken.isNullOrEmpty()) {
+                        guardianFCMToken = guardian!!.fcmToken.toString()
+                        break  // 토큰이 있는 Guardian을 찾았으면 더 이상 반복하지 않음
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // 에러 처리
+            }
+        })
+
+        // Guardian의 FCM 토큰이 있을 경우에만 알림을 전송
+        guardianFCMToken?.let {
+            val notification = NotificationCompat.Builder(this, "fcm_default_channel")
+                .setContentTitle(fcmMessageTitle)
+                .setContentText(fcmMessageContent)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent) // 이동 화면
+                .setAutoCancel(true) //클릭 시 알림 사라지도록
+                .build()
+
+            notificationManager.notify(1, notification)
         }
-        val notificationMessage = content
-
-        val notification = NotificationCompat.Builder(this, "fcm_default_channel")
-            .setContentTitle(notificationTitle)
-            .setContentText(notificationMessage)
-            .setSmallIcon(R.drawable.ic_notification) // Replace with your notification icon
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
-
-        notificationManager.notify(1, notification)
     }
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.swu.caresheep.ui.start
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -9,11 +10,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.data.model.Guardian
 import com.swu.caresheep.R
@@ -92,6 +95,18 @@ class UserAgeFragment : Fragment() {
         val userAge = binding.etUserAge.text.toString().toInt()
 
         val gmail = activity?.intent?.extras?.getString("gmail")!!
+        var fcmtoken = ""
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            fcmtoken = task.result
+
+        })
 
         // 저장 경로 설정
         val pathNode = if (userType == "elder") "Users" else "Guardian"
@@ -136,7 +151,7 @@ class UserAgeFragment : Fragment() {
                     val id = (childCount + 1).toInt() // Guardian의 id (데이터 count number)
 
                     val guardian =
-                        Guardian(id, null, userName, userAge, userGender, null, gmail)
+                        Guardian(id, null, userName, userAge, userGender, null, gmail, fcmtoken)
 
                     reference.child(id.toString()).setValue(guardian)
                         .addOnSuccessListener {
