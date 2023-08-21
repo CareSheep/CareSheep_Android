@@ -63,6 +63,9 @@ class SplashActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     // User 테이블에 해당 이메일 정보가 있는 경우 ElderActivity로 이동
+                    for (data in snapshot.children) {
+                        user_id = data.child("id").getValue(Int::class.java)!!
+                    }
                     Handler(mainLooper).postDelayed({
                         val intent =
                             Intent(applicationContext, ElderActivity::class.java)
@@ -72,27 +75,34 @@ class SplashActivity : AppCompatActivity() {
                     }, 2500)
                 } else {
                     // User 테이블에 해당 이메일 정보가 없으면 Guardian 테이블을 검사
-                    guardianRef.orderByChild("gmail").equalTo(email).addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if (snapshot.exists()) {
-                                // Guardian 테이블에 해당 이메일 정보가 있는 경우 GuardianActivity로 이동
-                                Handler(mainLooper).postDelayed({
-                                    val intent =
-                                        Intent(applicationContext, GuardianActivity::class.java)
-                                    startActivity(intent)
-                                    finish()
-                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-                                }, 2500)
-                            } else {
-                                // Guardian 테이블에 해당 이메일 정보가 없으면 스플래시 화면 표시
-                                loadSplashScreen()
+                    guardianRef.orderByChild("gmail").equalTo(email)
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()) {
+                                    for (data in snapshot.children) {
+                                        val userId =
+                                            data.child("user_id").getValue(Int::class.java)
+                                        if (userId != null)
+                                            user_id = userId
+                                    }
+                                    // Guardian 테이블에 해당 이메일 정보가 있는 경우 GuardianActivity로 이동
+                                    Handler(mainLooper).postDelayed({
+                                        val intent =
+                                            Intent(applicationContext, GuardianActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                                    }, 2500)
+                                } else {
+                                    // Guardian 테이블에 해당 이메일 정보가 없으면 스플래시 화면 표시
+                                    loadSplashScreen()
+                                }
                             }
-                        }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            // 데이터 조회 오류 처리
-                        }
-                    })
+                            override fun onCancelled(error: DatabaseError) {
+                                // 데이터 조회 오류 처리
+                            }
+                        })
                 }
             }
 
