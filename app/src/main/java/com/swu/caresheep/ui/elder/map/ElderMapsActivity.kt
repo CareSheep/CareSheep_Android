@@ -1,4 +1,4 @@
-package com.swu.caresheep
+package com.swu.caresheep.ui.elder.map
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -14,6 +14,7 @@ import com.google.firebase.annotations.concurrent.UiThread
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityElderMapsBinding
 import com.swu.caresheep.utils.*
 

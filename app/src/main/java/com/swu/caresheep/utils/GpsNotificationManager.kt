@@ -10,8 +10,8 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.swu.caresheep.ElderMapsActivity
-import com.swu.caresheep.ElderMapsActivity.Companion.moveAppSettings
+import com.swu.caresheep.ui.elder.map.ElderMapsActivity
+import com.swu.caresheep.ui.elder.map.ElderMapsActivity.Companion.moveAppSettings
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.elder.main.ElderActivity
 

@@ -24,8 +24,8 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.Marker
 import com.swu.caresheep.App.Companion.getApplicationContext
 import com.swu.caresheep.BuildConfig.DB_URL
-import com.swu.caresheep.ElderMapsActivity
-import com.swu.caresheep.ElderMapsActivity.Companion.moveAppSettings
+import com.swu.caresheep.ui.elder.map.ElderMapsActivity
+import com.swu.caresheep.ui.elder.map.ElderMapsActivity.Companion.moveAppSettings
 import com.swu.caresheep.ui.start.user_id
 import java.text.SimpleDateFormat
 import java.util.*
@@ -158,7 +158,7 @@ object LocationUtil {
 
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.KOREA).format(Date())
 
-        val currentLocationData = com.swu.caresheep.Location(
+        val currentLocationData = com.swu.caresheep.data.model.Location(
             latitude = currentLocation.latitude.toString(),
             longitude = currentLocation.longitude.toString(),
             location_date = timeStamp,
@@ -170,7 +170,7 @@ object LocationUtil {
                 var existingDataKey: String? = null
 
                 for (childSnapshot in dataSnapshot.children) {
-                    val location = childSnapshot.getValue(com.swu.caresheep.Location::class.java)
+                    val location = childSnapshot.getValue(com.swu.caresheep.data.model.Location::class.java)
                     if (location?.user_id == user_id) {
                         existingDataKey = childSnapshot.key
                         break

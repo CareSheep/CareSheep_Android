@@ -3,6 +3,7 @@ package com.swu.caresheep.ui.elder.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.swu.caresheep.data.model.ElderTodaySchedule
 import com.swu.caresheep.databinding.ItemElderTodayScheduleBinding
 
 class ElderTodayScheduleRVAdapter(private var scheduleList: ArrayList<ElderTodaySchedule>) :

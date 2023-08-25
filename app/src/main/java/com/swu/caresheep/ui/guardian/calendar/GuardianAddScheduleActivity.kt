@@ -77,10 +77,7 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
         setupTimePickers(setupSelectedDate())
 
         // 월 초기 설정
-        val months = arrayOf(
-            "1월", "2월", "3월", "4월", "5월", "6월",
-            "7월", "8월", "9월", "10월", "11월", "12월"
-        )
+        val months = Array(12) { (it + 1).toString() + "월" }
         binding.npStartMonth.displayedValues = months  // 시작 Date
         binding.npStartMonth.minValue = 1
         binding.npStartMonth.maxValue = months.size
@@ -95,16 +92,21 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
         // 시작 월 변경
         binding.npStartMonth.setOnValueChangedListener { _, _, newMonth ->
-            if (newMonth == 1 && currentStartMonth == 12) { // 12월에서 1월로 변경할 경우
+            val isChangingToJanuary = newMonth == 1 && currentStartMonth == 12  // 12월에서 1월로 변경할 경우
+            val isChangingToDecember = newMonth == 12 && currentStartMonth == 1  // 1월에서 12월로 변경할 경우
+
+            if (isChangingToJanuary) {
                 currentStartYear++  // 연도 증가
-            } else if (newMonth == 12 && currentStartMonth == 1) { // 1월에서 12월로 변경할 경우
+            } else if (isChangingToDecember) {
                 currentStartYear--  // 연도 감소
             }
+
             // 현재 월 갱신
             currentStartMonth = newMonth
 
             // 일 설정
-            updateDayPicker(getMaxDayOfMonth(currentStartYear, currentStartMonth))
+            val maxDayOfMonth = getMaxDayOfMonth(currentStartYear, currentStartMonth)
+            updateDayPicker(maxDayOfMonth)
 
             // 시작 시간 업데이트
             updateStartTimeText(
@@ -132,11 +134,15 @@ class GuardianAddScheduleActivity : AppCompatActivity() {
 
         // 종료 월 변경
         binding.npEndMonth.setOnValueChangedListener { _, _, newMonth ->
-            if (newMonth == 1 && currentEndMonth == 12) { // 12월에서 1월로 변경할 경우
+            val isChangingToJanuary = newMonth == 1 && currentEndMonth == 12  // 12월에서 1월로 변경할 경우
+            val isChangingToDecember = newMonth == 12 && currentEndMonth == 1  // 1월에서 12월로 변경할 경우
+
+            if (isChangingToJanuary) {
                 currentEndYear++  // 연도 증가
-            } else if (newMonth == 12 && currentEndMonth == 1) { // 1월에서 12월로 변경할 경우
+            } else if (isChangingToDecember) {
                 currentEndYear--  // 연도 감소
             }
+
             // 현재 월 갱신
             currentEndMonth = newMonth
 

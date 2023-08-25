@@ -38,7 +38,7 @@ import com.swu.caresheep.databinding.FragmentGuardianCalendarBinding
 import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
 import com.swu.caresheep.data.model.GuardianSchedule
 import com.swu.caresheep.databinding.ActivityElderBinding
-import com.swu.caresheep.ui.elder.main.ElderTodaySchedule
+import com.swu.caresheep.data.model.ElderTodaySchedule
 import com.swu.caresheep.ui.elder.main.ElderTodayScheduleRVAdapter
 import com.swu.caresheep.ui.guardian.calendar.GuardianScheduleDetailActivity
 import com.swu.caresheep.ui.guardian.calendar.GuardianScheduleRVAdapter

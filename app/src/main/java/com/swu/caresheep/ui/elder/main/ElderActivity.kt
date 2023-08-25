@@ -29,7 +29,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig.DB_URL
-import com.swu.caresheep.ElderMapsActivity
+import com.swu.caresheep.ui.elder.map.ElderMapsActivity
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityElderBinding
 import com.swu.caresheep.elder.AlarmReceiver

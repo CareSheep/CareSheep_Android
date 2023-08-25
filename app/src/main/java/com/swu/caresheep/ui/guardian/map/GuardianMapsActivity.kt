@@ -1,4 +1,4 @@
-package com.swu.caresheep
+package com.swu.caresheep.ui.guardian.map
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +12,8 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.swu.caresheep.BuildConfig.DB_URL
+import com.swu.caresheep.R
+import com.swu.caresheep.data.model.Location
 import com.swu.caresheep.databinding.ActivityGuardianMapsBinding
 import com.swu.caresheep.ui.start.user_id
 

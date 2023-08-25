@@ -72,10 +72,10 @@
             android:name=".ui.guardian.calendar.GuardianScheduleDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ElderMapsActivity"
+            android:name=".ui.elder.map.ElderMapsActivity"
             android:exported="true" />
         <activity
-            android:name=".GuardianMapsActivity"
+            android:name=".ui.guardian.map.GuardianMapsActivity"
             android:exported="true" />
 
         <meta-data

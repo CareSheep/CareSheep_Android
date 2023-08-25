@@ -22,7 +22,7 @@ import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.google.firebase.database.FirebaseDatabase
 import com.swu.caresheep.BuildConfig.DB_URL
-import com.swu.caresheep.GuardianMapsActivity
+import com.swu.caresheep.ui.guardian.map.GuardianMapsActivity
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
 import com.swu.caresheep.recyclerview.RecycleMainRecordActivity

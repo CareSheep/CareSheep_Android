@@ -1,4 +1,4 @@
-package com.swu.caresheep
+package com.swu.caresheep.data.model
 
 data class Location (
     var latitude : String = "",
