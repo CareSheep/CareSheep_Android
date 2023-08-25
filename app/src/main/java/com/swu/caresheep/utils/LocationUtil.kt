@@ -52,7 +52,8 @@ object LocationUtil {
     )
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private const val backgroundLocationPermission = android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
+    private const val backgroundLocationPermission =
+        android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
 
     init {
         fusedLocationProviderClient =
@@ -84,11 +85,17 @@ object LocationUtil {
     fun initBackgroundLocationUtil(activity: ElderMapsActivity) {
         if (!hasBackgroundLocationPermission(activity)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ActivityCompat.requestPermissions(
-                    activity,
-                    arrayOf(backgroundLocationPermission),
-                    BACKGROUND_LOCATION_PERMISSION_REQUEST_CODE
-                )
+                val builder = AlertDialog.Builder(activity)
+                builder.setTitle("서비스 이용 알림").setCancelable(false)
+                builder.setMessage("앱을 사용하기 위해서는 위치 권한이 필요합니다. 설정으로 이동하여 권한을 항상 허용해주세요.")
+                builder.setPositiveButton("설정으로 이동") { _, _ ->
+                    ActivityCompat.requestPermissions(
+                        activity,
+                        arrayOf(backgroundLocationPermission),
+                        BACKGROUND_LOCATION_PERMISSION_REQUEST_CODE
+                    )
+                }
+                builder.show()
             } else {
                 // 설정으로 이동
                 val builder = AlertDialog.Builder(activity)
@@ -130,7 +137,7 @@ object LocationUtil {
                     }
                 }
 
-                Log.e("[GpsManager] currentLocation", currentLocation.toString())
+//                Log.e("[GpsManager] currentLocation", currentLocation.toString())
             }
         }
 
