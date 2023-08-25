@@ -44,9 +44,10 @@ import com.swu.caresheep.ui.start.StartActivity
 import com.swu.caresheep.ui.start.user_id
 import com.swu.caresheep.utils.CalendarUtil
 import com.swu.caresheep.utils.CalendarUtil.Companion.SEOUL_TIME_ZONE
+import com.swu.caresheep.utils.LocationUtil
 import java.util.Calendar
 
-var emergency_id : Int = 0
+var emergency_id: Int = 0
 
 class ElderActivity : AppCompatActivity(), SensorEventListener {
 
@@ -58,9 +59,11 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
     lateinit var stepCountView: TextView
 
     // 어른신이 걸으시는지(긴급 상황이 아닌지) 확인
-    var isWalking : Boolean = false
+    var isWalking: Boolean = false
+
     // 현재 걸음 수
     var currentSteps = 0
+
     // 긴급상황 DB 연결
     private lateinit var dbRef: DatabaseReference
 
@@ -72,7 +75,6 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityElderBinding.inflate(layoutInflater)
@@ -82,6 +84,9 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
         window.statusBarColor = ContextCompat.getColor(this, R.color.orange_100)
 
         calendarUtil = CalendarUtil(this, null, this, binding)
+
+        // 위치 권한 요청
+        LocationUtil.initForegroundLocationUtil(this)
 
         // 3분 = 180초 동안 걷지 않으면 걷지 않음 알림
 //        Timer().schedule(180000) {
@@ -238,6 +243,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
         calendarUtil.mID = 3  // 일정 조회
         calendarUtil.getResultsFromApi(today, null, null)
     }
+
 
     /* 루틴 가져오기 */
     private fun getBreakfastAlarm() {
@@ -630,11 +636,12 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 
 
     /**걷기 감지**/
-    private fun checkWalking(){
-        if(currentSteps > 0){
+    private fun checkWalking() {
+        if (currentSteps > 0) {
             isWalking = true
         }
     }
+
     override fun onSensorChanged(event: SensorEvent) {
         // 걸음 센서 이벤트 발생시
         if (event.sensor.type == Sensor.TYPE_STEP_DETECTOR) {
