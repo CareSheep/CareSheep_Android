@@ -12,6 +12,7 @@ import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.guardian.GuardianStartSetMedicineActivity
+import com.swu.caresheep.ui.guardian.emergency.GuardianSetSleepTimeActivity
 import com.swu.caresheep.ui.guardian.routine_id
 import kotlinx.android.synthetic.main.activity_guardian_set_dinner_time.dinnerTimePicker
 import kotlinx.android.synthetic.main.activity_guardian_set_dinner_time.setDinnerTimeButton
@@ -57,7 +58,7 @@ class GuardianSetDinnerTimeActivity : AppCompatActivity() {
             }
 
             // 다음 액티비티 이동
-            startActivity(Intent(this, GuardianStartSetMedicineActivity::class.java))
+            startActivity(Intent(this, GuardianSetSleepTimeActivity::class.java))
         }
     }
 
