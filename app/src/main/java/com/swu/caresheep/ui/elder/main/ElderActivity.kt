@@ -905,7 +905,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun checkEmergency(){
-        Log.d("긴급 상황 감지!!", "heyy")
+        Log.d("긴급 상황 감지!!", " ")
         // AlarmManager 설정
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val alarmIntent = Intent(this, AlarmReceiverCheckEmergency::class.java).apply {

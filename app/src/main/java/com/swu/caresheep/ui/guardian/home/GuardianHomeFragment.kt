@@ -595,7 +595,6 @@ class GuardianHomeFragment : Fragment() {
                 Log.e("보호자 홈: ", "요청이 취소됐습니다.")
             }
         }
-
     }
 
     private fun getEmergencyAlarm() {
@@ -670,7 +669,6 @@ class GuardianHomeFragment : Fragment() {
                             }
                         }
                     }
-
                     override fun onCancelled(error: DatabaseError) {
                         // 쿼리 실행 중 오류 발생 시 처리할 내용
                     }

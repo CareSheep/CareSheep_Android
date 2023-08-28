@@ -270,7 +270,6 @@
             android:enabled="true"
             android:exported="true" />
 
-
         <receiver
             android:name=".elder.AlarmReceiverWalk"
             android:enabled="true"
