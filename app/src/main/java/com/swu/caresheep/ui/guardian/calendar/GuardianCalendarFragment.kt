@@ -64,7 +64,7 @@ class GuardianCalendarFragment : Fragment() {
             }
             updateSelectedDateText()
             saveSelectedDate(selectedCalendar.time)
-            calendarUtil.mID = 3  // 이벤트 불러오기
+            calendarUtil.mID = 3  // 일정 조회
             calendarUtil.getResultsFromApi(selectedCalendar, null, null)
         }
 

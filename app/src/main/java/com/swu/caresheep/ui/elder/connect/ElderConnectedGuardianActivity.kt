@@ -11,6 +11,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
+import com.swu.caresheep.data.model.ConnectedGuardian
 import com.swu.caresheep.databinding.ActivityElderConnectedGuardianBinding
 import com.swu.caresheep.ui.start.user_id
 

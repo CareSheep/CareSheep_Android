@@ -37,6 +37,9 @@ import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianCalendarBinding
 import com.swu.caresheep.databinding.FragmentGuardianHomeBinding
 import com.swu.caresheep.data.model.GuardianSchedule
+import com.swu.caresheep.databinding.ActivityElderBinding
+import com.swu.caresheep.data.model.ElderTodaySchedule
+import com.swu.caresheep.ui.elder.main.ElderTodayScheduleRVAdapter
 import com.swu.caresheep.ui.guardian.calendar.GuardianScheduleDetailActivity
 import com.swu.caresheep.ui.guardian.calendar.GuardianScheduleRVAdapter
 import com.swu.caresheep.ui.guardian.home.GuardianTodayScheduleRVAdapter
@@ -93,7 +96,11 @@ class CalendarUtil(
             // Google Play Services를 사용할 수 없는 경우
             !isGooglePlayServicesAvailable() -> acquireGooglePlayServices()
             // 유효한 Google 계정이 선택되어 있지 않은 경우
-            mCredential.selectedAccountName == null -> connectGoogleAccount(selectedDate, event, eventId)
+            mCredential.selectedAccountName == null -> connectGoogleAccount(
+                selectedDate,
+                event,
+                eventId
+            )
             // 인터넷 연결이 안되어 있는 경우
             !isDeviceOnline() -> Toast.makeText(
                 context,
@@ -146,7 +153,11 @@ class CalendarUtil(
      * Google 계정이 연결되지 않았을 경우, 계정을 선택하고 API 호출
      * @param selectedDate 선택된 날짜 (nullable)
      */
-    private fun connectGoogleAccount(selectedDate: java.util.Calendar?, event: Event?,eventId: String?) {
+    private fun connectGoogleAccount(
+        selectedDate: java.util.Calendar?,
+        event: Event?,
+        eventId: String?
+    ) {
         // 구글 계정 연결 후 Google Calendar API 호출
         val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(context)
         mCredential.selectedAccount = lastSignedInAccount?.account
@@ -181,7 +192,11 @@ class CalendarUtil(
      * Google Calendar API 호출
      * @param selectedDate 선택된 날짜 (nullable)
      */
-    private fun callGoogleCalendarApi(selectedDate: java.util.Calendar?, event: Event?, eventId: String?) {
+    private fun callGoogleCalendarApi(
+        selectedDate: java.util.Calendar?,
+        event: Event?,
+        eventId: String?
+    ) {
         if (fragment != null) {
             fragment.lifecycleScope.launch {
                 val elderInfo = withContext(Dispatchers.IO) {
@@ -309,9 +324,15 @@ class CalendarUtil(
         private var scheduleData = ArrayList<GuardianSchedule>()
         private var scheduleRVAdapter = GuardianScheduleRVAdapter(scheduleData)
 
-        // 오늘의 일정 데이터 리스트 선언
+        // 오늘의 일정(보호자) 데이터 리스트 선언
         private var todayScheduleData = ArrayList<GuardianSchedule>()
-        private val todayScheduleRVAdapter = GuardianTodayScheduleRVAdapter(todayScheduleData)
+        private var todayScheduleRVAdapter = GuardianTodayScheduleRVAdapter(todayScheduleData)
+
+        // 오늘의 일정(어르신) 데이터 리스트 선언
+        private var elderTodayScheduleData = ArrayList<ElderTodaySchedule>()
+        private var elderTodayScheduleRVAdapter =
+            ElderTodayScheduleRVAdapter(elderTodayScheduleData)
+
 
         init {
             val transport: HttpTransport = AndroidHttp.newCompatibleTransport()
@@ -347,17 +368,24 @@ class CalendarUtil(
                 }
             }
                 ?: CoroutineScope(Dispatchers.Main).launch {
+                    onPreExecute()
+
                     try {
-                        when (mID) {
+                        val result = when (mID) {
                             2 -> withContext(Dispatchers.IO) {
                                 addEvent(event!!)
-                                null
+                            }
+                            3 -> withContext(Dispatchers.IO) {
+                                getElderEvent(selectedDate)
                             }
                             4 -> withContext(Dispatchers.IO) {
                                 deleteEvent(eventId!!)
                                 null
                             }
+                            else -> null
                         }
+
+                        onPostExecute(result)
                     } catch (e: Exception) {
                         mLastError = e
                     }
@@ -365,24 +393,34 @@ class CalendarUtil(
 
 
         private fun onPreExecute() {
-            if (binding is FragmentGuardianCalendarBinding) {
-                binding.rvSchedule.adapter = scheduleRVAdapter
+            when (binding) {
+                is FragmentGuardianCalendarBinding -> {
+                    binding.rvSchedule.adapter = scheduleRVAdapter
 
-                binding.llScheduleNotExist.visibility = View.INVISIBLE
-                binding.rvSchedule.visibility = View.GONE
+                    binding.llScheduleNotExist.visibility = View.INVISIBLE
+                    binding.rvSchedule.visibility = View.GONE
 
-                binding.pbScheduleLoading.show()
-            } else if (binding is FragmentGuardianHomeBinding) {
-                binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
+                    binding.pbScheduleLoading.show()
+                }
+                is FragmentGuardianHomeBinding -> {
+                    binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
 
-                binding.llTodayScheduleNotExist.visibility = View.INVISIBLE
+                    binding.llTodayScheduleNotExist.visibility = View.INVISIBLE
 
-                binding.pbScheduleLoading.show()
+                    binding.pbScheduleLoading.show()
+                }
+                is ActivityElderBinding -> {
+                    binding.rvTodaySchedule.adapter = elderTodayScheduleRVAdapter
+
+                    binding.llTodayScheduleNotExist.visibility = View.INVISIBLE
+                    binding.pbTodayScheduleLoading.show()
+                }
             }
         }
 
 
         /**
+         * 보호자 일정 조회
          * CalendarTitle 이름의 캘린더에서 해당 날짜의 일정을 가져와 리턴
          */
         @Throws(IOException::class)
@@ -502,6 +540,95 @@ class CalendarUtil(
         }
 
         /**
+         * 어르신 일정 조회
+         * CalendarTitle 이름의 캘린더에서 해당 날짜의 일정을 가져와 리턴
+         */
+        @Throws(IOException::class)
+        private fun getElderEvent(selectedDate: java.util.Calendar?): List<ElderTodaySchedule>? {
+            val testDate: java.util.Calendar =
+                selectedDate ?: java.util.Calendar.getInstance(SEOUL_TIME_ZONE)
+
+            // 선택된 날짜로부터 시작과 끝 시간을 계산
+            val startOfDay = testDate.clone() as java.util.Calendar
+            startOfDay.set(java.util.Calendar.HOUR_OF_DAY, 0)
+            startOfDay.set(java.util.Calendar.MINUTE, 0)
+            startOfDay.set(java.util.Calendar.SECOND, 0)
+
+            val endOfDay = testDate.clone() as java.util.Calendar
+            endOfDay.set(java.util.Calendar.HOUR_OF_DAY, 23)
+            endOfDay.set(java.util.Calendar.MINUTE, 59)
+            endOfDay.set(java.util.Calendar.SECOND, 59)
+
+
+            val calendarID: String? = getCalendarID()
+            if (calendarID == null) {
+                if (binding is ActivityElderBinding) {
+                    binding.llTodayScheduleNotExist.visibility = View.VISIBLE
+                    binding.rvTodaySchedule.visibility = View.INVISIBLE
+                }
+                return null
+            }
+
+            val events: Events = mService!!.events().list(calendarID)
+                .setTimeMin(DateTime(startOfDay.timeInMillis))
+                .setTimeMax(DateTime(endOfDay.timeInMillis))
+                .setOrderBy("startTime")
+                .setSingleEvents(true)
+                .execute()
+
+            val items: List<Event> = events.items
+
+            // 일정 데이터 리스트 선언
+            val scheduleData = ArrayList<ElderTodaySchedule>()
+
+            // CalendarView에 일정 표시
+            val calendar = java.util.Calendar.getInstance(SEOUL_TIME_ZONE)
+            items.forEach { event ->
+                var eventTitle = event.summary
+                if (eventTitle.isNullOrEmpty()) {
+                    eventTitle = "(제목 없음)"
+                }
+                val start = event.start.dateTime
+                val end = event.end.dateTime
+
+                var startTime = ""
+
+                if (start != null) {
+                    // 한국 시간대로 설정
+                    val koreaTimeZone = TimeZone.getTimeZone("Asia/Seoul")
+                    calendar.timeZone = koreaTimeZone
+
+                    // 일정 시작 시간 계산
+                    val startDate = Date(start.value)
+                    calendar.time = startDate
+                    val startHour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
+                    val startMinute = calendar.get(java.util.Calendar.MINUTE)
+                    val startAMPM = calendar.get(java.util.Calendar.AM_PM)
+
+                    val strStartMinute = if (startMinute / 10 == 0) "0$startMinute" else startMinute
+                    val strStartAMPM = if (startAMPM == java.util.Calendar.AM) "오전"
+                    else "오후"
+                    val startHour12 =
+                        if (startHour == 0) 12 else if (startHour > 12) startHour - 12 else startHour
+
+                    startTime = "$strStartAMPM ${startHour12}:${strStartMinute}"
+                }
+
+                scheduleData.add(
+                    ElderTodaySchedule(
+                        startTime,
+                        if (start != null && end != null) 0 else 1,
+                        eventTitle
+                    )
+                )
+            }
+
+            Log.e("calendar", scheduleData.size.toString() + "개의 데이터를 가져왔습니다.")
+
+            return scheduleData
+        }
+
+        /**
          * 선택되어 있는 Google 계정에 새 캘린더를 추가
          */
         @Throws(IOException::class)
@@ -583,87 +710,142 @@ class CalendarUtil(
             return "deleted : "
         }
 
-        private fun onPostExecute(result: List<GuardianSchedule>?) {
-            if (binding is FragmentGuardianCalendarBinding) {
-                result?.let {
-                    if (result.isNotEmpty()) {
-                        // RecyclerView 어댑터와 데이터 리스트 연결
-                        scheduleRVAdapter =
-                            GuardianScheduleRVAdapter(it as ArrayList<GuardianSchedule>)
-                        binding.rvSchedule.adapter = scheduleRVAdapter
+        private fun onPostExecute(result: List<Any>?) {
+            when (binding) {
+                is FragmentGuardianCalendarBinding -> {
+                    result?.let {
+                        if (result.isNotEmpty()) {
+                            // RecyclerView 어댑터와 데이터 리스트 연결
+                            scheduleRVAdapter =
+                                GuardianScheduleRVAdapter(it.filterIsInstance<GuardianSchedule>() as ArrayList<GuardianSchedule>)
+                            binding.rvSchedule.adapter = scheduleRVAdapter
 
-                        // 일정 있으므로 RV 보이게 설정
-                        binding.llScheduleNotExist.visibility = View.INVISIBLE
-                        binding.rvSchedule.visibility = View.VISIBLE
+                            // 일정 있으므로 RV 보이게 설정
+                            binding.llScheduleNotExist.visibility = View.INVISIBLE
+                            binding.rvSchedule.visibility = View.VISIBLE
 
-                        scheduleRVAdapter.setMyItemClickListener(object :
-                            GuardianScheduleRVAdapter.MyItemClickListener {
-                            override fun onItemClick(schedule: GuardianSchedule) {
-                                // Item 클릭 시 일정 세부 페이지로 이동
-                                val gson = Gson()
-                                val itemJson = gson.toJson(schedule)
+                            scheduleRVAdapter.setMyItemClickListener(object :
+                                GuardianScheduleRVAdapter.MyItemClickListener {
+                                override fun onItemClick(schedule: GuardianSchedule) {
+                                    // Item 클릭 시 일정 세부 페이지로 이동
+                                    val gson = Gson()
+                                    val itemJson = gson.toJson(schedule)
 
-                                val intent = Intent(
-                                    context,
-                                    GuardianScheduleDetailActivity::class.java
-                                )
-                                intent.putExtra("Selected Schedule", itemJson)
-                                startActivity(context, intent, null)
+                                    val intent = Intent(
+                                        context,
+                                        GuardianScheduleDetailActivity::class.java
+                                    )
+                                    intent.putExtra("Selected Schedule", itemJson)
+                                    startActivity(context, intent, null)
+                                }
+                            })
+                        } else {
+                            // 일정 없으므로 RV 안 보이게 설정
+                            binding.llScheduleNotExist.visibility = View.VISIBLE
+                            binding.rvSchedule.visibility = View.GONE
+
+                            val context = fragment!!.requireContext()
+                            val resources = context.resources
+                            val animation =
+                                resources?.let {
+                                    AnimationUtils.loadAnimation(
+                                        context,
+                                        R.anim.fade_in
+                                    )
+                                }
+
+                            animation?.also { hyperspaceJumpAnimation ->
+                                binding.llScheduleNotExist.startAnimation(hyperspaceJumpAnimation)
                             }
-                        })
-                    } else {
-                        // 일정 없으므로 RV 안 보이게 설정
-                        binding.llScheduleNotExist.visibility = View.VISIBLE
-                        binding.rvSchedule.visibility = View.GONE
-
-                        val context = fragment!!.requireContext()
-                        val resources = context.resources
-                        val animation =
-                            resources?.let { AnimationUtils.loadAnimation(context, R.anim.fade_in) }
-
-                        animation?.also { hyperspaceJumpAnimation ->
-                            binding.llScheduleNotExist.startAnimation(hyperspaceJumpAnimation)
                         }
                     }
+                    binding.pbScheduleLoading.hide()
                 }
-                binding.pbScheduleLoading.hide()
-            } else if (binding is FragmentGuardianHomeBinding) {
-                result?.let {
-                    if (result.isNotEmpty()) {
-                        // RecyclerView 어댑터와 데이터 리스트 연결
-                        val todayScheduleRVAdapter =
-                            GuardianTodayScheduleRVAdapter(it as ArrayList<GuardianSchedule>)
-                        binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
+                is FragmentGuardianHomeBinding -> {
+                    result?.let {
+                        if (result.isNotEmpty()) {
+                            // RecyclerView 어댑터와 데이터 리스트 연결
+                            val todayScheduleRVAdapter =
+                                GuardianTodayScheduleRVAdapter(it.filterIsInstance<GuardianSchedule>() as ArrayList<GuardianSchedule>)
+                            binding.rvTodaySchedule.adapter = todayScheduleRVAdapter
 
-                        // 오늘의 일정 있으므로 RV 보이게 설정
-                        binding.llTodayScheduleNotExist.visibility = View.INVISIBLE
-                        binding.rvTodaySchedule.visibility = View.VISIBLE
-                    } else {
-                        // 오늘의 일정 없으므로 RV 안 보이게 설정
-                        binding.llTodayScheduleNotExist.visibility = View.VISIBLE
-                        binding.rvTodaySchedule.visibility = View.INVISIBLE
+                            // 오늘의 일정 있으므로 RV 보이게 설정
+                            binding.llTodayScheduleNotExist.visibility = View.INVISIBLE
+                            binding.rvTodaySchedule.visibility = View.VISIBLE
+                        } else {
+                            // 오늘의 일정 없으므로 RV 안 보이게 설정
+                            binding.llTodayScheduleNotExist.visibility = View.VISIBLE
+                            binding.rvTodaySchedule.visibility = View.INVISIBLE
 
 
-                        val context = fragment!!.requireContext()
-                        val resources = context.resources
-                        val animation =
-                            resources?.let { AnimationUtils.loadAnimation(context, R.anim.fade_in) }
+                            val context = fragment!!.requireContext()
+                            val resources = context.resources
+                            val animation =
+                                resources?.let {
+                                    AnimationUtils.loadAnimation(
+                                        context,
+                                        R.anim.fade_in
+                                    )
+                                }
 
-                        animation?.also { hyperspaceJumpAnimation ->
-                            binding.llTodayScheduleNotExist.startAnimation(hyperspaceJumpAnimation)
+                            animation?.also { hyperspaceJumpAnimation ->
+                                binding.llTodayScheduleNotExist.startAnimation(
+                                    hyperspaceJumpAnimation
+                                )
+                            }
                         }
                     }
+                    binding.pbScheduleLoading.hide()
                 }
+                is ActivityElderBinding -> {
+                    result?.let {
+                        if (result.isNotEmpty()) {
+                            // RecyclerView 어댑터와 데이터 리스트 연결
+                            elderTodayScheduleRVAdapter =
+                                ElderTodayScheduleRVAdapter(it.filterIsInstance<ElderTodaySchedule>() as ArrayList<ElderTodaySchedule>)
+                            binding.rvTodaySchedule.adapter = elderTodayScheduleRVAdapter
 
-                binding.pbScheduleLoading.hide()
+                            // 일정 있으므로 RV 보이게 설정
+                            binding.llTodayScheduleNotExist.visibility = View.INVISIBLE
+                            binding.rvTodaySchedule.visibility = View.VISIBLE
+                        } else {
+                            // 일정 없으므로 RV 안 보이게 설정
+                            binding.llTodayScheduleNotExist.visibility = View.VISIBLE
+                            binding.rvTodaySchedule.visibility = View.INVISIBLE
+
+                            val context = activity
+                            val resources = context?.resources
+                            val animation =
+                                resources?.let {
+                                    AnimationUtils.loadAnimation(
+                                        context,
+                                        R.anim.fade_in
+                                    )
+                                }
+
+                            animation?.also { hyperspaceJumpAnimation ->
+                                binding.llTodayScheduleNotExist.startAnimation(
+                                    hyperspaceJumpAnimation
+                                )
+                            }
+                        }
+                    }
+                    binding.pbTodayScheduleLoading.hide()
+                }
             }
         }
 
         private fun onCancelled() {
-            if (binding is FragmentGuardianCalendarBinding) {
-                binding.pbScheduleLoading.hide()
-            } else if (binding is FragmentGuardianHomeBinding) {
-                binding.pbScheduleLoading.hide()
+            when (binding) {
+                is FragmentGuardianCalendarBinding -> {
+                    binding.pbScheduleLoading.hide()
+                }
+                is FragmentGuardianHomeBinding -> {
+                    binding.pbScheduleLoading.hide()
+                }
+                is ActivityElderBinding -> {
+                    binding.pbTodayScheduleLoading.hide()
+                }
             }
 
             mLastError?.let { error ->
@@ -679,7 +861,7 @@ class CalendarUtil(
                     }
                     else -> {}
                 }
-            } ?: Log.e("보호자: ", "캘린더 요청이 취소됐습니다.")
+            } ?: Log.e("공유 캘린더: ", "캘린더 요청이 취소됐습니다.")
         }
     }
 }

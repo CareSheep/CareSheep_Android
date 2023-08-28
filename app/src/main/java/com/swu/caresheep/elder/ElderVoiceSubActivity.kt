@@ -17,6 +17,8 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.google.firebase.database.*
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.RemoteMessage
 import com.swu.caresheep.*
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.ui.elder.main.ElderActivity
@@ -28,6 +30,10 @@ import com.swu.caresheep.MyFirebaseMessagingService
 import com.swu.caresheep.R
 import com.swu.caresheep.data.model.Guardian
 import com.swu.caresheep.recyclerview.RecycleMainRecordActivity
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import org.json.JSONObject
+import java.io.IOException
 
 
 class ElderVoiceSubActivity : AppCompatActivity() {
@@ -176,6 +182,9 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     //업로드 성공했는지 확인해보려고
                     .addOnSuccessListener {
                         Log.d("Firebase", "데이터 업로드 성공")
+
+                        sendPushNotificationToGuardians(content)
+
                     }
                     .addOnFailureListener { exception ->
                         Log.e("Firebase", "데이터 업로드 실패: ${exception.message}", exception)
@@ -187,8 +196,20 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
             }
+//
+//            sendFCMNotification(danger, in_need, content) // fcm 알림 전송 메서드 호출
+            var notificationTitle = ""
+            if (danger == "1" && in_need == "1")
+                notificationTitle = "danger and in_need"
+            else if (danger == "1")
+                notificationTitle = "danger"
+            else if (in_need == "1")
+                notificationTitle = "in_need"
+            else if (danger == "0" && in_need == "0")
+                notificationTitle = "daily"
 
-            sendFCMNotification(danger, in_need, content) // fcm 알림 전송 메서드 호출
+            val notificationBody = content
+            //MyFirebaseMessagingService().sendNotification(notificationTitle, notificationBody)
 
         }
 
@@ -198,73 +219,134 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         override fun onEvent(eventType: Int, params: Bundle?) {}
     }
 
-    // fcm 알림 전송
-    private fun sendFCMNotification(danger: String, in_need: String, content: String) {
-        val notificationManager: NotificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        // 채널 생성
-        val channel = NotificationChannel(
-            "fcm_default_channel",
-            "음성 알림",
-            NotificationManager.IMPORTANCE_HIGH
+    private fun sendPushNotificationToGuardians(content: String) {
+        val notificationData = mapOf(
+            "title" to "New Voice Recording",
+            "message" to content
         )
-        notificationManager.createNotificationChannel(channel)
 
-        // fcm 알림 제목 설정
-        if(danger == "1" && in_need == "1")
-            fcmMessageTitle = "danger and in_need"
-        else if (danger == "1")
-            fcmMessageTitle = "danger"
-        else if (in_need == "1")
-            fcmMessageTitle = "in_need"
-        else if (danger == "0" && in_need == "0")
-            fcmMessageTitle = "daily"
-
-        val fcmMessageContent = content
-
-        // fcm 알림 클릭 시 이동될 화면
-        val intent = Intent(this, RecycleMainRecordActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-
-        
-        // Guardian 정보를 Firebase에서 가져오는 작업
-        var guardianFCMToken = "" // Guardian의 FCM 토큰을 가져와야 합니다.
-
-        database =
-            FirebaseDatabase.getInstance(DB_URL).getReference("Guardian")
+        // Retrieve guardian FCM tokens and send push notification
+        database = FirebaseDatabase.getInstance(DB_URL).getReference("Guardian")
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (guardianSnapshot in dataSnapshot.children) {
                     val guardian = guardianSnapshot.getValue(Guardian::class.java)
-                    if (!guardian?.fcmToken.isNullOrEmpty()) {
-                        guardianFCMToken = guardian!!.fcmToken.toString()
-                        break  // 토큰이 있는 Guardian을 찾았으면 더 이상 반복하지 않음
-                    }
+                    val guardianFCMToken = guardian?.fcmToken.toString()
+
+                    sendPushNotification(guardianFCMToken, notificationData)
                 }
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                // 에러 처리
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("Firebase", "Guardian data fetch failed: ${error.message}")
             }
         })
-
-        // Guardian의 FCM 토큰이 있을 경우에만 알림을 전송
-        guardianFCMToken?.let {
-            val notification = NotificationCompat.Builder(this, "fcm_default_channel")
-                .setContentTitle(fcmMessageTitle)
-                .setContentText(fcmMessageContent)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent) // 이동 화면
-                .setAutoCancel(true) //클릭 시 알림 사라지도록
-                .build()
-
-            notificationManager.notify(1, notification)
-        }
     }
 
+    private fun sendPushNotification(fcmToken: String, data: Map<String, String>) {
+        val JSON = "application/json; charset=utf-8".toMediaType()
+
+        val json = JSONObject(data)
+
+        val requestBody = RequestBody.create(JSON, json.toString())
+
+        val request = Request.Builder()
+            .url("https://fcm.googleapis.com/fcm/send")
+            .header("Authorization", "Bearer $fcmToken")
+            .post(requestBody)
+            .build()
+
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                Log.d("Firebase", "Push notification sent successfully")
+            }
+        })
+    }
+
+//
+//    // fcm 알림 전송
+//    private fun sendFCMNotification(danger: String, in_need: String, content: String) {
+//        val notificationManager: NotificationManager =
+//            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//
+//        // 채널 생성
+//        val channel = NotificationChannel(
+//            "fcm_default_channel",
+//            "음성 알림",
+//            NotificationManager.IMPORTANCE_HIGH
+//        )
+//        notificationManager.createNotificationChannel(channel)
+//
+//        // fcm 알림 제목 설정
+//        if(danger == "1" && in_need == "1")
+//            fcmMessageTitle = "danger and in_need"
+//        else if (danger == "1")
+//            fcmMessageTitle = "danger"
+//        else if (in_need == "1")
+//            fcmMessageTitle = "in_need"
+//        else if (danger == "0" && in_need == "0")
+//            fcmMessageTitle = "daily"
+//
+//        val fcmMessageContent = content
+//
+//        // fcm 알림 클릭 시 이동될 화면
+////        val intent = Intent(this, RecycleMainRecordActivity::class.java)
+////        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+////        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+//
+//
+////        val notification = NotificationCompat.Builder(this, "fcm_default_channel")
+////            .setContentTitle(fcmMessageTitle)
+////            .setContentText(fcmMessageContent)
+////            .setSmallIcon(R.drawable.ic_notification)
+////            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+////            .setContentIntent(pendingIntent) // 이동 화면
+////            .setAutoCancel(true) //클릭 시 알림 사라지도록
+////            .build()
+//
+//        // Guardian 정보를 Firebase에서 가져오는 작업
+//        database =
+//            FirebaseDatabase.getInstance(DB_URL).getReference("Guardian")
+//        database.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                var guardianFCMToken = "" // Guardian의 FCM 토큰
+//                for (guardianSnapshot in dataSnapshot.children) {
+//                    val guardian = guardianSnapshot.getValue(Guardian::class.java)
+//                    guardianFCMToken = guardian?.fcmToken.toString()
+//
+//                    if (!guardianFCMToken.isNullOrEmpty()) {
+//                        // Guardian의 토큰이 존재하면 FCM 알림 전송
+//                        val data = mapOf(
+//                            "title" to fcmMessageTitle,
+//                            "message" to fcmMessageContent
+//                        )
+//
+//                        // Create the notification message
+//                        val remoteMessage = RemoteMessage.Builder(guardianFCMToken)
+//                            .setData(data)
+//                            .build()
+//
+//                        FirebaseMessaging.getInstance().send(remoteMessage)
+//                    }
+//
+//                }
+//
+//            }
+//
+//
+//            override fun onCancelled(databaseError: DatabaseError) {
+//                // 에러 처리
+//                Log.e("Firebase", "Error fetching data: ${databaseError.message}")
+//            }
+//        })
+//
+//
+//    }
 
 
 }

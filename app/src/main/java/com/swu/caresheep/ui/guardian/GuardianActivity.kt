@@ -20,11 +20,12 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 
-class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks,SensorEventListener {
+class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
+    SensorEventListener {
 
     private lateinit var binding: ActivityGuardianBinding
 
-    var check : Int =0 // 한시간마다 노인 사용자가 움직였는지 체크하는 '횟수'
+    var check: Int = 0 // 한시간마다 노인 사용자가 움직였는지 체크하는 '횟수'
 
     lateinit var sensorManager: SensorManager
     var stepCountSensor: Sensor? = null
@@ -33,7 +34,7 @@ class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallback
     var currentSteps = 0
 
     // 긴급 상황 확인
-    var emergency : Int = 0
+    var emergency: Int = 0
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
 
@@ -68,12 +69,12 @@ class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallback
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
-    private fun checkMoving(){
-        if(currentSteps>=1){
+    private fun checkMoving() {
+        if (currentSteps >= 1) {
             // 긴급상황 아님
-        }else if(currentSteps < 1){
+        } else if (currentSteps < 1) {
             check++
-            if(check >=24){
+            if (check >= 24) {
                 // 긴급상황 발생
                 emergency = 1;
                 // 데이터 베이스에 긴급상황 관련 내용 추가 => 보호자측에서 볼 수 있게끔 하기
@@ -81,7 +82,7 @@ class GuardianActivity : AppCompatActivity(), EasyPermissions.PermissionCallback
         }
     }
 
-    private fun pushEmergency(){
+    private fun pushEmergency() {
 
     }
 

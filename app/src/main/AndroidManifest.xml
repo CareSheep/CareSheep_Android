@@ -24,9 +24,12 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -37,6 +40,13 @@
         android:theme="@style/Theme.CareSheep"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <service
+            android:name=".utils.GpsForegroundService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location" />
+
         <activity
             android:name=".ui.elder.connect.ElderConnectedGuardianActivity"
             android:exported="true" />
@@ -62,10 +72,10 @@
             android:name=".ui.guardian.calendar.GuardianScheduleDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ElderMapsActivity"
+            android:name=".ui.elder.map.ElderMapsActivity"
             android:exported="true" />
         <activity
-            android:name=".GuardianMapsActivity"
+            android:name=".ui.guardian.map.GuardianMapsActivity"
             android:exported="true" />
 
         <meta-data
