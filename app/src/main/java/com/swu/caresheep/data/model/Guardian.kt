@@ -11,6 +11,10 @@ class Guardian {
     var gmail: String? = null
     var fcmToken: String? = null
 
+    constructor() {
+
+    }
+
     constructor(
         guardian_id: Int?,
         user_id: Int?,
