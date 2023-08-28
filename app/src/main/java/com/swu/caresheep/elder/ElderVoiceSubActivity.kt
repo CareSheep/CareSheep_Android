@@ -182,14 +182,9 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     //업로드 성공했는지 확인해보려고
                     .addOnSuccessListener {
                         Log.d("Firebase", "데이터 업로드 성공")
-                        // fcm 알림 전송
-                        val notificationData = mapOf(
-                            "title" to "New Voice Recording",
-                            "message" to content
-                        )
-                        sendFCMPushNotification(notificationData)
 
-                        Log.d("Firebase", "데이터 업로드 성공")
+                        sendPushNotificationToGuardians(content)
+
                     }
                     .addOnFailureListener { exception ->
                         Log.e("Firebase", "데이터 업로드 실패: ${exception.message}", exception)
@@ -224,16 +219,40 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         override fun onEvent(eventType: Int, params: Bundle?) {}
     }
 
-    fun sendFCMPushNotification(data: Map<String, String>) {
-        //val JSON = MediaType.parse("application/json; charset=utf-8")
+    private fun sendPushNotificationToGuardians(content: String) {
+        val notificationData = mapOf(
+            "title" to "New Voice Recording",
+            "message" to content
+        )
+
+        // Retrieve guardian FCM tokens and send push notification
+        database = FirebaseDatabase.getInstance(DB_URL).getReference("Guardian")
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (guardianSnapshot in dataSnapshot.children) {
+                    val guardian = guardianSnapshot.getValue(Guardian::class.java)
+                    val guardianFCMToken = guardian?.fcmToken.toString()
+
+                    sendPushNotification(guardianFCMToken, notificationData)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("Firebase", "Guardian data fetch failed: ${error.message}")
+            }
+        })
+    }
+
+    private fun sendPushNotification(fcmToken: String, data: Map<String, String>) {
         val JSON = "application/json; charset=utf-8".toMediaType()
+
         val json = JSONObject(data)
 
         val requestBody = RequestBody.create(JSON, json.toString())
 
         val request = Request.Builder()
             .url("https://fcm.googleapis.com/fcm/send")
-            .header("Authorization", "Bearer YOUR_FCM_SERVER_KEY")
+            .header("Authorization", "Bearer $fcmToken")
             .post(requestBody)
             .build()
 
@@ -244,7 +263,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-
+                Log.d("Firebase", "Push notification sent successfully")
             }
         })
     }
