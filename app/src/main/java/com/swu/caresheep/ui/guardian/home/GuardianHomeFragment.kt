@@ -44,7 +44,12 @@ class GuardianHomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        /**
+        * 실시간으로 긴급상황 확인
+        * */
         getEmergencyAlarm()
+
         binding = FragmentGuardianHomeBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -144,6 +149,7 @@ class GuardianHomeFragment : Fragment() {
     }
 
 
+
     private fun getEmergencyAlarm() {
         try {
             val user_id = 1 // user_id로 수정
@@ -151,7 +157,7 @@ class GuardianHomeFragment : Fragment() {
                 .getReference("Emergency")
                 .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
@@ -220,7 +226,6 @@ class GuardianHomeFragment : Fragment() {
                             }
                         }
                     }
-
                     override fun onCancelled(error: DatabaseError) {
                         // 쿼리 실행 중 오류 발생 시 처리할 내용
                     }

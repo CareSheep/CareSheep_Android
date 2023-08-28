@@ -5,17 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TimePicker
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
-import com.swu.caresheep.ui.guardian.GuardianActivity
 import com.swu.caresheep.ui.guardian.GuardianStartSetMedicineActivity
 import com.swu.caresheep.ui.guardian.routine_id
-import kotlinx.android.synthetic.main.activity_guardian_set_dinner_time.dinnerTimePicker
 import kotlinx.android.synthetic.main.activity_guardian_set_sleep_time.sleepTimeButton
 import kotlinx.android.synthetic.main.activity_guardian_set_sleep_time.sleeptimePicker
 import java.text.SimpleDateFormat
@@ -51,7 +46,6 @@ class GuardianSetSleepTimeActivity : AppCompatActivity() {
             }.addOnFailureListener {
                 println("Error updating data: $it")
             }
-
 
             // 다음 액티비티 이동
             startActivity(Intent(this, GuardianStartSetMedicineActivity::class.java))
