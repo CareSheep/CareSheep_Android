@@ -42,7 +42,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.GuardianMapsActivity
 import com.swu.caresheep.R
@@ -81,7 +80,12 @@ class GuardianHomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        /**
+        * 실시간으로 긴급상황 확인
+        * */
         getEmergencyAlarm()
+
         binding = FragmentGuardianHomeBinding.inflate(inflater, container, false)
 
         // 당겨서 새로고침 기능 세팅
@@ -601,7 +605,7 @@ class GuardianHomeFragment : Fragment() {
                 .getReference("Emergency")
                 .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {

@@ -54,6 +54,7 @@ import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityElderBinding
 import com.swu.caresheep.elder.AlarmReceiver
 import com.swu.caresheep.elder.AlarmReceiverBreakfast
+import com.swu.caresheep.elder.AlarmReceiverCheckEmergency
 import com.swu.caresheep.elder.AlarmReceiverDinner
 import com.swu.caresheep.elder.AlarmReceiverLunch
 import com.swu.caresheep.elder.AlarmReceiverWalk
@@ -81,6 +82,11 @@ import java.time.format.DateTimeFormatter
 
 var emergency_id : Int = 0
 
+// 현재 걸음 수
+var currentSteps = 0
+// 어른신이 걸으시는지(긴급 상황이 아닌지) 확인
+var isWalking : Boolean = false
+
 class ElderActivity : AppCompatActivity(), SensorEventListener {
 
 
@@ -90,13 +96,12 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
     var stepCountSensor: Sensor? = null
     lateinit var stepCountView: TextView
 
-    // 어른신이 걸으시는지(긴급 상황이 아닌지) 확인
-    var isWalking : Boolean = false
-    // 현재 걸음 수
-    var currentSteps = 0
+    // 어르신 수면 시작 시간
+    private var sleepTimeHour : Int = 0
+    private var sleepTimeMinute : Int = 0
+
     // 긴급상황 DB 연결
     private lateinit var dbRef: DatabaseReference
-
 
     private lateinit var binding: ActivityElderBinding
 
@@ -120,49 +125,51 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
         window.statusBarColor = ContextCompat.getColor(this, R.color.orange_100)
 
         // 3분 = 180초 동안 걷지 않으면 걷지 않음 알림
-        Timer().schedule(180000) {
-            // 밀리 초
-            checkWalking()
-            if(isWalking == false){
-                var result = 1
-                // DB에 저장
-                val now = LocalDateTime.now()
-                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-                val formattedDateTime = now.format(formatter)
-
-                val data = hashMapOf(
-                    "user_id" to 1,
-                    "emergency" to result,
-                    "today_date" to formattedDateTime
-                )
-
-                dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Emergency")
-                dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        val childCount = dataSnapshot.childrenCount
-                        val id = (childCount + 1).toInt()
-                        emergency_id = id // 긴급상황 고유번호 정해주기 -> 다음 액티비티에서 사용
-
-                        dbRef.child(id.toString()).setValue(data)
-                            .addOnSuccessListener {
-                                Log.e("긴급 상황 감지", "DB에 저장 성공")
-                            }.addOnFailureListener {
-                                Log.e("긴급 상황 감지", "DB에 저장 실패")
-                            }
-                    }
-                    override fun onCancelled(error: DatabaseError) {
-                        Log.e("긴급 상황 감지", "Database error: $error")
-                    }
-                })
-            }
-        }
+//        Timer().schedule(60000) {
+//            // 밀리 초
+//            checkWalking()
+//            if(isWalking == false){
+//                var result = 1
+//                // DB에 저장
+//                val now = LocalDateTime.now()
+//                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+//                val formattedDateTime = now.format(formatter)
+//
+//                val data = hashMapOf(
+//                    "user_id" to 1,
+//                    "emergency" to result,
+//                    "today_date" to formattedDateTime
+//                )
+//
+//                dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Emergency")
+//                dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
+//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                        val childCount = dataSnapshot.childrenCount
+//                        val id = (childCount + 1).toInt()
+//                        emergency_id = id // 긴급상황 고유번호 정해주기 -> 다음 액티비티에서 사용
+//
+//                        dbRef.child(id.toString()).setValue(data)
+//                            .addOnSuccessListener {
+//                                Log.e("긴급 상황 감지", "DB에 저장 성공")
+//                            }.addOnFailureListener {
+//                                Log.e("긴급 상황 감지", "DB에 저장 실패")
+//                            }
+//                    }
+//                    override fun onCancelled(error: DatabaseError) {
+//                        Log.e("긴급 상황 감지", "Database error: $error")
+//                    }
+//                })
+//            }
+//        }
         initView()
 
         getBreakfastAlarm()
         getDinnerAlarm()
         getLunchAlarm()
+        getSleepTime()
         getWalkAlarm()
         getMedicineAlarm()
+        checkEmergency()
     }
 
     override fun onStart() {
@@ -882,6 +889,85 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
                                                 alarmCallPendingIntent
                                             )
                                         }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        // 쿼리 실행 중 오류 발생 시 처리할 내용
+                    }
+                })
+        } catch (e: ApiException) {
+            Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
+        }
+    }
+
+    private fun checkEmergency(){
+        Log.d("긴급 상황 감지!!", "heyy")
+        // AlarmManager 설정
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, AlarmReceiverCheckEmergency::class.java).apply {
+            action = "Check" // BroadcastReceiver에서 확인할 액션을 지정합니다.
+        }
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            alarmIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = System.currentTimeMillis()
+        calendar.set(Calendar.HOUR_OF_DAY, sleepTimeHour + 16)
+        calendar.set(Calendar.MINUTE, sleepTimeMinute)
+        calendar.set(Calendar.SECOND, 0)
+
+        // 매일 자정에 알람 설정
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pendingIntent
+        )
+    }
+
+    private fun getSleepTime() {
+        try {
+            val user_id = 1 // user_id로 수정
+            Firebase.database(DB_URL)
+                .getReference("UsersRoutine")
+                .orderByChild("user_id")
+                .equalTo(user_id.toDouble())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            for (data in snapshot.children) {
+                                val sleepValue =
+                                    data.child("sleep").getValue(String::class.java).toString()
+                                Log.d("sleepValue", sleepValue)
+                                // :를 시간, 분 형태로 나누기 위해 split으로 분리
+                                val timeParts = sleepValue.split(":")
+                                if (timeParts.size == 2) {
+                                    val hour = timeParts[0].toIntOrNull()
+                                    val minute = timeParts[1].toIntOrNull()
+                                    // 해당 시간에 알람 설정
+                                    if (hour != null && minute != null) {
+                                        val calendar = Calendar.getInstance()
+                                        calendar.set(Calendar.HOUR_OF_DAY, hour)
+                                        sleepTimeHour = hour
+                                        Log.d("sleepTimeHour", sleepTimeHour.toString())
+                                        calendar.set(Calendar.MINUTE, minute)
+                                        sleepTimeMinute = minute
+                                        Log.d("sleepTimeMinute", sleepTimeMinute.toString())
+                                        calendar.set(Calendar.SECOND, 0)
+
+                                        // 현재 시간보다 이전이면 다음 날로 설정하기
+                                        if (calendar.before(Calendar.getInstance())) {
+                                            calendar.add(Calendar.DATE, 1)
+                                        }
+
                                     }
                                 }
                             }
