@@ -34,6 +34,7 @@ import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityElderBinding
 import com.swu.caresheep.elder.AlarmReceiver
 import com.swu.caresheep.elder.AlarmReceiverBreakfast
+import com.swu.caresheep.elder.AlarmReceiverCheckEmergency
 import com.swu.caresheep.elder.AlarmReceiverDinner
 import com.swu.caresheep.elder.AlarmReceiverLunch
 import com.swu.caresheep.elder.AlarmReceiverWalk
@@ -49,6 +50,11 @@ import java.util.Calendar
 
 var emergency_id: Int = 0
 
+// 현재 걸음 수
+var currentSteps = 0
+// 어른신이 걸으시는지(긴급 상황이 아닌지) 확인
+var isWalking : Boolean = false
+
 class ElderActivity : AppCompatActivity(), SensorEventListener {
 
 
@@ -58,15 +64,10 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
     var stepCountSensor: Sensor? = null
     lateinit var stepCountView: TextView
 
-    // 어른신이 걸으시는지(긴급 상황이 아닌지) 확인
-    var isWalking: Boolean = false
 
-    // 현재 걸음 수
-    var currentSteps = 0
 
     // 긴급상황 DB 연결
     private lateinit var dbRef: DatabaseReference
-
 
     private lateinit var binding: ActivityElderBinding
     private lateinit var calendarUtil: CalendarUtil
@@ -89,7 +90,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
         LocationUtil.initForegroundLocationUtil(this)
 
         // 3분 = 180초 동안 걷지 않으면 걷지 않음 알림
-//        Timer().schedule(180000) {
+
 //            // 밀리 초
 //            checkWalking()
 //            if(isWalking == false){
@@ -130,8 +131,10 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
         getBreakfastAlarm()
         getDinnerAlarm()
         getLunchAlarm()
+        getSleepTime()
         getWalkAlarm()
         getMedicineAlarm()
+        checkEmergency()
     }
 
     override fun onStart() {
@@ -470,6 +473,85 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
                                                 alarmCallPendingIntent
                                             )
                                         }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        // 쿼리 실행 중 오류 발생 시 처리할 내용
+                    }
+                })
+        } catch (e: ApiException) {
+            Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
+        }
+    }
+
+    private fun checkEmergency(){
+        Log.d("긴급 상황 감지!!", " ")
+        // AlarmManager 설정
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, AlarmReceiverCheckEmergency::class.java).apply {
+            action = "Check" // BroadcastReceiver에서 확인할 액션을 지정합니다.
+        }
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            alarmIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = System.currentTimeMillis()
+        calendar.set(Calendar.HOUR_OF_DAY, sleepTimeHour + 16)
+        calendar.set(Calendar.MINUTE, sleepTimeMinute)
+        calendar.set(Calendar.SECOND, 0)
+
+        // 매일 자정에 알람 설정
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pendingIntent
+        )
+    }
+
+    private fun getSleepTime() {
+        try {
+            val user_id = 1 // user_id로 수정
+            Firebase.database(DB_URL)
+                .getReference("UsersRoutine")
+                .orderByChild("user_id")
+                .equalTo(user_id.toDouble())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            for (data in snapshot.children) {
+                                val sleepValue =
+                                    data.child("sleep").getValue(String::class.java).toString()
+                                Log.d("sleepValue", sleepValue)
+                                // :를 시간, 분 형태로 나누기 위해 split으로 분리
+                                val timeParts = sleepValue.split(":")
+                                if (timeParts.size == 2) {
+                                    val hour = timeParts[0].toIntOrNull()
+                                    val minute = timeParts[1].toIntOrNull()
+                                    // 해당 시간에 알람 설정
+                                    if (hour != null && minute != null) {
+                                        val calendar = Calendar.getInstance()
+                                        calendar.set(Calendar.HOUR_OF_DAY, hour)
+                                        sleepTimeHour = hour
+                                        Log.d("sleepTimeHour", sleepTimeHour.toString())
+                                        calendar.set(Calendar.MINUTE, minute)
+                                        sleepTimeMinute = minute
+                                        Log.d("sleepTimeMinute", sleepTimeMinute.toString())
+                                        calendar.set(Calendar.SECOND, 0)
+
+                                        // 현재 시간보다 이전이면 다음 날로 설정하기
+                                        if (calendar.before(Calendar.getInstance())) {
+                                            calendar.add(Calendar.DATE, 1)
+                                        }
+
                                     }
                                 }
                             }

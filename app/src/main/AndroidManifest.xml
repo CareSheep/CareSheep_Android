@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <uses-feature android:name="android.hardware.sensor.stepcounter" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -264,6 +267,20 @@
             android:exported="true" />
 
         <receiver
+            android:name=".elder.AlarmReceiverCheckEmergency"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="Check" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".elder.AlarmReceiverCheckEmergency"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
             android:name=".elder.AlarmReceiverWalk"
             android:enabled="true"
             android:exported="true">
@@ -282,7 +299,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="Restart" />
+                <action android:name="Check" />
             </intent-filter>
         </receiver>
 
@@ -290,6 +307,10 @@
             android:name=".ui.guardian.emergency.AlarmServiceEmergency"
             android:enabled="true"
             android:exported="true" />
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
 
         <activity
             android:name=".elder.ElderVoiceMainActivity"
@@ -308,7 +329,7 @@
             android:exported="false" />
         <activity
             android:name=".recyclerview.RecycleMainRecordActivity"
-            android:exported="true" />
+            android:exported="true"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true" />
