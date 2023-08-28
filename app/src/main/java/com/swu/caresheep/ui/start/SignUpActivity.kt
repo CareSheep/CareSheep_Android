@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.snackbar.Snackbar
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivitySignUpBinding
 import com.swu.caresheep.ui.dialog.VerticalDialog
@@ -57,8 +58,8 @@ class SignUpActivity : AppCompatActivity() {
 
         client.signOut()
             .addOnCompleteListener(this) {
-                // 로그아웃 성공시 실행
-                // 로그아웃 이후의 이벤트들(토스트 메세지, 화면 종료)을 여기서 수행하면 됨
+                // 로그아웃 성공 시 실행
+                Snackbar.make(binding.root, "로그아웃되었습니다.", Snackbar.LENGTH_SHORT).show()
             }
     }
 }

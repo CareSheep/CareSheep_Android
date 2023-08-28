@@ -25,6 +25,12 @@
 
     <string name="dialog_check">확인</string>
 
+    <!-- Notification -->
+    <string name="caresheep_gps_foreground_service_channel">위치 추적</string>
+    <string name="caresheep_gps_foreground_service_channel_description">보호자에게 어르신의 실시간 위치 정보를 제공합니다.</string>
+    <string name="caresheep_gps_foreground_service_cancel">서비스 종료</string>
+
+
     <!-- Start -->
     <string name="start_look_around">둘러보기</string>
     <string name="start_app_intro">어르신과 보호자를 위한 \n맞춤형 일상 케어</string>

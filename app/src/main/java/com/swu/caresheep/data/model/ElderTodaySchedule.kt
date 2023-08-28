@@ -1,4 +1,4 @@
-package com.swu.caresheep.ui.elder.main
+package com.swu.caresheep.data.model
 
 data class ElderTodaySchedule(
     var time: String,

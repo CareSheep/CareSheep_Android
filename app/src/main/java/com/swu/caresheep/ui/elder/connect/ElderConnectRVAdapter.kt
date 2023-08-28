@@ -3,6 +3,7 @@ package com.swu.caresheep.ui.elder.connect
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.swu.caresheep.data.model.ConnectedGuardian
 import com.swu.caresheep.databinding.ItemElderConnectedGuardianBinding
 
 class ElderConnectRVAdapter(private var guardianList: ArrayList<ConnectedGuardian>) :

@@ -1,4 +1,4 @@
-package com.swu.caresheep.ui.elder.connect
+package com.swu.caresheep.data.model
 
 data class ConnectedGuardian(
     val name: String
