@@ -1,4 +1,4 @@
-package org.techtown.push
+package com.swu.caresheep
 
 import android.content.Context
 import android.content.Intent

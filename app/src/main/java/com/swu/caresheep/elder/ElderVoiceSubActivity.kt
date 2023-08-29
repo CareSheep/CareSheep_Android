@@ -11,7 +11,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.privacysandbox.tools.core.model.Method
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -55,6 +54,10 @@ class ElderVoiceSubActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_elder_voice_sub)
+
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(applicationContext)
+        }
 
         // 권한 체크
         if (Build.VERSION.SDK_INT >= 23)
@@ -193,9 +196,6 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     }
 
                 send(content)
-                if (requestQueue == null) {
-                    requestQueue = Volley.newRequestQueue(applicationContext)
-                }
 
                 // 녹음이 종료 & 홈으로 이동
                 speechRecognizer?.stopListening()
@@ -229,6 +229,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
+
         sendData(requestData, object : SendResponseListener {
             override fun onRequestStarted() {
                 println("onRequestStarted() 호출됨.")
@@ -249,7 +250,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         fun onRequestWithError(error: VolleyError)
     }
 
-    fun sendData(requestData: JSONObject?, listener: SendResponseListener) {
+    private fun sendData(requestData: JSONObject?, listener: SendResponseListener) {
         val request: JsonObjectRequest = object : JsonObjectRequest(
             Method.POST, "https://fcm.googleapis.com/fcm/send", requestData,
             Listener { listener.onRequestCompleted() },
@@ -271,10 +272,11 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 return "application/json"
             }
         }
-        request.setShouldCache(false)
-        listener.onRequestStarted()
-        requestQueue!!.add(request)
+
+        requestQueue?.add(request)
+
     }
+
 
 
 }

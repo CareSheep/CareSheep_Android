@@ -13,7 +13,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -55,29 +54,26 @@ class RecycleMainRecordActivity : AppCompatActivity() {
 
 
     // 서비스로부터 인텐트 받았을 때 처리
-    override fun onNewIntent(intent: Intent) {
+    override fun onNewIntent(intent: Intent?) {
         println("onNewIntent 호출됨")
-        if (intent != null) {
-            processIntent(intent)
-        }
+        intent?.let { processIntent(it) }
         super.onNewIntent(intent)
     }
-
     private fun processIntent(intent: Intent) {
-        val remoteMessage = intent.getParcelableExtra<RemoteMessage>("remote_message")
-        remoteMessage?.notification?.let {
-            showNotification(it.title, it.body)
+        val from = intent.getStringExtra("from")
+        if (from == null) {
+            println("from is null.")
+            return
         }
-    }
+        val contents = intent.getStringExtra("contents")
 
-    private fun showNotification(title: String?, message: String?) {
         val channelId = "default_channel"
         val channelName = "Default Channel"
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(title)
-            .setContentText(message)
+            .setContentTitle("test제목")
+            .setContentText(contents)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         val notificationManager = NotificationManagerCompat.from(this)
@@ -102,7 +98,9 @@ class RecycleMainRecordActivity : AppCompatActivity() {
             return
         }
         notificationManager.notify(0, notificationBuilder.build())
+
     }
+
     private fun initRecycler() {// 리사이클러뷰와 어뎁터 초기화
         recordAdapter = RecordAdapter(this)
         rv_recorder.adapter = recordAdapter
