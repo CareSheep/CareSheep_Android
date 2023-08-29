@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-const val SERVER_KEY = BuildConfig.SERVER_KEY
+const val SERVER_KEY = BuildConfig.SERVER_KEY // fcm 서버키 
 
 class ElderVoiceSubActivity : AppCompatActivity() {
 
@@ -46,10 +46,8 @@ class ElderVoiceSubActivity : AppCompatActivity() {
     companion object {
         private var requestQueue: RequestQueue? = null
         private const val regId =
-            BuildConfig.REG_ID
+            BuildConfig.REG_ID // fcm 토큰
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -195,7 +193,6 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                         Log.e("Firebase", "데이터 업로드 실패: ${exception.message}", exception)
                     }
 
-                send(content)
 
                 // 녹음이 종료 & 홈으로 이동
                 speechRecognizer?.stopListening()
@@ -203,6 +200,8 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
             }
+
+            send(content) // fcm 전송
 
         }
 
@@ -212,6 +211,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         override fun onEvent(eventType: Int, params: Bundle?) {}
     }
 
+    // fcm 전송 (JSON 객체)
     fun send(content : String) {
         val requestData = JSONObject()
 
@@ -232,15 +232,15 @@ class ElderVoiceSubActivity : AppCompatActivity() {
 
         sendData(requestData, object : SendResponseListener {
             override fun onRequestStarted() {
-                println("onRequestStarted() 호출됨.")
+                Log.d("FCM", "FCM request started")
             }
 
             override fun onRequestCompleted() {
-                println("onRequestCompleted() 호출됨.")
+                Log.d("FCM", "FCM request completed")
             }
 
             override fun onRequestWithError(error: VolleyError) {
-                println("onRequestWithError() 호출됨.")
+                Log.e("FCM", "FCM request error: ${error.message}", error)
             }
         })
     }
@@ -250,6 +250,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         fun onRequestWithError(error: VolleyError)
     }
 
+    // fcm 전송
     private fun sendData(requestData: JSONObject?, listener: SendResponseListener) {
         val request: JsonObjectRequest = object : JsonObjectRequest(
             Method.POST, "https://fcm.googleapis.com/fcm/send", requestData,
@@ -276,7 +277,5 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         requestQueue?.add(request)
 
     }
-
-
 
 }
