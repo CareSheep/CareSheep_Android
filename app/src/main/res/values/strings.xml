@@ -124,6 +124,8 @@
     <string name="brown_medicine">갈색</string>
     <string name="black_medicine">검정</string>
 
+    <!-- Guardian - Map -->
+    <string name="guardian_maps_gps_tracking">어르신 위치 추적</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
