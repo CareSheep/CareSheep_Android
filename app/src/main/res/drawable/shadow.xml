@@ -3,7 +3,7 @@
     <item>
         <shape>
             <corners android:radius="20dp" />
-            <solid android:color="#CCFFFFFF" />
+            <solid android:color="#EBFFFFFF" />
         </shape>
     </item>
     <item android:drawable="@drawable/shadow_custom_9patch" />
