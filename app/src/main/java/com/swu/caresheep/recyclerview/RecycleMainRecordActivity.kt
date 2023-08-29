@@ -1,12 +1,25 @@
 package com.swu.caresheep.recyclerview
 
-import androidx.appcompat.app.AppCompatActivity
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.ContentValues.TAG
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.RemoteMessage
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
@@ -26,6 +39,69 @@ class RecycleMainRecordActivity : AppCompatActivity() {
 
         initRecycler()
         loadData()
+
+        // 등록 id 확인
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val fcmtoken = task.result
+            Log.d(TAG, "FCM registration token: $fcmtoken")
+        })
+    }
+
+
+    // 서비스로부터 인텐트 받았을 때 처리
+    override fun onNewIntent(intent: Intent) {
+        println("onNewIntent 호출됨")
+        if (intent != null) {
+            processIntent(intent)
+        }
+        super.onNewIntent(intent)
+    }
+
+    private fun processIntent(intent: Intent) {
+        val remoteMessage = intent.getParcelableExtra<RemoteMessage>("remote_message")
+        remoteMessage?.notification?.let {
+            showNotification(it.title, it.body)
+        }
+    }
+
+    private fun showNotification(title: String?, message: String?) {
+        val channelId = "default_channel"
+        val channelName = "Default Channel"
+
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        val notificationManager = NotificationManagerCompat.from(this)
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        notificationManager.notify(0, notificationBuilder.build())
     }
     private fun initRecycler() {// 리사이클러뷰와 어뎁터 초기화
         recordAdapter = RecordAdapter(this)
