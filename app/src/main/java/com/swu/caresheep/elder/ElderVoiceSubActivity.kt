@@ -19,11 +19,15 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.*
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
+import com.swu.caresheep.data.model.Guardian
 import com.swu.caresheep.ui.elder.main.ElderActivity
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_voice_sub.*
 import okhttp3.*
 import org.json.JSONArray
@@ -43,16 +47,19 @@ class ElderVoiceSubActivity : AppCompatActivity() {
 
     private lateinit var database: DatabaseReference // DB (파이어베이스)
 
+    private var titles = "FCM Title"
+
     companion object {
-        private var requestQueue: RequestQueue? = null
+        private var requestQueue: RequestQueue? = null // Volley 라이브러리 사용해서 메시지 전송
         private const val regId =
-            BuildConfig.REG_ID // fcm 토큰
+            "sdfsldkfmslkdmflsdkmflskdmflskdmflskdmfkmsdwepo" // fcm 토큰
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_elder_voice_sub)
 
+        // Volley 라이브러리 사용을 위한 requestQueue 객체 생성 -> 메시지 자동 전송
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(applicationContext)
         }
@@ -174,7 +181,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     danger = danger,
 
                     in_need = in_need,
-                    user_id = 1,
+                    user_id = user_id,
 
                     // 우선 디폴트 값으로
                     check = 0,
@@ -193,6 +200,16 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                         Log.e("Firebase", "데이터 업로드 실패: ${exception.message}", exception)
                     }
 
+                // fcm 제목
+                if (danger == "1" && in_need == "1")
+                    titles = "danger and in_need"
+                else if (danger == "1")
+                    titles = "danger"
+                else if (in_need == "1")
+                    titles = "in_need"
+                else if (danger == "0" && in_need == "0")
+                    titles = "daily"
+
 
                 // 녹음이 종료 & 홈으로 이동
                 speechRecognizer?.stopListening()
@@ -201,7 +218,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-            send(content) // fcm 전송
+            send(content, titles) // fcm 전송
 
         }
 
@@ -211,25 +228,55 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         override fun onEvent(eventType: Int, params: Bundle?) {}
     }
 
-    // fcm 전송 (JSON 객체)
-    fun send(content : String) {
+    // fcm 전송
+    fun send(content: String, titles: String) {
+        // 전송 정보를 담을 JSON 객체 생성
         val requestData = JSONObject()
 
         try {
-            requestData.put("priority", "high")
+            requestData.put("priority", "high") // 옵션
 
+            // 전송할 데이터 추가
             val dataObj = JSONObject()
-            dataObj.put("contents", content)
+            dataObj.put("contents", content) // fcm 내용
+            dataObj.put("titles", titles) // fcm 제목
             requestData.put("data", dataObj)
 
+
+            // 여러 명의 Guardian의 fcmToken 얻기
+            val guardiansFCMTokens = mutableListOf<String>()
+            Firebase.database(BuildConfig.DB_URL)
+                .getReference("Guardian")
+                .orderByChild("user_id")
+                .equalTo(user_id.toDouble())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (guardianSnapshot in dataSnapshot.children) {
+                            val guardian = guardianSnapshot.getValue(Guardian::class.java)
+                            val guardiansFCMToken = guardian?.fcmToken.toString()
+                            guardiansFCMTokens.add(guardiansFCMToken)
+
+                            Log.e("guardiansFCMTokens", "FCM guardiansFCMTokens: $guardiansFCMTokens")
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e("Firebase", "Guardian data fetch failed: ${error.message}")
+                    }
+                })
+
+            // 푸시 메시지를 수신할 단말의 등록 ID를 JSONArray에 추가한 후 requestData 객체에 추가
             val idArray = JSONArray()
-            idArray.put(0, regId)
+            //idArray.put(0, regId)
+            for (token in guardiansFCMTokens) {
+                idArray.put(token)
+            }
             requestData.put("registration_ids", idArray)
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-
+        // 푸시 전송을 위해 정의한 메서드 호출
         sendData(requestData, object : SendResponseListener {
             override fun onRequestStarted() {
                 Log.d("FCM", "FCM request started")
@@ -244,6 +291,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
             }
         })
     }
+
     interface SendResponseListener {
         fun onRequestStarted()
         fun onRequestCompleted()
@@ -252,17 +300,18 @@ class ElderVoiceSubActivity : AppCompatActivity() {
 
     // fcm 전송
     private fun sendData(requestData: JSONObject?, listener: SendResponseListener) {
+        // Volley 요청 객체 생성 후  요청을 위한 데이터 설정
         val request: JsonObjectRequest = object : JsonObjectRequest(
             Method.POST, "https://fcm.googleapis.com/fcm/send", requestData,
-            Listener { listener.onRequestCompleted() },
-            Response.ErrorListener { error -> listener.onRequestWithError(error) }) {
+            Listener { listener.onRequestCompleted() }, // 성공 응답 시 호출
+            Response.ErrorListener { error -> listener.onRequestWithError(error) }) { //오류 응답 시 호출
             @Throws(AuthFailureError::class)
-            override fun getParams(): Map<String, String>? {
-                return HashMap()
+            override fun getParams(): Map<String, String>? { // 요청 파라미터를 설정하기 위한 메서드
+                return HashMap() // 빈 HashMap 객체 반환
             }
 
             @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> {
+            override fun getHeaders(): Map<String, String> { // 요청을 위한 헤더 설정
                 val headers: MutableMap<String, String> = HashMap()
                 headers["Authorization"] =
                     "key=$SERVER_KEY"
