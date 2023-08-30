@@ -30,7 +30,11 @@ android {
         buildConfigField "String", "API_KEY", properties['API_KEY']
         buildConfigField "String", "DB_URL", properties['DB_URL']
 
+        buildConfigField "String", "SERVER_KEY", properties['SERVER_KEY']
+        buildConfigField "String", "REG_ID", properties['REG_ID']
         manifestPlaceholders = [NAVER_MAP: NAVER_MAP]
+
+
     }
 
     buildTypes {
@@ -60,6 +64,8 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
     implementation "androidx.navigation:navigation-fragment:$navigation_version"
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'androidx.privacysandbox.tools:tools-core:1.0.0-alpha02'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -109,4 +115,5 @@ dependencies {
 
     // GPS
     implementation "com.google.android.gms:play-services-location:21.0.1"
+
 }
