@@ -53,19 +53,19 @@ class RecycleMainRecordActivity : AppCompatActivity() {
     }
 
 
-    // 서비스로부터 인텐트 받았을 때 처리
-    override fun onNewIntent(intent: Intent?) {
-        println("onNewIntent 호출됨")
-        intent?.let { processIntent(it) }
-        super.onNewIntent(intent)
-    }
-    private fun processIntent(intent: Intent) {
-        val from = intent.getStringExtra("from")
-        if (from == null) {
-            println("from is null.")
-            return
-        }
-    }
+//    // 서비스로부터 인텐트 받았을 때 처리
+//    override fun onNewIntent(intent: Intent?) {
+//        println("onNewIntent 호출됨")
+//        intent?.let { processIntent(it) }
+//        super.onNewIntent(intent)
+//    }
+//    private fun processIntent(intent: Intent) {
+//        val from = intent.getStringExtra("from")
+//        if (from == null) {
+//            println("from is null.")
+//            return
+//        }
+//    }
 
     private fun initRecycler() {// 리사이클러뷰와 어뎁터 초기화
         recordAdapter = RecordAdapter(this)
