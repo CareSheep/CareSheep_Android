@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
 import com.swu.caresheep.ui.guardian.GuardianVoiceDetailActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RecordAdapter(private val context: Context) :
     RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
@@ -36,7 +38,6 @@ class RecordAdapter(private val context: Context) :
         private val list_number: TextView = itemView.findViewById(R.id.list_number)
         private val record_context: TextView = itemView.findViewById(R.id.record_context)
         private val record_date: TextView = itemView.findViewById(R.id.record_date)
-
         private val circleIndicator: TextView = itemView.findViewById(R.id.circleIndicator)
 
         fun bind(item: Voice) {
@@ -56,7 +57,15 @@ class RecordAdapter(private val context: Context) :
             // record_context TextView의 layout_width 속성 값을 match_parent로 설정
             record_context.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
 
-            record_date.text = item.recording_date
+            // String 타입의 recording_date 를 -> Date 객체로
+            val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+            val recordingDate = dateFormat.parse(item.recording_date)
+
+            // 년 월 일 오전/오후 시:분:초 형식으로 포맷
+            val formattedDate = SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss", Locale.getDefault())
+                .format(recordingDate)
+
+            record_date.text = formattedDate
 
             // 상황 여부에 따른 버튼 색상
             // 위험 상황일 경우
