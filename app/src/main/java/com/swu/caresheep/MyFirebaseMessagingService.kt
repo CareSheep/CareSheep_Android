@@ -25,29 +25,21 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         try{
             Log.d(TAG, "onMessageReceived 호출됨.")
-            //val from = remoteMessage.from // 발신자 코드 확인
             val data: Map<String, String> = remoteMessage.data // 메시지 전송 시 넣은 데이터 확인
             val contents = data["contents"]
-            val titles = data["titles"]
-            //Log.d(TAG, "from : $from, contents : $contents,  titles : $titles")
-            Log.d(TAG, "contents : $contents,  titles : $titles")
-            //sendToActivity(applicationContext, from, contents, titles)
-            sendToActivity(applicationContext, contents, titles)
-        }catch(e:Exception){
+            sendToActivity(applicationContext, contents)
 
+        }catch(e:Exception){
             Log.e(TAG, "Error in onMessageReceived: ${e.message}", e)
         }
 
     }
 
     // 액티비티로 데이터 보내기 위해 인텐트 객체 생성 후 startActivity() 메서드 호출
-    //private fun sendToActivity(context: Context, from: String?, contents: String?, titles : String?) {
-    private fun sendToActivity(context: Context, contents: String?, titles : String?) {
+    private fun sendToActivity(context: Context, contents: String?) {
         try { // 푸시 알림
             val intent = Intent(context, RecycleMainRecordActivity::class.java)
-            //intent.putExtra("from", from)
             intent.putExtra("contents", contents)
-            intent.putExtra("titles", titles)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
@@ -64,7 +56,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
 
             val notification = NotificationCompat.Builder(this, "fcm_default_channel")
-                .setContentTitle(titles)
+                .setContentTitle("FCM Title")
                 .setContentText(contents)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
