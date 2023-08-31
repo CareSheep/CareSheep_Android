@@ -27,12 +27,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             Log.d(TAG, "onMessageReceived 호출됨.")
             val data: Map<String, String> = remoteMessage.data // 메시지 전송 시 넣은 데이터 확인
             val contents = data["contents"]
-            sendToActivity(applicationContext, contents)
 
+            sendToActivity(applicationContext, contents)
         }catch(e:Exception){
             Log.e(TAG, "Error in onMessageReceived: ${e.message}", e)
         }
-
     }
 
     // 액티비티로 데이터 보내기 위해 인텐트 객체 생성 후 startActivity() 메서드 호출
@@ -56,7 +55,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
 
             val notification = NotificationCompat.Builder(this, "fcm_default_channel")
-                .setContentTitle("FCM Title")
+                .setContentTitle("어르신 음성")
                 .setContentText(contents)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

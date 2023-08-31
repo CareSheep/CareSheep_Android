@@ -47,7 +47,6 @@ class ElderVoiceSubActivity : AppCompatActivity() {
     private lateinit var recognizerIntent: Intent
     private var speechRecognizer: SpeechRecognizer? = null
     private lateinit var database: DatabaseReference // DB (파이어베이스)
-    private var title = "FCM Title"
     private var requestQueue: RequestQueue? = null // Volley 라이브러리 사용해서 메시지 전송
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -179,7 +178,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     user_id = user_id,
 
                     // 우선 디폴트 값으로
-                    check = 0,
+                    check = false,
                     voice_id = 1
                 )
 
@@ -195,16 +194,6 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                         Log.e("Firebase", "데이터 업로드 실패: ${exception.message}", exception)
                     }
 
-//                // fcm 제목
-//                if (danger == "1" && in_need == "1")
-//                    title = "danger and in_need"
-//                else if (danger == "1")
-//                    title = "danger"
-//                else if (in_need == "1")
-//                    title = "in_need"
-//                else if (danger == "0" && in_need == "0")
-//                    title = "daily"
-
 
                 // 녹음이 종료 & 홈으로 이동
                 speechRecognizer?.stopListening()
@@ -212,6 +201,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
             }
+
 
             send(content) // fcm 전송
 
@@ -224,6 +214,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
     }
 
     // fcm 전송
+
     fun send(content: String) {
         // 전송 정보를 담을 JSON 객체 생성
         val requestData = JSONObject()
@@ -234,8 +225,10 @@ class ElderVoiceSubActivity : AppCompatActivity() {
             // 전송할 데이터 추가
             val dataObj = JSONObject()
             dataObj.put("contents", content) // fcm 내용
+            requestData.put("data", dataObj)
 
-            // 접속한 어르신과 관련된 여러 명의 Guardian의 fcmToken 얻기
+
+            // 여러 명의 Guardian의 fcmToken 얻기
             val guardiansFCMTokens = mutableListOf<String>()
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("Guardian")
@@ -269,13 +262,10 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
-
 
     // fcm 전송
     private fun sendData(requestData: JSONObject?, tokens: List<String>) {
-        // 비동기 코루틴
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val idArray = JSONArray()
@@ -294,7 +284,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 ) { //오류 응답 시 호출
                     @Throws(AuthFailureError::class)
                     override fun getParams(): Map<String, String>? { // 요청 파라미터를 설정하기 위한 메서드
-                       return HashMap() // 빈 HashMap 객체 반환
+                        return HashMap() // 빈 HashMap 객체 반환
                     }
 
                     @Throws(AuthFailureError::class)
@@ -304,7 +294,6 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                             "key=$SERVER_KEY"
                         return headers
                     }
-
                     override fun getBodyContentType(): String {
                         return "application/json"
                     }
