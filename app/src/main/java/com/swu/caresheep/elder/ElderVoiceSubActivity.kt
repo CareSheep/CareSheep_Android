@@ -176,9 +176,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
 
                     in_need = in_need,
                     user_id = user_id,
-
-                    // 우선 디폴트 값으로
-                    check = false,
+                    check = false, // 디폴트는 안 읽은 상태
                     voice_id = 1
                 )
 

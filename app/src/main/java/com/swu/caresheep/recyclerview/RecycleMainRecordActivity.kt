@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -24,7 +25,9 @@ import com.google.firebase.messaging.RemoteMessage
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
+import kotlinx.android.synthetic.main.activity_guardian_voice_detail.*
 import kotlinx.android.synthetic.main.activity_recycle_record_main.*
+import kotlinx.android.synthetic.main.activity_recycle_record_main.iv_close
 
 class RecycleMainRecordActivity : AppCompatActivity() {
 
@@ -37,6 +40,11 @@ class RecycleMainRecordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recycle_record_main)
+
+        // 툴바의 닫기 아이콘 클릭 쉬 뒤로가기
+        iv_close.setOnClickListener {
+            onBackPressed()
+        }
 
         initRecycler()
         loadData()
