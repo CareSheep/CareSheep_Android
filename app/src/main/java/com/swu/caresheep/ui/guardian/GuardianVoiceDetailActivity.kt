@@ -16,7 +16,7 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_guardian_voice_detail)
 
         // putExtra 메서드로 전달한 데이터 받기 & null일 경우 default 설정
-        val check = intent.getIntExtra("check", 0)
+        val check = intent.getBooleanExtra("check", false)
         val content = intent.getStringExtra("content")
         val danger = intent.getStringExtra("danger")
         val recording_date = intent.getStringExtra("recording_date")

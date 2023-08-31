@@ -4,7 +4,9 @@ import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -28,6 +30,9 @@ class RecycleMainRecordActivity : AppCompatActivity() {
 
     lateinit var recordAdapter: RecordAdapter
     private val database = FirebaseDatabase.getInstance(DB_URL).getReference("Voice")  //Firebase DB의 Voice 테이블에 접근
+    private val sharedPreferences: SharedPreferences by lazy {
+        getSharedPreferences("read_status", Context.MODE_PRIVATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +58,7 @@ class RecycleMainRecordActivity : AppCompatActivity() {
                 for (snapshot in dataSnapshot.children.reversed()) { // db 저장된 역순(최신 것이 상위)
                     val record = snapshot.getValue(Voice::class.java)
                     record?.let {
+                        it.check = sharedPreferences.getBoolean(snapshot.key, false)
                         recordList.add(it)
                     }
                 }
@@ -67,6 +73,13 @@ class RecycleMainRecordActivity : AppCompatActivity() {
 
             }
         })
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        //  읽기 상태를 sharedPreferences에 저장
+        for (record in recordAdapter.datas) {
+            sharedPreferences.edit().putBoolean(record.recording_date, record.check).apply()
+        }
     }
 
 }

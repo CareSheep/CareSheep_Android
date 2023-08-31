@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -17,7 +18,6 @@ import com.swu.caresheep.ui.guardian.GuardianVoiceDetailActivity
 
 class RecordAdapter(private val context: Context) :
     RecyclerView.Adapter<RecordAdapter.ViewHolder>(){
-    //var datas = mutableListOf<RecordData>()
     var datas = mutableListOf<Voice>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,7 +37,8 @@ class RecordAdapter(private val context: Context) :
         private val record_context: TextView = itemView.findViewById(R.id.record_context)
         private val record_date: TextView = itemView.findViewById(R.id.record_date)
 
-        //fun bind(item: RecordData) {
+        private val circleIndicator: TextView = itemView.findViewById(R.id.circleIndicator)
+
         fun bind(item: Voice) {
             list_number.text = item.voice_id.toString()
             // item.content.length > 10이면 substring 메서드를 사용하여 10글자까지만 자르고 '...'을 붙임
@@ -48,7 +49,6 @@ class RecordAdapter(private val context: Context) :
                 record_context.text = item.content.substring(0, 10) + "..."
 
             } else {  //그렇지 않으면 그대로 item.content를 출력
-                //item.content
                 record_context.maxLines = Integer.MAX_VALUE
                 record_context.ellipsize = null
                 record_context.text = item.content
@@ -73,8 +73,18 @@ class RecordAdapter(private val context: Context) :
                 list_number.backgroundTintList = ColorStateList.valueOf(newColor)
             }
 
+            // 읽음 여부
+            if (item.check) { // 읽었으면
+                circleIndicator.visibility = View.GONE
+            } else if (item.check) { // 안 읽었으면
+                circleIndicator.visibility = View.VISIBLE
+            }
+
             // 클릭이벤트 ; 세부 내용 화면으로 전환
             itemView.setOnClickListener {
+                item.check = true  // 읽음으로 바꾸기
+                notifyItemChanged(adapterPosition) //
+
                 Intent(context, GuardianVoiceDetailActivity::class.java).apply {
                     // Voice 필드의 데이터 자체를 전달
                     putExtra("check", item.check)

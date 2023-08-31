@@ -14,6 +14,16 @@
         android:padding="20dp">
 
         <android.widget.Button
+            android:id="@+id/circleIndicator"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/baseline_lens_24"
+            android:layout_gravity="top|start"
+            android:layout_marginEnd="8dp"
+            android:text=""
+            />
+
+        <android.widget.Button
             android:id="@+id/list_number"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -22,6 +32,8 @@
             android:textSize="15sp"
             android:layout_weight="1"
             />
+
+
 
         <TextView
             android:id="@+id/record_context"
@@ -34,6 +46,7 @@
             android:layout_weight="8"
             android:ellipsize="end"
             android:maxLines="1"/>
+
 
         <TextView
             android:id="@+id/record_date"
