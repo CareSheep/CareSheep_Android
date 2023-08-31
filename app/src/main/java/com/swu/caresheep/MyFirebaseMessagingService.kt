@@ -20,26 +20,24 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "onNewToken 호출됨 : $token")
     }
 
+    // 푸시 메시지를 받았을 때 그 내용을 액티비티로 보내는 메서드
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
         try{
             Log.d(TAG, "onMessageReceived 호출됨.")
-            val from = remoteMessage.from
-            val data: Map<String, String> = remoteMessage.data
+            val data: Map<String, String> = remoteMessage.data // 메시지 전송 시 넣은 데이터 확인
             val contents = data["contents"]
-            Log.d(TAG, "from : $from, contents : $contents")
-            sendToActivity(applicationContext, from, contents)
-        }catch(e:Exception){
 
+            sendToActivity(applicationContext, contents)
+        }catch(e:Exception){
             Log.e(TAG, "Error in onMessageReceived: ${e.message}", e)
         }
-
     }
 
-    private fun sendToActivity(context: Context, from: String?, contents: String?) {
+    // 액티비티로 데이터 보내기 위해 인텐트 객체 생성 후 startActivity() 메서드 호출
+    private fun sendToActivity(context: Context, contents: String?) {
         try { // 푸시 알림
             val intent = Intent(context, RecycleMainRecordActivity::class.java)
-            intent.putExtra("from", from)
             intent.putExtra("contents", contents)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
@@ -57,7 +55,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
 
             val notification = NotificationCompat.Builder(this, "fcm_default_channel")
-                .setContentTitle("FCM Title")
+                .setContentTitle("어르신 음성")
                 .setContentText(contents)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

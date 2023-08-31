@@ -4,7 +4,9 @@ import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -27,10 +29,10 @@ import kotlinx.android.synthetic.main.activity_recycle_record_main.*
 class RecycleMainRecordActivity : AppCompatActivity() {
 
     lateinit var recordAdapter: RecordAdapter
-
-
-    //val datas = mutableListOf<RecordData>() // 테스트용 임시 데이터
     private val database = FirebaseDatabase.getInstance(DB_URL).getReference("Voice")  //Firebase DB의 Voice 테이블에 접근
+    private val sharedPreferences: SharedPreferences by lazy {
+        getSharedPreferences("read_status", Context.MODE_PRIVATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,33 +40,6 @@ class RecycleMainRecordActivity : AppCompatActivity() {
 
         initRecycler()
         loadData()
-
-        // 등록 id 확인
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val fcmtoken = task.result
-            Log.d(TAG, "FCM registration token: $fcmtoken")
-        })
-    }
-
-
-    // 서비스로부터 인텐트 받았을 때 처리
-    override fun onNewIntent(intent: Intent?) {
-        println("onNewIntent 호출됨")
-        intent?.let { processIntent(it) }
-        super.onNewIntent(intent)
-    }
-    private fun processIntent(intent: Intent) {
-        val from = intent.getStringExtra("from")
-        if (from == null) {
-            println("from is null.")
-            return
-        }
     }
 
     private fun initRecycler() {// 리사이클러뷰와 어뎁터 초기화
@@ -83,7 +58,7 @@ class RecycleMainRecordActivity : AppCompatActivity() {
                 for (snapshot in dataSnapshot.children.reversed()) { // db 저장된 역순(최신 것이 상위)
                     val record = snapshot.getValue(Voice::class.java)
                     record?.let {
-
+                        it.check = sharedPreferences.getBoolean(snapshot.key, false)
                         recordList.add(it)
                     }
                 }
@@ -98,6 +73,13 @@ class RecycleMainRecordActivity : AppCompatActivity() {
 
             }
         })
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        //  읽기 상태를 sharedPreferences에 저장
+        for (record in recordAdapter.datas) {
+            sharedPreferences.edit().putBoolean(record.recording_date, record.check).apply()
+        }
     }
 
 }

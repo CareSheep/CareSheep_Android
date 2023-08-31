@@ -15,16 +15,22 @@ import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.Response.Listener
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.*
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
+import com.swu.caresheep.data.model.Guardian
 import com.swu.caresheep.ui.elder.main.ElderActivity
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_voice_sub.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -40,19 +46,14 @@ class ElderVoiceSubActivity : AppCompatActivity() {
     private val REQUEST_CODE_PERMISSIONS = 200 // storage 권한
     private lateinit var recognizerIntent: Intent
     private var speechRecognizer: SpeechRecognizer? = null
-
     private lateinit var database: DatabaseReference // DB (파이어베이스)
-
-    companion object {
-        private var requestQueue: RequestQueue? = null
-        private const val regId =
-            BuildConfig.REG_ID // fcm 토큰
-    }
+    private var requestQueue: RequestQueue? = null // Volley 라이브러리 사용해서 메시지 전송
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_elder_voice_sub)
 
+        // Volley 라이브러리 사용을 위한 requestQueue 객체 생성 -> 메시지 자동 전송
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(applicationContext)
         }
@@ -174,10 +175,10 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     danger = danger,
 
                     in_need = in_need,
-                    user_id = 1,
+                    user_id = user_id,
 
                     // 우선 디폴트 값으로
-                    check = 0,
+                    check = false,
                     voice_id = 1
                 )
 
@@ -201,6 +202,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+
             send(content) // fcm 전송
 
         }
@@ -211,71 +213,96 @@ class ElderVoiceSubActivity : AppCompatActivity() {
         override fun onEvent(eventType: Int, params: Bundle?) {}
     }
 
-    // fcm 전송 (JSON 객체)
-    fun send(content : String) {
+    // fcm 전송
+
+    fun send(content: String) {
+        // 전송 정보를 담을 JSON 객체 생성
         val requestData = JSONObject()
 
         try {
-            requestData.put("priority", "high")
+            requestData.put("priority", "high") // 옵션
 
+            // 전송할 데이터 추가
             val dataObj = JSONObject()
-            dataObj.put("contents", content)
+            dataObj.put("contents", content) // fcm 내용
             requestData.put("data", dataObj)
 
-            val idArray = JSONArray()
-            idArray.put(0, regId)
-            requestData.put("registration_ids", idArray)
+
+            // 여러 명의 Guardian의 fcmToken 얻기
+            val guardiansFCMTokens = mutableListOf<String>()
+            Firebase.database(BuildConfig.DB_URL)
+                .getReference("Guardian")
+                .orderByChild("user_id")
+                .equalTo(user_id.toDouble())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (guardianSnapshot in dataSnapshot.children) {
+                            val guardian = guardianSnapshot.getValue(Guardian::class.java)
+                            val guardiansFCMToken = guardian?.fcmToken.toString()
+
+                            // 모든 Guardian의 FCM 토큰을 리스트에 추가
+                            if (!guardiansFCMTokens.contains(guardiansFCMToken)) {
+                                guardiansFCMTokens.add(guardiansFCMToken)
+                            }
+
+                            Log.e(
+                                "guardiansFCMTokens",
+                                "FCM guardiansFCMTokens: $guardiansFCMTokens"
+                            )
+                        }
+                        // 푸시 메시지 전송
+                        sendData(requestData, guardiansFCMTokens)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e("Firebase", "Guardian data fetch failed: ${error.message}")
+                    }
+                })
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-
-        sendData(requestData, object : SendResponseListener {
-            override fun onRequestStarted() {
-                Log.d("FCM", "FCM request started")
-            }
-
-            override fun onRequestCompleted() {
-                Log.d("FCM", "FCM request completed")
-            }
-
-            override fun onRequestWithError(error: VolleyError) {
-                Log.e("FCM", "FCM request error: ${error.message}", error)
-            }
-        })
-    }
-    interface SendResponseListener {
-        fun onRequestStarted()
-        fun onRequestCompleted()
-        fun onRequestWithError(error: VolleyError)
     }
 
     // fcm 전송
-    private fun sendData(requestData: JSONObject?, listener: SendResponseListener) {
-        val request: JsonObjectRequest = object : JsonObjectRequest(
-            Method.POST, "https://fcm.googleapis.com/fcm/send", requestData,
-            Listener { listener.onRequestCompleted() },
-            Response.ErrorListener { error -> listener.onRequestWithError(error) }) {
-            @Throws(AuthFailureError::class)
-            override fun getParams(): Map<String, String>? {
-                return HashMap()
-            }
+    private fun sendData(requestData: JSONObject?, tokens: List<String>) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val idArray = JSONArray()
+                // 여러 Guardian의 fcmToken
+                for (token in tokens) {
+                    idArray.put(token)
+                }
+                requestData?.put("registration_ids", idArray)
+                // Volley 요청 객체 생성 후  요청을 위한 데이터 설정
+                val request: JsonObjectRequest = object : JsonObjectRequest(
+                    Method.POST, "https://fcm.googleapis.com/fcm/send", requestData,
+                    Listener { Log.d("FCM", "FCM request completed") },
+                    Response.ErrorListener { error ->
+                        Log.e("FCM", "FCM request error: ${error.message}", error)
+                    }
+                ) { //오류 응답 시 호출
+                    @Throws(AuthFailureError::class)
+                    override fun getParams(): Map<String, String>? { // 요청 파라미터를 설정하기 위한 메서드
+                        return HashMap() // 빈 HashMap 객체 반환
+                    }
 
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> {
-                val headers: MutableMap<String, String> = HashMap()
-                headers["Authorization"] =
-                    "key=$SERVER_KEY"
-                return headers
-            }
-
-            override fun getBodyContentType(): String {
-                return "application/json"
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> { // 요청을 위한 헤더 설정
+                        val headers: MutableMap<String, String> = HashMap()
+                        headers["Authorization"] =
+                            "key=$SERVER_KEY"
+                        return headers
+                    }
+                    override fun getBodyContentType(): String {
+                        return "application/json"
+                    }
+                }
+                requestQueue?.add(request)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.e("FCM", "FCM request error: ${e.message}", e)
             }
         }
-
-        requestQueue?.add(request)
-
     }
-
 }
