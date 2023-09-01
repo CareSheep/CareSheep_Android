@@ -12,8 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="48dp"
-        android:text="녹음 중입니다.\n말씀이 끝나셨다면\n '멈춤'을 눌러주세요."
+        android:layout_marginTop="80dp"
+        android:text="녹음 중입니다."
         android:gravity="center"
         android:textSize="32dp"/>
 

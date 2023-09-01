@@ -50,12 +50,50 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
         record_content.text = content
 
         if (danger == "1") { // 위험 상황일 경우
-            val newColor: Int = ContextCompat.getColor(this, R.color.red)
-            record_content.backgroundTintList = ColorStateList.valueOf(newColor) // 버튼 배경 색상을 빨간색으로
-        } else if (in_need == "1") { // 물건 필요 상황일 경우
-            val newColor: Int = ContextCompat.getColor(this, R.color.blue)
-            record_content.backgroundTintList = ColorStateList.valueOf(newColor) // 버튼 배경 색상을 파랑색으로
+            // 음성 내용 배경 색 변경 - 빨강
+            val newColor: Int = ContextCompat.getColor(this, R.color.voice_red)
+            record_content.backgroundTintList = ColorStateList.valueOf(newColor)
+
+            // 상황 유형 텍스트 
+            situation_type.text = "긴급"
+
+            // 상황 유형 아이콘
+            //iv_situation_image.setImageResource(R.drawable.situation_type_emergency)
+
+            // 하단 이미지
+            //iv_new_image.setImageResource(R.drawable.image_emergency)
+        } else if (in_need == "1") { // 생필품 부족 상황일 경우
+            // 음성 내용 배경 색 변경 - 파랑
+            val newColor: Int = ContextCompat.getColor(this, R.color.voice_blue)
+            record_content.backgroundTintList = ColorStateList.valueOf(newColor)
+
+            // 상황 유형 텍스트 
+            situation_type.text = "생필품 부족"
+
+
+            // 상황 유형 아이콘
+            //iv_situation_image.setImageResource(R.drawable.situation_type_need)
+
+            // 하단 이미지
+            //iv_new_image.setImageResource(R.drawable.image_need)
+
+        } else if (in_need == "0" && danger == "0") { // 일상적인 상황일 경우
+            // 음성 내용 배경 색 변경 - 초록
+            val newColor: Int = ContextCompat.getColor(this, R.color.voice_green)
+            record_content.backgroundTintList = ColorStateList.valueOf(newColor)
+
+            // 상황 유형 텍스트 
+            situation_type.text = "일상"
+
+            // 상황 유형 아이콘
+            iv_situation_image.setImageResource(R.drawable.situation_type_daily)
+
+            // 하단 이미지
+            iv_new_image.setImageResource(R.drawable.image_daily)
+
         }
+
+
 
         // 환자 이름 정보 얻기
         getGuardianInfo()
