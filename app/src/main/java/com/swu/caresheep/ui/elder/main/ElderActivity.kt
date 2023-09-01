@@ -66,6 +66,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 
     var sleepTimeHour :Int = 0
     var sleepTimeMinute :Int = 0
+    var emergencyTimeHour :Int = 0
 
 
     // 긴급상황 DB 연결
@@ -490,6 +491,35 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    private fun getEmergencyTime() {
+        try {
+            val user_id = 1 // user_id로 수정
+            Firebase.database(DB_URL)
+                .getReference("UsersRoutine")
+                .orderByChild("user_id")
+                .equalTo(user_id.toDouble())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            for (data in snapshot.children) {
+                                val emergencyTimeValue =
+                                    data.child("emergency_time").getValue(String::class.java).toString()
+                                //lunch_time.setText("$lunchValue")
+
+                                emergencyTimeHour = emergencyTimeValue.toInt()
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        // 쿼리 실행 중 오류 발생 시 처리할 내용
+                    }
+                })
+        } catch (e: ApiException) {
+            Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
+        }
+    }
+
     private fun checkEmergency(){
         Log.d("긴급 상황 감지!!", " ")
         // AlarmManager 설정
@@ -506,7 +536,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
-        calendar.set(Calendar.HOUR_OF_DAY, sleepTimeHour + 16)
+        calendar.set(Calendar.HOUR_OF_DAY, 8 - (12 - sleepTimeHour) + emergencyTimeHour)
         calendar.set(Calendar.MINUTE, sleepTimeMinute)
         calendar.set(Calendar.SECOND, 0)
 
