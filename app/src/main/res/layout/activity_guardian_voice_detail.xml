@@ -165,18 +165,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_profile_name"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="28dp"
             android:layout_marginHorizontal="8dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <!-- 화면 하단에 위치한 이미지 -->
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_new_image"
         android:layout_width="400dp"
         android:layout_height="400dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/image_daily"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/image_daily" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="158dp"
+        app:layout_constraintTop_toBottomOf="@+id/profile_layout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
