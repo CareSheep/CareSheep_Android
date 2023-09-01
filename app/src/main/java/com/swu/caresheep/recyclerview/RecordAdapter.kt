@@ -102,7 +102,6 @@ class RecordAdapter(private val context: Context) :
                     putExtra("recording_date", item.recording_date)
                     putExtra("in_need", item.in_need)
                     putExtra("user_id", item.user_id)
-                    putExtra("voice_id", item.voice_id)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }.run { context.startActivity(this) }
             }

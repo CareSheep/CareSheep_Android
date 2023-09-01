@@ -34,7 +34,6 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
         val recording_date = intent.getStringExtra("recording_date")
         val in_need = intent.getStringExtra("in_need")
         val user_id = intent.getIntExtra("user_id", 0)
-        val voice_id = intent.getIntExtra("voice_id", 0)
 
         // String 타입의 recording_date 를 ->Date 객체로
         val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
