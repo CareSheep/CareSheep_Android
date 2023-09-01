@@ -1,6 +1,8 @@
 package com.swu.caresheep.ui.guardian
 
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +17,7 @@ import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
+import com.swu.caresheep.ui.guardian.emergency.GuardianElderEmergencyActivity
 import kotlinx.android.synthetic.main.activity_guardian_voice_detail.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,6 +64,12 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
 
             // 하단 이미지
             iv_new_image.setImageResource(R.drawable.image_emergency)
+            iv_new_image.setOnClickListener(){
+                val intent1 = Intent(Intent.ACTION_DIAL)
+                if(intent1.resolveActivity(packageManager) != null){
+                    startActivity(intent1)
+                }
+            }
         } else if (in_need == "1") { // 생필품 부족 상황일 경우
             // 음성 내용 배경 색 변경 - 파랑
             val newColor: Int = ContextCompat.getColor(this, R.color.voice_blue)
