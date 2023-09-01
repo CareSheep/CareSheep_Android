@@ -39,7 +39,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         try { // 푸시 알림
             val intent = Intent(context, RecycleMainRecordActivity::class.java)
             intent.putExtra("contents", contents)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
             val notificationManager: NotificationManager =
