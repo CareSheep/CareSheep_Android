@@ -43,6 +43,9 @@
         android:theme="@style/Theme.CareSheep"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.guardian.emergency.GuardianSetEmergencyTimeActivity"
+            android:exported="false" />
 
         <service
             android:name=".utils.GpsForegroundService"
@@ -331,7 +334,7 @@
             android:exported="false" />
         <activity
             android:name=".recyclerview.RecycleMainRecordActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />
