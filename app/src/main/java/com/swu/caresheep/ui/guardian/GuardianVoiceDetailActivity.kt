@@ -58,7 +58,7 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
             situation_type.text = "긴급"
 
             // 상황 유형 아이콘
-            //iv_situation_image.setImageResource(R.drawable.situation_type_emergency)
+            iv_situation_image.setImageResource(R.drawable.situation_type_emergency)
 
             // 하단 이미지
             //iv_new_image.setImageResource(R.drawable.image_emergency)
@@ -72,10 +72,10 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
 
 
             // 상황 유형 아이콘
-            //iv_situation_image.setImageResource(R.drawable.situation_type_need)
+            iv_situation_image.setImageResource(R.drawable.situation_type_need)
 
             // 하단 이미지
-            //iv_new_image.setImageResource(R.drawable.image_need)
+            iv_new_image.setImageResource(R.drawable.image_need)
 
         } else if (in_need == "0" && danger == "0") { // 일상적인 상황일 경우
             // 음성 내용 배경 색 변경 - 초록
