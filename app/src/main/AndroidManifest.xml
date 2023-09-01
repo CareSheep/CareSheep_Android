@@ -327,12 +327,6 @@
             android:name=".recyclerview.RecycleMainScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".GuardianVoiceRecordDetailFragment"
-            android:exported="false" />
-        <activity
-            android:name=".GuardianVoiceRecordListFragment"
-            android:exported="false" />
-        <activity
             android:name=".recyclerview.RecycleMainRecordActivity"
             android:exported="true" />
         <activity
