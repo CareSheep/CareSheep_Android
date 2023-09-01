@@ -178,4 +178,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:src="@drawable/image_daily" />
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
