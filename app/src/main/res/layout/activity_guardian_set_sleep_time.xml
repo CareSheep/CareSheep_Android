@@ -35,7 +35,7 @@
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_gravity="center"
-        android:src="@drawable/baseline_bedtime_24"
+        android:src="@drawable/baseline_bed_24"
         app:layout_constraintBottom_toTopOf="@+id/sleeptimePicker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

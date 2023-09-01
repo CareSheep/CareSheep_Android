@@ -149,5 +149,8 @@
     <string name="elder_connect_connected_guardian">연결된 보호자</string>
     <string name="elder_connect_not_exist_guardian">연결된 보호자가 없습니다.</string>
     <string name="elder_connected_guardian_list">연결된 보호자 목록</string>
+    <string name="title_activity_guardian_set_elder_emergency_time">
+        GuardianSetElderEmergencyTimeActivity
+    </string>
 
 </resources>

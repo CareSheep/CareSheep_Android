@@ -64,6 +64,8 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
     var stepCountSensor: Sensor? = null
     lateinit var stepCountView: TextView
 
+    var sleepTimeHour :Int = 0
+    var sleepTimeMinute :Int = 0
 
 
     // 긴급상황 DB 연결
