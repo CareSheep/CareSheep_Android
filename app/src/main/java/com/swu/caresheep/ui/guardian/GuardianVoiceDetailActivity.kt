@@ -60,7 +60,7 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
             iv_situation_image.setImageResource(R.drawable.situation_type_emergency)
 
             // 하단 이미지
-            //iv_new_image.setImageResource(R.drawable.image_emergency)
+            iv_new_image.setImageResource(R.drawable.image_emergency)
         } else if (in_need == "1") { // 생필품 부족 상황일 경우
             // 음성 내용 배경 색 변경 - 파랑
             val newColor: Int = ContextCompat.getColor(this, R.color.voice_blue)
