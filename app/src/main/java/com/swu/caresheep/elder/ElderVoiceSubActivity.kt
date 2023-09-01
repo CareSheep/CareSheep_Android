@@ -159,16 +159,16 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                 val labels = response?.toString()
                     ?.split('\n')  // \n 기준으로 분할해서 labels 리스트에 저장 (null 처리하려고 ?.)
                 val dangerLabel = labels?.get(0).toString() // 위험 상황이면 1
-//                val shortageLabel = labels?.get(1).toString() // 물건 부족 상황이면 1
+                val shortageLabel = labels?.get(1).toString() // 물건 부족 상황이면 1
 
                 if (dangerLabel == "1") {
                     danger = "1"
                 }
-//                if (shortageLabel == "1") {
-//                    in_need = "1"
-//                }
+                if (shortageLabel == "1") {
+                    in_need = "1"
+                }
 
-                // Voice의 각 필드에 넣기
+                //Voice의 각 필드에 넣기
                 val voice = Voice(
                     content = content,
                     recording_date = timeStamp,
@@ -177,7 +177,6 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     in_need = in_need,
                     user_id = user_id,
                     check = false, // 디폴트는 안 읽은 상태
-                    voice_id = 1
                 )
 
                 database =

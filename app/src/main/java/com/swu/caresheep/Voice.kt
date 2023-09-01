@@ -8,5 +8,4 @@ data class Voice(
     var recording_date: String = "",          // 날짜 (음성인식을 실행한) ;초단위라서 고유 => PK
     var in_need: String = "",   // 생필품 도움 요청 유무
     var user_id: Int = 1,         // 사용자 id => FK
-    var voice_id : Int = 1
 )
