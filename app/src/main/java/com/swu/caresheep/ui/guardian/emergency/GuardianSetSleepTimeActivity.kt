@@ -48,7 +48,7 @@ class GuardianSetSleepTimeActivity : AppCompatActivity() {
             }
 
             // 다음 액티비티 이동
-            startActivity(Intent(this, GuardianStartSetMedicineActivity::class.java))
+            startActivity(Intent(this, GuardianSetEmergencyTimeActivity::class.java))
         }
     }
 
