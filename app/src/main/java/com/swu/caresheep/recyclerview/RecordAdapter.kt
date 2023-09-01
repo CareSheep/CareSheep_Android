@@ -41,7 +41,7 @@ class RecordAdapter(private val context: Context) :
         private val circleIndicator: TextView = itemView.findViewById(R.id.circleIndicator)
 
         fun bind(item: Voice) {
-            list_number.text = item.voice_id.toString()
+            //list_number.text = item.voice_id.toString()
             // item.content.length > 10이면 substring 메서드를 사용하여 10글자까지만 자르고 '...'을 붙임
             if (item.content.length > 10) {
                 // "${item.content.substring(0, 10)}..."

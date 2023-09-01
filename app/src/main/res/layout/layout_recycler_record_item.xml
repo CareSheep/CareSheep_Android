@@ -28,12 +28,10 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/solid_positive_button"
-            android:text="번호"
+            android:text=""
             android:textSize="15sp"
             android:layout_weight="1"
             />
-
-
 
         <TextView
             android:id="@+id/record_context"

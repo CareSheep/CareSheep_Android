@@ -31,9 +31,14 @@
     <color name="gray_700">#818181</color>
     <color name="gray_900">#3C3C3C</color>
 
+    <color name="red">#F05650</color>
+    <color name="blue">#89CFF0</color>
+
+
     <!-- situation -->
-    <color name="red">#FF1A1A</color>
-    <color name="blue">#68B5FD</color>
+    <color name="voice_red">#F05650</color>
+    <color name="voice_blue">#89CFF0</color>
+    <color name="voice_green">#ABC270</color>
 
     <!-- medicine color -->
     <color name="my_red">#FF1A1A</color>
@@ -43,5 +48,7 @@
     <color name="my_purple">#7F2DE7</color>
     <color name="my_brown">#C0621E</color>
     <color name="my_black">#1D1D1D</color>
+
+
 
 </resources>
