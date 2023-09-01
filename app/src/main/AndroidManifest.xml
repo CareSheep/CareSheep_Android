@@ -272,6 +272,7 @@
             android:name=".elder.AlarmReceiverCheckEmergency"
             android:enabled="true"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="Check" />
             </intent-filter>
