@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.swu.caresheep.R
-import com.swu.caresheep.ui.elder.main.ElderActivity
 import kotlinx.android.synthetic.main.activity_elder_voice_main.*
 
 

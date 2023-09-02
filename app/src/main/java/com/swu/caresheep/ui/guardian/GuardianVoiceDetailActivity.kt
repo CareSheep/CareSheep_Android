@@ -2,7 +2,6 @@ package com.swu.caresheep.ui.guardian
 
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +16,6 @@ import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
-import com.swu.caresheep.ui.guardian.emergency.GuardianElderEmergencyActivity
 import kotlinx.android.synthetic.main.activity_guardian_voice_detail.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,13 +28,11 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_guardian_voice_detail)
 
 
-        // putExtra 메서드로 전달한 데이터 받기 & null일 경우 default 설정
-        val check = intent.getBooleanExtra("check", false)
+        // RecordAdapter.kt에서 putExtra 메서드로 전달한 데이터 받기 & null일 경우 default 설정
         val content = intent.getStringExtra("content")
         val danger = intent.getStringExtra("danger")
         val recording_date = intent.getStringExtra("recording_date")
         val in_need = intent.getStringExtra("in_need")
-        val user_id = intent.getIntExtra("user_id", 0)
 
         // String 타입의 recording_date 를 ->Date 객체로
         val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
@@ -116,13 +112,13 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
     // 현재 로그인한 사용자와 연결된 어르신 찾기 (GuardianMyPageFragment 메서드 이용)
     private fun getGuardianInfo() {
         try {
-            // Get the user's Google account from the last signed-in account
+            // 회원(Guardian)의 구글 계정 가져오기
             val account = GoogleSignIn.getLastSignedInAccount(this)
 
-            // Retrieve the user's Gmail from the Google account
+            // gmail로 DB에서 사용자 정보 조회
             val gmail = account?.email.toString()
 
-            // Query the Guardian table using the Gmail as a key
+            // gmail 이용해서 Guardian 테이블 확인
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("Guardian")
                 .orderByChild("gmail")
@@ -130,11 +126,9 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
-                            // Retrieve guardian name and display it
+                            // user_id 이용해서 username 찾기
                             for (data in snapshot.children) {
                                 val user_id = data.child("user_id").getValue(Int::class.java)
-
-                                // user_id 이용해서 username 찾기
                                 val userRef = Firebase.database(BuildConfig.DB_URL)
                                     .getReference("Users")
                                     .child(user_id.toString())
