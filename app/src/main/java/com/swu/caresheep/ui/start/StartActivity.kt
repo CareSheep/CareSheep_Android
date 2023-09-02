@@ -24,8 +24,6 @@ import com.swu.caresheep.ui.guardian.GuardianActivity
 class StartActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStartBinding
-
-    // Google Sign-In Variables
     private lateinit var client: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
