@@ -168,9 +168,6 @@ class UserAgeFragment : Fragment() {
                 }
             })
         }
-
-//        reference.push().setValue(userHelperClass)
-
     }
 
 
