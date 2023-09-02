@@ -97,13 +97,12 @@ class UserAgeFragment : Fragment() {
         val gmail = activity?.intent?.extras?.getString("gmail")!!
         var fcmtoken = ""
 
+        // fcm 푸시 알림을 위한 FCM 토큰 받기
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
-
-            // Get new FCM registration token
             fcmtoken = task.result
 
         })

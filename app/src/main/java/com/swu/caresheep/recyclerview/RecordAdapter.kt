@@ -7,7 +7,6 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -41,10 +40,8 @@ class RecordAdapter(private val context: Context) :
         private val circleIndicator: TextView = itemView.findViewById(R.id.circleIndicator)
 
         fun bind(item: Voice) {
-            //list_number.text = item.voice_id.toString()
             // item.content.length > 10이면 substring 메서드를 사용하여 10글자까지만 자르고 '...'을 붙임
             if (item.content.length > 10) {
-                // "${item.content.substring(0, 10)}..."
                 record_context.maxLines = 1
                 record_context.ellipsize = TextUtils.TruncateAt.END
                 record_context.text = item.content.substring(0, 10) + "..."
@@ -68,18 +65,17 @@ class RecordAdapter(private val context: Context) :
             record_date.text = formattedDate
 
             // 상황 여부에 따른 버튼 색상
-            // 위험 상황일 경우
             if(item.danger == "1") { // 위험 상황일 경우
                 val newColor: Int = ContextCompat.getColor(context, R.color.red)
                 list_number.backgroundTintList = ColorStateList.valueOf(newColor) // 버튼 배경 색상을 빨간색으로
             }
             else if(item.in_need == "1")  {   // 물건 필요 상황일 경우
                 val newColor: Int = ContextCompat.getColor(context, R.color.blue)
-                list_number.backgroundTintList = ColorStateList.valueOf(newColor) // 버튼 배경 색상을 파랑색으로
+                list_number.backgroundTintList = ColorStateList.valueOf(newColor) // 버튼 배경 색상을 파란색으로
             }
-            else if(item.danger == "0" && item.in_need == "0"){
+            else if(item.danger == "0" && item.in_need == "0"){ // 일상적인 상황일 경우 
                 val newColor: Int = ContextCompat.getColor(context, R.color.green)
-                list_number.backgroundTintList = ColorStateList.valueOf(newColor)
+                list_number.backgroundTintList = ColorStateList.valueOf(newColor) // 버튼 배경 색상을 초록색으로
             }
 
             // 읽음 여부
@@ -92,16 +88,14 @@ class RecordAdapter(private val context: Context) :
             // 클릭이벤트 ; 세부 내용 화면으로 전환
             itemView.setOnClickListener {
                 item.check = true  // 읽음으로 바꾸기
-                notifyItemChanged(adapterPosition) //
+                notifyItemChanged(adapterPosition)
 
                 Intent(context, GuardianVoiceDetailActivity::class.java).apply {
                     // Voice 필드의 데이터 자체를 전달
-                    putExtra("check", item.check)
                     putExtra("content", item.content)
                     putExtra("danger", item.danger)
                     putExtra("recording_date", item.recording_date)
                     putExtra("in_need", item.in_need)
-                    putExtra("user_id", item.user_id)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }.run { context.startActivity(this) }
             }

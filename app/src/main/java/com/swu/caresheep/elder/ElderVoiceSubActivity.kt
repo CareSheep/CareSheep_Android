@@ -149,10 +149,10 @@ class ElderVoiceSubActivity : AppCompatActivity() {
             // 모델에 content를 입력하고 위험 및 생필품 부족 여부를 판단한 후 값을 설정
             val model = "text-davinci-002"
             val prompt = """
-                    다음 텍스트가 노인이 위험한 상황인지 아니면 물건이 부족한 상황인지 판단하세요:
+                    다음 텍스트가 노인의 위험상황 및 물건 부족 상황인지 판단하세요:
                     $content
-                    노인이 위험한 상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:
-                    물건이 부족해서 물건을 구매해야 할 상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:
+                    위험상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:
+                    물건 부족 상황일 경우 '1', 그렇지 않을 경우 '0'을 입력하세요:
                     """.trimIndent()
             Gpt3Api.requestGpt3Api(prompt, model) { response -> // 요청
                 // response에는 API 응답 결과가 반환됨
@@ -191,31 +191,22 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                         Log.e("Firebase", "데이터 업로드 실패: ${exception.message}", exception)
                     }
 
-
                 // 녹음이 종료 & 홈으로 이동
                 speechRecognizer?.stopListening()
                 val intent = Intent(applicationContext, ElderActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
             }
-
-
             send(content) // fcm 전송
-
         }
-
-
         override fun onPartialResults(partialResults: Bundle?) {}
-
         override fun onEvent(eventType: Int, params: Bundle?) {}
     }
 
     // fcm 전송
-
     fun send(content: String) {
         // 전송 정보를 담을 JSON 객체 생성
         val requestData = JSONObject()
-
         try {
             requestData.put("priority", "high") // 옵션
 
@@ -223,7 +214,6 @@ class ElderVoiceSubActivity : AppCompatActivity() {
             val dataObj = JSONObject()
             dataObj.put("contents", content) // fcm 내용
             requestData.put("data", dataObj)
-
 
             // 여러 명의 Guardian의 fcmToken 얻기
             val guardiansFCMTokens = mutableListOf<String>()
@@ -271,7 +261,7 @@ class ElderVoiceSubActivity : AppCompatActivity() {
                     idArray.put(token)
                 }
                 requestData?.put("registration_ids", idArray)
-                // Volley 요청 객체 생성 후  요청을 위한 데이터 설정
+                // Volley 요청 객체 생성 후 요청을 위한 데이터 설정
                 val request: JsonObjectRequest = object : JsonObjectRequest(
                     Method.POST, "https://fcm.googleapis.com/fcm/send", requestData,
                     Listener { Log.d("FCM", "FCM request completed") },
