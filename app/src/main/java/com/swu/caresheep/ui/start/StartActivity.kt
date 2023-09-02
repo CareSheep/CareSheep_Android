@@ -43,6 +43,7 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun signIn() {
+        logout()
         val signInIntent = client.signInIntent
         resultLauncher.launch(signInIntent)
     }
@@ -142,6 +143,17 @@ class StartActivity : AppCompatActivity() {
         } catch (e: ApiException) {
             Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
         }
+    }
 
+    /**
+     * 로그아웃
+     */
+    private fun logout() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        client = this.let { GoogleSignIn.getClient(this, gso) }
+
+        client.signOut()
     }
 }
