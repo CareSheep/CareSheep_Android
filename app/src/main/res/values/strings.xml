@@ -128,6 +128,12 @@
     <string name="guardian_maps_gps_tracking">어르신 위치 추적</string>
     <string name="guardian_maps_address_not_available">주소를 가져 올 수 없습니다.</string>
 
+    <!-- Guardian - Voice -->
+    <string name="guardian_voice_detail">녹음 상세 내용</string>
+    <string name="guardian_voice_detail_date">날짜</string>
+    <string name="guardian_voice_situation_type">상황 유형</string>
+    <string name="guardian_voice_detail_content">음성 내용</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

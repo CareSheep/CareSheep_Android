@@ -16,16 +16,20 @@ import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.Voice
+import com.swu.caresheep.databinding.ActivityGuardianVoiceDetailBinding
 import kotlinx.android.synthetic.main.activity_guardian_voice_detail.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class GuardianVoiceDetailActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityGuardianVoiceDetailBinding
     lateinit var data: Voice
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_guardian_voice_detail)
+        binding = ActivityGuardianVoiceDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         // RecordAdapter.kt에서 putExtra 메서드로 전달한 데이터 받기 & null일 경우 default 설정
@@ -36,7 +40,7 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
 
         // String 타입의 recording_date 를 ->Date 객체로
         val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-        val recordingDate = dateFormat.parse(recording_date)
+        val recordingDate = recording_date?.let { dateFormat.parse(it) }
 
         // 년 월 일 오전/오후 시:분:초 형식으로 포맷
         val formattedDate = SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss", Locale.getDefault())
@@ -44,23 +48,23 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
 
 
         // 받은 데이터 사용하기
-        record_time.text = formattedDate
-        record_content.text = content
+        binding.tvDateContent.text = formattedDate
+        binding.tvRecordContent.text = content
 
         if (danger == "1") { // 위험 상황일 경우
             // 음성 내용 배경 색 변경 - 빨강
             val newColor: Int = ContextCompat.getColor(this, R.color.voice_red)
-            record_content.backgroundTintList = ColorStateList.valueOf(newColor)
+            binding.tvRecordContent.backgroundTintList = ColorStateList.valueOf(newColor)
 
             // 상황 유형 텍스트 
-            situation_type.text = "긴급"
+            binding.tvSituationTypeContent.text = "긴급"
 
             // 상황 유형 아이콘
-            iv_situation_image.setImageResource(R.drawable.situation_type_emergency)
+            binding.ivSituationImage.setImageResource(R.drawable.ic_situation_type_emergency)
 
             // 하단 이미지
-            iv_new_image.setImageResource(R.drawable.image_emergency)
-            iv_new_image.setOnClickListener(){
+            binding.ivIllust.setImageResource(R.drawable.img_emergency_illust)
+            binding.ivIllust.setOnClickListener {
                 val intent1 = Intent(Intent.ACTION_DIAL)
                 if(intent1.resolveActivity(packageManager) != null){
                     startActivity(intent1)
@@ -69,32 +73,30 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
         } else if (in_need == "1") { // 생필품 부족 상황일 경우
             // 음성 내용 배경 색 변경 - 파랑
             val newColor: Int = ContextCompat.getColor(this, R.color.voice_blue)
-            record_content.backgroundTintList = ColorStateList.valueOf(newColor)
+            binding.tvRecordContent.backgroundTintList = ColorStateList.valueOf(newColor)
 
             // 상황 유형 텍스트 
-            situation_type.text = "생필품 부족"
-
+            binding.tvSituationTypeContent.text = "생필품 부족"
 
             // 상황 유형 아이콘
-            iv_situation_image.setImageResource(R.drawable.situation_type_need)
+            binding.ivSituationImage.setImageResource(R.drawable.ic_situation_type_need)
 
             // 하단 이미지
-            iv_new_image.setImageResource(R.drawable.image_need)
+            binding.ivIllust.setImageResource(R.drawable.img_need_illust)
 
         } else if (in_need == "0" && danger == "0") { // 일상적인 상황일 경우
             // 음성 내용 배경 색 변경 - 초록
             val newColor: Int = ContextCompat.getColor(this, R.color.voice_green)
-            record_content.backgroundTintList = ColorStateList.valueOf(newColor)
+            binding.tvRecordContent.backgroundTintList = ColorStateList.valueOf(newColor)
 
             // 상황 유형 텍스트 
-            situation_type.text = "일상"
+            binding.tvSituationTypeContent.text = "일상"
 
             // 상황 유형 아이콘
-            iv_situation_image.setImageResource(R.drawable.situation_type_daily)
+            binding.ivSituationImage.setImageResource(R.drawable.ic_situation_type_daily)
 
             // 하단 이미지
-            iv_new_image.setImageResource(R.drawable.image_daily)
-
+            binding.ivIllust.setImageResource(R.drawable.img_daily_illust)
         }
 
 
@@ -102,9 +104,9 @@ class GuardianVoiceDetailActivity : AppCompatActivity() {
         // 환자 이름 정보 얻기
         getGuardianInfo()
 
-        // 툴바의 닫기 아이콘 클릭 쉬 뒤로가기
-        iv_close.setOnClickListener {
-            onBackPressed()
+        // 툴바의 닫기 아이콘 클릭 시 뒤로 가기
+        binding.ivBack.setOnClickListener {
+            finish()
         }
 
     }
