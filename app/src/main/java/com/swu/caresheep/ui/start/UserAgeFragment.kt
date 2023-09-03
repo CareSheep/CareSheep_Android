@@ -56,11 +56,6 @@ class UserAgeFragment : Fragment() {
             val args = requireArguments()
             val userType = args.getString("user_type")
 
-//            Log.e(
-//                "userType, userName, userGender, userAge",
-//                userType.toString() + "/ " + userName.toString() + "/ " + userGender.toString() + "/ " + userAge.toString()
-//            )
-
             // DB에 회원 정보 저장
             saveData()
 
@@ -70,15 +65,13 @@ class UserAgeFragment : Fragment() {
 
             completeDialog.btnClickListener {
                 // 전달된 사융자 유형에 따라 어르신 또는 보호자 화면으로 이동
-                if (userType == "elder") {
-                    val intent = Intent(this.context, ElderActivity::class.java)
-                    startActivity(intent)
-                    this.activity?.finish()
+                val intent = if (userType == "elder") {
+                    Intent(this.context, ElderActivity::class.java)
                 } else {
-                    val intent = Intent(this.context, GuardianActivity::class.java)
-                    startActivity(intent)
-                    this.activity?.finish()
+                    Intent(this.context, GuardianActivity::class.java)
                 }
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
             }
 
         }
@@ -86,6 +79,9 @@ class UserAgeFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * DB에 회원정보 저장
+     */
     private fun saveData() {
         // 저장할 데이터 받아오기
         val args = requireArguments()
@@ -171,7 +167,9 @@ class UserAgeFragment : Fragment() {
     }
 
 
-    // 어르신(User) code에 넣을 String(숫자 랜덤 6자리) 생성
+    /**
+     * 어르신(User) code에 넣을 String(숫자 랜덤 6자리) 생성
+     */
     fun getUserCode(reference: DatabaseReference): String {
         val lowerBound = 0
         val upperBound = 999999
