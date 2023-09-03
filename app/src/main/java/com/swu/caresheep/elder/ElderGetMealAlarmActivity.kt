@@ -51,7 +51,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
 
     fun getBreakfastAlarm(){
 
-        val user_id = 1 // user_id로 수정
+        val user_id = user_id // user_id로 수정
 
         // Firebase Realtime Database에서 데이터 가져오기
         val database =
@@ -135,7 +135,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
 
     fun getLunchAlarm(){
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
@@ -204,7 +204,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
 
     fun getDinnerAlarm(){
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
@@ -273,7 +273,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
 
     fun getWalkAlarm(){
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
@@ -342,7 +342,7 @@ class ElderGetMealAlarmActivity : AppCompatActivity() {
 
     fun getMedicineAlarm(){
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("MedicineTime")
                 .orderByChild("user_id")

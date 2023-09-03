@@ -13,6 +13,7 @@ import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.ui.elder.main.currentSteps
 import com.swu.caresheep.ui.elder.main.emergency_id
 import com.swu.caresheep.ui.elder.main.isWalking
+import com.swu.caresheep.ui.start.user_id
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -36,7 +37,7 @@ class AlarmReceiverCheckEmergency : BroadcastReceiver() {
                 val formattedDateTime = now.format(formatter)
 
                 val data = hashMapOf(
-                    "user_id" to 1,
+                    "user_id" to user_id,
                     "emergency" to result,
                     "today_date" to formattedDateTime
                 )

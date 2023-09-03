@@ -10,6 +10,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.start.UserAgeFragment
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_get_alarm_time.userid
 
 class ElderGetAlarmTimeActivity : AppCompatActivity() {
@@ -50,20 +51,6 @@ class ElderGetAlarmTimeActivity : AppCompatActivity() {
         gotid= UserAgeFragment().id
         userid.setText(gotid)
         Log.d("user_id확인","$gotid")
-//        dbRef1 = FirebaseDatabase.getInstance().getReference("TakingMedicine").child("2")
-//
-//        dbRef1.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                if (snapshot.exists()){
-//                    medicine_color = snapshot.child("color").getValue().toString()
-//                    Log.d("medicine_color","$medicine_color")
-//                }
-//            }
-//            override fun onCancelled(error: DatabaseError) {
-//                println("Failed to read value.")
-//            }
-//        })
-
     }
 
 
@@ -164,7 +151,7 @@ class ElderGetAlarmTimeActivity : AppCompatActivity() {
         val data = hashMapOf(
             "date" to "",
             "done" to 0,
-            "user_id" to 1
+            "user_id" to user_id
         )
 
         dbRef3 = FirebaseDatabase.getInstance().getReference("Breakfast")
@@ -179,7 +166,7 @@ class ElderGetAlarmTimeActivity : AppCompatActivity() {
         val data = hashMapOf(
             "date" to "",
             "done" to 0,
-            "user_id" to 1
+            "user_id" to user_id
         )
 
         dbRef3 = FirebaseDatabase.getInstance().getReference("Lunch")
@@ -194,7 +181,7 @@ class ElderGetAlarmTimeActivity : AppCompatActivity() {
         val data = hashMapOf(
             "date" to "",
             "done" to 0,
-            "user_id" to 1
+            "user_id" to user_id
         )
 
         dbRef3 = FirebaseDatabase.getInstance().getReference("Dinner")

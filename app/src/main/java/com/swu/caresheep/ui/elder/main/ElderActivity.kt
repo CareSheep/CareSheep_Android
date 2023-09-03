@@ -104,7 +104,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 //                val formattedDateTime = now.format(formatter)
 //
 //                val data = hashMapOf(
-//                    "user_id" to 1,
+//                    "user_id" to user_id,
 //                    "emergency" to result,
 //                    "today_date" to formattedDateTime
 //                )
@@ -131,6 +131,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 //        }
         initView()
 
+        //getEmergencyTime()
         getBreakfastAlarm()
         getDinnerAlarm()
         getLunchAlarm()
@@ -254,7 +255,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
     /* 루틴 가져오기 */
     private fun getBreakfastAlarm() {
 
-        val user_id = 1 // user_id로 수정
+        val user_id = user_id // user_id로 수정
 
         // Firebase Realtime Database에서 데이터 가져오기
         val database =
@@ -342,12 +343,12 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 
     private fun getLunchAlarm() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
@@ -418,12 +419,12 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 
     private fun getDinnerAlarm() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
@@ -493,12 +494,12 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 
     private fun getEmergencyTime() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
@@ -551,12 +552,12 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 
     private fun getSleepTime() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
@@ -602,12 +603,12 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 
     private fun getWalkAlarm() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
@@ -678,12 +679,12 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
 
     private fun getMedicineAlarm() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(DB_URL)
                 .getReference("MedicineTime")
                 .orderByChild("user_id")
                 .equalTo(user_id.toDouble())
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {

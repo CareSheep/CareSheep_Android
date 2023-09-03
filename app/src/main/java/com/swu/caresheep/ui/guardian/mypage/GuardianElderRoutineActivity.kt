@@ -12,6 +12,7 @@ import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityGuardianElderRoutineBinding
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_guardian_elder_routine.tv_black_medicine_count_goal
 import kotlinx.android.synthetic.main.activity_guardian_elder_routine.tv_black_medicine_time_goal
 import kotlinx.android.synthetic.main.activity_guardian_elder_routine.tv_blue_medicine_count_goal
@@ -59,7 +60,7 @@ class GuardianElderRoutineActivity : AppCompatActivity() {
 
     private fun getRoutine() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("UsersRoutine")
                 .orderByChild("user_id")
@@ -93,7 +94,7 @@ class GuardianElderRoutineActivity : AppCompatActivity() {
 
     private fun getMedicine() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("MedicineTime")
                 .orderByChild("user_id")
