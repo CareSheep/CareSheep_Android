@@ -182,7 +182,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
             "goal_walk" to goalWalk,
             "start_time" to todayDate,
             "walk" to currentSteps,
-            "user_id" to 1,
+            "user_id" to user_id,
         )
 
         dbRef2 = FirebaseDatabase.getInstance(DB_URL).getReference("Walk")

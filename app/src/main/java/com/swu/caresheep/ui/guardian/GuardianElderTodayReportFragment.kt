@@ -64,7 +64,7 @@ class GuardianElderTodayReportFragment : Fragment() {
 
     private fun getTodayBreakfastData() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("Breakfast")
                 .orderByChild("user_id")
@@ -97,7 +97,7 @@ class GuardianElderTodayReportFragment : Fragment() {
 
     private fun getTodayLunchData() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("Lunch")
                 .orderByChild("user_id")
@@ -130,7 +130,7 @@ class GuardianElderTodayReportFragment : Fragment() {
 
     private fun getTodayDinnerData() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("Dinner")
                 .orderByChild("user_id")
@@ -163,7 +163,7 @@ class GuardianElderTodayReportFragment : Fragment() {
     private fun getTodayWalkData() {
 
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("Walk")
                 .orderByChild("user_id")

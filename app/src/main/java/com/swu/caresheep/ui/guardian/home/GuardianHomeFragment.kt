@@ -152,7 +152,7 @@ class GuardianHomeFragment : Fragment() {
 
     private fun getEmergencyAlarm() {
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
                 .getReference("Emergency")
                 .orderByChild("user_id")
