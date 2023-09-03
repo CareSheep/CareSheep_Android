@@ -11,7 +11,8 @@ import com.swu.caresheep.ui.guardian.GuardianStartSetMedicineActivity
 import com.swu.caresheep.ui.guardian.routine_id
 import kotlinx.android.synthetic.main.activity_guardian_set_emergency_time.sleeptime_next_button
 import kotlinx.android.synthetic.main.activity_guardian_set_emergency_time.time_count_text
-
+import kotlinx.android.synthetic.main.activity_guardian_set_emergency_time.time_minus_button
+import kotlinx.android.synthetic.main.activity_guardian_set_emergency_time.time_plus_button
 
 
 class GuardianSetEmergencyTimeActivity : AppCompatActivity() {
@@ -23,11 +24,11 @@ class GuardianSetEmergencyTimeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guardian_set_emergency_time)
 
-        time_count_text.setOnClickListener {
+        time_plus_button.setOnClickListener {
             time_counter++
             time_count_text.text = time_counter.toString()
         }
-        time_count_text.setOnClickListener {
+        time_minus_button.setOnClickListener {
             time_counter--
             time_count_text.text = time_counter.toString()
         }
