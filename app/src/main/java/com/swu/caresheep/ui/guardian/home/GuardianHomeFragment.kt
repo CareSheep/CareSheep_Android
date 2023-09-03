@@ -14,9 +14,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -35,6 +32,10 @@ import com.swu.caresheep.ui.guardian.emergency.AlarmReceiverEmergency
 import com.swu.caresheep.ui.guardian.mypage.GuardianConnectActivity
 import com.swu.caresheep.ui.start.user_id
 import com.swu.caresheep.utils.CalendarUtil
+import com.swu.caresheep.utils.GoogleLoginClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -43,6 +44,7 @@ class GuardianHomeFragment : Fragment() {
 
     private lateinit var binding: FragmentGuardianHomeBinding
     private lateinit var calendarUtil: CalendarUtil
+    private val googleLoginClient = GoogleLoginClient()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,16 +99,9 @@ class GuardianHomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        if (user_id == 0) {
-            Toast.makeText(
-                requireContext(),
-                "사용자 코드를 입력하여 어르신과 연결하세요.",
-                Toast.LENGTH_SHORT
-            ).show()
-            startActivity(Intent(requireContext(), GuardianConnectActivity::class.java))
-        } else {
-            updateTodaySchedule()
-            checkDementiaStatus()
+        // 어르신 정보 업데이트
+        lifecycleScope.launch {
+            checkElderConnectionAndUpdateInfo()
         }
     }
 
@@ -120,6 +115,28 @@ class GuardianHomeFragment : Fragment() {
         calendarUtil.mID = 3  // 이벤트 불러오기
 
         calendarUtil.getResultsFromApi(today, null, null)
+    }
+
+    /**
+     * 어르신 연동 여부 확인
+     * - 연동 X면 연동 화면으로 이동
+     * - 연동 O면 오늘의 일정 업데이트와 치매 여부에 따른 UI 업데이트 작업 수행
+     */
+    private suspend fun checkElderConnectionAndUpdateInfo() {
+        val elderInfo = withContext(Dispatchers.IO) {
+            googleLoginClient.getElderInfo(requireContext())
+        }
+        if (elderInfo.id == null) {
+            Toast.makeText(
+                requireContext(),
+                "사용자 코드를 입력하여 어르신과 연결하세요.",
+                Toast.LENGTH_SHORT
+            ).show()
+            startActivity(Intent(requireContext(), GuardianConnectActivity::class.java))
+        } else {
+            updateTodaySchedule()
+            checkDementiaStatus()
+        }
     }
 
     /**

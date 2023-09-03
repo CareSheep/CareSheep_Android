@@ -2,6 +2,7 @@ package com.swu.caresheep.ui.elder.alarm
 
 import android.app.KeyguardManager
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +15,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.swu.caresheep.AlarmHandler
 import com.swu.caresheep.BuildConfig.DB_URL
+import com.swu.caresheep.PraiseActivity
 import com.swu.caresheep.R
+import com.swu.caresheep.elder.alarmType
 import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_breakfast_alarm.breakfast
 import java.time.LocalDate
@@ -34,6 +38,8 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
     private var flag = true
     private lateinit var calendar: Calendar
 
+    private val alarmHandler: AlarmHandler by lazy { AlarmHandler(this) }
+
     // 데이터 베이스 연결
     private lateinit var dbRef: DatabaseReference
 
@@ -46,6 +52,8 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        alarmType = "breakfast"
 
         // 잠금일 때 화면 뜨도록
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
@@ -110,6 +118,11 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
 
                     finish()
                     flag = false
+                    val intent = Intent(this, PraiseActivity::class.java)
+                    startActivity(intent)
+
+                    // AlarmHandler를 사용하여 알람 취소
+                    alarmHandler.cancelAlarm()
 
                 }
                 // 아침 안 먹음 체크
@@ -147,6 +160,9 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
 
                     finish()
                     flag = false
+
+                    // AlarmHandler를 사용하여 알람 재설정
+                    alarmHandler.setReAlarm()
                 }
 
             }
