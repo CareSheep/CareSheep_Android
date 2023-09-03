@@ -29,6 +29,8 @@ class ElderMedicineFirstActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        alarmType = "medicine"
+
         // 잠금일 때 화면 뜨도록
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true)

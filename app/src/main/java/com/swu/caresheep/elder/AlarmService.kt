@@ -6,7 +6,11 @@ import android.content.Intent
 import android.os.IBinder
 import android.os.PowerManager
 import android.util.Log
+import com.swu.caresheep.ui.elder.alarm.ElderBreakfastAlarmActivity
+import com.swu.caresheep.ui.elder.alarm.ElderDinnerAlarmActivity
+import com.swu.caresheep.ui.elder.alarm.ElderLunchAlarmActivity
 
+var alarmType = ""
 class AlarmService : Service() {
     private val TAG = "TAG+Service"
 
@@ -32,8 +36,23 @@ class AlarmService : Service() {
         // WakeLock 획득
         wakeLock?.acquire()
 
+        var alarmIntent = Intent(applicationContext, ElderMedicineFirstActivity::class.java)
         // 알람 화면 실행
-        val alarmIntent = Intent(applicationContext, ElderMedicineFirstActivity::class.java)
+        if(alarmType == "breakfast"){
+            alarmIntent = Intent(applicationContext, ElderBreakfastAlarmActivity::class.java)
+            alarmType == "" // 초기화
+        }else if(alarmType == "lunch"){
+            alarmIntent = Intent(applicationContext, ElderLunchAlarmActivity::class.java)
+            alarmType == "" // 초기화
+        }else if(alarmType == "dinner"){
+            alarmIntent = Intent(applicationContext, ElderDinnerAlarmActivity::class.java)
+            alarmType == "" // 초기화
+        }else if(alarmType == "medicine"){
+            alarmIntent = Intent(applicationContext, ElderMedicineFirstActivity::class.java)
+            alarmType == "" // 초기화
+        }
+
+
         alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(alarmIntent)
 
