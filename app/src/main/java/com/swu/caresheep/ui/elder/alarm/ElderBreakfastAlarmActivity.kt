@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_breakfast_alarm.breakfast
 import java.time.LocalDate
 import java.util.Calendar
@@ -83,7 +84,7 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
                     val data = hashMapOf(
                         "date" to todayDate.toString(),
                         "done" to done,
-                        "user_id" to 1,
+                        "user_id" to user_id,
                     )
 
                     dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Breakfast")
@@ -107,7 +108,6 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
                         }
                     })
 
-                    //
                     finish()
                     flag = false
 
@@ -121,7 +121,7 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
                     val data = hashMapOf(
                         "date" to todayDate.toString(),
                         "done" to done,
-                        "user_id" to 1,
+                        "user_id" to user_id,
                     )
 
                     dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Breakfast")
@@ -167,36 +167,4 @@ class ElderBreakfastAlarmActivity : AppCompatActivity() {
 
     }
 
-//    private fun checkBreakfast(){
-//
-//        Log.d("식사","아침식사")
-//
-//        //오늘의 날짜
-//        val todayDate: LocalDate = LocalDate.now()
-//
-//        val data = hashMapOf(
-//            "date" to todayDate,
-//            "done" to 1,
-//            "user_id" to 1,
-//        )
-//
-//        dbRef = FirebaseDatabase.getInstance().getReference("Breakfast")
-//        dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                val childCount = dataSnapshot.childrenCount
-//                val id2 = (childCount + 1).toInt()
-//                //breakfast_id = id // 약 고유번호 정해주기 -> 다음 액티비티에서 사용
-//
-//                dbRef.child(id2.toString()).setValue(data)
-//                    .addOnSuccessListener {
-//                        Log.d("아침 식사", "DB에 저장 성공")
-//                    }.addOnFailureListener {
-//                        Log.d("아침 식사", "DB에 저장 실패")
-//                    }
-//            }
-//            override fun onCancelled(error: DatabaseError) {
-//                Log.d("아침 식사", "Database error: $error")
-//            }
-//        })
-//    }
 }

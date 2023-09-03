@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_elder_dinner_alarm.dinner
 import java.time.LocalDate
 import java.util.Calendar
@@ -79,7 +80,7 @@ class ElderDinnerAlarmActivity : AppCompatActivity() {
                     val data = hashMapOf(
                         "date" to todayDate.toString(),
                         "done" to done,
-                        "user_id" to 1,
+                        "user_id" to user_id,
                     )
 
                     dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Dinner")
@@ -115,7 +116,7 @@ class ElderDinnerAlarmActivity : AppCompatActivity() {
                     val data = hashMapOf(
                         "date" to todayDate.toString(),
                         "done" to done,
-                        "user_id" to 1,
+                        "user_id" to user_id,
                     )
 
                     dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Dinner")
@@ -163,7 +164,7 @@ class ElderDinnerAlarmActivity : AppCompatActivity() {
         val data = hashMapOf(
             "date" to todayDate,
             "done" to done,
-            "user_id" to 1,
+            "user_id" to user_id,
         )
 
         dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("Dinner")

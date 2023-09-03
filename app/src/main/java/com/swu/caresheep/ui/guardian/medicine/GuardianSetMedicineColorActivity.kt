@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_color.blackMedicine
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_color.blueMedicine
 import kotlinx.android.synthetic.main.activity_guardian_set_medicine_color.brownMedicine
@@ -61,7 +62,7 @@ class GuardianSetMedicineColorActivity : AppCompatActivity() {
                 "medicine_name" to "",
                 "single_dose" to 0,
                 "time" to "",
-                "user_id" to 1,
+                "user_id" to user_id,
             )
 
             dbRef1 = FirebaseDatabase.getInstance(DB_URL).getReference("MedicineTime")

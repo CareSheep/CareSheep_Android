@@ -28,7 +28,6 @@ class UserTypeFragment : Fragment() {
             if (isGuardianClicked) isGuardianClicked = !isGuardianClicked
             isElderClicked = !isElderClicked
 
-            // 추후 dataBinding 으로 변경해서 구현하기
             if (isElderClicked) {
                 binding.btnElderType.setBackgroundResource(R.drawable.rectangle_green_radius_20)
                 binding.btnElderType.setTextColor(resources.getColor(R.color.white, null))
@@ -101,7 +100,6 @@ class UserTypeFragment : Fragment() {
                 UserTypeFragmentDirections.actionFragmentUserTypeToFragmentUserName(userType)
             )
         }
-
 
 
         return binding.root

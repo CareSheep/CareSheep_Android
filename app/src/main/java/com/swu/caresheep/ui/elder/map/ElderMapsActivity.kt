@@ -174,7 +174,6 @@ class ElderMapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(naverMap: NaverMap) {
         this.mNaverMap = naverMap
         LocationUtil.setMap(this, mNaverMap)
-
     }
 
 }

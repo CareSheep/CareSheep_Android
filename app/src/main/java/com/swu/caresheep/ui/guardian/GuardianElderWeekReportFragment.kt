@@ -26,6 +26,7 @@ import com.swu.caresheep.R
 import com.swu.caresheep.ui.elder.main.ElderActivity
 import com.swu.caresheep.ui.start.SignUpActivity
 import com.swu.caresheep.ui.start.user_id
+import kotlinx.android.synthetic.main.activity_elder_get_alarm_time.userid
 import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.progress_bar_1
 import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check1
 import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report.breakfast_check2
@@ -134,7 +135,7 @@ class GuardianElderWeekReportFragment : Fragment() {
 
     private fun getBreakfastThisWeek(){
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(DB_URL)
                 .getReference("Breakfast")
                 .orderByChild("user_id")
@@ -237,7 +238,7 @@ class GuardianElderWeekReportFragment : Fragment() {
 
     private fun getLunchThisWeek(){
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(DB_URL)
                 .getReference("Lunch")
                 .orderByChild("user_id")
@@ -337,7 +338,7 @@ class GuardianElderWeekReportFragment : Fragment() {
     }
     private fun getDinnerThisWeek(){
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(DB_URL)
                 .getReference("Dinner")
                 .orderByChild("user_id")
@@ -438,7 +439,7 @@ class GuardianElderWeekReportFragment : Fragment() {
 
     private fun getWalkThisWeek(){
         try {
-            val user_id = 1 // user_id로 수정
+            val user_id = user_id // user_id로 수정
             Firebase.database(DB_URL)
                 .getReference("Walk")
                 .orderByChild("user_id")

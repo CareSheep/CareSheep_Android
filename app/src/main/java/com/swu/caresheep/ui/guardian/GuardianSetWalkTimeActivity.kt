@@ -16,6 +16,7 @@ import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.guardian.medicine.medicine_id
 import com.swu.caresheep.ui.guardian.medicine.result1
+import com.swu.caresheep.ui.start.user_id
 import kotlinx.android.synthetic.main.activity_guardian_set_breakfast_time.*
 import kotlinx.android.synthetic.main.activity_guardian_set_walk_time.setWalkTimeButton
 import kotlinx.android.synthetic.main.activity_guardian_set_walk_time.timePicker
@@ -47,7 +48,7 @@ class GuardianSetWalkTimeActivity : AppCompatActivity() {
             val data = hashMapOf(
                 "breakfast" to "",
                 "dinner" to "",
-                "user_id" to 1,
+                "user_id" to user_id,
                 "lunch" to "",
                 "walk_time" to result,
                 "walk_step" to 0

@@ -30,7 +30,6 @@ class UserGenderFragment : Fragment() {
             if (isFemaleClicked) isFemaleClicked = !isFemaleClicked
             isMaleClicked = !isMaleClicked
 
-            // 추후 dataBinding 으로 변경해서 구현하기
             if (isMaleClicked) {
                 binding.btnMale.setBackgroundResource(R.drawable.rectangle_green_radius_20)
                 binding.btnMale.setTextColor(resources.getColor(R.color.white, null))
@@ -66,7 +65,6 @@ class UserGenderFragment : Fragment() {
             if (isMaleClicked) isMaleClicked = !isMaleClicked
             isFemaleClicked = !isFemaleClicked
 
-            // 추후 dataBinding 으로 변경해서 구현하기
             if (isFemaleClicked) {
                 binding.btnFemale.setBackgroundResource(R.drawable.rectangle_green_radius_20)
                 binding.btnFemale.setTextColor(resources.getColor(R.color.white, null))

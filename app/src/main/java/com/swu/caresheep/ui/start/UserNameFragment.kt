@@ -44,8 +44,6 @@ class UserNameFragment : Fragment() {
             )
         }
 
-        // 다른 곳 선택하면
-
         return binding.root
     }
 
