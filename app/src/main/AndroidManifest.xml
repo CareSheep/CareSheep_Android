@@ -44,44 +44,44 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.guardian.emergency.GuardianSetEmergencyTimeActivity"
+            android:name=".guardian.emergency.GuardianSetEmergencyTimeActivity"
             android:exported="false" />
 
         <service
-            android:name=".utils.GpsForegroundService"
+            android:name=".utils.map.GpsForegroundService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location" />
 
         <activity
-            android:name=".ui.elder.connect.ElderConnectedGuardianActivity"
+            android:name=".elder.connect.ElderConnectedGuardianActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.elder.alarm.ElderWalkAlarmActivity"
+            android:name=".elder.alarm.ElderWalkAlarmActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.emergency.GuardianElderEmergencyActivity"
+            android:name=".guardian.emergency.GuardianElderEmergencyActivity"
             android:exported="false" />
         <activity
-            android:name=".elder.ElderGetMealAlarmActivity"
+            android:name=".elder.alarm.ElderGetMealAlarmActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.elder.alarm.ElderDinnerAlarmActivity"
+            android:name=".elder.alarm.ElderDinnerAlarmActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.elder.alarm.ElderLunchAlarmActivity"
+            android:name=".elder.alarm.ElderLunchAlarmActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.elder.alarm.ElderBreakfastAlarmActivity"
+            android:name=".elder.alarm.ElderBreakfastAlarmActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.calendar.GuardianScheduleDetailActivity"
+            android:name=".guardian.calendar.GuardianScheduleDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.elder.map.ElderMapsActivity"
+            android:name=".elder.map.ElderMapsActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.guardian.map.GuardianMapsActivity"
+            android:name=".guardian.map.GuardianMapsActivity"
             android:exported="true" />
 
         <meta-data
@@ -89,96 +89,96 @@
             android:value="${NAVER_MAP}" />
 
         <activity
-            android:name=".elder.ElderGetAlarmTimeActivity"
+            android:name=".elder.alarm.ElderGetAlarmTimeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity4"
+            android:name=".guardian.alarm.GuardianSetMedicineTimeActivity4"
             android:exported="true" />
         <activity
-            android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity3"
+            android:name=".guardian.alarm.GuardianSetMedicineTimeActivity3"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity2"
+            android:name=".guardian.alarm.GuardianSetMedicineTimeActivity2"
             android:exported="false" />
         <activity
-            android:name=".MedicineTimeDetailActivity"
+            android:name=".guardian.routine.medicine.MedicineTimeDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".recyclerview.MedicineTimePickActivity"
+            android:name=".guardian.routine.medicine.MedicineTimePickActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.medicine.GuardianSetMedicineTimeActivity"
+            android:name=".guardian.alarm.GuardianSetMedicineTimeActivity"
             android:exported="false" />
         <activity
-            android:name=".elder.ElderWalkDoneActivity"
+            android:name=".elder.walk.ElderWalkDoneActivity"
             android:exported="false" />
         <activity
-            android:name=".elder.ElderWalkMainActivity"
+            android:name=".elder.walk.ElderWalkMainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.GuardianStartSetMedicineActivity"
+            android:name=".guardian.routine.medicine.GuardianStartSetMedicineActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.emergency.GuardianSetSleepTimeActivity"
+            android:name=".guardian.emergency.GuardianSetSleepTimeActivity"
             android:exported="false"
-            android:parentActivityName=".ui.guardian.meal.GuardianSetLunchTimeActivity" />
+            android:parentActivityName=".guardian.routine.meal.GuardianSetLunchTimeActivity" />
         <activity
-            android:name=".ui.guardian.meal.GuardianSetDinnerTimeActivity"
+            android:name=".guardian.routine.meal.GuardianSetDinnerTimeActivity"
             android:exported="false"
-            android:parentActivityName=".ui.guardian.meal.GuardianSetLunchTimeActivity" />
+            android:parentActivityName=".guardian.routine.meal.GuardianSetLunchTimeActivity" />
         <activity
-            android:name=".ui.guardian.meal.GuardianSetLunchTimeActivity"
+            android:name=".guardian.routine.meal.GuardianSetLunchTimeActivity"
             android:exported="true"
-            android:parentActivityName=".ui.guardian.meal.GuardianSetBreakfastTimeActivity" />
+            android:parentActivityName=".guardian.routine.meal.GuardianSetBreakfastTimeActivity" />
         <activity
-            android:name=".ui.guardian.calendar.GuardianAddScheduleActivity"
+            android:name=".guardian.calendar.GuardianAddScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.mypage.GuardianConnectActivity"
+            android:name=".guardian.mypage.GuardianConnectActivity"
             android:exported="false" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
         <activity
-            android:name=".ui.guardian.mypage.GuardianElderRoutineActivity"
+            android:name=".guardian.mypage.GuardianElderRoutineActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.guardian.GuardianSetWalkStepActivity"
+            android:name=".guardian.routine.walk.GuardianSetWalkStepActivity"
             android:exported="false"
-            android:parentActivityName=".ui.guardian.GuardianSetWalkTimeActivity" />
+            android:parentActivityName=".guardian.routine.walk.GuardianSetWalkTimeActivity" />
         <activity
-            android:name=".ui.guardian.GuardianSetWalkTimeActivity"
+            android:name=".guardian.routine.walk.GuardianSetWalkTimeActivity"
             android:exported="false"
-            android:parentActivityName=".ui.guardian.GuardianStartActivity" />
+            android:parentActivityName=".guardian.routine.start.GuardianStartActivity" />
         <activity
-            android:name=".ui.guardian.GuardianStartActivity"
+            android:name=".guardian.routine.start.GuardianStartActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.medicine.GuardianSetMedicineCountActivity"
+            android:name=".guardian.alarm.GuardianSetMedicineCountActivity"
             android:exported="false"
-            android:parentActivityName=".ui.guardian.medicine.GuardianSetMedicineSingledoseActivity" />
+            android:parentActivityName=".guardian.alarm.GuardianSetMedicineSingledoseActivity" />
         <activity
-            android:name=".ui.guardian.medicine.GuardianSetMedicineSingledoseActivity"
+            android:name=".guardian.alarm.GuardianSetMedicineSingledoseActivity"
             android:exported="false"
-            android:parentActivityName=".ui.guardian.medicine.GuardianSetMedicineNameActivity" />
+            android:parentActivityName=".guardian.alarm.GuardianSetMedicineNameActivity" />
         <activity
-            android:name=".ui.guardian.medicine.GuardianSetMedicineNameActivity"
+            android:name=".guardian.alarm.GuardianSetMedicineNameActivity"
             android:exported="false"
-            android:parentActivityName=".ui.guardian.medicine.GuardianSetMedicineColorActivity" />
+            android:parentActivityName=".guardian.alarm.GuardianSetMedicineColorActivity" />
         <activity
-            android:name=".ui.guardian.medicine.GuardianSetMedicineColorActivity"
+            android:name=".guardian.alarm.GuardianSetMedicineColorActivity"
             android:exported="false"
-            android:parentActivityName=".ui.guardian.GuardianStartSetMedicineActivity" />
+            android:parentActivityName=".guardian.routine.medicine.GuardianStartSetMedicineActivity" />
         <activity
-            android:name=".ui.guardian.meal.GuardianSetBreakfastTimeActivity"
+            android:name=".guardian.routine.meal.GuardianSetBreakfastTimeActivity"
             android:exported="true"
-            android:parentActivityName=".ui.guardian.GuardianSetWalkStepActivity" />
+            android:parentActivityName=".guardian.routine.walk.GuardianSetWalkStepActivity" />
         <activity
-            android:name=".ui.guardian.GuardianVoiceDetailActivity"
+            android:name=".guardian.voice.GuardianVoiceDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.start.SplashActivity"
+            android:name=".start.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -187,51 +187,51 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.elder.main.ElderActivity"
+            android:name=".elder.main.ElderActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.elder.connect.ElderConnectActivity"
+            android:name=".elder.connect.ElderConnectActivity"
             android:exported="true" />
         <activity
-            android:name=".elder.ElderWalkActivity"
+            android:name=".elder.walk.ElderWalkActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.GuardianElderReportActivity"
+            android:name=".guardian.report.GuardianElderReportActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.guardian.GuardianActivity"
+            android:name=".guardian.GuardianActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.start.SignUpActivity"
+            android:name=".start.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.start.StartActivity"
+            android:name=".start.StartActivity"
             android:exported="true" />
         <activity
-            android:name=".elder.ElderMedicineDoneActivity"
+            android:name=".elder.alarm.ElderMedicineDoneActivity"
             android:exported="false" />
         <activity
-            android:name=".elder.ElderMedicineReActivity"
+            android:name=".elder.alarm.ElderMedicineReActivity"
             android:exported="false" />
         <activity
-            android:name=".PraiseActivity"
+            android:name=".elder.alarm.PraiseActivity"
             android:exported="false" />
         <activity
-            android:name=".elder.ElderMedicineFirstActivity"
+            android:name=".elder.alarm.ElderMedicineFirstActivity"
             android:enabled="true" />
 
         <receiver
-            android:name=".elder.AlarmReceiver"
+            android:name=".elder.alarm.AlarmReceiver"
             android:enabled="true"
             android:exported="true" />
 
         <service
-            android:name=".elder.AlarmService"
+            android:name=".elder.alarm.AlarmService"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name=".elder.AlarmReceiverBreakfast"
+            android:name=".elder.alarm.AlarmReceiverBreakfast"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -240,12 +240,12 @@
         </receiver>
 
         <service
-            android:name=".elder.AlarmServiceBreakfast"
+            android:name=".elder.alarm.AlarmServiceBreakfast"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name=".elder.AlarmReceiverLunch"
+            android:name=".elder.alarm.AlarmReceiverLunch"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -254,12 +254,12 @@
         </receiver>
 
         <service
-            android:name=".elder.AlarmServiceLunch"
+            android:name=".elder.alarm.AlarmServiceLunch"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name=".elder.AlarmReceiverDinner"
+            android:name=".elder.alarm.AlarmReceiverDinner"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -268,12 +268,12 @@
         </receiver>
 
         <service
-            android:name=".elder.AlarmServiceDinner"
+            android:name=".elder.alarm.AlarmServiceDinner"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name=".elder.AlarmReceiverCheckEmergency"
+            android:name=".elder.alarm.AlarmReceiverCheckEmergency"
             android:enabled="true"
             android:exported="true">
 
@@ -283,12 +283,12 @@
         </receiver>
 
         <service
-            android:name=".elder.AlarmReceiverCheckEmergency"
+            android:name=".elder.alarm.AlarmReceiverCheckEmergency"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name=".elder.AlarmReceiverWalk"
+            android:name=".elder.alarm.AlarmReceiverWalk"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -297,12 +297,12 @@
         </receiver>
 
         <service
-            android:name=".elder.AlarmServiceWalk"
+            android:name=".elder.alarm.AlarmServiceWalk"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name=".ui.guardian.emergency.AlarmReceiverEmergency"
+            android:name=".guardian.emergency.AlarmReceiverEmergency"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -311,11 +311,11 @@
         </receiver>
 
         <service
-            android:name=".ui.guardian.emergency.AlarmServiceEmergency"
+            android:name=".guardian.emergency.AlarmServiceEmergency"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name=".utils.voice.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -323,19 +323,13 @@
         </service>
 
         <activity
-            android:name=".elder.ElderVoiceMainActivity"
+            android:name=".elder.voice.ElderVoiceMainActivity"
             android:exported="true" />
         <activity
-            android:name=".elder.ElderVoiceSubActivity"
+            android:name=".elder.voice.ElderVoiceSubActivity"
             android:exported="true" />
         <activity
-            android:name=".recyclerview.RecycleMainScheduleActivity"
-            android:exported="false" />
-        <activity
-            android:name=".recyclerview.RecycleMainRecordActivity"
-            android:exported="true" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".guardian.voice.RecycleMainRecordActivity"
             android:exported="true" />
     </application>
 

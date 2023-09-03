@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center"
-    tools:context=".elder.ElderWalkActivity">
+    tools:context=".elder.walk.ElderWalkActivity">
 
     <TextView
         android:id="@+id/textView8"

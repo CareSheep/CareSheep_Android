@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".elder.ElderGetMealAlarmActivity">
+    tools:context=".elder.alarm.ElderGetMealAlarmActivity">
 
     <TextView
         android:id="@+id/breakfast_time"

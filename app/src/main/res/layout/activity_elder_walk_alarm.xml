@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.elder.alarm.ElderWalkAlarmActivity">
+    tools:context=".elder.alarm.ElderWalkAlarmActivity">
 
     <TextView
         android:paddingTop="32dp"
