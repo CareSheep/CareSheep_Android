@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.guardian.GuardianSetWalkTimeActivity">
+    tools:context=".guardian.routine.walk.GuardianSetWalkTimeActivity">
 
     <TextView
         android:id="@+id/textView10"

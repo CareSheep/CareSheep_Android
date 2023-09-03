@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.guardian.GuardianVoiceDetailActivity">
+    tools:context=".guardian.voice.GuardianVoiceDetailActivity">
 
     <!-- 툴바 -->
     <androidx.appcompat.widget.Toolbar

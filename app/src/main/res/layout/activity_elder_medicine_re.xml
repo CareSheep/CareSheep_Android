@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".elder.ElderMedicineReActivity"
+    tools:context=".elder.alarm.ElderMedicineReActivity"
     android:orientation="vertical">
 
     <!-- 설명 텍스트 -->
