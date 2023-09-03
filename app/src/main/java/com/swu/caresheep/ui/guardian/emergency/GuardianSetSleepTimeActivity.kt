@@ -8,6 +8,7 @@ import android.widget.TimePicker
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.swu.caresheep.BuildConfig
+import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
 import com.swu.caresheep.ui.guardian.GuardianStartSetMedicineActivity
 import com.swu.caresheep.ui.guardian.routine_id
@@ -36,7 +37,7 @@ class GuardianSetSleepTimeActivity : AppCompatActivity() {
             pushTime()
 
             // 데이터베이스에 데이터 삽입
-            dbRef = FirebaseDatabase.getInstance(BuildConfig.DB_URL).getReference("UsersRoutine").child("$routine_id")
+            dbRef = FirebaseDatabase.getInstance(DB_URL).getReference("UsersRoutine").child("$routine_id")
 
             val updatedData = HashMap<String, Any>()
             updatedData["sleep"] = result
@@ -55,22 +56,29 @@ class GuardianSetSleepTimeActivity : AppCompatActivity() {
     private fun pushTime() {
         picker = sleeptimePicker
 
-        val hour = picker.hour
-        val minute = picker.minute
+        // TimePicker 변경 시 값 설정
+        picker.setOnTimeChangedListener { _, hour, minute ->
+            // 시간과 분을 형식화하여 문자열로 변환
+            val timeString = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
+                Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, hour)
+                    set(Calendar.MINUTE, minute)
+                }.time
+            )
+            result = timeString
+            Log.d("저장되는 시간은", result)
+        }
 
-        var am_pm: String = "am"
-
-        var result : String = ""
-
-        // 시간과 분을 형식화하여 문자열로 변환
-        val timeString = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
+        // 초기 시간 반영
+        val initialHour = picker.hour
+        val initialMinute = picker.minute
+        val initialTimeString = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
             Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, hour)
-                set(Calendar.MINUTE, minute)
+                set(Calendar.HOUR_OF_DAY, initialHour)
+                set(Calendar.MINUTE, initialMinute)
             }.time
         )
-        result = timeString
-        Log.d("저장되는 시간은","$result")
-
+        result = initialTimeString
+        Log.d("저장되는 시간은", result)
     }
 }

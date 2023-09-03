@@ -119,6 +119,10 @@
             android:name=".ui.guardian.GuardianStartSetMedicineActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.guardian.emergency.GuardianSetSleepTimeActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.guardian.meal.GuardianSetLunchTimeActivity" />
+        <activity
             android:name=".ui.guardian.meal.GuardianSetDinnerTimeActivity"
             android:exported="false"
             android:parentActivityName=".ui.guardian.meal.GuardianSetLunchTimeActivity" />
