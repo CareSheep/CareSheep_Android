@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentUserTypeBinding
-import com.swu.caresheep.ui.start.UserTypeFragmentDirections
+import com.swu.caresheep.start.UserTypeFragmentDirections
 
 class UserTypeFragment : Fragment() {
 

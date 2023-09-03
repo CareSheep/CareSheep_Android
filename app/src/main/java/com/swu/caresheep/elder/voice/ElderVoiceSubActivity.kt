@@ -24,6 +24,7 @@ import com.swu.caresheep.*
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.R
+import com.swu.caresheep.data.api.Gpt3Api
 import com.swu.caresheep.data.model.Guardian
 import com.swu.caresheep.data.model.Voice
 import com.swu.caresheep.elder.main.ElderActivity

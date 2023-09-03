@@ -467,7 +467,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
                                 val emergencyTimeValue =
-                                    data.child("emergency_time").getValue(String::class.java).toString()
+                                    data.child("emergency_time").getValue(Int::class.java).toString()
                                 //lunch_time.setText("$lunchValue")
 
                                 emergencyTimeHour = emergencyTimeValue.toInt()

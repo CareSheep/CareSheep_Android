@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.swu.caresheep.databinding.FragmentUserNameBinding
-import com.swu.caresheep.ui.start.UserNameFragmentDirections
+import com.swu.caresheep.start.UserNameFragmentDirections
 
 class UserNameFragment : Fragment() {
 

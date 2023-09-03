@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentUserGenderBinding
-import com.swu.caresheep.ui.start.UserGenderFragmentDirections
+import com.swu.caresheep.start.UserGenderFragmentDirections
 
 
 class UserGenderFragment : Fragment() {
