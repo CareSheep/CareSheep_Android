@@ -57,6 +57,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:background="@color/transparent"
+                android:scaleX="-1"
+                android:src="@drawable/ic_arrow_right_thick"
+                android:tint="@color/gray_900"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_week_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_week_date" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_arrow_right_thick"
+                android:tint="@color/gray_900"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_week_date"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_week_date" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_meal_routine_rate_title"
                 style="@style/Text.Body2"
@@ -98,7 +121,7 @@
                     style="@style/Text.Body2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:text="@string/guardian_report_breakfast"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_meal"

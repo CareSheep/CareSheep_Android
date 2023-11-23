@@ -89,8 +89,8 @@
     <string name="guardian_report_launch_routine_recommend">어르신 점심 식사 루틴 추천</string>
     <string name="guardian_report_dinner_routine_recommend">어르신 저녁 식사 루틴 추천</string>
 
-    <string name="guardian_report_meal_recommend_title">회원가입을 그만두시겠습니까?</string>
-    <string name="guardian_report_meal_recommend_caption">그만두시면 처음부터 회원가입을 해야 합니다</string>
+    <string name="guardian_report_meal_recommend_title">어르신의 질병명을 입력해주세요.</string>
+    <string name="guardian_report_meal_recommend_caption">질병이 없다면 입력 없이 추천 버튼을 눌러주세요.</string>
     <string name="guardian_report_meal_recommend_continue">식단 추천</string>
 
     <string name="mon">월</string>
