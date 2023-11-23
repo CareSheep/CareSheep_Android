@@ -20,8 +20,8 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityGuardianConnectBinding
-import com.swu.caresheep.start.dialog.BaseDialog
-import com.swu.caresheep.start.dialog.VerticalDialog
+import com.swu.caresheep.utils.dialog.BaseDialog
+import com.swu.caresheep.utils.dialog.VerticalDialog
 import com.swu.caresheep.guardian.routine.start.GuardianStartActivity
 import com.swu.caresheep.start.user_id
 

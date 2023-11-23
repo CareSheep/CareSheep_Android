@@ -44,6 +44,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".GuardianElderWeekReportMealActivity"
+            android:exported="false" />
+        <activity
             android:name=".guardian.emergency.GuardianSetEmergencyTimeActivity"
             android:exported="false" />
 
@@ -276,7 +279,6 @@
             android:name=".elder.alarm.AlarmReceiverCheckEmergency"
             android:enabled="true"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="Check" />
             </intent-filter>

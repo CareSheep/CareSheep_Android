@@ -9,7 +9,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.snackbar.Snackbar
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivitySignUpBinding
-import com.swu.caresheep.start.dialog.VerticalDialog
+import com.swu.caresheep.utils.dialog.VerticalDialog
 
 class SignUpActivity : AppCompatActivity() {
 
