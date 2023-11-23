@@ -44,7 +44,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".guardian.report.GuardianElderWeekReportMealActivity"
+            android:name=".guardian.report.GuardianElderWeekReportDetailActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

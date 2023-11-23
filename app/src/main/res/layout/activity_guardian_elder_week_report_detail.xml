@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".guardian.report.GuardianElderWeekReportMealActivity">
+    tools:context=".guardian.report.GuardianElderWeekReportDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_top"
@@ -58,6 +58,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_prev_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -70,6 +71,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tv_week_date" />
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_next_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
@@ -81,7 +83,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tv_week_date" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_meal_routine_rate_title"
+                android:id="@+id/tv_routine_rate_title"
                 style="@style/Text.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,7 +95,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_week_date" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_meal_routine_rate"
+                android:id="@+id/cl_routine_rate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -101,11 +103,11 @@
                 android:background="@drawable/rectangle_white_radius_15"
                 android:paddingVertical="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/tv_meal_routine_rate_title"
-                app:layout_constraintTop_toBottomOf="@+id/tv_meal_routine_rate_title">
+                app:layout_constraintStart_toStartOf="@+id/tv_routine_rate_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_routine_rate_title">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_meal"
+                    android:id="@+id/iv_routine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="22dp"
@@ -117,16 +119,16 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_meal_title"
+                    android:id="@+id/tv_routine_title"
                     style="@style/Text.Body2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:text="@string/guardian_report_breakfast"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_meal"
-                    app:layout_constraintStart_toEndOf="@+id/iv_meal"
-                    app:layout_constraintTop_toTopOf="@+id/iv_meal" />
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_routine"
+                    app:layout_constraintStart_toEndOf="@+id/iv_routine"
+                    app:layout_constraintTop_toTopOf="@+id/iv_routine" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -137,10 +139,10 @@
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_meal">
+                    app:layout_constraintTop_toBottomOf="@+id/iv_routine">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_breakfast_check_mon"
+                        android:id="@+id/tv_routine_check_mon"
                         style="@style/Text.Body3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -153,7 +155,7 @@
                         android:textColor="@color/olive" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_breakfast_check_tue"
+                        android:id="@+id/tv_routine_check_tue"
                         style="@style/Text.Body3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -166,7 +168,7 @@
                         android:textColor="@color/olive" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_breakfast_check_wed"
+                        android:id="@+id/tv_routine_check_wed"
                         style="@style/Text.Body3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -179,7 +181,7 @@
                         android:textColor="@color/olive" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_breakfast_check_thu"
+                        android:id="@+id/tv_routine_check_thu"
                         style="@style/Text.Body3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -192,7 +194,7 @@
                         android:textColor="@color/olive" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_breakfast_check_fri"
+                        android:id="@+id/tv_routine_check_fri"
                         style="@style/Text.Body3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -205,7 +207,7 @@
                         android:textColor="@color/olive" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_breakfast_check_sat"
+                        android:id="@+id/tv_routine_check_sat"
                         style="@style/Text.Body3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -218,7 +220,7 @@
                         android:textColor="@color/olive" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_breakfast_check_sun"
+                        android:id="@+id/tv_routine_check_sun"
                         style="@style/Text.Body3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -235,7 +237,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_meal_recommend"
+                android:id="@+id/btn_routine_recommend"
                 style="@style/Text.Title4"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
@@ -249,10 +251,10 @@
                 android:textColor="@drawable/selector_next_btn_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_meal_routine_rate" />
+                app:layout_constraintTop_toBottomOf="@+id/cl_routine_rate" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_meal_routine_recommend"
+                android:id="@+id/tv_routine_recommend"
                 style="@style/Text.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -261,20 +263,20 @@
                 android:fontFamily="@font/pretendard_bold"
                 android:text="@string/guardian_report_breakfast_routine_recommend"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_meal_recommend" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_routine_recommend" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_meal_routine_recommend"
+                android:id="@+id/iv_routine_recommend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_meal_routine_recommend"
+                app:layout_constraintTop_toBottomOf="@+id/tv_routine_recommend"
                 app:srcCompat="@drawable/ic_report_meal" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_meal_routine_recommend_subtitle"
+                android:id="@+id/tv_routine_recommend_subtitle"
                 style="@style/Text.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -283,10 +285,10 @@
                 android:text="건강한 아침 식사"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_meal_routine_recommend" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_routine_recommend" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_meal_routine_recommend_caption"
+                android:id="@+id/tv_routine_recommend_caption"
                 style="@style/Text.Body4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -296,10 +298,10 @@
                 android:textColor="@color/gray_600"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_meal_routine_recommend_subtitle" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_routine_recommend_subtitle" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_meal_routine_recommend_first"
+                android:id="@+id/tv_routine_recommend_first"
                 style="@style/Text.Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -314,10 +316,10 @@
                 android:textColor="@color/gray_600"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_meal_routine_recommend_caption" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_routine_recommend_caption" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_meal_routine_recommend_second"
+                android:id="@+id/tv_routine_recommend_second"
                 style="@style/Text.Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -332,8 +334,7 @@
                 android:textColor="@color/gray_600"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_meal_routine_recommend_first" />
-
+                app:layout_constraintTop_toBottomOf="@+id/tv_routine_recommend_first" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
