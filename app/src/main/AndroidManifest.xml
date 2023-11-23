@@ -44,7 +44,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".GuardianElderWeekReportMealActivity"
+            android:name=".guardian.report.GuardianElderWeekReportMealActivity"
             android:exported="false" />
         <activity
             android:name=".guardian.emergency.GuardianSetEmergencyTimeActivity"
