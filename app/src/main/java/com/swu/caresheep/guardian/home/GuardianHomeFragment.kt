@@ -54,7 +54,7 @@ class GuardianHomeFragment : Fragment() {
         /**
         * 실시간으로 긴급상황 확인
         * */
-        getEmergencyAlarm()
+        // getEmergencyAlarm()
 
         binding = FragmentGuardianHomeBinding.inflate(inflater, container, false)
 
