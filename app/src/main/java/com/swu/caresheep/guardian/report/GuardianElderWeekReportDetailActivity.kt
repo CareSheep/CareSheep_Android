@@ -1,5 +1,6 @@
 package com.swu.caresheep.guardian.report
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.swu.caresheep.R
@@ -23,6 +24,11 @@ class GuardianElderWeekReportDetailActivity : AppCompatActivity() {
 
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.none, R.anim.slide_out_right)
+    }
+
     /**
      * 어르신 질병명 입력 Dialog 표시
      */
@@ -36,9 +42,8 @@ class GuardianElderWeekReportDetailActivity : AppCompatActivity() {
         )
 
         inputDialog.topBtnClickListener {
-            // 식단 추천
-            // 화면 이동
-            finish()
+            // 식단 추천 화면으로 이동
+            startActivity(Intent(this, GuardianElderMealRecommendActivity::class.java))
         }
 
         inputDialog.bottomBtnClickListener {

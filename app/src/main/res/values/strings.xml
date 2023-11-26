@@ -93,6 +93,8 @@
     <string name="guardian_report_meal_recommend_caption">질병이 없다면 입력 없이 추천 버튼을 눌러주세요.</string>
     <string name="guardian_report_meal_recommend_continue">식단 추천</string>
 
+    <string name="guardian_elder_meal_recommend">어르신 식단 추천</string>
+
     <string name="mon">월</string>
     <string name="tue">화</string>
     <string name="wed">수</string>
