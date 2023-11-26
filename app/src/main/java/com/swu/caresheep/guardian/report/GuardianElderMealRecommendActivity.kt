@@ -2,8 +2,10 @@ package com.swu.caresheep.guardian.report
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import com.swu.caresheep.R
 import com.swu.caresheep.data.api.Gpt3Api
+import com.swu.caresheep.data.api.KakaoImgSearchApi
 import com.swu.caresheep.databinding.ActivityGuardianElderMealRecommendBinding
 import kotlinx.android.synthetic.main.dialog_input.*
 
@@ -12,10 +14,22 @@ class GuardianElderMealRecommendActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGuardianElderMealRecommendBinding
     private lateinit var routineName: String
 
+    private lateinit var kakaoImgSearchApi: KakaoImgSearchApi
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGuardianElderMealRecommendBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
+        // KakaoImgSearchApi 초기화
+        kakaoImgSearchApi = KakaoImgSearchApi(binding.tvRecommendedMeal, binding.ivRecommendedMeal)
+        // Kakao API 호출을 위한 AsyncTask 실행
+        val query = "토스트" // 임시로 값 지정
+        kakaoImgSearchApi.searchImage(query)
+
 
         // 루틴 이름 값 받아오기
         routineName = intent.getStringExtra("routine_name").toString()
