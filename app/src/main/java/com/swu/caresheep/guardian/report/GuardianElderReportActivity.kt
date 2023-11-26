@@ -39,7 +39,7 @@ class GuardianElderReportActivity : AppCompatActivity() {
 
         // 보호자 처음 화면으로 돌아감
         go_to_back.setOnClickListener {
-            startActivity(Intent(this, GuardianActivity::class.java))
+            finish()
         }
 
     }

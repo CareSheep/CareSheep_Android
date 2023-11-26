@@ -4,20 +4,26 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.WindowManager
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.swu.caresheep.databinding.DialogInputBinding
 
-class InputDialog(private val context: AppCompatActivity) {
+class InputDialog(context: AppCompatActivity) {
 
-    private lateinit var binding: DialogInputBinding
+    private var binding: DialogInputBinding = DialogInputBinding.inflate(context.layoutInflater)
     private val dialog = Dialog(context)
     private lateinit var topBtnListener: TopBtnClickedListener
     private lateinit var bottomBtnListener: BottomBtnClickedListener
 
-    fun show(title: String, caption: String, topBtnTitle: String, bottomBtnTitle: String) {
-        binding = DialogInputBinding.inflate(context.layoutInflater)
+    init {
         dialog.setContentView(binding.root)
+    }
 
+    fun getDiseaseNameEditText(): EditText {
+        return binding.etDiseaseName
+    }
+
+    fun show(title: String, caption: String, topBtnTitle: String, bottomBtnTitle: String) {
         //배경 색 날리기
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         //창 크기
