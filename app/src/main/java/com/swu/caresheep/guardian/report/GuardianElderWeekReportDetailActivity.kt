@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -217,12 +218,16 @@ class GuardianElderWeekReportDetailActivity : AppCompatActivity() {
         )
 
         inputDialog.topBtnClickListener {
-            val diseaseName = inputDialog.getDiseaseNameEditText()?.text.toString()
-            // 식단 추천 화면으로 이동
-            val intent = Intent(this, GuardianElderMealRecommendActivity::class.java)
-            intent.putExtra("routine_name", routineName)
-            intent.putExtra("disease_name", diseaseName)
-            startActivity(intent)
+            val diseaseName = inputDialog.getDiseaseNameEditText().text.toString()
+            if (diseaseName.isEmpty()) {
+                Toast.makeText(this, "질병명을 입력하세요", Toast.LENGTH_SHORT).show()
+            } else {
+                // 식단 추천 화면으로 이동
+                val intent = Intent(this, GuardianElderMealRecommendActivity::class.java)
+                intent.putExtra("routine_name", routineName)
+                intent.putExtra("disease_name", diseaseName)
+                startActivity(intent)
+            }
         }
 
         inputDialog.bottomBtnClickListener {
