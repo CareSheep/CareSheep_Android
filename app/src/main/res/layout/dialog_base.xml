@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="36dp"
-        android:background="@drawable/dialog_btn"
+        android:background="@drawable/dialog_base_btn"
         android:elevation="0dp"
         android:text="@string/dialog_check"
         android:textColor="@color/black"

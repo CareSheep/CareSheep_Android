@@ -22,7 +22,7 @@ import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.databinding.FragmentGuardianMyPageBinding
-import com.swu.caresheep.start.dialog.VerticalDialog
+import com.swu.caresheep.utils.dialog.VerticalDialog
 import com.swu.caresheep.guardian.GuardianActivity
 import com.swu.caresheep.guardian.emergency.GuardianElderEmergencyActivity
 import com.swu.caresheep.start.StartActivity

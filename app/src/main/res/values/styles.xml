@@ -55,6 +55,12 @@
         <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
 
+    <style name="Text.Body4" parent="android:TextAppearance">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+    </style>
+
 
     <!-- Dialog -->
     <style name="Text.Dialog.Title" parent="android:TextAppearance">
