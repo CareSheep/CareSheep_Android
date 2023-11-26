@@ -8,6 +8,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.guardian.routine.medicine.GuardianStartSetMedicineActivity
+import com.swu.caresheep.guardian.routine.medicine.MedicineSettingManualActivity
 import com.swu.caresheep.guardian.routine.walk.routine_id
 import kotlinx.android.synthetic.main.activity_guardian_set_emergency_time.sleeptime_next_button
 import kotlinx.android.synthetic.main.activity_guardian_set_emergency_time.time_count_text
@@ -50,7 +51,8 @@ class GuardianSetEmergencyTimeActivity : AppCompatActivity() {
             }
 
             // 다음 액티비티 이동
-            startActivity(Intent(this, GuardianStartSetMedicineActivity::class.java))
+            startActivity(Intent(this, MedicineSettingManualActivity::class.java))
+
         }
     }
 }
