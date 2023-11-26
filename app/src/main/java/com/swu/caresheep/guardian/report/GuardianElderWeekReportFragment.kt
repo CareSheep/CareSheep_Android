@@ -1,5 +1,6 @@
 package com.swu.caresheep.guardian.report
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -100,6 +101,36 @@ class GuardianElderWeekReportFragment : Fragment() {
         val df2 = DecimalFormat("##00.0")
         percentageText.setText((per / 28.0 * 100.0).toString())
         percentageText.setText(DecimalFormat("##00.0").format((per / 28.0 * 100.0)).toString())
+
+
+        // 루틴 버튼
+        view.findViewById<TextView>(R.id.breakfast_routine).setOnClickListener {
+            val intent = Intent(requireActivity(), GuardianElderWeekReportDetailActivity::class.java)
+            intent.putExtra("routine_name", "Breakfast")
+
+            // 다른 데이터를 추가하려면 아래와 같이 추가 (식사 루틴 수행률 전달해야함)
+            // intent.putExtra("Key", value)
+            requireActivity().startActivity(intent)
+        }
+
+        view.findViewById<TextView>(R.id.lunch_routine).setOnClickListener {
+            val intent = Intent(requireActivity(), GuardianElderWeekReportDetailActivity::class.java)
+            intent.putExtra("routine_name", "Lunch")
+            requireActivity().startActivity(intent)
+        }
+
+        view.findViewById<TextView>(R.id.dinner_routine).setOnClickListener {
+            val intent = Intent(requireActivity(), GuardianElderWeekReportDetailActivity::class.java)
+            intent.putExtra("routine_name", "Dinner")
+            requireActivity().startActivity(intent)
+        }
+
+        view.findViewById<TextView>(R.id.exercise_routine).setOnClickListener {
+            val intent = Intent(requireActivity(), GuardianElderWeekReportDetailActivity::class.java)
+            intent.putExtra("routine_name", "Exercise")
+            requireActivity().startActivity(intent)
+        }
+
 
         return view
 
