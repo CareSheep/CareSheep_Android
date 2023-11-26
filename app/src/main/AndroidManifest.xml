@@ -98,6 +98,9 @@
             android:name=".elder.alarm.ElderGetAlarmTimeActivity"
             android:exported="false" />
         <activity
+            android:name=".guardian.routine.medicine.MedicineSettingManualActivity"
+            android:exported="false" />
+        <activity
             android:name=".guardian.alarm.GuardianSetMedicineTimeActivity4"
             android:exported="true" />
         <activity
@@ -188,7 +191,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
