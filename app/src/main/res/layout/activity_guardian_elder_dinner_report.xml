@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".guardian.report.GuardianElderDinnerReportActivity">
+
+    <!-- 툴바 -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_top"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text.Title4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="주간 리포트 상세내역" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tb_top">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F1F1F1"
+            android:paddingBottom="30dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/week"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingTop="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/rectangle_white_radius_15"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/this_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="주간"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView6"
+                    app:layout_constraintStart_toStartOf="@+id/imageView6"
+                    app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_situation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/week">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_situation_type_title"
+                    style="@style/Text.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:text="주간 저녁식사 루틴 이행률"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/routine"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_situation">
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="380dp"
+                    android:layout_height="180dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/rectangle_white_radius_15"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/dinner_image"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="48dp"
+                    android:scaleType="center"
+                    android:src="@drawable/dinner_round_image"
+                    app:layout_constraintBottom_toBottomOf="@id/routines"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.567" />
+
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="48dp"
+                    android:scaleType="center"
+                    android:src="@drawable/baseline_rice_bowl_16"
+                    app:layout_constraintBottom_toBottomOf="@id/routines"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.567" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="48dp"
+                    android:text="저녁 식사"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/routines"
+                    app:layout_constraintStart_toEndOf="@+id/dinner_image"
+                    app:layout_constraintTop_toTopOf="@+id/imageView1" />
+
+                <LinearLayout
+                    android:id="@+id/routines"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="36dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView1"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView16">
+
+                    <ImageView
+                        android:id="@+id/dinner_check1"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:scaleType="center"
+                        android:src="@drawable/outline_circle_24" />
+
+                    <ImageView
+                        android:id="@+id/dinner_check2"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:scaleType="center"
+                        android:src="@drawable/outline_circle_24" />
+
+                    <ImageView
+                        android:id="@+id/dinner_check3"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:scaleType="center"
+                        android:src="@drawable/outline_circle_24" />
+
+                    <ImageView
+                        android:id="@+id/dinner_check4"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:scaleType="center"
+                        android:src="@drawable/outline_circle_24" />
+
+                    <ImageView
+                        android:id="@+id/dinner_check5"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:scaleType="center"
+                        android:src="@drawable/outline_circle_24" />
+
+                    <ImageView
+                        android:id="@+id/dinner_check6"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:scaleType="center"
+                        android:src="@drawable/outline_circle_24" />
+
+                    <ImageView
+                        android:id="@+id/dinner_check7"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:scaleType="center"
+                        android:src="@drawable/outline_circle_24" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="36dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView1"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/routines">
+
+                    <TextView
+                        android:id="@+id/mon"
+                        android:text="월"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="27dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/tue"
+                        android:text="화"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginRight="29dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/wed"
+                        android:text="수"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginRight="27dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/thur"
+                        android:text="목"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginRight="27dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/fri"
+                        android:text="금"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginRight="27dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/sat"
+                        android:text="토"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginRight="27dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/sun"
+                        android:text="일"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginLeft="1dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="37dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/days">
+
+                    <ImageView
+                        android:id="@+id/info"
+                        android:src="@drawable/baseline_info_24"
+                        android:layout_marginLeft="1dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:textColor="#8F8F8F"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/results"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="루틴 결과 분석 내용"
+                        />
+
+
+                </LinearLayout>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_situation2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/routine">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_situation_type_title2"
+                    style="@style/Text.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:text="주간 저녁식사 루틴 추천"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_situation3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/cl_situation2">
+
+                <ImageView
+                    android:id="@+id/cl_bf_rout"
+                    android:layout_width="78dp"
+                    android:layout_height="78dp"
+                    android:layout_marginBottom="128dp"
+                    android:scaleType="center"
+                    android:src="@drawable/din_rout"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/healthy"
+                    style="@style/Text.Body1"
+                    android:textSize="15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="건강한 저녁 식사"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_bf_rout" />
+
+                <TextView
+                    android:id="@+id/healthy2"
+                    style="@style/Text.Body1"
+                    android:textSize="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="어르신의 저녁 식사 습관은 인지 능력에 도움이 됩니다."
+                    android:textColor="#8F8F8F"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/healthy" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_connected_guardian_list"
+                    style="@style/Text.Title3"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/healthy2"
+                    android:background="@drawable/rectangle_green_radius_30"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:gravity="center"
+                    android:stateListAnimator="@null"
+                    android:text="오늘의 저녁 식단 관리"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/routine3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_situation3">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="380dp"
+                    android:layout_height="76dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/rectangle_white_radius_15"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/healthy3"
+                    style="@style/Text.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="건강한 저녁 식사 식단 준비하기"
+                    android:textColor="#8F8F8F"
+                    android:textSize="17dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/imageView3"
+                    android:layout_marginLeft="18dp"
+                    app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+                <ImageView
+                    android:id="@+id/dinner_image2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="305dp"
+                    android:scaleType="center"
+                    android:src="@drawable/dinner_round_image"
+                    app:layout_constraintBottom_toBottomOf="@id/imageView3"
+                    app:layout_constraintStart_toStartOf="@id/imageView3"
+                    app:layout_constraintTop_toTopOf="@id/imageView3" />
+
+                <ImageView
+                    android:id="@+id/thumb1"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="311dp"
+                    android:scaleType="center"
+                    android:src="@drawable/baseline_thumb_up_off_alt_21"
+                    app:layout_constraintBottom_toBottomOf="@id/imageView3"
+                    app:layout_constraintStart_toStartOf="@id/imageView3"
+                    app:layout_constraintTop_toTopOf="@id/imageView3" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/routine4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/routine3">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="380dp"
+                    android:layout_height="76dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/rectangle_white_radius_15"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/healthy4"
+                    style="@style/Text.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="저녁에 스트레칭 및 산책 후 식사하기"
+                    android:textColor="#8F8F8F"
+                    android:textSize="17dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/imageView4"
+                    android:layout_marginLeft="18dp"
+                    app:layout_constraintTop_toTopOf="@+id/imageView4" />
+
+                <ImageView
+                    android:id="@+id/dinner_image3"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="305dp"
+                    android:scaleType="center"
+                    android:src="@drawable/dinner_round_image"
+                    app:layout_constraintBottom_toBottomOf="@id/imageView4"
+                    app:layout_constraintStart_toStartOf="@id/imageView4"
+                    app:layout_constraintTop_toTopOf="@id/imageView4" />
+                <ImageView
+                    android:id="@+id/thumb2"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="311dp"
+                    android:scaleType="center"
+                    android:src="@drawable/baseline_thumb_up_off_alt_21"
+                    app:layout_constraintBottom_toBottomOf="@id/imageView4"
+                    app:layout_constraintStart_toStartOf="@id/imageView4"
+                    app:layout_constraintTop_toTopOf="@id/imageView4" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

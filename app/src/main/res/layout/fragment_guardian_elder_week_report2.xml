@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".guardian.report.GuardianElderWeekReport2Fragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F1F1F1"
+            android:paddingBottom="30dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/week"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingTop="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/rectangle_white_radius_15"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/this_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="주간"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView6"
+                    app:layout_constraintStart_toStartOf="@+id/imageView6"
+                    app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/routine3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/week">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="380dp"
+                    android:layout_height="245dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/rectangle_white_radius_15"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_marginTop="16dp"
+                    android:id="@+id/thisweekText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@+id/bars"
+                    app:layout_constraintStart_toStartOf="@+id/imageView3"
+                    android:layout_marginLeft="18dp"
+                    app:layout_constraintTop_toTopOf="@+id/imageView3">
+
+                    <TextView
+                        android:id="@+id/healthy3"
+                        style="@style/Text.Body1"
+                        android:paddingLeft="85dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:text="이번주는 "
+                        android:textColor="#8C9F5F"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:paddingLeft="5dp"
+
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="50"
+                        android:textColor="#8C9F5F"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:textSize="40dp"
+                        />
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="%"
+                        android:textColor="#8C9F5F"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:textSize="40dp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/bars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="125dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@+id/days"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/thisweekText">
+
+                    <ProgressBar
+                        android:layout_marginRight="24dp"
+                        android:id="@+id/progressbar_mon"
+                        android:layout_width="18dp"
+                        android:layout_height="110dp"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:progressDrawable="@drawable/progress_drawable_vertical"
+                        android:progress="50"
+                        android:max="100"/>
+
+                    <ProgressBar
+                        android:layout_marginRight="24dp"
+                        android:id="@+id/progressbar_tue"
+                        android:layout_width="18dp"
+                        android:layout_height="110dp"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:progressDrawable="@drawable/progress_drawable_vertical"
+                        android:progress="50"
+                        android:max="100"/>
+
+                    <ProgressBar
+                        android:layout_marginRight="24dp"
+                        android:id="@+id/progressbar_wed"
+                        android:layout_width="18dp"
+                        android:layout_height="110dp"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:progressDrawable="@drawable/progress_drawable_vertical"
+                        android:progress="50"
+                        android:max="100"/>
+
+                    <ProgressBar
+                        android:layout_marginRight="24dp"
+                        android:id="@+id/progressbar_thur"
+                        android:layout_width="18dp"
+                        android:layout_height="110dp"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:progressDrawable="@drawable/progress_drawable_vertical"
+                        android:progress="50"
+                        android:max="100"/>
+
+                    <ProgressBar
+                        android:layout_marginRight="24dp"
+                    android:id="@+id/progressbar_fri"
+                    android:layout_width="18dp"
+                    android:layout_height="110dp"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:progressDrawable="@drawable/progress_drawable_vertical"
+                    android:progress="50"
+                    android:max="100"/>
+
+                    <ProgressBar
+                        android:layout_marginRight="24dp"
+                        android:id="@+id/progressbar_sat"
+                        android:layout_width="18dp"
+                        android:layout_height="110dp"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:progressDrawable="@drawable/progress_drawable_vertical"
+                        android:progress="50"
+                        android:max="100"/>
+
+                    <ProgressBar
+                        android:id="@+id/progressbar_sun"
+                        android:layout_width="18dp"
+                        android:layout_height="110dp"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:progressDrawable="@drawable/progress_drawable_vertical"
+                        android:progress="50"
+                        android:max="100"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="45dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/bars">
+
+                    <TextView
+                        android:id="@+id/mon"
+                        android:text="월"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="27dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/tue"
+                        android:text="화"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginRight="25dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/wed"
+                        android:text="수"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginRight="25dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/thur"
+                        android:text="목"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginRight="25dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/fri"
+                        android:text="금"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginRight="25dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/sat"
+                        android:text="토"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginRight="24dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                    <TextView
+                        android:id="@+id/sun"
+                        android:text="일"
+                        android:textColor="#8C9F5F"
+                        android:layout_marginLeft="1dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="center" />
+
+                </LinearLayout>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_situation2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/routine3">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_situation_type_title2"
+                    style="@style/Text.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:text="종복별 주간 루틴 이행률"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/routine5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_situation2">
+
+                <LinearLayout
+                    android:id="@+id/routines"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/routine5"
+                    app:layout_constraintEnd_toEndOf="@+id/routine5"
+                    app:layout_constraintStart_toStartOf="@+id/routine5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/breakfast"
+                        android:layout_marginRight="20dp"
+                        android:layout_width="175dp"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/breakfastback"
+                            android:layout_width="175dp"
+                            android:layout_height="205dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/rectangle_breakfast_radius_15"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:id="@+id/breakimages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="18dp"
+                            android:layout_marginTop="32dp"
+                            app:layout_constraintTop_toTopOf="@+id/breakfastback"
+                            app:layout_constraintEnd_toEndOf="@+id/breakfastback"
+                            app:layout_constraintStart_toStartOf="@+id/breakfastback">
+
+                            <ProgressBar
+                                android:id="@+id/progressBar"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_marginLeft="16dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:id="@+id/breakgg"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toTopOf="@+id/breakbowl"
+                                    android:layout_marginLeft="12dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/breakbowl"
+                                        android:id="@+id/breakg"
+                                        android:layout_marginLeft="15dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#F8BA4C"
+                                        android:text="약 " />
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/breakbowl"
+                                        android:id="@+id/breakper"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#F8BA4C"
+                                        android:text="0" />
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/breakbowl"
+                                        android:id="@+id/breakp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#F8BA4C"
+                                        android:text="%" />
+
+
+                                </LinearLayout>
+
+                                <ImageView
+                                    android:id="@+id/breakbowl"
+                                    android:layout_width="38dp"
+                                    android:layout_height="38dp"
+                                    android:src="@drawable/baseline_rice_bowl_16"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_marginTop="28dp"
+                            android:id="@+id/breaktext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="65dp"
+                            android:text="아침식사"
+                            android:textColor="#F8BA4C"
+                            android:fontFamily="@font/pretendard_bold"
+                            android:textSize="21dp"
+                            app:layout_constraintTop_toBottomOf="@+id/breakimages"
+                            app:layout_constraintEnd_toEndOf="@+id/breakfastback"
+                            app:layout_constraintStart_toStartOf="@+id/breakfastback" />
+
+                        <LinearLayout
+                            app:layout_constraintStart_toStartOf="@+id/breakfastback"
+                            app:layout_constraintTop_toBottomOf="@+id/breaktext"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:id="@+id/breaktexts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_marginLeft="18dp"
+                                android:id="@+id/breakcount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="#F8BA4C"
+                                android:textSize="16dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/breakfastback"
+                                app:layout_constraintStart_toStartOf="@+id/breakfastback" />
+                            <TextView
+                                android:id="@+id/breakcounts"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="회 달성"
+                                android:textColor="#F8BA4C"
+                                android:textSize="16dp"
+                                android:layout_marginBottom="18dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/breakfastback"
+                                app:layout_constraintStart_toStartOf="@+id/breakfastback" />
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:contentDescription="@string/app_name"
+                            android:id="@+id/breakbt"
+                            android:layout_width="54dp"
+                            android:layout_height="48dp"
+                            android:backgroundTint="#FFE8BF"
+                            android:layout_marginRight="18dp"
+                            android:layout_marginBottom="18dp"
+                            android:src="@drawable/breakfastbtn"
+
+                            app:layout_constraintBottom_toBottomOf="@+id/breakfastback"
+                            app:layout_constraintEnd_toEndOf="@+id/breakfastback" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/lunch"
+                        android:layout_width="175dp"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/lunchback"
+                            android:layout_width="175dp"
+                            android:layout_height="205dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/rectangle_lunch_radius_15"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:id="@+id/lunchimages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="18dp"
+                            android:layout_marginTop="32dp"
+                            app:layout_constraintTop_toTopOf="@+id/lunchback"
+                            app:layout_constraintEnd_toEndOf="@+id/lunchback"
+                            app:layout_constraintStart_toStartOf="@+id/lunchback">
+
+                            <ProgressBar
+                                android:id="@+id/progressBar2"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_marginLeft="16dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:id="@+id/lunchgg"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toTopOf="@+id/lunchbowl"
+                                    android:layout_marginLeft="12dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/breakbowl"
+                                        android:id="@+id/lunchg"
+                                        android:layout_marginLeft="15dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#8C9F5F"
+                                        android:text="약 " />
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/breakbowl"
+                                        android:id="@+id/lunchper"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#8C9F5F"
+                                        android:text="0" />
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/lunchbowl"
+                                        android:id="@+id/lunchp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#8C9F5F"
+                                        android:text="%" />
+
+
+                                </LinearLayout>
+
+                                <ImageView
+                                    android:id="@+id/lunchbowl"
+                                    android:layout_width="38dp"
+                                    android:layout_height="38dp"
+                                    android:src="@drawable/baseline_rice_bowl_16"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_marginTop="28dp"
+                            android:id="@+id/lunchtext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="65dp"
+                            android:text="점심식사"
+                            android:textColor="#8C9F5F"
+                            android:fontFamily="@font/pretendard_bold"
+                            android:textSize="21dp"
+                            app:layout_constraintTop_toBottomOf="@+id/lunchimages"
+                            app:layout_constraintEnd_toEndOf="@+id/lunchback"
+                            app:layout_constraintStart_toStartOf="@+id/lunchback" />
+
+                        <LinearLayout
+                            app:layout_constraintStart_toStartOf="@+id/lunchback"
+                            app:layout_constraintTop_toBottomOf="@+id/lunchtext"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:id="@+id/lunchtexts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_marginLeft="18dp"
+                                android:id="@+id/lunchcount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="#8C9F5F"
+                                android:textSize="16dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/breakfastback"
+                                app:layout_constraintStart_toStartOf="@+id/breakfastback" />
+                            <TextView
+                                android:id="@+id/lunchcounts"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="회 달성"
+                                android:textColor="#8C9F5F"
+                                android:textSize="16dp"
+                                android:layout_marginBottom="18dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/lunchback"
+                                app:layout_constraintStart_toStartOf="@+id/lunchback" />
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:contentDescription="@string/app_name"
+                            android:id="@+id/lunchbt"
+                            android:layout_width="54dp"
+                            android:layout_height="48dp"
+                            android:backgroundTint="#EDEDAC"
+                            android:layout_marginRight="18dp"
+                            android:layout_marginBottom="18dp"
+                            android:src="@drawable/lunchbtn"
+
+                            app:layout_constraintBottom_toBottomOf="@+id/lunchback"
+                            app:layout_constraintEnd_toEndOf="@+id/lunchback" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/routine6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/routine5">
+
+                <LinearLayout
+                    android:id="@+id/routines2"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/routine6"
+                    app:layout_constraintEnd_toEndOf="@+id/routine6"
+                    app:layout_constraintStart_toStartOf="@+id/routine6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/dinner"
+                        android:layout_marginRight="20dp"
+                        android:layout_width="175dp"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/dinnerback"
+                            android:layout_width="175dp"
+                            android:layout_height="205dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/rectangle_dinner_radius_15"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:id="@+id/dinnerimages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="18dp"
+                            android:layout_marginTop="32dp"
+                            app:layout_constraintTop_toTopOf="@+id/dinnerback"
+                            app:layout_constraintEnd_toEndOf="@+id/dinnerback"
+                            app:layout_constraintStart_toStartOf="@+id/dinnerback">
+
+                            <ProgressBar
+                                android:id="@+id/progressBar3"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_marginLeft="16dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:id="@+id/dinnergg"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toTopOf="@+id/dinnerbowl"
+                                    android:layout_marginLeft="12dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/dinnerbowl"
+                                        android:id="@+id/dinnerg"
+                                        android:layout_marginLeft="15dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#FDA868"
+                                        android:text="약 " />
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/breakbowl"
+                                        android:id="@+id/dinnerper"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#FDA868"
+                                        android:text="0" />
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/lunchbowl"
+                                        android:id="@+id/dinnerp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#FDA868"
+                                        android:text="%" />
+
+
+                                </LinearLayout>
+
+                                <ImageView
+                                    android:id="@+id/dinnerbowl"
+                                    android:layout_width="38dp"
+                                    android:layout_height="38dp"
+                                    android:src="@drawable/baseline_rice_bowl_16"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_marginTop="28dp"
+                            android:id="@+id/dinnertext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="65dp"
+                            android:text="저녁식사"
+                            android:textColor="#FDA868"
+                            android:fontFamily="@font/pretendard_bold"
+                            android:textSize="21dp"
+                            app:layout_constraintTop_toBottomOf="@+id/dinnerimages"
+
+                            app:layout_constraintEnd_toEndOf="@+id/dinnerback"
+                            app:layout_constraintStart_toStartOf="@+id/dinnerback" />
+
+                        <LinearLayout
+                            app:layout_constraintStart_toStartOf="@+id/dinnerback"
+                            app:layout_constraintTop_toBottomOf="@+id/dinnertext"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:id="@+id/dinnertexts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_marginLeft="18dp"
+                                android:id="@+id/dinnercount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="#FDA868"
+                                android:textSize="16dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/dinnerback"
+                                app:layout_constraintStart_toStartOf="@+id/dinnerback" />
+                            <TextView
+                                android:id="@+id/dinnercounts"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="회 달성"
+                                android:textColor="#FDA868"
+                                android:textSize="16dp"
+                                android:layout_marginBottom="18dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/lunchback"
+                                app:layout_constraintStart_toStartOf="@+id/lunchback" />
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:contentDescription="@string/app_name"
+                            android:id="@+id/dinnerbt"
+                            android:layout_width="54dp"
+                            android:layout_height="48dp"
+                            android:backgroundTint="#FFD4B3"
+                            android:layout_marginRight="18dp"
+                            android:layout_marginBottom="18dp"
+                            android:src="@drawable/dinnerbtn"
+
+                            app:layout_constraintBottom_toBottomOf="@+id/dinnerback"
+                            app:layout_constraintEnd_toEndOf="@+id/dinnerback" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/walk"
+                        android:layout_width="175dp"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/walkback"
+                            android:layout_width="175dp"
+                            android:layout_height="205dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/rectangle_walk_radius_15"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:id="@+id/walkimages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="18dp"
+                            android:layout_marginTop="32dp"
+                            app:layout_constraintTop_toTopOf="@+id/walkback"
+                            app:layout_constraintEnd_toEndOf="@+id/walkback"
+                            app:layout_constraintStart_toStartOf="@+id/walkback">
+
+                            <ProgressBar
+                                android:id="@+id/progressBar4"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_marginLeft="16dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:id="@+id/walkgg"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toTopOf="@+id/walkbowl"
+                                    android:layout_marginLeft="12dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/walkbowl"
+                                        android:id="@+id/walkg"
+                                        android:layout_marginLeft="15dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#5AB0FF"
+                                        android:text="약 " />
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/breakbowl"
+                                        android:id="@+id/walkper"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#5AB0FF"
+                                        android:text="0" />
+
+                                    <TextView
+                                        app:layout_constraintBottom_toTopOf="@+id/lunchbowl"
+                                        android:id="@+id/walkp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#5AB0FF"
+                                        android:text="%" />
+
+
+                                </LinearLayout>
+
+                                <ImageView
+                                    android:id="@+id/walkbowl"
+                                    android:layout_width="38dp"
+                                    android:layout_height="38dp"
+                                    android:src="@drawable/walking_white"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_marginTop="28dp"
+                            android:id="@+id/walktext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="65dp"
+                            android:text="걷기 운동"
+                            android:textColor="#5AB0FF"
+                            android:fontFamily="@font/pretendard_bold"
+                            android:textSize="21dp"
+                            app:layout_constraintTop_toBottomOf="@+id/walkimages"
+
+                            app:layout_constraintEnd_toEndOf="@+id/walkback"
+                            app:layout_constraintStart_toStartOf="@+id/walkback" />
+
+                        <LinearLayout
+                            app:layout_constraintStart_toStartOf="@+id/walkback"
+                            app:layout_constraintTop_toBottomOf="@+id/walktext"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:id="@+id/walktexts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_marginLeft="18dp"
+                                android:id="@+id/walkcount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="#5AB0FF"
+                                android:textSize="16dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/breakfastback"
+                                app:layout_constraintStart_toStartOf="@+id/breakfastback" />
+                            <TextView
+                                android:id="@+id/walkcounts"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="회 달성"
+                                android:textColor="#5AB0FF"
+                                android:textSize="16dp"
+                                android:layout_marginBottom="18dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/lunchback"
+                                app:layout_constraintStart_toStartOf="@+id/lunchback" />
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:contentDescription="@string/app_name"
+                            android:id="@+id/walkbt"
+                            android:layout_width="54dp"
+                            android:layout_height="48dp"
+                            android:backgroundTint="#A9D6FF"
+                            android:layout_marginRight="18dp"
+                            android:layout_marginBottom="18dp"
+                            android:src="@drawable/walkbtn"
+
+                            app:layout_constraintBottom_toBottomOf="@+id/walkback"
+                            app:layout_constraintEnd_toEndOf="@+id/walkback" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

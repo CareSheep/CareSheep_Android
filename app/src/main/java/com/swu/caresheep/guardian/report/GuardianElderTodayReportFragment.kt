@@ -1,11 +1,11 @@
 package com.swu.caresheep.guardian.report
-
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -19,13 +19,23 @@ import com.swu.caresheep.start.user_id
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.breakfast_check
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.dinner_check
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.lunch_check
+import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.progress_bar_today
+import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.today_meal_count
+//import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.today_walk_count
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.view.today_date
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.walk_check
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.walk_step_today
 import java.time.LocalDate
 
-
 class GuardianElderTodayReportFragment : Fragment() {
+
+    // 루틴 이행률%
+    var per: Int = 0
+
+    //  식사 횟수
+    var countMeal: Int = 0
+
+    lateinit var percentageText : TextView
 
     private lateinit var dbRef: DatabaseReference
     val todayDate: LocalDate = LocalDate.now()
@@ -65,11 +75,14 @@ class GuardianElderTodayReportFragment : Fragment() {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
                                 val dateValue = data.child("date").getValue(String::class.java)
-                                // 월요일
                                 if (dateValue == "$todayDate") {
                                     val breakfast1_value = data.child("done").getValue(Int::class.java)
                                     if (breakfast1_value == 1) {
                                         Log.d("test_success","$breakfast1_value")
+                                        per++
+                                        progress_bar_today.setProgress((per*25).toInt())
+                                        countMeal++
+                                        today_meal_count.setText(countMeal.toString())
                                         breakfast_check.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
                                 }
@@ -98,11 +111,14 @@ class GuardianElderTodayReportFragment : Fragment() {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
                                 val dateValue = data.child("date").getValue(String::class.java)
-                                // 월요일
                                 if (dateValue == "$todayDate") {
                                     val breakfast1_value = data.child("done").getValue(Int::class.java)
                                     if (breakfast1_value == 1) {
                                         Log.d("test_success","$breakfast1_value")
+                                        per++
+                                        progress_bar_today.setProgress((per*25).toInt())
+                                        countMeal++
+                                        today_meal_count.setText(countMeal.toString())
                                         lunch_check.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
                                 }
@@ -131,11 +147,14 @@ class GuardianElderTodayReportFragment : Fragment() {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
                                 val dateValue = data.child("date").getValue(String::class.java)
-                                // 월요일
                                 if (dateValue == "$todayDate") {
                                     val breakfast1_value = data.child("done").getValue(Int::class.java)
                                     if (breakfast1_value == 1) {
                                         Log.d("test_success","$breakfast1_value")
+                                        per++
+                                        progress_bar_today.setProgress((per*25).toInt())
+                                        countMeal++
+                                        today_meal_count.setText(countMeal.toString())
                                         dinner_check.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
                                 }
@@ -152,7 +171,6 @@ class GuardianElderTodayReportFragment : Fragment() {
     }
 
     private fun getTodayWalkData() {
-
         try {
             val user_id = user_id // user_id로 수정
             Firebase.database(BuildConfig.DB_URL)
@@ -164,15 +182,17 @@ class GuardianElderTodayReportFragment : Fragment() {
                         if (snapshot.exists()) {
                             for (data in snapshot.children) {
                                 val dateValue = data.child("start_time").getValue(String::class.java)
-                                // 월요일
                                 if (dateValue == "$todayDate") {
                                     val breakfast1_value = data.child("done").getValue(Int::class.java)
                                     if (breakfast1_value == 1) {
                                         Log.d("test_success","$breakfast1_value")
+                                        per++
+                                        progress_bar_today.setProgress((per*25).toInt())
                                         walk_check.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
                                     val walk_step = data.child("walk").getValue(Int::class.java)
                                     walk_step_today.setText("$walk_step")
+                                    //today_walk_count.setText("$walk_step")
                                 }
                             }
                         }
@@ -184,31 +204,6 @@ class GuardianElderTodayReportFragment : Fragment() {
         } catch (e: ApiException) {
             Log.w("[START] failed", "signInResult:failed code=" + e.statusCode)
         }
-
-
-
-//        dbRef = FirebaseDatabase.getInstance().getReference("Walk").child("test")
-//
-//        dbRef.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                if (snapshot.exists()){
-//                    if(snapshot.child("start_time").getValue().toString() == "$todayDate"){
-//                        val walk_value = snapshot.child("done").getValue().toString()
-//                        if(walk_value == "1"){
-//                            println("this is Lunch result: $walk_value")
-//                            walk_check.setImageResource(R.drawable.baseline_check_circle_24)
-//                        }
-//                        val walk_step = snapshot.child("walk").getValue().toString()
-//                        walk_step_today.setText("$walk_step")
-//
-//                    }
-//
-//                }
-//            }
-//            override fun onCancelled(error: DatabaseError) {
-//                println("Failed to read value.")
-//            }
-//        })
     }
 
 }
