@@ -1,4 +1,4 @@
-package com.swu.caresheep.start.dialog
+package com.swu.caresheep.utils.dialog
 
 import android.app.Dialog
 import android.graphics.Color

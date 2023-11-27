@@ -22,9 +22,9 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:paddingTop="18dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="18dp">
 
                 <ImageView
                     android:id="@+id/imageView6"
@@ -41,8 +41,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="주간"
-                    android:textStyle="bold"
                     android:textSize="18dp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView6"
                     app:layout_constraintEnd_toEndOf="@+id/imageView6"
                     app:layout_constraintStart_toStartOf="@+id/imageView6"
@@ -139,6 +139,40 @@
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:columnCount="2"
+                android:paddingBottom="16dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/breakfast_routine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="아침" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/lunch_routine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="점심" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/dinner_routine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="저녁" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/exercise_routine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="운동" />
+
+            </GridLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="380dp"
@@ -633,7 +667,6 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

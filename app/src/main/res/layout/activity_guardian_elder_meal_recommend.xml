@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".guardian.report.GuardianElderMealRecommendActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_top"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text.Title4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/guardian_elder_meal_recommend" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tb_top">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="22dp"
+            android:paddingBottom="30dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_recommended_meal"
+                android:layout_width="320dp"
+                android:layout_height="160dp"
+                android:layout_marginHorizontal="20dp"
+                android:src="@drawable/img_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_recommended_meal"
+                style="@style/Text.Title4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="계란 빵 토스트"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_recommended_meal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_recommended_meal_detail"
+                style="@style/Text.Body3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:text="당뇨병에 좋은 비타민 C가 풍부하고, 단백질과 지방이
+풍부하여 당뇨병에 좋은 식단입니다."
+                android:textColor="@color/gray_700"
+                app:layout_constraintTop_toBottomOf="@+id/tv_recommended_meal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_ingredient"
+                style="@style/Text.Title4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="식재료"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_recommended_meal_detail" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_ingredient_detail"
+                style="@style/Text.Body3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:text="계란 2개, 빵 2장, 버터 1큰술, 소금 약간, 간장 약간"
+                android:textColor="@color/gray_700"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ingredient" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_recipe"
+                style="@style/Text.Title4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="레시피"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ingredient_detail" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_recipe_detail"
+                style="@style/Text.Body3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:text="빵을 원하는 모양으로 썰어 둡니다.
+계란 2개를 부침강에 넣고 소금과 간장을 약간 뿌린 후,  계란을 살짝 뒤섞습니다.
+버터를 데친 팬에 넣고 약간 녹이고, 썰어둔 빵을 넣어  둘러싼 후, 중간 불로 노릇하게 구워줍니다.
+빵과 계란을 따로 구워준 후, 토스트처럼 쌓아먹으면 됩니다."
+                android:textColor="@color/gray_700"
+                app:layout_constraintTop_toBottomOf="@+id/tv_recipe" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

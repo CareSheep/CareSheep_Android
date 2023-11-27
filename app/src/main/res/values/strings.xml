@@ -68,11 +68,40 @@
     <string name="guardian_analysis_result_caption">어르신 리포트 확인하러 가기</string>
 
     <!-- Guardian - Home -->
-    <string name="guardian_home_elder_report_title">어르신 건강 리포트 확인하기</string>
+    <string name="guardian_home_elder_report_title">어르신 생활 리포트 확인하기</string>
     <string name="guardian_home_elder_report_sub_title">지난 생활 기록을 살펴보세요</string>
     <string name="guardian_home_voice_mailbox_title">어르신의 메시지 보기</string>
     <string name="guardian_home_voice_mailbox_sub_title">새로운 메시지를 확인하세요</string>
     <string name="guardian_home_today_schedule_not_exist_message">아직 등록된 일정이 없습니다.</string>
+
+    <!-- Guardian - Report -->
+    <string name="guardian_week_report_detail">주간 리포트 상세내역</string>
+    <string name="guardian_week_report_breakfast_routine_rate">주간 아침 식사 루틴 이행률</string>
+    <string name="guardian_week_report_launch_routine_rate">주간 점심 식사 루틴 이행률</string>
+    <string name="guardian_week_report_dinner_routine_rate">주간 저녁 식사 루틴 이행률</string>
+    <string name="guardian_report_breakfast">아침 식사</string>
+    <string name="guardian_report_launch">점심 식사</string>
+    <string name="guardian_report_dinner">저녁 식사</string>
+    <string name="guardian_report_breakfast_recommend">오늘의 아침 식단 추천</string>
+    <string name="guardian_report_launch_recommend">오늘의 점심 식단 추천</string>
+    <string name="guardian_report_dinner_recommend">오늘의 저녁 식단 추천</string>
+    <string name="guardian_report_breakfast_routine_recommend">어르신 아침 식사 루틴 추천</string>
+    <string name="guardian_report_launch_routine_recommend">어르신 점심 식사 루틴 추천</string>
+    <string name="guardian_report_dinner_routine_recommend">어르신 저녁 식사 루틴 추천</string>
+
+    <string name="guardian_report_meal_recommend_title">어르신의 질병명을 입력해주세요.</string>
+    <string name="guardian_report_meal_recommend_caption">질병이 없다면 입력 없이 추천 버튼을 눌러주세요.</string>
+    <string name="guardian_report_meal_recommend_continue">식단 추천</string>
+
+    <string name="guardian_elder_meal_recommend">어르신 식단 추천</string>
+
+    <string name="mon">월</string>
+    <string name="tue">화</string>
+    <string name="wed">수</string>
+    <string name="thu">목</string>
+    <string name="fri">금</string>
+    <string name="sat">토</string>
+    <string name="sun">일</string>
 
     <!-- Guardian - Calendar -->
     <string name="guardian_calendar_add_schedule">일정 추가</string>

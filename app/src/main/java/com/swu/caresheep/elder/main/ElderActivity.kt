@@ -470,7 +470,7 @@ class ElderActivity : AppCompatActivity(), SensorEventListener {
                                     data.child("emergency_time").getValue(Int::class.java).toString()
                                 //lunch_time.setText("$lunchValue")
 
-                                emergencyTimeHour = emergencyTimeValue.toInt()
+                                //emergencyTimeHour = emergencyTimeValue.toInt()
                             }
                         }
                     }

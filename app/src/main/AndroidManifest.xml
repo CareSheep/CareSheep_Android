@@ -55,6 +55,11 @@
         <activity
             android:name=".guardian.report.GuardianElderBreakfastReportActivity"
             android:exported="false" />
+            android:name=".guardian.report.GuardianElderMealRecommendActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guardian.report.GuardianElderWeekReportDetailActivity"
+            android:exported="true" />
         <activity
             android:name=".guardian.emergency.GuardianSetEmergencyTimeActivity"
             android:exported="false" />
@@ -102,6 +107,9 @@
 
         <activity
             android:name=".elder.alarm.ElderGetAlarmTimeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guardian.routine.medicine.MedicineSettingManualActivity"
             android:exported="false" />
         <activity
             android:name=".guardian.alarm.GuardianSetMedicineTimeActivity4"

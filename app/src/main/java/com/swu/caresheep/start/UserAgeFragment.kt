@@ -25,7 +25,7 @@ import kotlin.random.Random
 import com.swu.caresheep.databinding.FragmentUserAgeBinding
 import com.swu.caresheep.elder.main.ElderActivity
 import com.swu.caresheep.guardian.GuardianActivity
-import com.swu.caresheep.start.dialog.BaseDialog
+import com.swu.caresheep.utils.dialog.BaseDialog
 
 class UserAgeFragment : Fragment() {
 
