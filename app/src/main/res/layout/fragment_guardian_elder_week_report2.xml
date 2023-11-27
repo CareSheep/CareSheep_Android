@@ -94,7 +94,7 @@
 
                     <TextView
                         android:paddingLeft="5dp"
-
+                        android:id="@+id/thisweekAverage"
                         android:layout_marginBottom="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -455,7 +455,7 @@
 
                         <androidx.appcompat.widget.AppCompatImageButton
                             android:contentDescription="@string/app_name"
-                            android:id="@+id/breakbt"
+                            android:id="@+id/breakfast_routine"
                             android:layout_width="54dp"
                             android:layout_height="48dp"
                             android:backgroundTint="#FFE8BF"
@@ -606,7 +606,7 @@
 
                         <androidx.appcompat.widget.AppCompatImageButton
                             android:contentDescription="@string/app_name"
-                            android:id="@+id/lunchbt"
+                            android:id="@+id/lunch_routine"
                             android:layout_width="54dp"
                             android:layout_height="48dp"
                             android:backgroundTint="#EDEDAC"
@@ -781,7 +781,7 @@
 
                         <androidx.appcompat.widget.AppCompatImageButton
                             android:contentDescription="@string/app_name"
-                            android:id="@+id/dinnerbt"
+                            android:id="@+id/dinner_routine"
                             android:layout_width="54dp"
                             android:layout_height="48dp"
                             android:backgroundTint="#FFD4B3"
@@ -933,7 +933,7 @@
 
                         <androidx.appcompat.widget.AppCompatImageButton
                             android:contentDescription="@string/app_name"
-                            android:id="@+id/walkbt"
+                            android:id="@+id/exercise_routine"
                             android:layout_width="54dp"
                             android:layout_height="48dp"
                             android:backgroundTint="#A9D6FF"

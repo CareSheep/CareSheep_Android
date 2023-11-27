@@ -18,32 +18,13 @@ import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.BuildConfig.DB_URL
 import com.swu.caresheep.start.user_id
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.breakcount
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.breakper
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.dinnercount
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.dinnerper
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.lunchcount
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.lunchper
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.progressbar_fri
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.progressbar_mon
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.progressbar_sat
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.progressbar_sun
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.progressbar_thur
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.progressbar_tue
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.progressbar_wed
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.walkcount
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.walkper
 import java.text.DecimalFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import com.swu.caresheep.databinding.FragmentGuardianElderWeekReport2Binding
 import com.swu.caresheep.guardian.mypage.GuardianElderRoutineActivity
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.breakbt
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.dinnerbt
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.lunchbt
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.this_week
-import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.walkbt
+import kotlinx.android.synthetic.main.fragment_guardian_elder_week_report2.*
 
 class GuardianElderWeekReport2Fragment : Fragment() {
 
@@ -102,29 +83,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        // binding = FragmentGuardianElderWeekReport2Binding.inflate(inflater, container, false)
-
-        // 버튼 클릭시 이동
-//        breakbt.setOnClickListener{
-//            val intent = Intent(requireContext(), GuardianElderBreakfastReportActivity::class.java)
-//            startActivity(intent)
-//        }
-//
-//        lunchbt.setOnClickListener{
-//            val intent = Intent(requireContext(), GuardianElderLunchReportActivity::class.java)
-//            startActivity(intent)
-//        }
-//
-//        dinnerbt.setOnClickListener{
-//            val intent = Intent(requireContext(), GuardianElderDinnerReportActivity::class.java)
-//            startActivity(intent)
-//        }
-//
-//        walkbt.setOnClickListener{
-//            val intent = Intent(requireContext(), GuardianElderWalkReportActivity::class.java)
-//            startActivity(intent)
-//        }
-
+        val view: View = inflater.inflate(R.layout.fragment_guardian_elder_week_report2, container, false)
 
         getThisWeek()
         getBreakfastThisWeek()
@@ -132,20 +91,57 @@ class GuardianElderWeekReport2Fragment : Fragment() {
         getDinnerThisWeek()
         getWalkThisWeek()
 
+        thisweekAverage.setText(((permon*25+pertue*25+perwed*25+perthur*25+perfri*25+persat*25+persun*25)/7.0).toInt())
+
+        // 루틴 버튼
+        view.findViewById<TextView>(R.id.breakfast_routine).setOnClickListener {
+            val intent = Intent(requireActivity(), GuardianElderWeekReportDetailActivity::class.java)
+            intent.putExtra("routine_name", "Breakfast")
+
+            // 다른 데이터를 추가하려면 아래와 같이 추가 (식사 루틴 수행률 전달해야함)
+            // intent.putExtra("Key", value)
+            requireActivity().startActivity(intent)
+        }
+
+        view.findViewById<TextView>(R.id.lunch_routine).setOnClickListener {
+            val intent = Intent(requireActivity(), GuardianElderWeekReportDetailActivity::class.java)
+            intent.putExtra("routine_name", "Lunch")
+            requireActivity().startActivity(intent)
+        }
+
+        view.findViewById<TextView>(R.id.dinner_routine).setOnClickListener {
+            val intent = Intent(requireActivity(), GuardianElderWeekReportDetailActivity::class.java)
+            intent.putExtra("routine_name", "Dinner")
+            requireActivity().startActivity(intent)
+        }
+
+        view.findViewById<TextView>(R.id.exercise_routine).setOnClickListener {
+            val intent = Intent(requireActivity(), GuardianElderWeekReportDetailActivity::class.java)
+            intent.putExtra("routine_name", "Exercise")
+            requireActivity().startActivity(intent)
+        }
+
+
         breakper.setText((bcount / 28.0 * 100.0).toString())
         breakper.setText(DecimalFormat("##00.0").format((bcount / 28.0 * 100.0)).toString())
+        progressBar.setProgress((bcount / 28.0 * 100.0).toInt())
 
         lunchper.setText((lcount / 28.0 * 100.0).toString())
         lunchper.setText(DecimalFormat("##00.0").format((lcount / 28.0 * 100.0)).toString())
+        progressBar2.setProgress((lcount / 28.0 * 100.0).toInt())
 
         dinnerper.setText((dcount / 28.0 * 100.0).toString())
         dinnerper.setText(DecimalFormat("##00.0").format((dcount / 28.0 * 100.0)).toString())
+        progressBar3.setProgress((dcount / 28.0 * 100.0).toInt())
 
         walkper.setText((wcount / 28.0 * 100.0).toString())
         walkper.setText(DecimalFormat("##00.0").format((wcount / 28.0 * 100.0)).toString())
+        progressBar4.setProgress((wcount / 28.0 * 100.0).toInt())
+
+        return view
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_guardian_elder_week_report2, container, false)
+        // return inflater.inflate(R.layout.fragment_guardian_elder_week_report2, container, false)
     }
 
     private fun getThisWeek(){
