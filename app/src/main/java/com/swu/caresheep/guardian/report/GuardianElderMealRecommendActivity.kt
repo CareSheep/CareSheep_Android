@@ -2,7 +2,6 @@ package com.swu.caresheep.guardian.report
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import com.swu.caresheep.R
 import com.swu.caresheep.data.api.Gpt3Api
 import com.swu.caresheep.data.api.KakaoImgSearchApi
@@ -25,9 +24,7 @@ class GuardianElderMealRecommendActivity : AppCompatActivity() {
 
         // KakaoImgSearchApi 초기화
         kakaoImgSearchApi = KakaoImgSearchApi(binding.tvRecommendedMeal, binding.ivRecommendedMeal)
-        // Kakao API 호출을 위한 AsyncTask 실행
-        val query = "토스트" // 임시로 값 지정
-        kakaoImgSearchApi.searchImage(query)
+
 
 
         // 루틴 이름 값 받아오기
@@ -48,7 +45,7 @@ class GuardianElderMealRecommendActivity : AppCompatActivity() {
         // 식단 추천
         val prompt =
             "어르신의 $routineName 식사 수행률이 60% 이하이며, ${diseaseName}를 앓고 있습니다. 건강한 $routineName 식단 1가지를 추천해주고 필요한 식재료, 레시피를 알려주세요. 추천하는 이유도 마지막에 한 문장으로 설명해주세요." +
-                    "대답하는 형식은 1. 추천 식단: AAA\n 2. 추천 이유: BBB\n 3. 식재료: CCC\n 4. 레시피: DDD 형식입니다. 레시피에는 번호를 매기지 마세요. 요리 이름을 한 가지 단어로 표현하세요."
+                    "대답하는 형식은 1. 추천 식단: AAA\n 2. 추천 이유: BBB\n 3. 식재료: CCC\n 4. 레시피: DDD 형식입니다. 레시피에는 번호를 매기지 마세요. 요리 이름을 한 가지 단어로 표현하세요(예를 들어 '토스트')."
 
         // GPT-3 API 호출 및 응답 처리
         Gpt3Api.requestRoutineRecommend(prompt) { response ->
@@ -69,6 +66,10 @@ class GuardianElderMealRecommendActivity : AppCompatActivity() {
                     binding.tvRecommendedMealDetail.text = reason
                     binding.tvIngredientDetail.text = ingredients
                     binding.tvRecipeDetail.text = recipe
+
+                    // 추천 식단 -> kakaoImgApi 사용해서 이미지 띄우기
+                    val query = binding.tvRecommendedMeal.text.toString()
+                    kakaoImgSearchApi.searchImage(query)
                 }
 
             } else {
