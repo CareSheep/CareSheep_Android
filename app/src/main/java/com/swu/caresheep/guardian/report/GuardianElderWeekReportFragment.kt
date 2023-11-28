@@ -127,7 +127,7 @@ class GuardianElderWeekReportFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.exercise_routine).setOnClickListener {
             val intent = Intent(requireActivity(), GuardianElderWeekReportDetailActivity::class.java)
-            intent.putExtra("routine_name", "Exercise")
+            intent.putExtra("routine_name", "Walk")
             requireActivity().startActivity(intent)
         }
 
