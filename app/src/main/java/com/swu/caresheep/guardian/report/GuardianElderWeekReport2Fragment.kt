@@ -177,6 +177,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
             requireActivity().startActivity(intent)
         }
 
+
         breakperText.setText((bcount / 7.0 * 100.0).toString())
         breakperText.setText(DecimalFormat("##0.0").format((bcount / 7.0 * 100.0)).toString())
         progress1.setProgress ((bcount / 7.0 * 100.0).toInt())
