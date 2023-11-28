@@ -75,4 +75,24 @@
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
 
+    <style name="CircularDeterminateProgressBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/circle_progressbar_1</item>
+    </style>
+
+    <style name="CircularDeterminateProgressBar2">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/circle_progressbar_2</item>
+    </style>
+
+    <style name="CircularDeterminateProgressBar3">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/circle_progressbar_3</item>
+    </style>
+
+    <style name="CircularDeterminateProgressBar4">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/circle_progressbar_4</item>
+    </style>
+
 </resources>

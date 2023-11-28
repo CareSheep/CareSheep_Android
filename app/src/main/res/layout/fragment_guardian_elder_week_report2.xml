@@ -36,7 +36,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/this_week"
+                    android:id="@+id/this_week2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="주간"
@@ -61,7 +61,7 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="380dp"
+                    android:layout_width="345dp"
                     android:layout_height="245dp"
                     android:layout_gravity="center"
                     android:src="@drawable/rectangle_white_radius_15"
@@ -134,7 +134,7 @@
                         android:layout_height="110dp"
                         style="@android:style/Widget.ProgressBar.Horizontal"
                         android:progressDrawable="@drawable/progress_drawable_vertical"
-                        android:progress="50"
+                        android:progress="0"
                         android:max="100"/>
 
                     <ProgressBar
@@ -144,7 +144,7 @@
                         android:layout_height="110dp"
                         style="@android:style/Widget.ProgressBar.Horizontal"
                         android:progressDrawable="@drawable/progress_drawable_vertical"
-                        android:progress="50"
+                        android:progress="0"
                         android:max="100"/>
 
                     <ProgressBar
@@ -154,7 +154,7 @@
                         android:layout_height="110dp"
                         style="@android:style/Widget.ProgressBar.Horizontal"
                         android:progressDrawable="@drawable/progress_drawable_vertical"
-                        android:progress="50"
+                        android:progress="0"
                         android:max="100"/>
 
                     <ProgressBar
@@ -164,7 +164,7 @@
                         android:layout_height="110dp"
                         style="@android:style/Widget.ProgressBar.Horizontal"
                         android:progressDrawable="@drawable/progress_drawable_vertical"
-                        android:progress="50"
+                        android:progress="0"
                         android:max="100"/>
 
                     <ProgressBar
@@ -174,7 +174,7 @@
                     android:layout_height="110dp"
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:progressDrawable="@drawable/progress_drawable_vertical"
-                    android:progress="50"
+                    android:progress="0"
                     android:max="100"/>
 
                     <ProgressBar
@@ -184,7 +184,7 @@
                         android:layout_height="110dp"
                         style="@android:style/Widget.ProgressBar.Horizontal"
                         android:progressDrawable="@drawable/progress_drawable_vertical"
-                        android:progress="50"
+                        android:progress="0"
                         android:max="100"/>
 
                     <ProgressBar
@@ -193,7 +193,7 @@
                         android:layout_height="110dp"
                         style="@android:style/Widget.ProgressBar.Horizontal"
                         android:progressDrawable="@drawable/progress_drawable_vertical"
-                        android:progress="50"
+                        android:progress="0"
                         android:max="100"/>
                 </LinearLayout>
 
@@ -201,7 +201,7 @@
                     android:id="@+id/days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="45dp"
+                    android:layout_marginLeft="35dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/bars">
@@ -256,7 +256,7 @@
                         android:id="@+id/sat"
                         android:text="토"
                         android:textColor="#8C9F5F"
-                        android:layout_marginRight="24dp"
+                        android:layout_marginRight="20dp"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:scaleType="center" />
@@ -290,7 +290,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pretendard_bold"
-                    android:text="종복별 주간 루틴 이행률"
+                    android:text="종목별 주간 루틴 이행률"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -318,13 +318,13 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/breakfast"
-                        android:layout_marginRight="20dp"
-                        android:layout_width="175dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="165dp"
                         android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/breakfastback"
-                            android:layout_width="175dp"
+                            android:layout_width="165dp"
                             android:layout_height="205dp"
                             android:layout_gravity="center"
                             android:src="@drawable/rectangle_breakfast_radius_15"
@@ -345,8 +345,13 @@
 
                             <ProgressBar
                                 android:id="@+id/progressBar"
+                                style="@style/CircularDeterminateProgressBar"
                                 android:layout_width="64dp"
                                 android:layout_height="64dp"
+                                android:max="100"
+                                android:progress="0"
+                                android:indeterminateOnly="false"
+                                android:layout_centerInParent="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -455,7 +460,7 @@
 
                         <androidx.appcompat.widget.AppCompatImageButton
                             android:contentDescription="@string/app_name"
-                            android:id="@+id/breakfast_routine"
+                            android:id="@+id/breakfast_routine2"
                             android:layout_width="54dp"
                             android:layout_height="48dp"
                             android:backgroundTint="#FFE8BF"
@@ -470,12 +475,12 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/lunch"
-                        android:layout_width="175dp"
+                        android:layout_width="165dp"
                         android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/lunchback"
-                            android:layout_width="175dp"
+                            android:layout_width="165dp"
                             android:layout_height="205dp"
                             android:layout_gravity="center"
                             android:src="@drawable/rectangle_lunch_radius_15"
@@ -496,8 +501,13 @@
 
                             <ProgressBar
                                 android:id="@+id/progressBar2"
+                                style="@style/CircularDeterminateProgressBar2"
                                 android:layout_width="64dp"
                                 android:layout_height="64dp"
+                                android:indeterminateOnly="false"
+                                android:max="100"
+                                android:progress="0"
+                                android:layout_centerInParent="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -606,7 +616,7 @@
 
                         <androidx.appcompat.widget.AppCompatImageButton
                             android:contentDescription="@string/app_name"
-                            android:id="@+id/lunch_routine"
+                            android:id="@+id/lunch_routine2"
                             android:layout_width="54dp"
                             android:layout_height="48dp"
                             android:backgroundTint="#EDEDAC"
@@ -626,7 +636,7 @@
                 android:id="@+id/routine6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:paddingHorizontal="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -643,13 +653,13 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/dinner"
-                        android:layout_marginRight="20dp"
-                        android:layout_width="175dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="165dp"
                         android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/dinnerback"
-                            android:layout_width="175dp"
+                            android:layout_width="165dp"
                             android:layout_height="205dp"
                             android:layout_gravity="center"
                             android:src="@drawable/rectangle_dinner_radius_15"
@@ -670,8 +680,13 @@
 
                             <ProgressBar
                                 android:id="@+id/progressBar3"
+                                style="@style/CircularDeterminateProgressBar3"
                                 android:layout_width="64dp"
                                 android:layout_height="64dp"
+                                android:max="100"
+                                android:progress="0"
+                                android:indeterminateOnly="false"
+                                android:layout_centerInParent="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -781,7 +796,7 @@
 
                         <androidx.appcompat.widget.AppCompatImageButton
                             android:contentDescription="@string/app_name"
-                            android:id="@+id/dinner_routine"
+                            android:id="@+id/dinner_routine2"
                             android:layout_width="54dp"
                             android:layout_height="48dp"
                             android:backgroundTint="#FFD4B3"
@@ -796,12 +811,12 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/walk"
-                        android:layout_width="175dp"
+                        android:layout_width="165dp"
                         android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/walkback"
-                            android:layout_width="175dp"
+                            android:layout_width="165dp"
                             android:layout_height="205dp"
                             android:layout_gravity="center"
                             android:src="@drawable/rectangle_walk_radius_15"
@@ -822,8 +837,13 @@
 
                             <ProgressBar
                                 android:id="@+id/progressBar4"
+                                style="@style/CircularDeterminateProgressBar4"
                                 android:layout_width="64dp"
                                 android:layout_height="64dp"
+                                android:max="100"
+                                android:progress="0"
+                                android:indeterminateOnly="false"
+                                android:layout_centerInParent="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -933,7 +953,7 @@
 
                         <androidx.appcompat.widget.AppCompatImageButton
                             android:contentDescription="@string/app_name"
-                            android:id="@+id/exercise_routine"
+                            android:id="@+id/exercise_routine2"
                             android:layout_width="54dp"
                             android:layout_height="48dp"
                             android:backgroundTint="#A9D6FF"

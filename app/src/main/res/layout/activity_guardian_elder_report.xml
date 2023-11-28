@@ -18,7 +18,7 @@
             android:layout_height="40dp"
             android:background="@android:color/transparent"
             android:paddingLeft="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             android:src="@drawable/ic_back"/>
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="환자 리포트"
-            android:textSize="28dp"
+            style="@style/Text.Title4"
             android:layout_marginTop="2dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
