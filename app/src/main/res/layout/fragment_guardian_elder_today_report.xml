@@ -31,7 +31,7 @@
 
                 <ImageView
                     android:id="@+id/imageView0"
-                    android:layout_width="380dp"
+                    android:layout_width="345dp"
                     android:layout_height="275dp"
                     android:layout_gravity="center"
                     android:src="@drawable/rectangle_white_radius_15"
@@ -302,7 +302,7 @@
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="380dp"
+                android:layout_width="345dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:src="@drawable/rectangle_white_radius_15"
@@ -351,7 +351,7 @@
             <ImageView
                 android:src="@drawable/outline_circle_24"
                 android:id="@+id/breakfast_check"
-                android:layout_width="105dp"
+                android:layout_width="85dp"
                 android:layout_height="105dp"
                 android:scaleType="center"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -371,7 +371,7 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="380dp"
+                android:layout_width="345dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:src="@drawable/rectangle_white_radius_15"
@@ -420,7 +420,7 @@
             <ImageView
                 android:src="@drawable/outline_circle_24"
                 android:id="@+id/lunch_check"
-                android:layout_width="105dp"
+                android:layout_width="85dp"
                 android:layout_height="105dp"
                 android:scaleType="center"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -440,7 +440,7 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="380dp"
+                    android:layout_width="345dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:src="@drawable/rectangle_white_radius_15"
@@ -489,7 +489,7 @@
                 <ImageView
                     android:src="@drawable/outline_circle_24"
                     android:id="@+id/dinner_check"
-                    android:layout_width="105dp"
+                    android:layout_width="85dp"
                     android:layout_height="105dp"
                     android:scaleType="center"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -510,7 +510,7 @@
 
                 <ImageView
                     android:id="@+id/imageView4"
-                    android:layout_width="380dp"
+                    android:layout_width="345dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:src="@drawable/rectangle_white_radius_15"
@@ -559,7 +559,7 @@
                 <ImageView
                     android:src="@drawable/outline_circle_24"
                     android:id="@+id/walk_check"
-                    android:layout_width="105dp"
+                    android:layout_width="85dp"
                     android:layout_height="105dp"
                     android:scaleType="center"
                     app:layout_constraintBottom_toBottomOf="parent"
