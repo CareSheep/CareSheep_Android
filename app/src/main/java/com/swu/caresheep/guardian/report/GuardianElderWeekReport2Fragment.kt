@@ -147,7 +147,8 @@ class GuardianElderWeekReport2Fragment : Fragment() {
         getDinnerThisWeek()
         getWalkThisWeek()
 
-        thisweekAverageText.setText(((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toDouble().toString())
+        //thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
+        // thisweekAverageText.setText(((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toDouble().toString())
 
         // 루틴 버튼
         view.findViewById<AppCompatImageButton>(R.id.breakfast_routine2).setOnClickListener {
@@ -235,6 +236,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         breakperText.setText(DecimalFormat("##0.0").format((bcount / 7.0 * 100.0)).toString())
                                         permon++
                                         progressMon.setProgress ((permon*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$breakfast1_value")
                                         Log.d("test_success_per","$permon")
                                     }
@@ -249,6 +251,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         breakperText.setText(DecimalFormat("##0.0").format((bcount / 7.0 * 100.0)).toString())
                                         pertue++
                                         progressTue.setProgress((pertue*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$breakfast2_value")
                                         Log.d("test_success_per2","$pertue")
                                     }
@@ -263,6 +266,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         breakperText.setText(DecimalFormat("##0.0").format((bcount / 7.0 * 100.0)).toString())
                                         perwed++
                                         progressWed.setProgress((perwed*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$breakfast3_value")
                                     }
                                 }
@@ -276,6 +280,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         breakperText.setText(DecimalFormat("##0.0").format((bcount / 7.0 * 100.0)).toString())
                                         perthur++
                                         progressThur.setProgress((perthur*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$breakfast4_value")
                                     }
                                 }
@@ -289,6 +294,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         breakperText.setText(DecimalFormat("##0.0").format((bcount / 7.0 * 100.0)).toString())
                                         perfri++
                                         progressFri.setProgress((perfri*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$breakfast5_value")
                                     }
                                 }
@@ -302,6 +308,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         breakperText.setText(DecimalFormat("##0.0").format((bcount / 7.0 * 100.0)).toString())
                                         persat++
                                         progressSat.setProgress((persat*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$breakfast6_value")
                                     }
                                 }
@@ -315,6 +322,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         breakperText.setText(DecimalFormat("##0.0").format((bcount / 7.0 * 100.0)).toString())
                                         persun++
                                         progressSun.setProgress((persun*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$breakfast7_value")
                                     }
                                 }
@@ -352,6 +360,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         lunchperText.setText(DecimalFormat("##0.0").format((lcount / 7.0 * 100.0)).toString())
                                         permon++
                                         progressMon.setProgress((permon*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$lunch1_value")
                                     }
                                 }
@@ -365,6 +374,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         lunchperText.setText(DecimalFormat("##0.0").format((lcount / 7.0 * 100.0)).toString())
                                         pertue++
                                         progressTue.setProgress((pertue*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$lunch2_value")
                                     }
                                 }
@@ -378,6 +388,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         lunchperText.setText(DecimalFormat("##0.0").format((lcount / 7.0 * 100.0)).toString())
                                         perwed++
                                         progressWed.setProgress((perwed*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$lunch3_value")
                                     }
                                 }
@@ -391,6 +402,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         lunchperText.setText(DecimalFormat("##0.0").format((lcount / 7.0 * 100.0)).toString())
                                         perthur++
                                         progressThur.setProgress((perthur*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$lunch4_value")
                                     }
                                 }
@@ -404,6 +416,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         lunchperText.setText(DecimalFormat("##0.0").format((lcount / 7.0 * 100.0)).toString())
                                         perfri++
                                         progressFri.setProgress((perfri*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$lunch5_value")
                                     }
                                 }
@@ -417,6 +430,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         lunchperText.setText(DecimalFormat("##0.0").format((lcount / 7.0 * 100.0)).toString())
                                         persat++
                                         progressSat.setProgress((persat*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$lunch6_value")
                                     }
                                 }
@@ -430,6 +444,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         lunchperText.setText(DecimalFormat("##0.0").format((lcount / 7.0 * 100.0)).toString())
                                         persun++
                                         progressSun.setProgress((persun*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$lunch7_value")
                                     }
                                 }
@@ -466,6 +481,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         permon++
                                         progressMon.setProgress((permon*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$dinner1_value")
                                     }
                                 }
@@ -479,6 +495,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         pertue++
                                         progressTue.setProgress((pertue*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$dinner2_value")
                                     }
                                 }
@@ -492,6 +509,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         perwed++
                                         progressWed.setProgress((perwed*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$dinner3_value")
                                     }
                                 }
@@ -505,6 +523,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         perthur++
                                         progressThur.setProgress((perthur*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$dinner4_value")
                                     }
                                 }
@@ -518,6 +537,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         perfri++
                                         progressFri.setProgress((perfri*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$dinner5_value")
                                     }
                                 }
@@ -531,6 +551,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         persat++
                                         progressSat.setProgress((persat*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$dinner6_value")
                                     }
                                 }
@@ -544,6 +565,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         persun++
                                         progressSun.setProgress((persun*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$dinner7_value")
                                     }
                                 }
@@ -581,6 +603,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         permon++
                                         progressMon.setProgress((permon*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$walk1_value")
                                     }
                                 }
@@ -594,6 +617,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         pertue++
                                         progressTue.setProgress((pertue*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$walk2_value")
                                     }
                                 }
@@ -607,6 +631,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         perwed++
                                         progressWed.setProgress((perwed*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$walk3_value")
                                     }
                                 }
@@ -620,6 +645,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         perthur++
                                         progressThur.setProgress((perthur*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$walk4_value")
                                     }
                                 }
@@ -633,6 +659,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         perfri++
                                         progressFri.setProgress((perfri*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$walk5_value")
                                     }
                                 }
@@ -646,6 +673,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         persat++
                                         progressSat.setProgress((persat*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$walk6_value")
                                     }
                                 }
@@ -659,6 +687,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         persun++
                                         progressSun.setProgress((persun*25).toInt())
+                                        thisweekAverageText.setText(DecimalFormat("##0.0").format((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toString())
                                         Log.d("test_success","$walk7_value")
                                     }
                                 }
