@@ -59,7 +59,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="40dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="계란 빵 토스트"
+                android:text="식단 준비하는 중..."
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_recommended_meal" />
 
@@ -71,8 +71,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/pretendard_semi_bold"
-                android:text="당뇨병에 좋은 비타민 C가 풍부하고, 단백질과 지방이
-풍부하여 당뇨병에 좋은 식단입니다."
+                android:text="추천하는 식단과 추천 이유를 찾고 있습니다."
                 android:textColor="@color/gray_700"
                 app:layout_constraintTop_toBottomOf="@+id/tv_recommended_meal" />
 
@@ -84,7 +83,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="40dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="식재료"
+                android:text="식재료를 준비하는 중..."
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_recommended_meal_detail" />
 
@@ -96,7 +95,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/pretendard_semi_bold"
-                android:text="계란 2개, 빵 2장, 버터 1큰술, 소금 약간, 간장 약간"
+                android:text="추천 식단의 식재료를 찾고 있습니다."
                 android:textColor="@color/gray_700"
                 app:layout_constraintTop_toBottomOf="@+id/tv_ingredient" />
 
@@ -108,7 +107,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="40dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="레시피"
+                android:text="레시피를 준비하는 중..."
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_ingredient_detail" />
 
@@ -120,10 +119,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/pretendard_semi_bold"
-                android:text="빵을 원하는 모양으로 썰어 둡니다.
-계란 2개를 부침강에 넣고 소금과 간장을 약간 뿌린 후,  계란을 살짝 뒤섞습니다.
-버터를 데친 팬에 넣고 약간 녹이고, 썰어둔 빵을 넣어  둘러싼 후, 중간 불로 노릇하게 구워줍니다.
-빵과 계란을 따로 구워준 후, 토스트처럼 쌓아먹으면 됩니다."
+                android:text="추천 식단의 레시피를 찾고 있습니다."
                 android:textColor="@color/gray_700"
                 app:layout_constraintTop_toBottomOf="@+id/tv_recipe" />
 
