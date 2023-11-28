@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import com.google.firebase.database.DataSnapshot
@@ -17,7 +16,6 @@ import com.swu.caresheep.R
 import com.swu.caresheep.databinding.ActivityGuardianElderWeekReportDetailBinding
 import com.swu.caresheep.start.user_id
 import com.swu.caresheep.utils.dialog.InputDialog
-import kotlinx.android.synthetic.main.dialog_input.*
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -185,7 +183,7 @@ class GuardianElderWeekReportDetailActivity : AppCompatActivity() {
         "$monday ~ $sunday".also { binding.tvWeekDate.text = it }
 
         // 주간 루틴 수행 여부 업데이트
-        updateBreakfastThisWeek(routineName)
+        updateRoutineThisWeek(routineName)
 
         // 오늘의 식단 추천
         binding.btnRoutineRecommend.setOnClickListener {
@@ -237,7 +235,7 @@ class GuardianElderWeekReportDetailActivity : AppCompatActivity() {
     /**
      * 어르신 주간 루틴 수행 여부 업데이트
      */
-    private fun updateBreakfastThisWeek(routineName: String) {
+    private fun updateRoutineThisWeek(routineName: String) {
         val dayTextViewMap = mapOf(
             monday to binding.tvRoutineCheckMon,
             tuesday to binding.tvRoutineCheckTue,
@@ -256,7 +254,10 @@ class GuardianElderWeekReportDetailActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         for (data in snapshot.children) {
-                            val dateValue = data.child("date").getValue(String::class.java)
+                            val dateValue = if (routineName == "Walk")
+                                data.child("start_time").getValue(String::class.java)
+                            else
+                                data.child("date").getValue(String::class.java)
                             val dayTextView = dayTextViewMap[dateValue]
 
                             if (dayTextView != null) {

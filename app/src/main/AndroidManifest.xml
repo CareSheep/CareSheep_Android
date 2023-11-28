@@ -55,11 +55,12 @@
         <activity
             android:name=".guardian.report.GuardianElderBreakfastReportActivity"
             android:exported="false" />
-            android:name=".guardian.report.GuardianElderMealRecommendActivity"
-            android:exported="false" />
         <activity
             android:name=".guardian.report.GuardianElderWeekReportDetailActivity"
             android:exported="true" />
+        <activity
+            android:name=".guardian.report.GuardianElderMealRecommendActivity"
+            android:exported="false" />
         <activity
             android:name=".guardian.emergency.GuardianSetEmergencyTimeActivity"
             android:exported="false" />

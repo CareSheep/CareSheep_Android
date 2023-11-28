@@ -33,7 +33,7 @@ android {
         buildConfigField "String", "SERVER_KEY", properties['SERVER_KEY']
         buildConfigField "String", "REG_ID", properties['REG_ID']
 
-        buildConfigField "String", "KAKAO_IMG_API", "\"${properties['KAKAO_IMG_API']}\""
+        buildConfigField "String", "KAKAO_IMG_API", properties['KAKAO_IMG_API']
 
         manifestPlaceholders = [NAVER_MAP: NAVER_MAP]
 

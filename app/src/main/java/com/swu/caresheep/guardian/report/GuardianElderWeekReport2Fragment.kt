@@ -173,7 +173,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
 
         view.findViewById<AppCompatImageButton>(R.id.exercise_routine2).setOnClickListener {
             val intent = Intent(requireActivity(), GuardianElderWeekReportDetailActivity::class.java)
-            intent.putExtra("routine_name", "Exercise")
+            intent.putExtra("routine_name", "Walk")
             requireActivity().startActivity(intent)
         }
 
