@@ -147,7 +147,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
         getDinnerThisWeek()
         getWalkThisWeek()
 
-        thisweekAverageText.setText(((permon*25+pertue*25+perwed*25+perthur*25+perfri*25+persat*25+persun*25)/7.0).toDouble().toString())
+        thisweekAverageText.setText(((permon*25 + pertue*25 + perwed*25 + perthur*25 + perfri*25 + persat*25 + persun*25)/7.0).toDouble().toString())
 
         // 루틴 버튼
         view.findViewById<AppCompatImageButton>(R.id.breakfast_routine2).setOnClickListener {
@@ -176,6 +176,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
             intent.putExtra("routine_name", "Walk")
             requireActivity().startActivity(intent)
         }
+
 
         breakperText.setText((bcount / 7.0 * 100.0).toString())
         breakperText.setText(DecimalFormat("##0.0").format((bcount / 7.0 * 100.0)).toString())
@@ -499,6 +500,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val dinner4_value = data.child("done").getValue(Int::class.java)
                                     if (dinner4_value == 1) {
                                         dcount++
+                                        progress3.setProgress ((dcount / 7.0 * 100.0).toInt())
                                         dinnercountText.setText(dcount.toString())
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         perthur++
