@@ -177,7 +177,6 @@ class GuardianElderWeekReport2Fragment : Fragment() {
             requireActivity().startActivity(intent)
         }
 
-
         breakperText.setText((bcount / 7.0 * 100.0).toString())
         breakperText.setText(DecimalFormat("##0.0").format((bcount / 7.0 * 100.0)).toString())
         progress1.setProgress ((bcount / 7.0 * 100.0).toInt())
@@ -461,6 +460,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val dinner1_value = data.child("done").getValue(Int::class.java)
                                     if (dinner1_value == 1) {
                                         dcount++
+                                        progress3.setProgress ((dcount / 7.0 * 100.0).toInt())
                                         dinnercountText.setText(dcount.toString())
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         permon++
@@ -473,6 +473,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val dinner2_value = data.child("done").getValue(Int::class.java)
                                     if (dinner2_value == 1) {
                                         dcount++
+                                        progress3.setProgress ((dcount / 7.0 * 100.0).toInt())
                                         dinnercountText.setText(dcount.toString())
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         pertue++
@@ -485,6 +486,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val dinner3_value = data.child("done").getValue(Int::class.java)
                                     if (dinner3_value == 1) {
                                         dcount++
+                                        progress3.setProgress ((dcount / 7.0 * 100.0).toInt())
                                         dinnercountText.setText(dcount.toString())
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         perwed++
@@ -509,6 +511,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val dinner5_value = data.child("done").getValue(Int::class.java)
                                     if (dinner5_value == 1) {
                                         dcount++
+                                        progress3.setProgress ((dcount / 7.0 * 100.0).toInt())
                                         dinnercountText.setText(dcount.toString())
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         perfri++
@@ -521,6 +524,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val dinner6_value = data.child("done").getValue(Int::class.java)
                                     if (dinner6_value == 1) {
                                         dcount++
+                                        progress3.setProgress ((dcount / 7.0 * 100.0).toInt())
                                         dinnercountText.setText(dcount.toString())
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         persat++
@@ -533,6 +537,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val dinner7_value = data.child("done").getValue(Int::class.java)
                                     if (dinner7_value == 1) {
                                         dcount++
+                                        progress3.setProgress ((dcount / 7.0 * 100.0).toInt())
                                         dinnercountText.setText(dcount.toString())
                                         dinnerperText.setText(DecimalFormat("##0.0").format((dcount / 7.0 * 100.0)).toString())
                                         persun++
@@ -569,6 +574,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val walk1_value = data.child("done").getValue(Int::class.java)
                                     if (walk1_value == 1) {
                                         wcount++
+                                        progress4.setProgress ((wcount / 7.0 * 100.0).toInt())
                                         walkcountText.setText(wcount.toString())
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         permon++
@@ -581,6 +587,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val walk2_value = data.child("done").getValue(Int::class.java)
                                     if (walk2_value == 1) {
                                         wcount++
+                                        progress4.setProgress ((wcount / 7.0 * 100.0).toInt())
                                         walkcountText.setText(wcount.toString())
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         pertue++
@@ -593,6 +600,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val walk3_value = data.child("done").getValue(Int::class.java)
                                     if (walk3_value == 1) {
                                         wcount++
+                                        progress4.setProgress ((wcount / 7.0 * 100.0).toInt())
                                         walkcountText.setText(wcount.toString())
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         perwed++
@@ -605,6 +613,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val walk4_value = data.child("done").getValue(Int::class.java)
                                     if (walk4_value == 1) {
                                         wcount++
+                                        progress4.setProgress ((wcount / 7.0 * 100.0).toInt())
                                         walkcountText.setText(wcount.toString())
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         perthur++
@@ -617,6 +626,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val walk5_value = data.child("done").getValue(Int::class.java)
                                     if (walk5_value == 1) {
                                         wcount++
+                                        progress4.setProgress ((wcount / 7.0 * 100.0).toInt())
                                         walkcountText.setText(wcount.toString())
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         perfri++
@@ -629,6 +639,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val walk6_value = data.child("done").getValue(Int::class.java)
                                     if (walk6_value == 1) {
                                         wcount++
+                                        progress4.setProgress ((wcount / 7.0 * 100.0).toInt())
                                         walkcountText.setText(wcount.toString())
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         persat++
@@ -641,6 +652,7 @@ class GuardianElderWeekReport2Fragment : Fragment() {
                                     val walk7_value = data.child("done").getValue(Int::class.java)
                                     if (walk7_value == 1) {
                                         wcount++
+                                        progress4.setProgress ((wcount / 7.0 * 100.0).toInt())
                                         walkcountText.setText(wcount.toString())
                                         walkperText.setText(DecimalFormat("##0.0").format((wcount / 7.0 * 100.0)).toString())
                                         persun++
