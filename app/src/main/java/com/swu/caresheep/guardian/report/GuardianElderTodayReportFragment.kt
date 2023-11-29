@@ -16,15 +16,9 @@ import com.google.firebase.ktx.Firebase
 import com.swu.caresheep.BuildConfig
 import com.swu.caresheep.R
 import com.swu.caresheep.start.user_id
-import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.breakfast_check
-import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.dinner_check
-import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.lunch_check
-import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.progress_bar_today
-import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.today_meal_count
-//import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.today_walk_count
+import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.*
+import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.today_exercise_count
 import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.view.today_date
-import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.walk_check
-import kotlinx.android.synthetic.main.fragment_guardian_elder_today_report.walk_step_today
 import java.time.LocalDate
 
 class GuardianElderTodayReportFragment : Fragment() {
@@ -191,8 +185,9 @@ class GuardianElderTodayReportFragment : Fragment() {
                                         walk_check.setImageResource(R.drawable.baseline_check_circle_24)
                                     }
                                     val walk_step = data.child("walk").getValue(Int::class.java)
+                                    val walk_time = data.child("walk_time").getValue(String::class.java)
                                     walk_step_today.setText("$walk_step")
-                                    //today_walk_count.setText("$walk_step")
+                                    today_exercise_count.setText(walk_time)
                                 }
                             }
                         }

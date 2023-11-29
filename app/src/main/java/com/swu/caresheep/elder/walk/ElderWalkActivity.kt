@@ -58,6 +58,8 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
     var running: Boolean = false // 상태
     var pauseTime = 0L //멈춤 시간
 
+    var time : String = "00:30"
+
     @RequiresApi(api = Build.VERSION_CODES.Q)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,17 +110,21 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
             // Reset current step count
             //stepCountView.text = currentSteps.toString()
             //실행 상태일때만 실행
-            todayWalkData()
+
             if (running) {
                 //정지
                 walktimeTV.stop()
 
                 //정지 시간 저장
                 pauseTime = SystemClock.elapsedRealtime() - walktimeTV.base
+                val seconds = (pauseTime / 1000).toInt()
+                time = String.format("%02d:%02d", seconds / 60, seconds % 60)
 
                 //화면 설정
                 viewMode("stop")
             }
+
+            todayWalkData()
 
             if(goalWalk <= currentSteps){
                 val intent = Intent(this, ElderWalkDoneActivity::class.java)
@@ -176,6 +182,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
 //        if(goalWalk_value1.toInt() <= currentSteps){
 //            result1 = 1
 //        }
+        // time = walktimeTV.toString()
 
         val data2 = hashMapOf(
             "done" to 1,
@@ -183,6 +190,7 @@ class ElderWalkActivity : AppCompatActivity(), SensorEventListener {
             "start_time" to todayDate,
             "walk" to currentSteps,
             "user_id" to user_id,
+            "walk_time" to time
         )
 
         dbRef2 = FirebaseDatabase.getInstance(DB_URL).getReference("Walk")
